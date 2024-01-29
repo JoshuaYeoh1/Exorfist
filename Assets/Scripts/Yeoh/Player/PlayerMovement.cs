@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector] public Vector3 dir;
     public FixedJoystick joystick;
 
-    public float moveSpeed=10, acceleration=10, deceleration=10, velPower=1;
+    public float velocity, moveSpeed=10, acceleration=10, deceleration=10;
     public bool canMove=true;
 
     void Awake()
@@ -25,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if(joystick.Horizontal==0 && joystick.Vertical==0) // use keyboard wasd if joystick not touched
         {
-            dir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+            dir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
         }
         else // use joystick
         {
@@ -35,6 +35,8 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        velocity = rb.velocity.magnitude;
+
         if(canMove)
         {
             Vector3 camForward = Camera.main.transform.forward;
@@ -43,21 +45,21 @@ public class PlayerMovement : MonoBehaviour
             camForward.y=0;
             camRight.y=0;
 
-            move(dir.z, camForward.normalized);
-            move(dir.x, camRight.normalized);
+            Move(dir.z, camForward.normalized);
+            Move(dir.x, camRight.normalized);
         }
     }
 
-    void move(float inputAxis, Vector3 moveAxis)
+    void Move(float magnitude, Vector3 direction)
     {
-        float targetSpeed = inputAxis*moveSpeed;
+        float targetSpeed = magnitude * moveSpeed;
+
+        float accelRate = Mathf.Abs(targetSpeed)>0 ? acceleration:deceleration; // use decelerate value if no input, and vice versa
     
-        float speedDif = targetSpeed - Vector3.Dot(moveAxis, rb.velocity);
+        float speedDif = targetSpeed - Vector3.Dot(direction, rb.velocity); // difference between current and target speed
 
-        float accelRate = Mathf.Abs(targetSpeed)>0 ? acceleration:deceleration;
+        float movement = Mathf.Abs(speedDif) * accelRate * Mathf.Sign(speedDif); // slow down or speed up depending on speed difference
 
-        float movement = Mathf.Pow(Mathf.Abs(speedDif)*accelRate, velPower)*Mathf.Sign(speedDif);
-
-        rb.AddForce(moveAxis*movement);
+        rb.AddForce(direction * movement);
     }
 }
