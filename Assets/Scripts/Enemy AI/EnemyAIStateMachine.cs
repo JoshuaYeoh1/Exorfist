@@ -10,8 +10,29 @@ public class EnemyAIStateMachine : MonoBehaviour
     EnemyAIBaseState currentState;
     public EnemyAI thisEnemy;
 
+    //==Concrete States==//
+    //(AKA, only ONE or the other state can be active)
+    public EnemyAIInCombatState inCombatState = new EnemyAIInCombatState();
+    public EnemyAIOutOfCombatState outOfCombatState = new EnemyAIOutOfCombatState();
+    //==Concrete States==//
+
+    //==Sub-states==//
+    public EnemyAIIdleState idleState = new EnemyAIIdleState();
+    public EnemyAIAttackingState attackingState = new EnemyAIAttackingState();
+    public EnemyAIBalanceBrokenState balanceBrokenState = new EnemyAIBalanceBrokenState();
+    public EnemyAIHitStunState hitStunState = new EnemyAIHitStunState();
+    public EnemyAIMovingState movingState = new EnemyAIMovingState();
+    //==Sub-states==//
+
     private void Awake()
     {
         thisEnemy = GetComponent<EnemyAI>();
+    }
+
+    private void Start()
+    {
+        currentState = idleState;
+
+        currentState.EnterState(this);
     }
 }

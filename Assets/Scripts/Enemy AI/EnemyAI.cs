@@ -21,7 +21,7 @@ public class EnemyAI : MonoBehaviour
     private float moveSpeed = 1.0f;
     private Vector3 playerLocation; 
 
-    [Header("States")]
+    [Header("States")] //Serializing these fields so that we can inspect them when debugging.
     [SerializeField] private bool preparingAttack; //startup frames of an attack
     [SerializeField] private bool isAttacking;
     [SerializeField] private bool isMoving;
@@ -31,14 +31,16 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private bool isBlocking;
 
     [Header("Behaviours")]
-    [SerializeField] private bool canBlock;
-    [SerializeField] private bool circlesPlayer;
+    public bool canBlock;
+    public bool circlesPlayer;
 
     private void Awake()
     {
         //code to set things like event subscriptions, etc.
         currentHealth = healthMax;
         currentBalance = balanceMax;
+
+        animator = GetComponent<Animator>();
     }
 
     private void loseHealth(int damage)
@@ -75,5 +77,15 @@ public class EnemyAI : MonoBehaviour
                 return;
             }
         }
+    }
+
+    public void setIsMoving(bool isMoving)
+    {
+        this.isMoving = isMoving;
+    }
+
+    public bool getIsMoving()
+    {
+        return isMoving;
     }
 }

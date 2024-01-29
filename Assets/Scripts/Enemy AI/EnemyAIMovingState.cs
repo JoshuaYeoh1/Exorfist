@@ -2,16 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAIMovingState : MonoBehaviour
+public class EnemyAIMovingState : EnemyAIBaseState
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void EnterState(EnemyAIStateMachine enemy)
     {
+        enemy.thisEnemy.setIsMoving(true);
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void ExitState(EnemyAIStateMachine enemy)
+    {
+        enemy.thisEnemy.setIsMoving(false);
+    }
+
+    public override void UpdateState(EnemyAIStateMachine enemy)
     {
         
     }
