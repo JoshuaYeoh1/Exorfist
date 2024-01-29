@@ -11,25 +11,35 @@ public class PlayerMovement : MonoBehaviour
     public float velocity, moveSpeed=10, acceleration=10, deceleration=10;
     public bool canMove=true;
 
+    PlayerCombat combat;
+
     void Awake()
     {
         rb=GetComponent<Rigidbody>();
+        combat=GetComponent<PlayerCombat>();
     }
 
     void Update()
     {
-        checkInputs();
+        CheckInput();
     }
 
-    void checkInputs()
+    void CheckInput()
     {
-        if(joystick.Horizontal==0 && joystick.Vertical==0) // use keyboard wasd if joystick not touched
+        if(!combat.isAttacking)
         {
-            dir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
+            if(joystick.Horizontal==0 && joystick.Vertical==0) // use keyboard wasd if joystick not touched
+            {
+                dir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
+            }
+            else // use joystick
+            {
+                dir = new Vector3(Mathf.Clamp(joystick.Horizontal, -1, 1), 0, Mathf.Clamp(joystick.Vertical, -1, 1));
+            }
         }
-        else // use joystick
+        else
         {
-            dir = new Vector3(Mathf.Clamp(joystick.Horizontal, -1, 1), 0, Mathf.Clamp(joystick.Vertical, -1, 1));
+            dir = Vector3.zero;
         }
     }
 
@@ -61,5 +71,21 @@ public class PlayerMovement : MonoBehaviour
         float movement = Mathf.Abs(speedDif) * accelRate * Mathf.Sign(speedDif); // slow down or speed up depending on speed difference
 
         rb.AddForce(direction * movement);
+    }
+
+    public void Push(float force, Vector3 direction, float stopTime)
+    {
+        canMove=false;
+        CancelInvoke("EnableMove");
+        Invoke("EnableMove", stopTime);
+
+        rb.velocity = new Vector3(0, rb.velocity.y, 0);
+
+        rb.AddForce(direction*force, ForceMode.Impulse);
+    }
+
+    public void EnableMove()
+    {
+        canMove=true;
     }
 }
