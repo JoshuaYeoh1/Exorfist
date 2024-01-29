@@ -35,4 +35,16 @@ public class EnemyAIStateMachine : MonoBehaviour
 
         currentState.EnterState(this);
     }
+
+    private void Update()
+    {
+        currentState.UpdateState(this);
+    }
+
+    //SwitchState function in order to call proper stuff
+    public void SwitchState(EnemyAIBaseState state)
+    {
+        currentState = state;
+        currentState.EnterState(this);
+    }
 }

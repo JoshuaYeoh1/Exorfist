@@ -2,17 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAIOutOfCombatState : MonoBehaviour
+public class EnemyAIOutOfCombatState : EnemyAIBaseState
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void EnterState(EnemyAIStateMachine enemy)
     {
-        
+
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void ExitState(EnemyAIStateMachine enemy)
     {
-        
+
+    }
+
+    public override void UpdateState(EnemyAIStateMachine enemy)
+    {
+
     }
 }

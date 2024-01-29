@@ -1,14 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 
 //This holds things like the stats and booleans of our EnemyAI. As well as the location vector of the player.
 //Also holds attack animation data and hurt animation data.
 public class EnemyAI : MonoBehaviour
 {
     //Declarations for respective things
-    private Animator animator;
+    public Animator animator;
+    public Rigidbody body;
+    public NavMeshAgent agent;
+    public LayerMask whatIsGround, whatIsPlayer;
 
     [Header("Stats")]
     public float healthMax;
@@ -18,8 +23,8 @@ public class EnemyAI : MonoBehaviour
     private float currentBalance;
 
     public float chiDrop;
-    private float moveSpeed = 1.0f;
-    private Vector3 playerLocation; 
+    private float moveSpeed = 0.20f;
+    public Transform playerTransform;
 
     [Header("States")] //Serializing these fields so that we can inspect them when debugging.
     [SerializeField] private bool preparingAttack; //startup frames of an attack
@@ -34,6 +39,11 @@ public class EnemyAI : MonoBehaviour
     public bool canBlock;
     public bool circlesPlayer;
 
+    [Header("Circling Movement Radius")]
+    [SerializeField]
+    [Range(0, 5)]
+    private float circleRadius; //determines radius of CircularMovement
+
     private void Awake()
     {
         //code to set things like event subscriptions, etc.
@@ -41,9 +51,11 @@ public class EnemyAI : MonoBehaviour
         currentBalance = balanceMax;
 
         animator = GetComponent<Animator>();
+        playerTransform = GameObject.Find("Player").transform;
+        agent = GetComponent<NavMeshAgent>();
     }
 
-    private void loseHealth(int damage)
+    private void LoseHealth(int damage)
     {
         if(currentHealth > 0)
         {
@@ -66,7 +78,7 @@ public class EnemyAI : MonoBehaviour
 
     }
 
-    private void loseBalance(int balanceDamage)
+    private void LoseBalance(int balanceDamage)
     {
         if(currentBalance > 0)
         {
@@ -79,13 +91,43 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    public void setIsMoving(bool isMoving)
+    //IsMoving getters/setters
+    public void SetIsMoving(bool isMoving)
     {
         this.isMoving = isMoving;
     }
 
-    public bool getIsMoving()
+    public bool GetIsMoving()
     {
         return isMoving;
+    }
+
+    //IsIdle getters/setters
+    public void SetIsIdle(bool isIdle)
+    {
+        this.isIdle = isIdle;
+    }
+
+    public bool GetIsIdle()
+    {
+        return isIdle;
+    }
+
+    //MoveSpeed getters/setters
+    public void SetMoveSpeed(float moveSpeed)
+    {
+        this.moveSpeed = moveSpeed;
+    }
+
+    public float GetMoveSpeed()
+    {
+        return moveSpeed;
+    }
+
+
+    //CircleRadius
+    public float GetCircleRadius()
+    {
+        return circleRadius;
     }
 }
