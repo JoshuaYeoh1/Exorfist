@@ -32,6 +32,7 @@ public class EnemyAI : MonoBehaviour
 
     [Header("Behaviours")]
     [SerializeField] private bool canBlock;
+    [SerializeField] private bool circlesPlayer;
 
     private void Awake()
     {
