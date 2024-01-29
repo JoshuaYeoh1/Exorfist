@@ -25,7 +25,7 @@ public class PlayerLook : MonoBehaviour
                 if(move.canMove && move.dir.sqrMagnitude>0 && move.rb.velocity.normalized!=Vector3.zero) // if joystick is moved
                 {
                     FaceTowards(move.rb.velocity.normalized); // face move direction
-                }   
+                }
             }
 
             else FaceTowards(GetDir(finder.target.transform.position, transform.position)); // else face at target
