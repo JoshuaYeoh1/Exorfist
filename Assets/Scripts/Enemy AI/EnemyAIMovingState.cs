@@ -10,15 +10,15 @@ public class EnemyAIMovingState : EnemyAIBaseState
 {
     //Movement logic, as well as the methods that physically MOVE the enemy, are stored here.
 
-    private bool isCooldown;
+    /*private bool isCooldown;
     private float cooldownDuration;
-    private float directionChangeChance;
+    private float directionChangeChance;*/
 
     public override void EnterState(EnemyAIStateMachine enemy)
     {
         Debug.Log("Entering move state");
-        isCooldown = false;
-        cooldownDuration = 0.5f;
+      /*  isCooldown = false;
+        cooldownDuration = 0.5f; */
         enemy.thisEnemy.SetIsMoving(true);
         
     }
