@@ -23,11 +23,11 @@ public class PlayerMovement : MonoBehaviour
 
     void checkInputs()
     {
-        if(joystick.Horizontal==0 && joystick.Vertical==0)
+        if(joystick.Horizontal==0 && joystick.Vertical==0) // use keyboard wasd if joystick not touched
         {
             dir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
         }
-        else
+        else // use joystick
         {
             dir = new Vector3(Mathf.Clamp(joystick.Horizontal, -1, 1), 0, Mathf.Clamp(joystick.Vertical, -1, 1));
         }
