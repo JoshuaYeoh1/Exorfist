@@ -11,7 +11,7 @@ public class PlayerCombat : MonoBehaviour
     public List<AttackSO> combo;
     public int comboCounter;
 
-    public float attackCooldown=.5f, comboCooldown=1, resetComboAfter=.2f;
+    public float attackCooldown=.5f, comboCooldown=1, resetComboAfter=.35f;
     float lastAttackedTime, lastComboEnd;
 
     public bool isAttacking;
@@ -65,7 +65,7 @@ public class PlayerCombat : MonoBehaviour
 
     void CheckExitAttack()
     { 
-        if(anim.GetCurrentAnimatorStateInfo(2).normalizedTime>.9f && !anim.IsInTransition(2)) // after animation is 90% done and not transitioning
+        if(anim.GetCurrentAnimatorStateInfo(2).normalizedTime>=.7f && !anim.IsInTransition(2)) // after animation is certain % done and not transitioning
         {
             if(anim.GetCurrentAnimatorStateInfo(2).IsTag("Attack"))
             {
