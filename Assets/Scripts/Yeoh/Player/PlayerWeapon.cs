@@ -4,20 +4,28 @@ using UnityEngine;
 
 public class PlayerWeapon : MonoBehaviour
 {
-    public BoxCollider hitbox;
+    public GameObject hitmarker;
 
     public float damage, knockback;
+
+    void Awake()
+    {
+        ToggleActive(false);
+    }
 
     void OnTriggerEnter(Collider other)
     {
         if(other.attachedRigidbody.tag=="Enemy")
         {
+            print("dmg: " + damage + " | kb: " + knockback);
 
+            GameObject spawnedHitmarker = Instantiate(hitmarker, other.ClosestPointOnBounds(transform.position), Quaternion.identity);
+            Destroy(spawnedHitmarker, .1f);
         }
     }
 
-    public void ToggleTriggerBox(bool toggle)
+    public void ToggleActive(bool toggle)
     {
-        hitbox.enabled = toggle;
+        gameObject.SetActive(toggle);
     }
 }

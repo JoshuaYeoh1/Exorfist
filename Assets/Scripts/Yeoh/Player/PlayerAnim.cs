@@ -9,6 +9,8 @@ public class PlayerAnim : MonoBehaviour
     public PlayerLook look;
     public ClosestObjectFinder finder;
 
+    public List<PlayerWeapon> hitboxes;
+
     // [Header("SFX")]
     // public AudioClip[] sfxPlayerFst;
 
@@ -46,6 +48,31 @@ public class PlayerAnim : MonoBehaviour
             else anim.SetBool("mirror", true);
         }
         else anim.SetBool("inCombat", false);
+    }
+
+    public void BlinkHitbox(int i)
+    {
+        if(blinkHitboxRt!=null) StopCoroutine(blinkHitboxRt);
+        StartCoroutine(BlinkingHitbox(i));
+    }
+
+    Coroutine blinkHitboxRt;
+
+    IEnumerator BlinkingHitbox(int i)
+    {
+        EnableHitbox(i);
+        yield return new WaitForSeconds(.2f);
+        DisableHitbox(i);
+    }
+
+    public void EnableHitbox(int i)
+    {
+        hitboxes[i].ToggleActive(true);
+    }
+
+    public void DisableHitbox(int i)
+    {
+        hitboxes[i].ToggleActive(false);
     }
 
     // public void PlaySfxFootstep()

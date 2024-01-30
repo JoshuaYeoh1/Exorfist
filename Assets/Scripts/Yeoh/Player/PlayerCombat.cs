@@ -6,7 +6,7 @@ public class PlayerCombat : MonoBehaviour
 {
     PlayerMovement move;
     public Animator anim;
-    public PlayerWeapon weapon;
+    public List<PlayerWeapon> hitboxes;
 
     public List<AttackSO> combo;
     public int comboCounter;
@@ -45,15 +45,14 @@ public class PlayerCombat : MonoBehaviour
 
                 isAttacking=true;
 
-                anim.runtimeAnimatorController = combo[comboCounter].animOV; // replace attack animation
+                //anim.runtimeAnimatorController = combo[comboCounter].animOV; // replace attack animation
                 
-                anim.CrossFade("Attack", .25f, 2, 0); //anim.Play("Attack", 2, 0); but smoother
+                anim.CrossFade(combo[comboCounter].animName, .25f, 2, 0); //anim.Play but smoother
 
-                if(weapon)
-                {
-                    weapon.damage = combo[comboCounter].damage; // replace damage value
-                    weapon.knockback = combo[comboCounter].knockback; // replace knockback value
-                }
+                int i = combo[comboCounter].hitboxIndex;
+
+                hitboxes[i].damage = combo[comboCounter].damage; // replace damage value
+                hitboxes[i].knockback = combo[comboCounter].knockback; // replace knockback value
 
                 move.Push(combo[comboCounter].dash, transform.forward, .1f); // push forward
 
@@ -84,8 +83,6 @@ public class PlayerCombat : MonoBehaviour
             comboCounter=0;
 
             lastComboEnd = Time.time;
-
-            print("combo ended");
         }
     }
 }
