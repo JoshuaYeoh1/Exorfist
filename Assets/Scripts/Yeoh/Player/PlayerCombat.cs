@@ -66,13 +66,13 @@ public class PlayerCombat : MonoBehaviour
 
     void CheckExitAttack()
     { 
-        if(anim.GetCurrentAnimatorStateInfo(2).normalizedTime > .9f) // after animation reached 90% done
+        if(anim.GetCurrentAnimatorStateInfo(2).normalizedTime>.9f && !anim.IsInTransition(2)) // after animation is 90% done and not transitioning
         {
             if(anim.GetCurrentAnimatorStateInfo(2).IsTag("Attack"))
             {
                 Invoke("EndCombo", resetComboAfter); // reset combo after stopping a short while
             }
-        } 
+        }
     }
 
     void EndCombo()
@@ -82,5 +82,7 @@ public class PlayerCombat : MonoBehaviour
         lastComboEnd = Time.time;
 
         isAttacking=false;
+
+        print("combo ended");
     }
 }
