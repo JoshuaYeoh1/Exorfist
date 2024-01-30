@@ -77,12 +77,15 @@ public class PlayerCombat : MonoBehaviour
 
     void EndCombo()
     {
-        comboCounter=0;
+        if(isAttacking)
+        {
+            isAttacking=false;
 
-        lastComboEnd = Time.time;
+            comboCounter=0;
 
-        isAttacking=false;
+            lastComboEnd = Time.time;
 
-        print("combo ended");
+            print("combo ended");
+        }
     }
 }
