@@ -11,7 +11,7 @@ public class PlayerCombat : MonoBehaviour
     public List<AttackSO> combo;
     public int comboCounter;
 
-    public float attackCooldown=.5f, comboCooldown=1;
+    public float attackCooldown=.5f, comboCooldown=1, resetComboAfter=.2f;
     float lastAttackedTime, lastComboEnd;
 
     public bool isAttacking;
@@ -37,17 +37,17 @@ public class PlayerCombat : MonoBehaviour
     {
         if(Time.time-lastComboEnd > comboCooldown && comboCounter < combo.Count) // wait for combo cooldown
         {
-            CancelInvoke("EndCombo");
-
             if(Time.time-lastAttackedTime > attackCooldown) // wait for attack cooldown
             {
                 lastAttackedTime = Time.time;
 
+                CancelInvoke("EndCombo");
+
                 isAttacking=true;
 
                 anim.runtimeAnimatorController = combo[comboCounter].animOV; // replace attack animation
-
-                anim.Play("Attack", 2, 0);
+                
+                anim.CrossFade("Attack", .25f, 2, 0); //anim.Play("Attack", 2, 0); but smoother
 
                 if(weapon)
                 {
@@ -70,7 +70,7 @@ public class PlayerCombat : MonoBehaviour
         {
             if(anim.GetCurrentAnimatorStateInfo(2).IsTag("Attack"))
             {
-                Invoke("EndCombo", .1f); // reset combo after a short while
+                Invoke("EndCombo", resetComboAfter); // reset combo after stopping a short while
             }
         } 
     }
