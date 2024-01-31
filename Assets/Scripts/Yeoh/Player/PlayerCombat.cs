@@ -11,7 +11,7 @@ public class PlayerCombat : MonoBehaviour
     public List<AttackSO> combo;
     public int comboCounter;
 
-    public float attackCooldown=.5f, comboCooldown=1, resetComboAfter=.35f;
+    public float attackCooldown=.5f, comboCooldown=.5f, resetComboAfter=.5f;
     float lastAttackedTime, lastComboEnd;
 
     public bool isAttacking;
@@ -24,8 +24,7 @@ public class PlayerCombat : MonoBehaviour
     void Update()
     {
         CheckInput();
-
-        CheckExitAttack();
+        //CheckExitAttack();
     }
 
     void CheckInput()
@@ -40,8 +39,6 @@ public class PlayerCombat : MonoBehaviour
             if(Time.time-lastAttackedTime > attackCooldown) // wait for attack cooldown
             {
                 lastAttackedTime = Time.time;
-
-                CancelInvoke("EndCombo");
 
                 isAttacking=true;
 
@@ -59,19 +56,31 @@ public class PlayerCombat : MonoBehaviour
                 comboCounter++;
 
                 //if(comboCounter+1 > combo.Count) comboCounter=0; // reset
+
+                if(endingComboRt!=null) StopCoroutine(endingComboRt);
+                endingComboRt = StartCoroutine(EndingCombo());
             }
         }
     }
 
-    void CheckExitAttack()
-    { 
-        if(anim.GetCurrentAnimatorStateInfo(2).normalizedTime>=.7f && !anim.IsInTransition(2)) // after animation is certain % done and not transitioning
-        {
-            if(anim.GetCurrentAnimatorStateInfo(2).IsTag("Attack"))
-            {
-                Invoke("EndCombo", resetComboAfter); // reset combo after stopping a short while
-            }
-        }
+    // void CheckExitAttack() // INCONSISTENT
+    // { 
+    //     if(anim.GetCurrentAnimatorStateInfo(2).normalizedTime>=.7f && !anim.IsInTransition(2)) // after animation is certain % done and not transitioning
+    //     {
+    //         if(anim.GetCurrentAnimatorStateInfo(2).IsTag("Attack"))
+    //         {
+    //             Invoke("EndCombo", resetComboAfter); // reset combo after stopping a short while
+    //         }
+    //     }
+    // }
+
+    Coroutine endingComboRt;
+
+    IEnumerator EndingCombo()
+    {
+        yield return new WaitForSeconds(attackCooldown+resetComboAfter); // reset combo after stopping a short while
+
+        EndCombo();
     }
 
     void EndCombo()
