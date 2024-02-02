@@ -4,31 +4,32 @@ using UnityEngine;
 
 public class PlayerAnim : MonoBehaviour
 {
-    Animator anim;
-    public PlayerMovement move;
-    public PlayerLook look;
-    public ClosestObjectFinder finder;
+    Player player;
+    PlayerMovement move;
+    ClosestObjectFinder finder;
+    Rigidbody rb;
 
-    public List<PlayerWeapon> hitboxes;
+    [HideInInspector] public Animator anim;
 
-    // [Header("SFX")]
-    // public AudioClip[] sfxPlayerFst;
-
-    void Awake()
+    void Start()
     {
+        player=transform.root.GetComponent<Player>();
+        move=transform.root.GetComponent<PlayerMovement>();
+        finder=transform.root.GetComponent<ClosestObjectFinder>();
+        rb=transform.root.GetComponent<Rigidbody>();
+
         anim = GetComponent<Animator>();
     }
 
     void Update()
     {
         AnimBlendTree();
-
         AnimCombat();
     }
 
     void AnimBlendTree()
     {
-        Vector3 moveDir = move.rb.velocity.normalized;
+        Vector3 moveDir = rb.velocity.normalized;
 
         float alignmentForward = Vector3.Dot(transform.forward, moveDir);
         float alignmentRight = Vector3.Dot(transform.right, moveDir);
@@ -39,7 +40,7 @@ public class PlayerAnim : MonoBehaviour
 
     void AnimCombat()
     {
-        if(look.canLook && finder.target)
+        if(player.canLook && finder.target)
         {
             anim.SetBool("inCombat", true);
 
@@ -67,12 +68,12 @@ public class PlayerAnim : MonoBehaviour
 
     public void EnableHitbox(int i)
     {
-        hitboxes[i].ToggleActive(true);
+        player.hitboxes[i].ToggleActive(true);
     }
 
     public void DisableHitbox(int i)
     {
-        hitboxes[i].ToggleActive(false);
+        player.hitboxes[i].ToggleActive(false);
     }
 
     // public void PlaySfxFootstep()

@@ -4,27 +4,30 @@ using UnityEngine;
 
 public class PlayerLook : MonoBehaviour
 {
+    Player player;
     PlayerMovement move;
     ClosestObjectFinder finder;
+    Rigidbody rb;
 
-    public bool canLook=true;
     public float turnSpeed=10;
 
     void Awake()
     {
+        player=GetComponent<Player>();
         move=GetComponent<PlayerMovement>();
         finder=GetComponent<ClosestObjectFinder>();
+        rb=GetComponent<Rigidbody>();
     }
 
     void FixedUpdate()
     {
-        if(canLook)
+        if(player.canLook)
         {
             if(!finder.target) // if no targets in range
             {
-                if(move.canMove && move.dir.sqrMagnitude>0 && move.rb.velocity.normalized!=Vector3.zero) // if joystick is moved
+                if(player.canMove && move.dir.sqrMagnitude>0 && rb.velocity.normalized!=Vector3.zero) // if joystick is moved
                 {
-                    FaceTowards(move.rb.velocity.normalized); // face move direction
+                    FaceTowards(rb.velocity.normalized); // face move direction
                 }
             }
 
@@ -41,7 +44,7 @@ public class PlayerLook : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime*turnSpeed); // smoothly face the direction
     }
 
-    Vector3 GetDir(Vector3 targetPos, Vector3 selfPos)
+    public Vector3 GetDir(Vector3 targetPos, Vector3 selfPos)
     {
         return (targetPos-selfPos).normalized;
     }

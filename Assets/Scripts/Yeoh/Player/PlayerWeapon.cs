@@ -15,13 +15,15 @@ public class PlayerWeapon : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.attachedRigidbody.tag=="Enemy")
+        Rigidbody otherRb = other.attachedRigidbody;
+
+        if(otherRb && otherRb.tag=="Enemy")
         {
             print("dmg: " + damage + " | kb: " + knockback);
-
-            GameObject spawnedHitmarker = Instantiate(hitmarker, other.ClosestPointOnBounds(transform.position), Quaternion.identity);
-            Destroy(spawnedHitmarker, .1f);
         }
+
+        GameObject spawnedHitmarker = Instantiate(hitmarker, other.ClosestPointOnBounds(transform.position), Quaternion.identity);
+        Destroy(spawnedHitmarker, .1f);
     }
 
     public void ToggleActive(bool toggle)

@@ -4,19 +4,18 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [HideInInspector] public Rigidbody rb;
-    [HideInInspector] public Vector3 dir;
+    Player player;
+    Rigidbody rb;
+
     public FixedJoystick joystick;
+    [HideInInspector] public Vector3 dir;
 
-    public float velocity, moveSpeed=10, acceleration=10, deceleration=10;
-    public bool canMove=true;
-
-    PlayerCombat combat;
+    public float moveSpeed=10, acceleration=10, deceleration=10, velocity;
 
     void Awake()
     {
+        player=GetComponent<Player>();
         rb=GetComponent<Rigidbody>();
-        combat=GetComponent<PlayerCombat>();
     }
 
     void Update()
@@ -26,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
 
     void CheckInput()
     {
-        if(!combat.isAttacking)
+        if(!player.isAttacking)
         {
             if(joystick.Horizontal==0 && joystick.Vertical==0) // use keyboard wasd if joystick not touched
             {
@@ -47,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
     {
         velocity = rb.velocity.magnitude;
 
-        if(canMove)
+        if(player.canMove)
         {
             Vector3 camForward = Camera.main.transform.forward;
             Vector3 camRight = Camera.main.transform.right;
@@ -75,17 +74,20 @@ public class PlayerMovement : MonoBehaviour
 
     public void Push(float force, Vector3 direction, float stopTime)
     {
-        canMove=false;
-        CancelInvoke("EnableMove");
-        Invoke("EnableMove", stopTime);
+        if(disablingMoveRt!=null) StopCoroutine(disablingMoveRt);
+        disablingMoveRt = StartCoroutine(DisablingMove(stopTime));
 
         rb.velocity = new Vector3(0, rb.velocity.y, 0);
 
         rb.AddForce(direction*force, ForceMode.Impulse);
     }
 
-    public void EnableMove()
+    Coroutine disablingMoveRt;
+
+    IEnumerator DisablingMove(float time)
     {
-        canMove=true;
+        player.canMove=false;
+        yield return new WaitForSeconds(time);
+        player.canMove=true;
     }
 }

@@ -42,34 +42,4 @@ public abstract class StateMachine<EState> : MonoBehaviour where EState : Enum
 
         isTransitioningState=false;
     }
-
-    void OnCollisionEnter(Collision other)
-    {
-        CurrentState.OnCollisionEnter(other);
-    }
-
-    void OnCollisionStay(Collision other)
-    {
-        CurrentState.OnCollisionStay(other);
-    }
-
-    void OnCollisionExit(Collision other)
-    {
-        CurrentState.OnCollisionExit(other);
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        CurrentState.OnTriggerEnter(other);
-    }
-
-    void OnTriggerStay(Collider other)
-    {
-        CurrentState.OnTriggerStay(other);
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        CurrentState.OnTriggerExit(other);
-    }
 }

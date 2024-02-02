@@ -2,21 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStateMachine : StateMachine<PlayerStateMachine.PlayerState>
+public class PlayerStateMachine : StateMachine<PlayerStateMachine.PlayerStates>
 {
-    public enum PlayerState
+    public enum PlayerStates
     {
         Idle,
+        Move,
         Combat,
+        WindUp,
         Attack,
         Block,
+        Parry,
         Stagger,
-        Stun,
         Death,
+        Pause,
+        Cast,
     }
+
+    [HideInInspector] public Player player;
 
     void Awake()
     {
-        CurrentState = States[PlayerState.Idle];
+        player=GetComponent<Player>();
+
+        CurrentState = States[PlayerStates.Idle];
     }
 }

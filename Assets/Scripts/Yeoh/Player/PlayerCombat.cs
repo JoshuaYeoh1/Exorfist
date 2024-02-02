@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
 {
+    Player player;
     PlayerMovement move;
+
     public Animator anim;
-    public List<PlayerWeapon> hitboxes;
 
     public List<AttackSO> combo;
     public int comboCounter;
@@ -14,10 +15,9 @@ public class PlayerCombat : MonoBehaviour
     public float attackCooldown=.5f, comboCooldown=.5f, resetComboAfter=.5f;
     float lastAttackedTime, lastComboEnd;
 
-    public bool isAttacking;
-
     void Awake()
     {
+        player=GetComponent<Player>();
         move=GetComponent<PlayerMovement>();
     }
 
@@ -40,7 +40,7 @@ public class PlayerCombat : MonoBehaviour
             {
                 lastAttackedTime = Time.time;
 
-                isAttacking=true;
+                player.isAttacking=true;
 
                 //anim.runtimeAnimatorController = combo[comboCounter].animOV; // replace attack animation
                 
@@ -48,8 +48,8 @@ public class PlayerCombat : MonoBehaviour
 
                 int i = combo[comboCounter].hitboxIndex;
 
-                hitboxes[i].damage = combo[comboCounter].damage; // replace damage value
-                hitboxes[i].knockback = combo[comboCounter].knockback; // replace knockback value
+                player.hitboxes[i].damage = combo[comboCounter].damage; // replace damage value
+                player.hitboxes[i].knockback = combo[comboCounter].knockback; // replace knockback value
 
                 move.Push(combo[comboCounter].dash, transform.forward, .1f); // push forward
 
@@ -63,17 +63,6 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
-    // void CheckExitAttack() // INCONSISTENT
-    // { 
-    //     if(anim.GetCurrentAnimatorStateInfo(2).normalizedTime>=.7f && !anim.IsInTransition(2)) // after animation is certain % done and not transitioning
-    //     {
-    //         if(anim.GetCurrentAnimatorStateInfo(2).IsTag("Attack"))
-    //         {
-    //             Invoke("EndCombo", resetComboAfter); // reset combo after stopping a short while
-    //         }
-    //     }
-    // }
-
     Coroutine endingComboRt;
 
     IEnumerator EndingCombo()
@@ -85,13 +74,24 @@ public class PlayerCombat : MonoBehaviour
 
     void EndCombo()
     {
-        if(isAttacking)
+        if(player.isAttacking)
         {
-            isAttacking=false;
+            player.isAttacking=false;
 
             comboCounter=0;
 
             lastComboEnd = Time.time;
         }
     }
+
+    // void CheckExitAttack() // INCONSISTENT
+    // { 
+    //     if(anim.GetCurrentAnimatorStateInfo(2).normalizedTime>=.7f && !anim.IsInTransition(2)) // after animation is certain % done and not transitioning
+    //     {
+    //         if(anim.GetCurrentAnimatorStateInfo(2).IsTag("Attack"))
+    //         {
+    //             Invoke("EndCombo", resetComboAfter); // reset combo after stopping a short while
+    //         }
+    //     }
+    // }
 }
