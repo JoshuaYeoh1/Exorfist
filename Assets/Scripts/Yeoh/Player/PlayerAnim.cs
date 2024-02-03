@@ -7,6 +7,7 @@ public class PlayerAnim : MonoBehaviour
     Player player;
     PlayerMovement move;
     ClosestObjectFinder finder;
+    PlayerCombat combat;
     Rigidbody rb;
 
     [HideInInspector] public Animator anim;
@@ -16,6 +17,7 @@ public class PlayerAnim : MonoBehaviour
         player=transform.root.GetComponent<Player>();
         move=transform.root.GetComponent<PlayerMovement>();
         finder=transform.root.GetComponent<ClosestObjectFinder>();
+        combat=transform.root.GetComponent<PlayerCombat>();
         rb=transform.root.GetComponent<Rigidbody>();
 
         anim = GetComponent<Animator>();
@@ -51,29 +53,9 @@ public class PlayerAnim : MonoBehaviour
         else anim.SetBool("inCombat", false);
     }
 
-    public void BlinkHitbox(int i)
+    public void AnimRelease(string type)
     {
-        if(blinkHitboxRt!=null) StopCoroutine(blinkHitboxRt);
-        StartCoroutine(BlinkingHitbox(i));
-    }
-
-    Coroutine blinkHitboxRt;
-
-    IEnumerator BlinkingHitbox(int i)
-    {
-        EnableHitbox(i);
-        yield return new WaitForSeconds(.2f);
-        DisableHitbox(i);
-    }
-
-    public void EnableHitbox(int i)
-    {
-        player.hitboxes[i].ToggleActive(true);
-    }
-
-    public void DisableHitbox(int i)
-    {
-        player.hitboxes[i].ToggleActive(false);
+        combat.AnimRelease(type);
     }
 
     // public void PlaySfxFootstep()

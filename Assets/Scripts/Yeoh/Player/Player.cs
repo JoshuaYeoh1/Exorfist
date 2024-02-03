@@ -4,8 +4,18 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [HideInInspector] public PlayerStateMachine stateMachine;
+    [HideInInspector] public PlayerMovement move;
+    [HideInInspector] public ClosestObjectFinder finder;
+
     public List<PlayerWeapon> hitboxes;
 
-    public bool canLook=true, canMove=true;
-    public bool isAttacking;
+    public bool canLook=true, canMove=true, canAttack=true;
+
+    void Awake()
+    {
+        stateMachine=GetComponent<PlayerStateMachine>();
+        move=GetComponent<PlayerMovement>();
+        finder=GetComponent<ClosestObjectFinder>();
+    }
 }

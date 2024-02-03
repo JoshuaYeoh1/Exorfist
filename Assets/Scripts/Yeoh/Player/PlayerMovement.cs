@@ -18,28 +18,26 @@ public class PlayerMovement : MonoBehaviour
         rb=GetComponent<Rigidbody>();
     }
 
-    void Update()
+    // void Update()
+    // {
+    //     CheckInput();
+    // }
+
+    public void CheckInput()
     {
-        CheckInput();
+        if(joystick.Horizontal==0 && joystick.Vertical==0) // use keyboard wasd if joystick not touched
+        {
+            dir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
+        }
+        else // use joystick
+        {
+            dir = new Vector3(Mathf.Clamp(joystick.Horizontal, -1, 1), 0, Mathf.Clamp(joystick.Vertical, -1, 1));
+        }
     }
 
-    void CheckInput()
+    public void NoInput()
     {
-        if(!player.isAttacking)
-        {
-            if(joystick.Horizontal==0 && joystick.Vertical==0) // use keyboard wasd if joystick not touched
-            {
-                dir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
-            }
-            else // use joystick
-            {
-                dir = new Vector3(Mathf.Clamp(joystick.Horizontal, -1, 1), 0, Mathf.Clamp(joystick.Vertical, -1, 1));
-            }
-        }
-        else
-        {
-            dir = Vector3.zero;
-        }
+        dir = Vector3.zero;
     }
 
     void FixedUpdate()
@@ -72,22 +70,22 @@ public class PlayerMovement : MonoBehaviour
         rb.AddForce(direction * movement);
     }
 
-    public void Push(float force, Vector3 direction, float stopTime)
+    public void Push(float force, Vector3 direction) //, float stopTime)
     {
-        if(disablingMoveRt!=null) StopCoroutine(disablingMoveRt);
-        disablingMoveRt = StartCoroutine(DisablingMove(stopTime));
+        // if(disablingMoveRt!=null) StopCoroutine(disablingMoveRt);
+        // disablingMoveRt = StartCoroutine(DisablingMove(stopTime));
 
         rb.velocity = new Vector3(0, rb.velocity.y, 0);
 
         rb.AddForce(direction*force, ForceMode.Impulse);
     }
 
-    Coroutine disablingMoveRt;
+    // Coroutine disablingMoveRt;
 
-    IEnumerator DisablingMove(float time)
-    {
-        player.canMove=false;
-        yield return new WaitForSeconds(time);
-        player.canMove=true;
-    }
+    // IEnumerator DisablingMove(float time)
+    // {
+    //     player.canMove=false;
+    //     yield return new WaitForSeconds(time);
+    //     player.canMove=true;
+    // }
 }

@@ -50187,17 +50187,10 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.33333334
-    functionName: BlinkHitbox
-    data: 
+  - time: 0.3
+    functionName: AnimRelease
+    data: light
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
-    intParameter: 3
-    messageOptions: 0
-  - time: 0.4666667
-    functionName: DisableHitbox
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 3
+    intParameter: 0
     messageOptions: 0

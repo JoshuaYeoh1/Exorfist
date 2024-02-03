@@ -9,11 +9,19 @@ public class PlayerCombat : MonoBehaviour
 
     public Animator anim;
 
-    public List<AttackSO> combo;
-    public int comboCounter;
+    [Header("Light Attack")]
+    public List<AttackSO> lightCombo;
+    public int lightComboCounter=-1;
+    public float lightAttackCooldown=.5f;
 
-    public float attackCooldown=.5f, comboCooldown=.5f, resetComboAfter=.5f;
-    float lastAttackedTime, lastComboEnd;
+    [Header("Heavy Attack")]
+    public List<AttackSO> heavyCombo;
+    public int heavyComboCounter=-1;
+    public float heavyAttackCooldown=.8f;
+
+    [Header("Combo Delay")]
+    public float comboCooldown=.5f;
+    public float resetComboAfter=.5f;
 
     void Awake()
     {
@@ -24,64 +32,139 @@ public class PlayerCombat : MonoBehaviour
     void Update()
     {
         CheckInput();
-        //CheckExitAttack();
     }
 
     void CheckInput()
     {
-        if(Input.GetKeyDown(KeyCode.Space)) Attack();
+        if(player.canAttack)
+        {
+            if(Input.GetKeyDown(KeyCode.Space)) Attack("light");
+
+            else if(Input.GetKeyDown(KeyCode.LeftAlt)) Attack("heavy");
+        }
     }
 
-    void Attack()
+    public void CheckBtn(string type="light")
     {
-        if(Time.time-lastComboEnd > comboCooldown && comboCounter < combo.Count) // wait for combo cooldown
+        if(player.canAttack)
         {
-            if(Time.time-lastAttackedTime > attackCooldown) // wait for attack cooldown
+            Attack(type);
+        }
+    }
+
+    bool canCombo=true, canAttack=true;
+
+    void Attack(string type)
+    {
+        if(canCombo && canAttack) // wait for cooldown
+        {
+            player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.WindUp);
+
+            if(type=="light" && lightComboCounter < lightCombo.Count-1)
             {
-                lastAttackedTime = Time.time;
+                StartCoroutine(AttackCoolingDown(lightAttackCooldown));
 
-                player.isAttacking=true;
+                lightComboCounter++;
 
-                //anim.runtimeAnimatorController = combo[comboCounter].animOV; // replace attack animation
+                anim.CrossFade(lightCombo[lightComboCounter].animName, .25f, 2, 0); //anim.Play but smoother
+
+                EndComboAfter(lightAttackCooldown + resetComboAfter);
+            }
+
+            else if(type=="heavy" && heavyComboCounter < heavyCombo.Count-1)
+            {
+                StartCoroutine(AttackCoolingDown(heavyAttackCooldown));
+
+                heavyComboCounter++;
                 
-                anim.CrossFade(combo[comboCounter].animName, .25f, 2, 0); //anim.Play but smoother
+                anim.CrossFade(heavyCombo[heavyComboCounter].animName, .25f, 2, 0); //anim.Play but smoother
 
-                int i = combo[comboCounter].hitboxIndex;
+                EndComboAfter(heavyAttackCooldown + resetComboAfter);
 
-                player.hitboxes[i].damage = combo[comboCounter].damage; // replace damage value
-                player.hitboxes[i].knockback = combo[comboCounter].knockback; // replace knockback value
-
-                move.Push(combo[comboCounter].dash, transform.forward, .1f); // push forward
-
-                comboCounter++;
-
-                //if(comboCounter+1 > combo.Count) comboCounter=0; // reset
-
-                if(endingComboRt!=null) StopCoroutine(endingComboRt);
-                endingComboRt = StartCoroutine(EndingCombo());
+                if(heavyComboCounter == heavyCombo.Count-1)
+                {
+                    canCombo=false;
+                }
             }
         }
     }
 
-    Coroutine endingComboRt;
-
-    IEnumerator EndingCombo()
+    IEnumerator AttackCoolingDown(float time)
     {
-        yield return new WaitForSeconds(attackCooldown+resetComboAfter); // reset combo after stopping a short while
+        canAttack=false;
+        yield return new WaitForSeconds(time);
+        canAttack=true;
+    }
 
+    public void AnimRelease(string type)
+    {
+        player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Attack);
+
+        AttackSO aSO=null;
+
+        if(type=="light") aSO = lightCombo[lightComboCounter];
+        if(type=="heavy") aSO = heavyCombo[heavyComboCounter];
+
+        if(aSO)
+        {
+            move.Push(aSO.dash, transform.forward);
+                
+            ChooseHitbox(aSO);
+        }
+    }
+
+    void ChooseHitbox(AttackSO aSO)
+    {
+        int i = aSO.hitboxIndex;
+
+        player.hitboxes[i].damage = aSO.damage; // replace hitbox's damage value
+
+        player.hitboxes[i].knockback = aSO.knockback; // replace hitbox's knockback value
+
+        if(blinkingHitboxRt!=null) StopCoroutine(blinkingHitboxRt); // make sure to cancel before starting coroutine again
+        StartCoroutine(BlinkingHitbox(i)); // enable and disable hitbox rapidly
+    }
+
+    Coroutine blinkingHitboxRt;
+
+    IEnumerator BlinkingHitbox(int i)
+    {
+        foreach(PlayerWeapon hitbox in player.hitboxes) // make sure all hitboxes are disabled
+        {
+            hitbox.ToggleActive(false);
+        }
+
+        player.hitboxes[i].ToggleActive(true);
+        yield return new WaitForSeconds(.2f);
+        player.hitboxes[i].ToggleActive(false);
+    }
+
+    void EndComboAfter(float time)
+    {
+        if(endingComboRt!=null) StopCoroutine(endingComboRt);
+        endingComboRt = StartCoroutine(EndingCombo(time));
+    }
+    Coroutine endingComboRt;
+    IEnumerator EndingCombo(float time)
+    {
+        yield return new WaitForSeconds(time); // reset combo after stopping a short while
         EndCombo();
     }
 
     void EndCombo()
     {
-        if(player.isAttacking)
-        {
-            player.isAttacking=false;
+        StartCoroutine(ComboCoolingDown(comboCooldown));
 
-            comboCounter=0;
+        lightComboCounter = heavyComboCounter = -1;
 
-            lastComboEnd = Time.time;
-        }
+        player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Idle);
+    }
+
+    IEnumerator ComboCoolingDown(float time)
+    {
+        canCombo=false;
+        yield return new WaitForSeconds(time);
+        canCombo=true;
     }
 
     // void CheckExitAttack() // INCONSISTENT

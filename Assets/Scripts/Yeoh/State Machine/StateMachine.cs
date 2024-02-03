@@ -42,4 +42,9 @@ public abstract class StateMachine<EState> : MonoBehaviour where EState : Enum
 
         isTransitioningState=false;
     }
+
+    public BaseState<EState> GetCurrentState()
+    {
+        return CurrentState;
+    }
 }

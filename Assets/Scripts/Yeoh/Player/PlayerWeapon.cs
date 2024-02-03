@@ -20,6 +20,8 @@ public class PlayerWeapon : MonoBehaviour
         if(otherRb && otherRb.tag=="Enemy")
         {
             print("dmg: " + damage + " | kb: " + knockback);
+
+            ToggleActive(false); // optional, no swiping through multiple enemies
         }
 
         GameObject spawnedHitmarker = Instantiate(hitmarker, other.ClosestPointOnBounds(transform.position), Quaternion.identity);
