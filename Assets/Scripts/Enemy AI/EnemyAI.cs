@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -76,6 +77,7 @@ public class EnemyAI : MonoBehaviour
         animator = GetComponent<Animator>();
         playerTransform = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
+        sm = GetComponent<EnemyAIStateMachine>();
     }
 
     private void LoseHealth(float healthdamage, float balancedamage, float hitStunDuration)
@@ -86,11 +88,14 @@ public class EnemyAI : MonoBehaviour
             if(currentHealth <= 0)
             {
                 //switch EnemyAIStateMachine to "dying" state, stop all coroutines
+                Destroy(gameObject);
                 return;
             }
             else
             {
                 //switch EnemyAIStateMachine to "HitStun" state, stop all coroutines and play hurt animation, play sound effect, etc.
+                //we can use an event system to call sfx and hurt animations if we need to :P
+                sm.HitStunSwitchState(sm.hitStunState);
                 return;
             }
         }
@@ -101,7 +106,7 @@ public class EnemyAI : MonoBehaviour
 
     }
 
-    private void LoseBalance(int balanceDamage)
+    private void LoseBalance(float balanceDamage, float blockStun)
     {
         if(currentBalance > 0)
         {
@@ -164,4 +169,43 @@ public class EnemyAI : MonoBehaviour
     public float GetFarPlayerRadius() { return farPlayerRadius; }
 
     public float GetMoveAwayDistance() { return moveAwayDistance; }
+
+    public bool GetIsHitStun() { return isHitStun; }
+
+    //Taking damage algorithm
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other != null)
+        {
+            if (other.gameObject.GetComponent<PlayerWeapon>() != null)
+            {
+                PlayerWeapon thisWep = other.gameObject.GetComponent<PlayerWeapon>();
+                //pseudocode notes for balance mechanic and blocking
+
+                //if(isBlocking == true) { blockAttack(), reduceBalance() }
+
+                //use thisWep.hitStun duration etc, as values to be passed into the "takingDamage" function" | Should be added later
+                isHitStun = true;
+                LoseHealth(thisWep.damage, thisWep.damage, 0.2f);
+            }
+            else
+            {
+                return;
+            }
+        }
+    }
+
+
+    private void OnHitByPlayer(PlayerWeapon thisWep)
+    {
+        if(isBlocking == true)
+        {
+            //passing thisWep.damage into the "balanceDamage" field for now
+            LoseBalance(thisWep.damage, thisWep.damage);
+        }
+        else
+        {
+            
+        }
+    }
 }

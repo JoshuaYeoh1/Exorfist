@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class EnemyAIHitStunState : EnemyAIBaseState
 {
-    private bool inHitStun;
-
-    private float hitStunDuration;
-    private float elapsedTime;
-    private Coroutine hitStunTimerCoroutine;
 
     //So, a bit of context, why is the hitStunDuration set every time this "EnterState" function is called in regards to the hitStunState?
     //This is because we want the hitStun duration to REFRESH when the enemy receives damage.
@@ -17,37 +12,23 @@ public class EnemyAIHitStunState : EnemyAIBaseState
     public override void EnterState(EnemyAIStateMachine enemy)
     {
         //change animations to "hitStun" animation
-        if (inHitStun != true)
-        {
-            hitStunDuration = enemy.thisEnemy.hitStunDuration;
-            elapsedTime = 0f;
-            
-        }
-        
+        enemy.thisEnemy.animator.Play("Hit Stun");
     }
 
     public override void ExitState(EnemyAIStateMachine enemy)
     {
-
+        Debug.Log("Exiting hit stun");
     }
 
     public override void UpdateState(EnemyAIStateMachine enemy)
     {
-
-    }
-
-    private IEnumerator StartHitStunTimer(EnemyAIStateMachine enemy)
-    {
-        while (elapsedTime < hitStunDuration)
+        if (enemy.thisEnemy.GetIsHitStun())
         {
-            if (Time.timeScale > 0f)
-            {
-                elapsedTime += Time.deltaTime;
-            }
-            yield return null;
+            return;
         }
-
-        Debug.Log("hitStun finished");
-        enemy.SwitchState(enemy.inCombatState);
+        else
+        {
+            enemy.SwitchState(enemy.inCombatState);
+        }
     }
 }
