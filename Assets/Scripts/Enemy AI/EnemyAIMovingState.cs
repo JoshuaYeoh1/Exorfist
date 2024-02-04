@@ -43,6 +43,9 @@ public class EnemyAIMovingState : EnemyAIBaseState
             return;
         }
 
+        //Rotate the model to be facing the player
+        enemy.thisEnemy.transform.LookAt(enemy.thisEnemy.playerTransform);
+
         //Get the forward direction of the enemy (where it's facing)
         Vector3 forwardDirection = enemy.thisEnemy.transform.forward;
 
@@ -56,17 +59,18 @@ public class EnemyAIMovingState : EnemyAIBaseState
         Vector3 targetPosition = enemy.thisEnemy.playerTransform.position + perpendicularDirection * enemy.thisEnemy.GetCircleRadius();
 
         float targetPositionDist = Vector3.Distance(enemy.thisEnemy.transform.position, enemy.thisEnemy.playerTransform.position);
-
+        Debug.Log(targetPositionDist);
         //Check if the target player is too far to "circle" around.
-        if (targetPositionDist <= enemy.thisEnemy.GetCircleRadius())
+        if (targetPositionDist >= enemy.thisEnemy.GetCircleRadius())
         {
-            
+            //Debug.Log("Player is too far to circle around. Moving closer instead");
+            MoveTowardsPlayer(enemy);
+            return;
         }
 
         enemy.thisEnemy.agent.SetDestination(targetPosition);
 
-        //Rotate the model to be facing the player
-        enemy.thisEnemy.transform.LookAt(enemy.thisEnemy.playerTransform);
+        
     }
 
     void MoveAwayFromPlayer(EnemyAIStateMachine enemy)
@@ -78,14 +82,18 @@ public class EnemyAIMovingState : EnemyAIBaseState
             return;
         }
 
-        //storing forward direction
+        //Storing forward direction
         Vector3 forwardDirection = enemy.thisEnemy.transform.forward;
 
-        //find the new distance to move to
+        //Find the new distance to move to
     }
 
     void MoveTowardsPlayer(EnemyAIStateMachine enemy)
     {
-
+        Debug.Log("Moving towards player");
+        //add animation for "moving towards player" as well
+        enemy.thisEnemy.agent.SetDestination(enemy.thisEnemy.playerTransform.position);
     }
+
+    
 }

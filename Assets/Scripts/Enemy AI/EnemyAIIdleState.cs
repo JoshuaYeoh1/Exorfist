@@ -20,5 +20,7 @@ public class EnemyAIIdleState : EnemyAIBaseState
         {
             enemy.SwitchState(enemy.movingState);
         }
+
+        
     }
 }

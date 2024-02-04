@@ -24,6 +24,8 @@ public class EnemyAI : MonoBehaviour
 
     public float chiDrop;
     private float moveSpeed = 0.20f;
+
+    public float hitStunDuration;
     public Transform playerTransform;
 
     [Header("States")] //Serializing these fields so that we can inspect them when debugging.
@@ -101,6 +103,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    
     //IsMoving getters/setters
     public void SetIsMoving(bool isMoving)
     {
