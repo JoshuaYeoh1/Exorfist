@@ -11,11 +11,14 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector] public Vector3 dir;
 
     public float moveSpeed=10, acceleration=10, deceleration=10, velocity;
+    [HideInInspector] public float defMoveSpeed;
 
     void Awake()
     {
         player=GetComponent<Player>();
         rb=GetComponent<Rigidbody>();
+
+        defMoveSpeed = moveSpeed;
     }
 
     // void Update()

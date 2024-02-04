@@ -16,6 +16,7 @@ public class PlayerMoveState : BaseState<PlayerStateMachine.PlayerStates>
         Debug.Log("Player state: " + stateMachine.GetCurrentState().StateKey);
 
         stateMachine.player.canAttack=true;
+        stateMachine.player.canBlock=true;
     }
 
     public override void UpdateState()

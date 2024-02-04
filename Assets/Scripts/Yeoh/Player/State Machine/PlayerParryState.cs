@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCombatState : BaseState<PlayerStateMachine.PlayerStates>
+public class PlayerParryState : BaseState<PlayerStateMachine.PlayerStates>
 {
     PlayerStateMachine stateMachine;
 
-    public PlayerCombatState(PlayerStateMachine stateMachine) : base(PlayerStateMachine.PlayerStates.Combat)
+    public PlayerParryState(PlayerStateMachine stateMachine) : base(PlayerStateMachine.PlayerStates.Parry)
     {
         this.stateMachine = stateMachine;
     }
@@ -15,15 +15,13 @@ public class PlayerCombatState : BaseState<PlayerStateMachine.PlayerStates>
     {
         Debug.Log("Player state: " + stateMachine.GetCurrentState().StateKey);
 
-        stateMachine.player.canAttack=true;
+        stateMachine.player.canAttack=false;
         stateMachine.player.canBlock=true;
     }
 
     public override void UpdateState()
     {
         stateMachine.player.move.CheckInput();
-
-        CheckNoCombat();
     }
 
     public override void ExitState()
@@ -34,13 +32,5 @@ public class PlayerCombatState : BaseState<PlayerStateMachine.PlayerStates>
     public override PlayerStateMachine.PlayerStates GetNextState() // Implement the logic to determine the next state from the this state
     {
         return StateKey;
-    }
-
-    void CheckNoCombat()
-    {
-        if(!stateMachine.player.finder.target)
-        {
-            stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Idle);
-        }
     }
 }

@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
 
     public List<PlayerWeapon> hitboxes;
 
-    public bool canLook=true, canMove=true, canAttack=true;
+    public bool canLook=true, canMove=true, canAttack=true, canBlock=true;
 
     void Awake()
     {
