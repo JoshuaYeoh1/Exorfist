@@ -55,6 +55,7 @@ public class EnemyAIStateMachine : MonoBehaviour
     public void HitStunSwitchState(EnemyAIBaseState state)
     {
         currentState = hitStunState;
+        SwitchState(hitStunState);
         thisEnemy.SetIsMoving(false);
         thisEnemy.agent.SetDestination(thisEnemy.transform.position); //stops enemy from moving        
     }

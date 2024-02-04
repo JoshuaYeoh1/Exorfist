@@ -11,8 +11,12 @@ public class EnemyAIHitStunState : EnemyAIBaseState
 
     public override void EnterState(EnemyAIStateMachine enemy)
     {
+        Debug.Log("HitStun state achieved");
         //change animations to "hitStun" animation
-        enemy.thisEnemy.animator.Play("Hit Stun");
+        enemy.thisEnemy.transform.LookAt(enemy.thisEnemy.playerTransform.position);
+        enemy.thisEnemy.animator.Play("Hit Stun", -1, 0f);
+        
+        
     }
 
     public override void ExitState(EnemyAIStateMachine enemy)
