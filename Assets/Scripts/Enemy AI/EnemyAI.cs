@@ -44,6 +44,16 @@ public class EnemyAI : MonoBehaviour
     [Range(0, 5)]
     private float circleRadius; //determines radius of CircularMovement
 
+    [Header("Close Player Radius")] //radius for enemy to be considered "near" the player. For melee attack purposes, can be adjusted.
+    [SerializeField]
+    [Range(0, 5)]
+    private float closePlayerRadius;
+
+    [Header("Far player Radius")] //Radius for enemy to be considered "far" from the player. To initiate the "moveCloserTo" function. Or to use for ranged enemies later down the line.
+    [SerializeField]
+    [Range(0,10)]
+    private float farPlayerRadius;
+
     private void Awake()
     {
         //code to set things like event subscriptions, etc.
@@ -130,4 +140,8 @@ public class EnemyAI : MonoBehaviour
     {
         return circleRadius;
     }
+
+    public float GetClosePlayerRadius() { return closePlayerRadius; }
+
+    public float GetFarPlayerRadius() { return farPlayerRadius; }
 }
