@@ -59,7 +59,7 @@ public class PlayerBlock : MonoBehaviour
 
             RandParryAnim();
 
-            move.moveSpeed *= blockMoveSpeedMult;
+            move.moveSpeed = move.defMoveSpeed*blockMoveSpeedMult;
 
             player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Parry);
 

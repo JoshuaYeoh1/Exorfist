@@ -32,7 +32,7 @@ public class PlayerStateMachine : StateMachine<PlayerStateMachine.PlayerStates>
         PlayerAttackState attackState = new PlayerAttackState(this);
         PlayerParryState parryState = new PlayerParryState(this);
         PlayerBlockState blockState = new PlayerBlockState(this);
-
+        PlayerStunState stunState = new PlayerStunState(this);
         PlayerDeathState deathState = new PlayerDeathState(this);
 
         States.Add(PlayerStates.Idle, idleState);
@@ -42,7 +42,7 @@ public class PlayerStateMachine : StateMachine<PlayerStateMachine.PlayerStates>
         States.Add(PlayerStates.Attack, attackState);
         States.Add(PlayerStates.Parry, parryState);
         States.Add(PlayerStates.Block, blockState);
-
+        States.Add(PlayerStates.Stun, stunState);
         States.Add(PlayerStates.Death, deathState);
 
         CurrentState = States[PlayerStates.Idle];

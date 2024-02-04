@@ -17,6 +17,7 @@ public class PlayerWindUpState : BaseState<PlayerStateMachine.PlayerStates>
 
         stateMachine.player.canAttack=true;
         stateMachine.player.canBlock=true;
+        stateMachine.player.canStun=true;
     }
 
     public override void UpdateState()

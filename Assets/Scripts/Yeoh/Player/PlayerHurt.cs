@@ -21,7 +21,7 @@ public class PlayerHurt : MonoBehaviour
 
     void Update() // testing
     {
-        if(Input.GetKeyDown(KeyCode.Delete)) Hit(25);
+        if(Input.GetKeyDown(KeyCode.Delete)) Hit(1);
     }
 
     public void Hit(float dmg)
@@ -35,7 +35,7 @@ public class PlayerHurt : MonoBehaviour
             if(hp.hp>0)
             {
                 StartCoroutine(iframing());
-                
+
                 //if(hp.hp>dmg) feedback.hurtAnim(); // flash screen red
             }
             else Die();

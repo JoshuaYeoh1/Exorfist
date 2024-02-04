@@ -9,16 +9,16 @@ public class PlayerDeathState : BaseState<PlayerStateMachine.PlayerStates>
     public PlayerDeathState(PlayerStateMachine stateMachine) : base(PlayerStateMachine.PlayerStates.Death)
     {
         this.stateMachine = stateMachine;
-
-        stateMachine.player.isAlive=false;
     }
 
     public override void EnterState()
     {
         Debug.Log("Player state: " + stateMachine.GetCurrentState().StateKey);
 
+        stateMachine.player.isAlive=false;
         stateMachine.player.canAttack=false;
         stateMachine.player.canBlock=false;
+        stateMachine.player.canStun=false;
     }
 
     public override void UpdateState()
@@ -28,7 +28,7 @@ public class PlayerDeathState : BaseState<PlayerStateMachine.PlayerStates>
 
     public override void ExitState()
     {
-
+        stateMachine.player.isAlive=true;
     }
 
     public override PlayerStateMachine.PlayerStates GetNextState() // Implement the logic to determine the next state from the this state

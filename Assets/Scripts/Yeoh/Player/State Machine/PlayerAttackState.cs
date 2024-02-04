@@ -17,6 +17,7 @@ public class PlayerAttackState : BaseState<PlayerStateMachine.PlayerStates>
 
         stateMachine.player.canAttack=true;
         stateMachine.player.canBlock=false;
+        stateMachine.player.canStun=false;
     }
 
     public override void UpdateState()

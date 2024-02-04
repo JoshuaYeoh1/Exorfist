@@ -37,8 +37,8 @@ public class PlayerAnim : MonoBehaviour
         float alignmentForward = Vector3.Dot(transform.forward, moveDir);
         float alignmentRight = Vector3.Dot(transform.right, moveDir);
 
-        anim.SetFloat("moveZ", alignmentForward * move.moveSpeed/(move.defMoveSpeed+.01f) * move.dir.magnitude);
-        anim.SetFloat("moveX", alignmentRight * move.moveSpeed/(move.defMoveSpeed+.01f) * move.dir.magnitude);
+        anim.SetFloat("moveZ", alignmentForward * move.moveSpeed/move.defMoveSpeed * move.dir.magnitude);
+        anim.SetFloat("moveX", alignmentRight * move.moveSpeed/move.defMoveSpeed * move.dir.magnitude);
     }
 
     void AnimMirror()
