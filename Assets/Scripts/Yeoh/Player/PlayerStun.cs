@@ -45,7 +45,7 @@ public class PlayerStun : MonoBehaviour
     {
         int i = Random.Range(1, 16);
 
-        anim.CrossFade("stun"+i, .1f, 4, 0);
+        anim.CrossFade("stun"+i, .05f, 4, 0);
 
         float animLength = anim.GetCurrentAnimatorStateInfo(4).length;
 

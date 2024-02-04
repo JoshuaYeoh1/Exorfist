@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyHurt : MonoBehaviour
 {
     HPManager hp;
-    ChangeMeshColor color;
+    OffsetMeshColor color;
 
     bool iframe;
     public float iframeTime=.1f;
@@ -13,7 +13,7 @@ public class EnemyHurt : MonoBehaviour
     void Awake()
     {
         hp=GetComponent<HPManager>();
-        color=GetComponent<ChangeMeshColor>();
+        color=GetComponent<OffsetMeshColor>();
     }
 
     public void Hit(float dmg)

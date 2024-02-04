@@ -6,7 +6,7 @@ public class PlayerHurt : MonoBehaviour
 {
     Player player;
     HPManager hp;
-    ChangeMeshColor color;
+    OffsetMeshColor color;
     public Animator anim;
 
     bool iframe;
@@ -16,7 +16,7 @@ public class PlayerHurt : MonoBehaviour
     {
         player=GetComponent<Player>();
         hp=GetComponent<HPManager>();
-        color=GetComponent<ChangeMeshColor>();
+        color=GetComponent<OffsetMeshColor>();
     }
 
     void Update() // testing

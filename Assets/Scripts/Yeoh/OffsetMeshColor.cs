@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChangeMeshColor : MonoBehaviour
+public class OffsetMeshColor : MonoBehaviour
 {
     public GameObject skinsGroup;
     public float rOffset=.5f, gOffset=-.5f, bOffset=-.5f;
@@ -31,49 +31,43 @@ public class ChangeMeshColor : MonoBehaviour
         }
     }
 
-    public void ChangeColor(string reset="")
+    public void OffsetColor(float rOffset=0, float gOffset=0, float bOffset=0, bool offsetEmission=true)
     {
         for(int j=0; j<renderers.Length; j++)
         {
             for(int i=0; i<renderers[j].materials.Length; i++)
             {
-                if(reset=="reset")
+                int index = i + (j * renderers[j].materials.Length);
+
+                Color newColor = new Color(defaultColors[index].r+rOffset,
+                                        defaultColors[index].g+gOffset,
+                                        defaultColors[index].b+bOffset);
+
+                renderers[j].materials[i].color = newColor;
+
+                if(offsetEmission)
                 {
-                    int index = i + (j * renderers[j].materials.Length);
-
-                    renderers[j].materials[i].color = defaultColors[index];
-                
-                    renderers[j].materials[i].SetColor("_EmissionColor", defaultEmissionColors[index]);
-                }
-                else
-                {
-                    Color newColor = new Color(defaultColors[i].r+rOffset,
-                                            defaultColors[i].g+gOffset,
-                                            defaultColors[i].b+bOffset);
-
-                    renderers[j].materials[i].color = newColor;
-
-                    Color newEmissionColor = new Color(defaultEmissionColors[i].r+rOffset,
-                                                    defaultEmissionColors[i].g+gOffset,
-                                                    defaultEmissionColors[i].b+bOffset);
-                
+                    Color newEmissionColor = new Color(defaultEmissionColors[index].r+rOffset,
+                                                defaultEmissionColors[index].g+gOffset,
+                                                defaultEmissionColors[index].b+bOffset);
+            
                     renderers[j].materials[i].SetColor("_EmissionColor", newEmissionColor);
                 }
             }
         }
     }
 
-    public void FlashColor(float time)
+    public void FlashColor(float time, bool offsetEmission=true)
     {
         if(flashRt!=null) StopCoroutine(flashRt);
-        flashRt = StartCoroutine(FlashingColor(time));
+        flashRt = StartCoroutine(FlashingColor(time, offsetEmission));
     }
     Coroutine flashRt;
-    IEnumerator FlashingColor(float t)
+    IEnumerator FlashingColor(float t, bool e)
     {
-        ChangeColor();
+        OffsetColor(rOffset, gOffset, bOffset, e);
         yield return new WaitForSeconds(t);
-        ChangeColor("reset");
+        OffsetColor();
     }
 
     // void Update() // testing
