@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerBlock : MonoBehaviour
@@ -58,7 +57,7 @@ public class PlayerBlock : MonoBehaviour
 
             StartCoroutine(Parrying());
 
-            anim.CrossFade("parry", .1f, 3, 0);
+            RandParryAnim();
 
             move.moveSpeed *= blockMoveSpeedMult;
 
@@ -66,6 +65,18 @@ public class PlayerBlock : MonoBehaviour
 
             anim.CrossFade("cancel", .1f, 2, 0); // cancel attack
         }
+    }
+
+    int parryAnim;
+
+    void RandParryAnim()
+    {
+        string[] anims = {"parry1", "parry2"};
+
+        if(parryAnim==0) parryAnim=1;
+        else if(parryAnim==1) parryAnim=0;
+
+        anim.CrossFade(anims[parryAnim], .1f, 3, 0);
     }
 
     IEnumerator Parrying()

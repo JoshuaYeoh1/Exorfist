@@ -125,6 +125,8 @@ public class PlayerCombat : MonoBehaviour
 
         player.hitboxes[i].knockback = aSO.knockback; // replace hitbox's knockback value
 
+        player.hitboxes[i].hasSweepingEdge = aSO.hasSweepingEdge; // if can swipe through enemies
+
         if(blinkingHitboxRt!=null) StopCoroutine(blinkingHitboxRt); // make sure to cancel before starting coroutine again
         StartCoroutine(BlinkingHitbox(i)); // enable and disable hitbox rapidly
     }

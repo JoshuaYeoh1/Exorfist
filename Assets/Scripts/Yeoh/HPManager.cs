@@ -13,50 +13,52 @@ public class HPManager : MonoBehaviour
     void Awake()
     {
         hp=hpMax;
-        StartCoroutine(hpregen());
+        StartCoroutine(HpRegen());
     } 
 
     void Update()
     {
-        if(hp>hpMax) hp=hpMax;
-        else if(hp<0) hp=0;
+        hp = Mathf.Clamp(hp, 0, hpMax);
 
-        if(hp>0 && hp<hpMax && canShow && hpBar)
+        if(hpBar)
         {
-            toggleShow();
+            if(hp>0 && hp<hpMax && canShow)
+            {
+                canShow=false;
 
-            hpBar.animIn(.5f);
+                hpBar.animIn(.5f);
 
-            Invoke("toggleHide",.5f);
-        }
-        else if((hp<=0 || hp>=hpMax) && canHide && hpBar)
-        {
-            toggleHide();
+                Invoke("ToggleHide",.5f);
+            }
+            else if((hp<=0 || hp>=hpMax) && canHide)
+            {
+                canHide=false;
 
-            hpBar.animOut(.5f);
+                hpBar.animOut(.5f);
 
-            Invoke("toggleShow",.5f);
+                Invoke("ToggleShow",.5f);
+            }
         }
     }
 
-    void toggleHide()
+    void ToggleHide()
     {
         canHide=!canHide;
     }
 
-    void toggleShow()
+    void ToggleShow()
     {
         canShow=!canShow;
     }
 
-    public void hit(float dmg)
+    public void Hit(float dmg)
     {
         if(hp>dmg) hp-=dmg;
         else hp=0;
-        updateHpBar();
+        UpdateHpBar();
     }    
     
-    IEnumerator hpregen()
+    IEnumerator HpRegen()
     {
         while(true)
         {
@@ -66,14 +68,15 @@ public class HPManager : MonoBehaviour
             {   
                 if(hp<=hpMax-regenHp) hp+=regenHp;
                 else hp=hpMax;
-                updateHpBar();
+
+                UpdateHpBar();
             }
         }
     }
 
     int hpBarLt=0;
 
-    public void updateHpBar()
+    public void UpdateHpBar()
     {
         if(hpBarFill)
         {

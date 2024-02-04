@@ -2,26 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerTemplateState : BaseState<PlayerStateMachine.PlayerStates>
+public class PlayerDeathState : BaseState<PlayerStateMachine.PlayerStates>
 {
     PlayerStateMachine stateMachine;
 
-    public PlayerTemplateState(PlayerStateMachine stateMachine) : base(PlayerStateMachine.PlayerStates.Idle)
+    public PlayerDeathState(PlayerStateMachine stateMachine) : base(PlayerStateMachine.PlayerStates.Death)
     {
         this.stateMachine = stateMachine;
+
+        stateMachine.player.isAlive=false;
     }
 
     public override void EnterState()
     {
         Debug.Log("Player state: " + stateMachine.GetCurrentState().StateKey);
 
-        stateMachine.player.canAttack=true;
-        stateMachine.player.canBlock=true;
+        stateMachine.player.canAttack=false;
+        stateMachine.player.canBlock=false;
     }
 
     public override void UpdateState()
     {
-        stateMachine.player.move.CheckInput();
+        stateMachine.player.move.NoInput();
     }
 
     public override void ExitState()
