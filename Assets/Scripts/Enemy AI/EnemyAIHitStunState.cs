@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class EnemyAIHitStunState : EnemyAIBaseState
 {
-    
+    private bool inHitStun;
+
     private float hitStunDuration;
     private float elapsedTime;
     private Coroutine hitStunTimerCoroutine;
@@ -16,8 +17,12 @@ public class EnemyAIHitStunState : EnemyAIBaseState
     public override void EnterState(EnemyAIStateMachine enemy)
     {
         //change animations to "hitStun" animation
-        hitStunDuration = enemy.thisEnemy.hitStunDuration;
-        elapsedTime = 0f;
+        if (inHitStun != true)
+        {
+            hitStunDuration = enemy.thisEnemy.hitStunDuration;
+            elapsedTime = 0f;
+            
+        }
         
     }
 
@@ -31,7 +36,7 @@ public class EnemyAIHitStunState : EnemyAIBaseState
 
     }
 
-    private IEnumerator startHitStunTimer(EnemyAIStateMachine enemy)
+    private IEnumerator StartHitStunTimer(EnemyAIStateMachine enemy)
     {
         while (elapsedTime < hitStunDuration)
         {

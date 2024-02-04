@@ -10,9 +10,11 @@ using UnityEngine.AI;
 public class EnemyAI : MonoBehaviour
 {
     //Declarations for respective things
-    public Animator animator;
-    public Rigidbody body;
-    public NavMeshAgent agent;
+    
+    [HideInInspector] public Animator animator;
+    [HideInInspector] public Rigidbody body;
+    [HideInInspector] public NavMeshAgent agent;
+    [HideInInspector] public EnemyAIStateMachine sm;
     public LayerMask whatIsGround, whatIsPlayer;
 
     [Header("Stats")]
@@ -29,10 +31,11 @@ public class EnemyAI : MonoBehaviour
     public Transform playerTransform;
 
     [Header("States")] //Serializing these fields so that we can inspect them when debugging.
-    [SerializeField] private bool preparingAttack; //startup frames of an attack
+    [SerializeField] private bool preparingAttack; //startup frames of an attack, or when the enemy is moving towards the player to attack.
     [SerializeField] private bool isAttacking;
     [SerializeField] private bool isMoving;
     [SerializeField] private bool isStunned;
+    [SerializeField] private bool isHitStun;
     [SerializeField] private bool isInCombat;
     [SerializeField] private bool isIdle;
     [SerializeField] private bool isBlocking;
@@ -41,20 +44,28 @@ public class EnemyAI : MonoBehaviour
     public bool canBlock;
     public bool circlesPlayer;
 
-    [Header("Circling Movement Radius")]
+    [Header("Navigation Numbers")]
+
+    //==Navigation Numbers==//
     [SerializeField]
     [Range(0, 5)]
     private float circleRadius; //determines radius of CircularMovement
 
-    [Header("Close Player Radius")] //radius for enemy to be considered "near" the player. For melee attack purposes, can be adjusted.
+     //radius for enemy to be considered "near" the player. For melee attack purposes, can be adjusted.
     [SerializeField]
     [Range(0, 5)]
     private float closePlayerRadius;
 
-    [Header("Far player Radius")] //Radius for enemy to be considered "far" from the player. To initiate the "moveCloserTo" function. Or to use for ranged enemies later down the line.
+     //Radius for enemy to be considered "far" from the player. To initiate the "moveCloserTo" function. Or to use for ranged enemies later down the line.
     [SerializeField]
     [Range(0,10)]
     private float farPlayerRadius;
+
+    
+    [SerializeField]
+    [Range(0, 10)]
+    private float moveAwayDistance; //float value to determine how far away the enemy should move.
+    //==Navigation Numbers==//
 
     private void Awake()
     {
@@ -67,11 +78,11 @@ public class EnemyAI : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
     }
 
-    private void LoseHealth(int damage)
+    private void LoseHealth(float healthdamage, float balancedamage, float hitStunDuration)
     {
         if(currentHealth > 0)
         {
-            currentHealth = currentHealth - damage;
+            currentHealth = currentHealth - healthdamage;
             if(currentHealth <= 0)
             {
                 //switch EnemyAIStateMachine to "dying" state, stop all coroutines
@@ -144,7 +155,13 @@ public class EnemyAI : MonoBehaviour
         return circleRadius;
     }
 
+    public void SetClosePlayerRadius(float radius)
+    {
+        closePlayerRadius = radius;
+    }
     public float GetClosePlayerRadius() { return closePlayerRadius; }
 
     public float GetFarPlayerRadius() { return farPlayerRadius; }
+
+    public float GetMoveAwayDistance() { return moveAwayDistance; }
 }
