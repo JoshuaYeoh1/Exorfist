@@ -6,7 +6,6 @@ public class PlayerCombat : MonoBehaviour
 {
     Player player;
     PlayerMovement move;
-    public Animator anim;
 
     [Header("Light Attack")]
     public List<AttackSO> lightCombo;
@@ -21,6 +20,8 @@ public class PlayerCombat : MonoBehaviour
     [Header("Combo Delay")]
     public float comboCooldown=.5f;
     public float resetComboAfter=.5f;
+
+    bool interrupted;
 
     void Awake()
     {
@@ -59,13 +60,15 @@ public class PlayerCombat : MonoBehaviour
         {
             player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.WindUp);
 
+            interrupted=false;
+
             if(type=="light" && lightComboCounter < lightCombo.Count-1)
             {
                 StartCoroutine(AttackCoolingDown(lightAttackCooldown));
 
                 lightComboCounter++;
 
-                anim.CrossFade(lightCombo[lightComboCounter].animName, .25f, 2, 0); //anim.Play but smoother
+                player.anim.CrossFade(lightCombo[lightComboCounter].animName, .25f, 2, 0); //anim.Play but smoother
 
                 EndComboAfter(lightAttackCooldown + resetComboAfter);
             }
@@ -76,7 +79,7 @@ public class PlayerCombat : MonoBehaviour
 
                 heavyComboCounter++;
                 
-                anim.CrossFade(heavyCombo[heavyComboCounter].animName, .25f, 2, 0);
+                player.anim.CrossFade(heavyCombo[heavyComboCounter].animName, .25f, 2, 0);
 
                 EndComboAfter(heavyAttackCooldown + resetComboAfter);
 
@@ -99,7 +102,7 @@ public class PlayerCombat : MonoBehaviour
 
     public void AnimRelease(string type)
     {
-        if(player.canAttack)
+        if(!interrupted)
         {
             player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Attack);
 
@@ -135,7 +138,7 @@ public class PlayerCombat : MonoBehaviour
 
     IEnumerator BlinkingHitbox(int i)
     {
-        foreach(PlayerWeapon hitbox in player.hitboxes) // make sure all hitboxes are disabled
+        foreach(PlayerHitbox hitbox in player.hitboxes) // make sure all hitboxes are disabled
         {
             hitbox.ToggleActive(false);
         }
@@ -154,6 +157,9 @@ public class PlayerCombat : MonoBehaviour
     IEnumerator EndingCombo(float time)
     {
         yield return new WaitForSeconds(time); // reset combo after stopping a short while
+
+        player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Idle);
+        
         EndCombo();
     }
 
@@ -162,8 +168,6 @@ public class PlayerCombat : MonoBehaviour
         StartCoroutine(ComboCoolingDown(comboCooldown));
 
         lightComboCounter = heavyComboCounter = -1;
-
-        player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Idle);
     }
 
     IEnumerator ComboCoolingDown(float time)
@@ -171,6 +175,15 @@ public class PlayerCombat : MonoBehaviour
         canCombo=false;
         yield return new WaitForSeconds(time);
         canCombo=true;
+    }
+
+    public void CancelAttack()
+    {
+        interrupted=true;
+
+        player.anim.CrossFade("cancel", .1f, 2, 0); // cancel attack
+
+        EndCombo();
     }
 
     // void CheckExitAttack() // INCONSISTENT
