@@ -31,8 +31,17 @@ public class PlayerStun : MonoBehaviour
 
             StartCoroutine(RandStunAnim(stunTime));
 
-            if(RecoveringRt!=null) StopCoroutine(RecoveringRt);
+            CancelRecovering();
             RecoveringRt = StartCoroutine(Recovering(stunTime));
+        }
+    }
+
+    void CancelRecovering()
+    {
+        if(RecoveringRt!=null)
+        {
+            StopCoroutine(RecoveringRt);
+            RecoveringRt=null;
         }
     }
 
@@ -58,11 +67,13 @@ public class PlayerStun : MonoBehaviour
         Recover();
     }
 
-    void Recover()
+    public void Recover()
     {
         if(stunned && player.isAlive)
         {
             stunned=false;
+
+            CancelRecovering();
 
             move.moveSpeed = move.defMoveSpeed;
 

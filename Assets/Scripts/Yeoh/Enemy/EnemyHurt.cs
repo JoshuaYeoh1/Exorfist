@@ -37,14 +37,7 @@ public class EnemyHurt : MonoBehaviour
                 else Die();
             }
 
-            if(kbForce>0)
-            {
-                Knockback(kbForce, contactPoint);
-
-                //Singleton.instance.camShake();
-            }            
-
-            //Singleton.instance.FadeTimeTo(float to, float time, float delay=0);
+            if(kbForce>0) Knockback(kbForce, contactPoint);
         }
     }
 

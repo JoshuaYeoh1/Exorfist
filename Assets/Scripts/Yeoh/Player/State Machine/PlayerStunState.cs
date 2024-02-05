@@ -16,7 +16,7 @@ public class PlayerStunState : BaseState<PlayerStateMachine.PlayerStates>
         Debug.Log("Player state: " + stateMachine.GetCurrentState().StateKey);
 
         stateMachine.player.canAttack=false;
-        stateMachine.player.canBlock=false;
+        stateMachine.player.canBlock=true;
         stateMachine.player.canStun=true;
     }
 
