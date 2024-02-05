@@ -9,10 +9,11 @@ public class PlayerBlock : MonoBehaviour
     PlayerCombat combat;
     PlayerHurt hurt;
     OffsetMeshColor color;
+    PlayerStun stun;
     public PlayerBlockMeter meter;
 
     public float blockCooldown=.5f, parryWindowTime=.2f, blockMoveSpeedMult=.3f, blockKnockbackResistMult=.3f;
-    public float blockBreakSpeedDebuffMult=.5f, blockBreakStunTimeMult=2;
+    public float blockBreakSpeedDebuffMult=.5f, blockBreakPenaltyStunTime=1;
     public float parryRefillPercent=33;
     
     public bool isParrying, isBlocking;
@@ -24,6 +25,7 @@ public class PlayerBlock : MonoBehaviour
         combat=GetComponent<PlayerCombat>();
         hurt=GetComponent<PlayerHurt>();
         color=GetComponent<OffsetMeshColor>();
+        stun=GetComponent<PlayerStun>();
     }
 
     void Update()
@@ -63,6 +65,10 @@ public class PlayerBlock : MonoBehaviour
         {
             canBlock=false;
 
+            combat.CancelAttack();
+
+            stun.Recover();
+
             StartCoroutine(Parrying());
 
             RandParryAnim();
@@ -70,8 +76,6 @@ public class PlayerBlock : MonoBehaviour
             move.moveSpeed = move.defMoveSpeed*blockMoveSpeedMult;
 
             player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Parry);
-
-            combat.CancelAttack();
         }
     }
 
@@ -122,7 +126,7 @@ public class PlayerBlock : MonoBehaviour
 
     public void ParrySuccess()
     {
-        Debug.Log("Player Parry Success");
+        Singleton.instance.SpawnPopUpText(player.popUpTextPos.position, "PARRY!", Color.green); //Debug.Log("Player Parry Success");
 
         canBlock=true;
 
@@ -130,9 +134,9 @@ public class PlayerBlock : MonoBehaviour
 
         meter.Refill(parryRefillPercent);
 
-        //Singleton.instance.camShake();
+        Singleton.instance.CamShake();
 
-        //Singleton.instance.FadeTimeTo(float to, float time, float delay=0);        
+        Singleton.instance.HitStop();
     }
 
     public void BlockHit(float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult, float stunTime)
@@ -151,10 +155,8 @@ public class PlayerBlock : MonoBehaviour
             {
                 hurt.Knockback(kbForce*blockKnockbackResistMult, contactPoint);
 
-                //Singleton.instance.camShake();
+                Singleton.instance.CamShake();
             }
-
-            //Singleton.instance.FadeTimeTo(float to, float time, float delay=0);
 
             //Singleton.instance.playSFX(Singleton.instance.sfxSubwoofer, transform.position, false);
         }
@@ -162,21 +164,21 @@ public class PlayerBlock : MonoBehaviour
 
     public void BlockBreak(float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult, float stunTime)
     {
-        Debug.Log("Player Block Broken");
+        Singleton.instance.SpawnPopUpText(player.popUpTextPos.position, "bREAK!", Color.red); //Debug.Log("Player Block Broken");
 
         Unblock();
-
-        float penaltyStunTime = stunTime*blockBreakStunTimeMult;
         
-        hurt.Hit(dmg*.5f, kbForce*blockKnockbackResistMult, contactPoint, speedDebuffMult*blockBreakSpeedDebuffMult, penaltyStunTime);
+        hurt.Hit(dmg*.5f, kbForce*blockKnockbackResistMult, contactPoint, speedDebuffMult*blockBreakSpeedDebuffMult, blockBreakPenaltyStunTime);
 
-        //Singleton.instance.camShake();
+        Singleton.instance.CamShake();
+
+        Singleton.instance.HitStop();
         
         //feedback
 
         player.canStun=false; // dont overwrite the slow stun with a quick stun
 
-        Invoke("ReEnableStun", penaltyStunTime);
+        Invoke("ReEnableStun", blockBreakPenaltyStunTime);
     }
     void ReEnableStun()
     {

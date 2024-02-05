@@ -13,6 +13,15 @@ public class PlayerHitbox : BaseHitbox
     {
         EnemyHurt hurt = otherRb.GetComponent<EnemyHurt>();
 
-        hurt.Hit(damage, knockback, contactPoint, speedDebuffMult, stunTime);
+        if(hurt)
+        {
+            hurt.Hit(damage, knockback, contactPoint, speedDebuffMult, stunTime);
+
+            Singleton.instance.CamShake();
+
+            Singleton.instance.HitStop();
+
+            Singleton.instance.SpawnPopUpText(contactPoint, damage.ToString(), Color.white);
+        }
     }
 }

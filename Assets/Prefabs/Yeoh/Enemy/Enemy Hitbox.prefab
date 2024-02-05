@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3973907161872255520}
   - component: {fileID: 7196148314862671146}
   - component: {fileID: 7868593490730306129}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Enemy Hitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,6 +99,9 @@ MonoBehaviour:
   owner: {fileID: 0}
   hitmarker: {fileID: 5056684987301472311, guid: 478405b3083b87f4b9394be71b41d064,
     type: 3}
+  enabledOnAwake: 0
   damage: 0
   knockback: 0
+  speedDebuffMult: 0.3
+  stunTime: 0.5
   hasSweepingEdge: 0

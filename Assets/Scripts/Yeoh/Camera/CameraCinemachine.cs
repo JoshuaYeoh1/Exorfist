@@ -9,7 +9,7 @@ public class CameraCinemachine : MonoBehaviour
     [HideInInspector] public float defaultSize, currentSize;
     CinemachineBasicMultiChannelPerlin[] cbmcp;
     float defaultAmplitude, defaultFrequency;
-    public float shakeAmplitude=2, shakeFrequency=2;
+    public float shakeAmplitude=.5f, shakeFrequency=2;
 
     void Awake()
     {
@@ -27,17 +27,6 @@ public class CameraCinemachine : MonoBehaviour
         if(currentSize!=cm.m_Lens.OrthographicSize) currentSize=cm.m_Lens.OrthographicSize;
     }
 
-    // int camMoveLt=0;
-    // public void moveCam(Vector3 newPos, float time)
-    // {
-    //     cancelMoveCam();
-    //     camMoveLt = LeanTween.move(follow.gameObject, newPos, time).setEaseInOutSine().id;
-    // }
-    // public void cancelMoveCam()
-    // {
-    //     LeanTween.cancel(camMoveLt);
-    // }
-
     int camSizeLt=0;
     public void changeCamSize(float newCamSize, float time)
     {
@@ -54,9 +43,28 @@ public class CameraCinemachine : MonoBehaviour
     {
         LeanTween.cancel(camSizeLt);
     }
-
-    public void doShake(bool toggle=true)
+    
+    Coroutine shakeRt;
+    public void Shake(float time, float amp=.5f, float freq=2)
     {
+        if(shakeRt!=null) StopCoroutine(shakeRt);
+        shakeRt=StartCoroutine(Shaking(time, amp, freq));
+    }
+    IEnumerator Shaking(float t, float amp, float freq)
+    {
+        DoShake(true, amp, freq);
+        yield return new WaitForSecondsRealtime(t);
+        DoShake(false);
+    }
+
+    public void DoShake(bool toggle=true, float amp=.5f, float freq=2)
+    {
+        float origAmp = shakeAmplitude;
+        float origFreq = shakeFrequency;
+
+        shakeAmplitude=amp;
+        shakeFrequency=freq;
+
         foreach(CinemachineBasicMultiChannelPerlin _cbmcp in cbmcp)
         {
             if(toggle)
@@ -70,18 +78,19 @@ public class CameraCinemachine : MonoBehaviour
                 _cbmcp.m_FrequencyGain = defaultFrequency;
             }
         }
+
+        shakeAmplitude=origAmp;
+        shakeFrequency=origFreq;
     }
-    
-    Coroutine shakeRt;
-    public void shake(float time)
-    {
-        if(shakeRt!=null) StopCoroutine(shakeRt);
-        shakeRt=StartCoroutine(shaking(time));
-    }
-    IEnumerator shaking(float time)
-    {
-        doShake(true);
-        yield return new WaitForSecondsRealtime(time);
-        doShake(false);
-    }
+
+    // int camMoveLt=0;
+    // public void moveCam(Vector3 newPos, float time)
+    // {
+    //     cancelMoveCam();
+    //     camMoveLt = LeanTween.move(follow.gameObject, newPos, time).setEaseInOutSine().id;
+    // }
+    // public void cancelMoveCam()
+    // {
+    //     LeanTween.cancel(camMoveLt);
+    // }
 }

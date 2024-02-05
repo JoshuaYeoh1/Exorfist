@@ -7,7 +7,9 @@ public class Player : MonoBehaviour
     [HideInInspector] public PlayerStateMachine stateMachine;
     [HideInInspector] public PlayerMovement move;
     [HideInInspector] public ClosestObjectFinder finder;
+    
     public Animator anim;
+    public Transform popUpTextPos;
 
     public List<PlayerHitbox> hitboxes;
 
