@@ -6,7 +6,6 @@ public class PlayerCombat : MonoBehaviour
 {
     Player player;
     PlayerMovement move;
-
     public Animator anim;
 
     [Header("Light Attack")]
@@ -77,13 +76,15 @@ public class PlayerCombat : MonoBehaviour
 
                 heavyComboCounter++;
                 
-                anim.CrossFade(heavyCombo[heavyComboCounter].animName, .25f, 2, 0); //anim.Play but smoother
+                anim.CrossFade(heavyCombo[heavyComboCounter].animName, .25f, 2, 0);
 
                 EndComboAfter(heavyAttackCooldown + resetComboAfter);
 
                 if(heavyComboCounter == heavyCombo.Count-1)
                 {
                     canCombo=false;
+
+                    EndComboAfter(heavyAttackCooldown + resetComboAfter*2);
                 }
             }
         }
@@ -98,18 +99,21 @@ public class PlayerCombat : MonoBehaviour
 
     public void AnimRelease(string type)
     {
-        player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Attack);
-
-        AttackSO aSO=null;
-
-        if(type=="light") aSO = lightCombo[lightComboCounter];
-        if(type=="heavy") aSO = heavyCombo[heavyComboCounter];
-
-        if(aSO)
+        if(player.canAttack)
         {
-            move.Push(aSO.dash, transform.forward);
-                
-            ChooseHitbox(aSO);
+            player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Attack);
+
+            AttackSO aSO=null;
+
+            if(type=="light") aSO = lightCombo[lightComboCounter];
+            if(type=="heavy") aSO = heavyCombo[heavyComboCounter];
+
+            if(aSO)
+            {
+                move.Push(aSO.dash, transform.forward);
+                    
+                ChooseHitbox(aSO);
+            }
         }
     }
 
@@ -120,6 +124,8 @@ public class PlayerCombat : MonoBehaviour
         player.hitboxes[i].damage = aSO.damage; // replace hitbox's damage value
 
         player.hitboxes[i].knockback = aSO.knockback; // replace hitbox's knockback value
+
+        player.hitboxes[i].hasSweepingEdge = aSO.hasSweepingEdge; // if can swipe through enemies
 
         if(blinkingHitboxRt!=null) StopCoroutine(blinkingHitboxRt); // make sure to cancel before starting coroutine again
         StartCoroutine(BlinkingHitbox(i)); // enable and disable hitbox rapidly

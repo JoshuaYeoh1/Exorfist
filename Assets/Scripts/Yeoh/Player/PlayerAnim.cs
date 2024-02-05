@@ -26,6 +26,7 @@ public class PlayerAnim : MonoBehaviour
     void Update()
     {
         AnimBlendTree();
+        AnimMirror();
         AnimCombat();
     }
 
@@ -36,8 +37,17 @@ public class PlayerAnim : MonoBehaviour
         float alignmentForward = Vector3.Dot(transform.forward, moveDir);
         float alignmentRight = Vector3.Dot(transform.right, moveDir);
 
-        anim.SetFloat("moveZ", move.dir.magnitude * alignmentForward);
-        anim.SetFloat("moveX", move.dir.magnitude * alignmentRight);
+        anim.SetFloat("moveZ", alignmentForward * move.moveSpeed/move.defMoveSpeed * move.dir.magnitude);
+        anim.SetFloat("moveX", alignmentRight * move.moveSpeed/move.defMoveSpeed * move.dir.magnitude);
+    }
+
+    void AnimMirror()
+    {
+        if(anim.GetFloat("moveX")>=0)
+        {
+            anim.SetBool("mirror", false);
+        }
+        else anim.SetBool("mirror", true);
     }
 
     void AnimCombat()
@@ -45,10 +55,6 @@ public class PlayerAnim : MonoBehaviour
         if(player.canLook && finder.target)
         {
             anim.SetBool("inCombat", true);
-
-            if(anim.GetFloat("moveX")>=0) anim.SetBool("mirror", false);
-
-            else anim.SetBool("mirror", true);
         }
         else anim.SetBool("inCombat", false);
     }
