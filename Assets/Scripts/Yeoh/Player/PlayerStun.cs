@@ -6,7 +6,7 @@ public class PlayerStun : MonoBehaviour
 {
     Player player;
     PlayerMovement move;
-    public Animator anim;
+    PlayerCombat combat;
 
     public bool stunned;
 
@@ -14,58 +14,47 @@ public class PlayerStun : MonoBehaviour
     {
         player=GetComponent<Player>();
         move=GetComponent<PlayerMovement>();
+        combat=GetComponent<PlayerCombat>();
     }
 
-    void Update() // testing
+    public void Stun(float speedDebuffMult=.3f, float stunTime=.5f)
     {
-        if(Input.GetKeyDown(KeyCode.Delete)) Stun();
-    }
-
-    public void Stun(float time=.5f, float speedDebuffMult=.3f)
-    {
-        if(player.canStun)
+        if(player.canStun && stunTime>0)
         {
             stunned=true;
 
             player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Stun);
 
-            anim.CrossFade("cancel", .1f, 2, 0); // cancel attack
+            combat.CancelAttack();
 
             move.moveSpeed = move.defMoveSpeed*speedDebuffMult;
 
-            RandStunAnim(time);
+            StartCoroutine(RandStunAnim(stunTime));
 
-            CancelRecovery();
-
-            RecoveringRt = StartCoroutine(Recovering(time));
+            if(RecoveringRt!=null) StopCoroutine(RecoveringRt);
+            RecoveringRt = StartCoroutine(Recovering(stunTime));
         }
     }
 
-    void RandStunAnim(float time)
+    IEnumerator RandStunAnim(float time)
     {
+        player.anim.SetFloat("stunSpeed", 1);
+
         int i = Random.Range(1, 16);
 
-        anim.CrossFade("stun"+i, .05f, 4, 0);
+        player.anim.Play("stun"+i, 4, 0);
 
-        float animLength = anim.GetCurrentAnimatorStateInfo(4).length;
+        yield return null; // Wait for the next frame to ensure the animation state is updated
 
-        anim.SetFloat("stunSpeed", animLength/time);
-    }
+        float animLength = player.anim.GetCurrentAnimatorStateInfo(4).length;
 
-    void CancelRecovery()
-    {
-        if(RecoveringRt!=null)
-        {
-            StopCoroutine(RecoveringRt);
-            RecoveringRt =null;
-        }
+        player.anim.SetFloat("stunSpeed", animLength/time);
     }
 
     Coroutine RecoveringRt;
     IEnumerator Recovering(float time)
     {
         yield return new WaitForSeconds(time);
-
         Recover();
     }
 
