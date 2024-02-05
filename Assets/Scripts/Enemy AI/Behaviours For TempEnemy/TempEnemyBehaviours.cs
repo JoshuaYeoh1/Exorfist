@@ -12,7 +12,7 @@ public class TempEnemyBehaviours : MonoBehaviour
     [SerializeField] private string currentAnimName;
     [SerializeField] private bool currentAnimBool;
 
-    private void Awake()
+    private void Start()
     {
         sm = GetComponent<EnemyAIStateMachine>();
         self = sm.GetComponent<EnemyAI>();
@@ -37,8 +37,10 @@ public class TempEnemyBehaviours : MonoBehaviour
     {
         Debug.Log("Executing moveTowardsThenAttack");
         sm.SwitchState(sm.movingState);
+        
         sm.movingState.MoveTowardsPlayer(sm);
-        sm.thisEnemy.SetPreparingAttack(true);
+        sm.thisEnemy.SetPreparedAttack(true);
+        Debug.Log(sm.thisEnemy.GetPreparedAttack());
 
         while(self.GetIsMoving() != false)
         {
@@ -47,26 +49,32 @@ public class TempEnemyBehaviours : MonoBehaviour
         }
 
         //So, why is this check here? This is because the PreparingAttack bool can be flipped by other components if needed, and coroutines don't always stop either.
-        if(sm.thisEnemy.GetPreparingAttack() != true)
+        if(sm.thisEnemy.GetPreparedAttack() != true)
         {
-            Debug.Log("Stopping MoveTowardsThenAttack");
+            //Debug.Log("Stopping MoveTowardsThenAttack");
             StopMoveTowardsThenAttack();
             sm.SwitchState(sm.inCombatState);
         }
         else
         {
             sm.SwitchState(sm.attackingState);
-            sm.thisEnemy.SetPreparingAttack(false);
+            //sm.thisEnemy.SetPreparingAttack(false);
             sm.attackingState.PunchPlayer(sm);
+            StopMoveTowardsThenAttack();
         }
     }
 
     public void StopMoveTowardsThenAttack()
     {
-        StopCoroutine(MoveTowardsThenAttack());
-        currentCoroutine = null;
+        if(currentCoroutine != null)
+        {
+            StopCoroutine(currentCoroutine);
+            currentCoroutine = null;
+        }
     }
 
+
+    //Called in animation events
     public void SetCurrentAnimatorBoolState()
     {
         sm.thisEnemy.animator.SetBool(currentAnimName, currentAnimBool);

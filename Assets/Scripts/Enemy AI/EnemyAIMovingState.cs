@@ -21,7 +21,7 @@ public class EnemyAIMovingState : EnemyAIBaseState
 
     public override void ExitState(EnemyAIStateMachine enemy)
     {
-        Debug.Log("Exiting move state");
+        //Debug.Log("Exiting move state");
         enemy.thisEnemy.SetIsMoving(false);
     }
 
@@ -143,7 +143,7 @@ public class EnemyAIMovingState : EnemyAIBaseState
     public void MoveTowardsPlayer(EnemyAIStateMachine enemy)
     {
         float dist = CalcDistanceToPlayer(enemy);
-        Debug.Log(dist);
+        //Debug.Log(dist);
         if (dist < enemy.thisEnemy.GetClosePlayerRadius())
         {
             //Debug.Log("executing if code");
@@ -158,7 +158,7 @@ public class EnemyAIMovingState : EnemyAIBaseState
         else
         {
             //add animation for "moving towards player" as well
-            Debug.Log("Executing else code");
+            //Debug.Log("Executing else code");
             movementIndex = 1;
             enemy.thisEnemy.transform.LookAt(enemy.thisEnemy.playerTransform.position);
             enemy.thisEnemy.agent.SetDestination(enemy.thisEnemy.playerTransform.position);
