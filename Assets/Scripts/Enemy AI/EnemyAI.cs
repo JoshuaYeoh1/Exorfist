@@ -177,9 +177,9 @@ public class EnemyAI : MonoBehaviour
     {
         if (other != null)
         {
-            if (other.gameObject.GetComponent<PlayerWeapon>() != null)
+            if (other.gameObject.GetComponent<PlayerHitbox>() != null)
             {
-                PlayerWeapon thisWep = other.gameObject.GetComponent<PlayerWeapon>();
+                PlayerHitbox thisWep = other.gameObject.GetComponent<PlayerHitbox>();
                 //pseudocode notes for balance mechanic and blocking
 
                 //if(isBlocking == true) { blockAttack(), reduceBalance() }
@@ -196,7 +196,7 @@ public class EnemyAI : MonoBehaviour
     }
 
 
-    private void OnHitByPlayer(PlayerWeapon thisWep)
+    private void OnHitByPlayer(PlayerHitbox thisWep)
     {
         if(isBlocking == true)
         {
