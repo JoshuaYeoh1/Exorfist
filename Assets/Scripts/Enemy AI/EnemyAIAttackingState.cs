@@ -9,16 +9,26 @@ public class EnemyAIAttackingState : EnemyAIBaseState
     //variable to hold attack animation
     public override void EnterState(EnemyAIStateMachine enemy)
     {
-        
+        enemy.thisEnemy.SetPreparingAttack(true);
+        enemy.thisEnemy.animator.SetBool("inCombat", true);
+        PunchPlayer(enemy);
     }
 
     public override void ExitState(EnemyAIStateMachine enemy)
     {
-       
+        enemy.thisEnemy.SetPreparingAttack(false);
+        enemy.thisEnemy.SetIsAttacking(false);
     }
 
     public override void UpdateState(EnemyAIStateMachine enemy)
     {
         
+    }
+
+    //isAttacking boolean is handled by animation events
+    public void PunchPlayer(EnemyAIStateMachine enemy)
+    {
+        enemy.thisEnemy.transform.LookAt(enemy.thisEnemy.playerTransform.position);
+        enemy.thisEnemy.animator.SetBool("Punching", true);
     }
 }

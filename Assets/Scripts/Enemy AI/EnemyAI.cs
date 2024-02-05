@@ -155,15 +155,9 @@ public class EnemyAI : MonoBehaviour
 
 
     //CircleRadius
-    public float GetCircleRadius()
-    {
-        return circleRadius;
-    }
+    public float GetCircleRadius() { return circleRadius; }
 
-    public void SetClosePlayerRadius(float radius)
-    {
-        closePlayerRadius = radius;
-    }
+    public void SetClosePlayerRadius(float radius) { closePlayerRadius = radius; }
     public float GetClosePlayerRadius() { return closePlayerRadius; }
 
     public float GetFarPlayerRadius() { return farPlayerRadius; }
@@ -171,6 +165,13 @@ public class EnemyAI : MonoBehaviour
     public float GetMoveAwayDistance() { return moveAwayDistance; }
 
     public bool GetIsHitStun() { return isHitStun; }
+
+    public void SetPreparingAttack(bool input) { preparingAttack = input; }
+    public bool GetPreparingAttack() { return preparingAttack; }
+
+    public void SetIsAttacking(bool input) { isAttacking = input;}
+    public bool GetIsAttacking() { return isAttacking; }
+
 
     //Taking damage algorithm
     private void OnTriggerEnter(Collider other)
@@ -195,7 +196,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-
+    //this is for a future event system implementation
     private void OnHitByPlayer(PlayerHitbox thisWep)
     {
         if(isBlocking == true)

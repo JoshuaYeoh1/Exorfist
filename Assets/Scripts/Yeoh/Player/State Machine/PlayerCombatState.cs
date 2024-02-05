@@ -13,7 +13,7 @@ public class PlayerCombatState : BaseState<PlayerStateMachine.PlayerStates>
 
     public override void EnterState()
     {
-        Debug.Log("Player state: " + stateMachine.GetCurrentState().StateKey);
+        //Debug.Log("Player state: " + stateMachine.GetCurrentState().StateKey);
 
         stateMachine.player.canAttack=true;
         stateMachine.player.canBlock=true;
