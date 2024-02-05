@@ -13,4 +13,6 @@ public class AttackSO : ScriptableObject
     public string animName="jab";
 
     public int hitboxIndex=0;
+
+    public bool hasSweepingEdge;
 }

@@ -16,6 +16,8 @@ public class PlayerWindUpState : BaseState<PlayerStateMachine.PlayerStates>
         Debug.Log("Player state: " + stateMachine.GetCurrentState().StateKey);
 
         stateMachine.player.canAttack=true;
+        stateMachine.player.canBlock=true;
+        stateMachine.player.canStun=true;
     }
 
     public override void UpdateState()
