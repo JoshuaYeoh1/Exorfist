@@ -170,15 +170,14 @@ public class PlayerBlock : MonoBehaviour
         
         hurt.Hit(dmg*.5f, kbForce*blockKnockbackResistMult, contactPoint, speedDebuffMult*blockBreakSpeedDebuffMult, penaltyStunTime);
 
-        player.canStun=false; // dont overwrite the slow stun with a quick stun
-
-        Invoke("ReEnableStun", penaltyStunTime);
-
         //Singleton.instance.camShake();
         
         //feedback
-    }
 
+        player.canStun=false; // dont overwrite the slow stun with a quick stun
+
+        Invoke("ReEnableStun", penaltyStunTime);
+    }
     void ReEnableStun()
     {
         player.canStun=true;

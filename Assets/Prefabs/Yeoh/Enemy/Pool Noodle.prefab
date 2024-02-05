@@ -124,8 +124,10 @@ MonoBehaviour:
   hitmarker: {fileID: 5056684987301472311, guid: 478405b3083b87f4b9394be71b41d064,
     type: 3}
   enabledOnAwake: 1
-  damage: 5
-  knockback: 15
+  damage: 10
+  knockback: 10
+  speedDebuffMult: 0.3
+  stunTime: 0.5
   hasSweepingEdge: 1
 --- !u!1 &7427205868081329466
 GameObject:
@@ -256,5 +258,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9dbf31732ad4624d939a431881794f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animTime: 1
+  animTime: 0.6
   spinAxis: {x: 0, y: 1, z: 0}
