@@ -6,6 +6,7 @@ public class EnemyHurt : MonoBehaviour
 {
     HPManager hp;
     OffsetMeshColor color;
+    Rigidbody rb;
 
     bool iframe;
     public float iframeTime=.1f;
@@ -14,21 +15,36 @@ public class EnemyHurt : MonoBehaviour
     {
         hp=GetComponent<HPManager>();
         color=GetComponent<OffsetMeshColor>();
+        rb=GetComponent<Rigidbody>();
     }
 
-    public void Hit(float dmg)
+    public void Hit(float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult=.3f, float stunTime=.5f)
     {
         if(!iframe)
         {
-            hp.Hit(dmg);
-
-            if(hp.hp>0)
+            if(dmg>0)
             {
-                StartCoroutine(iframing());
+                hp.Hit(dmg);
 
-                color.FlashColor(.1f);
+                color.FlashColor(.1f, true);
+
+                if(hp.hp>0) // if still alive
+                {
+                    StartCoroutine(iframing());
+
+                    //stun.Stun(speedDebuffMult, stunTime);
+                }
+                else Die();
             }
-            else Die();
+
+            if(kbForce>0)
+            {
+                Knockback(kbForce, contactPoint);
+
+                //Singleton.instance.camShake();
+            }            
+
+            //Singleton.instance.FadeTimeTo(float to, float time, float delay=0);
         }
     }
 
@@ -37,6 +53,18 @@ public class EnemyHurt : MonoBehaviour
         iframe=true;
         yield return new WaitForSeconds(iframeTime);
         iframe=false;
+    }
+
+    public void Knockback(float force, Vector3 contactPoint)
+    {
+        if(force>0)
+        {
+            Vector3 kbVector = rb.transform.position - contactPoint;
+            kbVector.y = 0;
+
+            rb.velocity = new Vector3(0, rb.velocity.y, 0);
+            rb.AddForce(kbVector.normalized * force, ForceMode.Impulse);
+        }
     }
 
     void Die()

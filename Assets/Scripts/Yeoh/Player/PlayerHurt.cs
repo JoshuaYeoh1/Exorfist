@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerHurt : MonoBehaviour
@@ -7,7 +8,8 @@ public class PlayerHurt : MonoBehaviour
     Player player;
     HPManager hp;
     OffsetMeshColor color;
-    public Animator anim;
+    Rigidbody rb;
+    PlayerStun stun;
 
     bool iframe;
     public float iframeTime=.5f;
@@ -17,28 +19,39 @@ public class PlayerHurt : MonoBehaviour
         player=GetComponent<Player>();
         hp=GetComponent<HPManager>();
         color=GetComponent<OffsetMeshColor>();
+        rb=GetComponent<Rigidbody>();
+        stun=GetComponent<PlayerStun>();
     }
 
-    void Update() // testing
+    public void Hit(float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult=.3f, float stunTime=.5f)
     {
-        if(Input.GetKeyDown(KeyCode.Delete)) Hit(1);
-    }
-
-    public void Hit(float dmg)
-    {
-        if(!iframe)
+        if(!iframe && player.isAlive)
         {
-            hp.Hit(dmg);
-
-            color.FlashColor(.1f);
-
-            if(hp.hp>0)
+            if(dmg>0)
             {
-                StartCoroutine(iframing());
+                hp.Hit(dmg);
 
-                //if(hp.hp>dmg) feedback.hurtAnim(); // flash screen red
+                color.FlashColor(.1f, true);
+
+                if(hp.hp>0) // if still alive
+                {
+                    StartCoroutine(iframing());
+
+                    stun.Stun(speedDebuffMult, stunTime);
+
+                    // flash screen red
+                }
+                else Die();
             }
-            else Die();
+            
+            if(kbForce>0)
+            {
+                Knockback(kbForce, contactPoint);
+
+                //Singleton.instance.camShake();
+            }            
+
+            //Singleton.instance.FadeTimeTo(float to, float time, float delay=0);
 
             //Singleton.instance.playSFX(Singleton.instance.sfxSubwoofer, transform.position, false);
         }
@@ -51,10 +64,21 @@ public class PlayerHurt : MonoBehaviour
         iframe=false;
     }
 
+    public void Knockback(float force, Vector3 contactPoint)
+    {
+        if(force>0)
+        {
+            Vector3 kbVector = rb.transform.position - contactPoint;
+            kbVector.y = 0;
+
+            rb.velocity = new Vector3(0, rb.velocity.y, 0);
+            rb.AddForce(kbVector.normalized * force, ForceMode.Impulse);
+        }
+    }
+
     void Die()
     {
         iframe=true;
-        gameObject.layer=0;
 
         player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Death);
 
@@ -65,15 +89,17 @@ public class PlayerHurt : MonoBehaviour
 
     void RandDeathAnim()
     {
-        string[] anims = {"death"};
-
-        int i = Random.Range(0, anims.Length);
-
-        anim.CrossFade(anims[i], .1f, 2, 0);
+        int i = Random.Range(1, 2);
+        player.anim.CrossFade("death"+i, .1f, 2, 0);
     }
 
     public void SpawnRagdoll()
     {
 
+    }
+
+    void Update() // testing
+    {
+        if(Input.GetKeyDown(KeyCode.Delete)) Hit(1, 1, transform.position, .3f, 1);
     }
 }
