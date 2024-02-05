@@ -44,7 +44,19 @@ public class EnemyAIStateMachine : MonoBehaviour
     //SwitchState function in order to call proper stuff
     public void SwitchState(EnemyAIBaseState state)
     {
+        currentState.ExitState(this);
         currentState = state;
         currentState.EnterState(this);
+    }
+
+    //So you might be wondering why THIS is here
+    //This is because the enemy, at any point, can switchi nto the HitStunState
+    //This is so that the player can interrupt their movement as well as their attacks :)
+    public void HitStunSwitchState(EnemyAIBaseState state)
+    {
+        currentState = hitStunState;
+        SwitchState(hitStunState);
+        thisEnemy.SetIsMoving(false);
+        thisEnemy.agent.SetDestination(thisEnemy.transform.position); //stops enemy from moving        
     }
 }
