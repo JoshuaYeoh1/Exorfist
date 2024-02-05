@@ -126,7 +126,7 @@ public class PlayerBlock : MonoBehaviour
 
     public void ParrySuccess()
     {
-        Debug.Log("Player Parry Success");
+        Singleton.instance.SpawnPopUpText(player.popUpTextPos.position, "PARRY!", Color.green); //Debug.Log("Player Parry Success");
 
         canBlock=true;
 
@@ -134,9 +134,9 @@ public class PlayerBlock : MonoBehaviour
 
         meter.Refill(parryRefillPercent);
 
-        //Singleton.instance.camShake();
+        Singleton.instance.CamShake();
 
-        //Singleton.instance.FadeTimeTo(float to, float time, float delay=0);        
+        Singleton.instance.HitStop();
     }
 
     public void BlockHit(float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult, float stunTime)
@@ -155,10 +155,8 @@ public class PlayerBlock : MonoBehaviour
             {
                 hurt.Knockback(kbForce*blockKnockbackResistMult, contactPoint);
 
-                //Singleton.instance.camShake();
+                Singleton.instance.CamShake();
             }
-
-            //Singleton.instance.FadeTimeTo(float to, float time, float delay=0);
 
             //Singleton.instance.playSFX(Singleton.instance.sfxSubwoofer, transform.position, false);
         }
@@ -166,13 +164,15 @@ public class PlayerBlock : MonoBehaviour
 
     public void BlockBreak(float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult, float stunTime)
     {
-        Debug.Log("Player Block Broken");
+        Singleton.instance.SpawnPopUpText(player.popUpTextPos.position, "bREAK!", Color.red); //Debug.Log("Player Block Broken");
 
         Unblock();
         
         hurt.Hit(dmg*.5f, kbForce*blockKnockbackResistMult, contactPoint, speedDebuffMult*blockBreakSpeedDebuffMult, blockBreakPenaltyStunTime);
 
-        //Singleton.instance.camShake();
+        Singleton.instance.CamShake();
+
+        Singleton.instance.HitStop();
         
         //feedback
 

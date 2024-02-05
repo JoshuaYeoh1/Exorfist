@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerBlockMeter : MonoBehaviour
 {
+    Player player;
     HPManager hp;
     PlayerBlock block;
 
@@ -12,6 +13,7 @@ public class PlayerBlockMeter : MonoBehaviour
 
     void Awake()
     {
+        player=transform.root.GetComponent<Player>();
         hp=GetComponent<HPManager>();
         block=transform.root.GetComponent<PlayerBlock>();
     }
@@ -28,6 +30,8 @@ public class PlayerBlockMeter : MonoBehaviour
             hp.Hit(dmg);
 
             if(hp.hp<=0) block.BlockBreak(dmg, kbForce, contactPoint, speedDebuffMult, stunTime);
+
+            else Singleton.instance.SpawnPopUpText(contactPoint, dmg.ToString(), Color.cyan);
         }
     }
 

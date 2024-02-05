@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class PlayerHurt : MonoBehaviour
@@ -38,18 +37,15 @@ public class PlayerHurt : MonoBehaviour
                     StartCoroutine(iframing());
 
                     stun.Stun(speedDebuffMult, stunTime);
+                    
+                    Singleton.instance.SpawnPopUpText(contactPoint, dmg.ToString(), Color.red);
 
                     // flash screen red
                 }
                 else Die();
             }
             
-            if(kbForce>0)
-            {
-                Knockback(kbForce, contactPoint);
-
-                //Singleton.instance.camShake();
-            }            
+            if(kbForce>0) Knockback(kbForce, contactPoint);
 
             //Singleton.instance.FadeTimeTo(float to, float time, float delay=0);
 
@@ -73,6 +69,8 @@ public class PlayerHurt : MonoBehaviour
 
             rb.velocity = new Vector3(0, rb.velocity.y, 0);
             rb.AddForce(kbVector.normalized * force, ForceMode.Impulse);
+
+            Singleton.instance.CamShake();
         }
     }
 
@@ -83,6 +81,8 @@ public class PlayerHurt : MonoBehaviour
         player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Death);
 
         RandDeathAnim();
+
+        Singleton.instance.SpawnPopUpText(player.popUpTextPos.position, "DEAD!", Color.red);
 
         //feedback.dieAnim(); // screen red
     }
