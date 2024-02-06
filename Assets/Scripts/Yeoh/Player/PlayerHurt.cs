@@ -40,12 +40,14 @@ public class PlayerHurt : MonoBehaviour
                     
                     Singleton.instance.SpawnPopUpText(contactPoint, dmg.ToString(), Color.red);
 
+                    Singleton.instance.HitStop();
+
                     // flash screen red
                 }
                 else Die();
             }
             
-            if(kbForce>0) Knockback(kbForce, contactPoint);
+            Knockback(kbForce, contactPoint);
 
             //Singleton.instance.FadeTimeTo(float to, float time, float delay=0);
 

@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class PlayerBlockMeter : MonoBehaviour
 {
-    Player player;
     HPManager hp;
     PlayerBlock block;
+    FlashSpriteVFX flash;
 
     [HideInInspector] public bool iframe, regen;
     public float iframeTime=.3f, regenCooldown=3;
 
     void Awake()
     {
-        player=transform.root.GetComponent<Player>();
         hp=GetComponent<HPManager>();
         block=transform.root.GetComponent<PlayerBlock>();
+        flash=GetComponent<FlashSpriteVFX>();
     }
 
     void Update()
@@ -29,9 +29,20 @@ public class PlayerBlockMeter : MonoBehaviour
         {
             hp.Hit(dmg);
 
-            if(hp.hp<=0) block.BlockBreak(dmg, kbForce, contactPoint, speedDebuffMult, stunTime);
+            if(hp.hp>0)
+            {
+                Singleton.instance.SpawnPopUpText(contactPoint, dmg.ToString(), Color.cyan);
 
-            else Singleton.instance.SpawnPopUpText(contactPoint, dmg.ToString(), Color.cyan);
+                Singleton.instance.HitStop();
+
+                flash.SpawnFlash(contactPoint, Color.cyan);
+            }
+            else
+            {
+                block.BlockBreak(dmg, kbForce, contactPoint, speedDebuffMult, stunTime);
+
+                flash.SpawnFlash(contactPoint, Color.red);
+            }
         }
     }
 

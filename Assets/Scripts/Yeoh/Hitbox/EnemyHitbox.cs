@@ -17,17 +17,23 @@ public class EnemyHitbox : BaseHitbox
         {
             //owner.Stagger(staggerTime);
 
-            block.ParrySuccess();
+            block.ParrySuccess(contactPoint);
+
+            hitmarkerColor = shockwaveColor = Color.green;
         }
         else if(block.isBlocking)
         {
             block.BlockHit(damage, knockback, contactPoint, speedDebuffMult, stunTime);
+
+            hitmarkerColor = shockwaveColor = Color.cyan;
         }
         else
         {
             PlayerHurt hurt = otherRb.GetComponent<PlayerHurt>();
 
             hurt.Hit(damage, knockback, contactPoint, speedDebuffMult, stunTime);
+
+            hitmarkerColor = shockwaveColor = Color.red;
         }
     }
 }

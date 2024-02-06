@@ -37,7 +37,7 @@ public class EnemyHurt : MonoBehaviour
                 else Die();
             }
 
-            if(kbForce>0) Knockback(kbForce, contactPoint);
+            Knockback(kbForce, contactPoint);
         }
     }
 
