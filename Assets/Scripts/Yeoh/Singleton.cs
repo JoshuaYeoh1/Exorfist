@@ -221,7 +221,7 @@ public class Singleton : MonoBehaviour
         Time.timeScale = value;
     }
 
-    public void HitStop(float fadeIn=.05f, float wait=.01f, float fadeOut=.3f)
+    public void HitStop(float fadeIn=.05f, float wait=.01f, float fadeOut=.25f)
     {
         if(hitStoppingRt!=null) StopCoroutine(hitStoppingRt);
         hitStoppingRt = StartCoroutine(HitStopping(fadeIn, wait, fadeOut));

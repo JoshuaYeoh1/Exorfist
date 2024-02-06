@@ -29,9 +29,13 @@ public class PlayerBlockMeter : MonoBehaviour
         {
             hp.Hit(dmg);
 
-            if(hp.hp<=0) block.BlockBreak(dmg, kbForce, contactPoint, speedDebuffMult, stunTime);
+            if(hp.hp>0)
+            {
+                Singleton.instance.SpawnPopUpText(contactPoint, dmg.ToString(), Color.cyan);
 
-            else Singleton.instance.SpawnPopUpText(contactPoint, dmg.ToString(), Color.cyan);
+                Singleton.instance.HitStop();
+            }
+            else block.BlockBreak(dmg, kbForce, contactPoint, speedDebuffMult, stunTime);
         }
     }
 

@@ -147,6 +147,8 @@ public class PlayerBlock : MonoBehaviour
 
             player.anim.CrossFade("block hit", .1f, 4, 0);
 
+            canBlock=true;
+
             color.FlashColor(.1f, .5f, .5f, .5f); // flash white
 
             meter.Hit(dmg, kbForce, contactPoint, speedDebuffMult, stunTime);
