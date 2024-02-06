@@ -355,15 +355,15 @@ public class Singleton : MonoBehaviour
         isTransitioning=false;
     }
 
-    public void TransitionTo(string sceneName)
+    public void TransitionTo(string sceneName, bool anim=true)
     {
         if(!isTransitioning)
         {
             CancelTransition();
-            StartCoroutine(TransitioningTo(sceneName));
+            StartCoroutine(TransitioningTo(sceneName, anim));
         }
     }
-    IEnumerator TransitioningTo(string sceneName, bool anim=true)
+    IEnumerator TransitioningTo(string sceneName, bool anim)
     {
         if(anim)
         {
@@ -398,6 +398,36 @@ public class Singleton : MonoBehaviour
     public bool IsSceneMainMenu()
     {
         return SceneManager.GetActiveScene().name == Scenes.MainMenu.ToString();
+    }
+
+    public void LoadMainMenu()
+    {
+        if(!IsSceneMainMenu())
+        TransitionTo(Scenes.MainMenu.ToString());
+    }
+
+    public void LoadNextScene()
+    {
+        int nextSceneBuildIndex = SceneManager.GetActiveScene().buildIndex + 1;
+
+        if(nextSceneBuildIndex < SceneManager.sceneCountInBuildSettings)
+        {
+            string nextSceneName = SceneManager.GetSceneByBuildIndex(nextSceneBuildIndex).name;
+
+            TransitionTo(nextSceneName);
+        }
+    }
+
+    public void LoadPreviousScene()
+    {
+        int nextSceneBuildIndex = SceneManager.GetActiveScene().buildIndex - 1;
+
+        if(nextSceneBuildIndex>=0)
+        {
+            string nextSceneName = SceneManager.GetSceneByBuildIndex(nextSceneBuildIndex).name;
+
+            TransitionTo(nextSceneName);
+        }
     }
 
     // public void RandomScene()
