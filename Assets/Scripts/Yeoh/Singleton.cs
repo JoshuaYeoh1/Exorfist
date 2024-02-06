@@ -263,17 +263,26 @@ public class Singleton : MonoBehaviour
     public Animator transitionAnimator;
     GameObject transitionCanvas;
     CanvasGroup transitionCanvasGroup;
+
     public bool isTransitioning;
     int transitionTypes=1;
+
+    public enum Scenes // must be in the same order as in the build settings, and case sensitive
+    {
+        MainMenu,
+        Level01,
+        Level02,
+        Level03,
+    }
 
     public void AwakeTransition()
     {
         transitionCanvas=transitionAnimator.transform.parent.gameObject;
-        transitionCanvasGroup=transitionCanvas.GetComponent<CanvasGroup>();
-
         transitionCanvas.SetActive(true);
 
-        TransitionIn(Random.Range(0, transitionTypes));
+        transitionCanvasGroup=transitionCanvas.GetComponent<CanvasGroup>();
+
+        TransitionIn(Random.Range(0, transitionTypes)); // choose a random transition
     }
 
     Coroutine transitionRt;
@@ -309,39 +318,13 @@ public class Singleton : MonoBehaviour
             yield return new WaitForSecondsRealtime(.1f);
 
             // fadeAudio(musicSource, true, transitionAnimator.GetCurrentAnimatorStateInfo(0).length, 0);
-            //fadeAudio(ambSource, true, transitionAnimator.GetCurrentAnimatorStateInfo(0).length, 0);
+            // fadeAudio(ambSource, true, transitionAnimator.GetCurrentAnimatorStateInfo(0).length, 0);
 
             yield return new WaitForSecondsRealtime(transitionAnimator.GetCurrentAnimatorStateInfo(0).length);
 
             Debug.Log("Quit");
             Application.Quit();
         }
-    }
-
-    public void TransitionTo(int sceneNumber) // please change to using Enum
-    {
-        CancelTransition();
-        StartCoroutine(TransitioningTo(sceneNumber));
-    }
-    IEnumerator TransitioningTo(int sceneNumber, bool anim=true)
-    {
-        if(anim)
-        {
-            TransitionOut(Random.Range(0,transitionTypes));
-            yield return new WaitForSecondsRealtime(.1f);
-            yield return new WaitForSecondsRealtime(transitionAnimator.GetCurrentAnimatorStateInfo(0).length);
-        }
-
-        SceneManager.LoadScene(sceneNumber);
-
-        if(anim) TransitionIn(Random.Range(0,transitionTypes));
-
-        yield return new WaitForSecondsRealtime(.1f);
-
-        // changeMusic();
-
-        // toggleAmb(false);
-        // if(SceneManager.GetActiveScene().buildIndex!=0) toggleAmb(true);
     }
 
     void EnableTransition()
@@ -372,6 +355,35 @@ public class Singleton : MonoBehaviour
         isTransitioning=false;
     }
 
+    public void TransitionTo(string sceneName)
+    {
+        if(!isTransitioning)
+        {
+            CancelTransition();
+            StartCoroutine(TransitioningTo(sceneName));
+        }
+    }
+    IEnumerator TransitioningTo(string sceneName, bool anim=true)
+    {
+        if(anim)
+        {
+            TransitionOut(Random.Range(0,transitionTypes));
+            yield return new WaitForSecondsRealtime(.1f);
+            yield return new WaitForSecondsRealtime(transitionAnimator.GetCurrentAnimatorStateInfo(0).length);
+        }
+
+        SceneManager.LoadScene(sceneName);
+
+        if(anim) TransitionIn(Random.Range(0,transitionTypes));
+
+        yield return new WaitForSecondsRealtime(.1f);
+
+        // ChangeMusic();
+
+        // ToggleAmb(false);
+        // if(!IsSceneMainMenu()) ToggleAmb(true);
+    }    
+
     void UpdateReloadButton()
     {
         if(Input.GetKeyDown(KeyCode.R)) ReloadScene();
@@ -379,14 +391,19 @@ public class Singleton : MonoBehaviour
 
     public void ReloadScene()
     {
-        //if(!transitioning && SceneManager.GetActiveScene().buildIndex!=0)
-        TransitionTo(SceneManager.GetActiveScene().buildIndex);
+        if(!IsSceneMainMenu())
+        TransitionTo(SceneManager.GetActiveScene().name);
     }
 
-    public void RandomScene()
+    public bool IsSceneMainMenu()
     {
-        if(!isTransitioning) TransitionTo(Random.Range(0,6)); // dont use index numbers
+        return SceneManager.GetActiveScene().name == Scenes.MainMenu.ToString();
     }
+
+    // public void RandomScene()
+    // {
+    //     if(!isTransitioning) TransitionTo(Random.Range(0,6));
+    // }
 
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////

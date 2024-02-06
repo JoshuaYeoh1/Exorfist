@@ -10,6 +10,8 @@ public class PlayerBlock : MonoBehaviour
     PlayerHurt hurt;
     OffsetMeshColor color;
     PlayerStun stun;
+    FlashSpriteVFX flash;
+
     public PlayerBlockMeter meter;
 
     public float blockCooldown=.5f, parryWindowTime=.2f, blockMoveSpeedMult=.3f, blockKnockbackResistMult=.3f;
@@ -26,6 +28,7 @@ public class PlayerBlock : MonoBehaviour
         hurt=GetComponent<PlayerHurt>();
         color=GetComponent<OffsetMeshColor>();
         stun=GetComponent<PlayerStun>();
+        flash=GetComponent<FlashSpriteVFX>();
     }
 
     void Update()
@@ -124,7 +127,7 @@ public class PlayerBlock : MonoBehaviour
         canBlock=true;
     }
 
-    public void ParrySuccess()
+    public void ParrySuccess(Vector3 contactPoint)
     {
         Singleton.instance.SpawnPopUpText(player.popUpTextPos.position, "PARRY!", Color.green); //Debug.Log("Player Parry Success");
 
@@ -137,6 +140,8 @@ public class PlayerBlock : MonoBehaviour
         Singleton.instance.CamShake();
 
         Singleton.instance.HitStop();
+
+        flash.SpawnFlash(contactPoint, Color.green);
     }
 
     public void BlockHit(float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult, float stunTime)

@@ -4,14 +4,25 @@ using UnityEngine;
 
 public class DestroyAfter : MonoBehaviour
 {
-    public float destroyTimeMin=3, destroyTimeMax=4, animTime=.5f;
+    public bool destroyOnStart;
+    public float minTime=3, maxTime=4, shrinkTime=.5f;
 
     void Start()
     {
-        float destroyTime=Random.Range(destroyTimeMin, destroyTimeMax);
+        if(destroyOnStart) Destroyy();
+    }
 
-        LeanTween.scale(gameObject, Vector3.zero, animTime).setDelay(destroyTime).setEaseInOutSine();
+    public void Destroyy()
+    {
+        float destroyTime=Random.Range(minTime, maxTime);
 
-        Destroy(gameObject, destroyTime+animTime);
+        LeanTween.scale(gameObject, Vector3.zero, shrinkTime).setDelay(destroyTime).setEaseInOutSine();
+
+        Destroy(gameObject, destroyTime+shrinkTime);
+    }
+
+    public void DestroyNoAnim()
+    {
+        Destroy(gameObject);
     }
 }
