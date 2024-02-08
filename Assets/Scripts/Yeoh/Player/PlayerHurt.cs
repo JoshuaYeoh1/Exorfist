@@ -26,39 +26,40 @@ public class PlayerHurt : MonoBehaviour
     {
         if(!iframe && player.isAlive)
         {
-            if(dmg>0)
-            {
-                hp.Hit(dmg);
+            DoIFraming(iframeTime);
 
-                color.FlashColor(.1f, true);
-
-                if(hp.hp>0) // if still alive
-                {
-                    StartCoroutine(iframing());
-
-                    stun.Stun(speedDebuffMult, stunTime);
-                    
-                    Singleton.instance.SpawnPopUpText(contactPoint, dmg.ToString(), Color.red);
-
-                    Singleton.instance.HitStop();
-
-                    // flash screen red
-                }
-                else Die();
-            }
-            
             Knockback(kbForce, contactPoint);
 
-            //Singleton.instance.FadeTimeTo(float to, float time, float delay=0);
+            color.FlashColor(.1f, true); // flash red
 
-            //Singleton.instance.playSFX(Singleton.instance.sfxSubwoofer, transform.position, false);
+            Singleton.instance.CamShake();
+
+            Singleton.instance.HitStop();
+
+            //Singleton.instance.PlaySFX(Singleton.instance.sfxSubwoofer, transform.position, false);
+
+            hp.Hit(dmg);
+
+            if(hp.hp>0) // if still alive
+            {
+                stun.Stun(speedDebuffMult, stunTime);
+                
+                Singleton.instance.SpawnPopUpText(contactPoint, dmg.ToString(), Color.red);
+                
+                // flash screen red
+            }
+            else Die();
         }
     }
 
-    IEnumerator iframing()
+    public void DoIFraming(float t)
+    {
+        StartCoroutine(iframing(t));
+    }
+    IEnumerator iframing(float t)
     {
         iframe=true;
-        yield return new WaitForSeconds(iframeTime);
+        yield return new WaitForSeconds(t);
         iframe=false;
     }
 
@@ -71,15 +72,11 @@ public class PlayerHurt : MonoBehaviour
 
             rb.velocity = new Vector3(0, rb.velocity.y, 0);
             rb.AddForce(kbVector.normalized * force, ForceMode.Impulse);
-
-            Singleton.instance.CamShake();
         }
     }
 
     void Die()
     {
-        iframe=true;
-
         player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Death);
 
         RandDeathAnim();
@@ -87,6 +84,8 @@ public class PlayerHurt : MonoBehaviour
         Singleton.instance.SpawnPopUpText(player.popUpTextPos.position, "DEAD!", Color.red);
 
         //feedback.dieAnim(); // screen red
+
+        Invoke("ReloadScene", 2);
     }
 
     void RandDeathAnim()
@@ -98,6 +97,11 @@ public class PlayerHurt : MonoBehaviour
     public void SpawnRagdoll()
     {
 
+    }
+
+    void ReloadScene()
+    {
+        Singleton.instance.ReloadScene();
     }
 
     void Update() // testing

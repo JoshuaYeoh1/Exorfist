@@ -895,7 +895,7 @@ MonoBehaviour:
   range: 5
   layers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 320
 --- !u!114 &7586553382504879853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -915,15 +915,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f7f62dba89abee74dabb72fe6f9ec55a, type: 2}
   - {fileID: 11400000, guid: 031b330f897755a46b6e79b4766d8a3c, type: 2}
   lightComboCounter: -1
-  lightAttackCooldown: 0.5
   heavyCombo:
   - {fileID: 11400000, guid: a899f031b87b3e44dbbf8f86f877c165, type: 2}
   - {fileID: 11400000, guid: 5a643fb739a4acd4fa9a71dc3adf9cf9, type: 2}
   - {fileID: 11400000, guid: a7ef74a489c07d24eb2bb6be12a72040, type: 2}
   heavyComboCounter: -1
-  heavyAttackCooldown: 0.8
   comboCooldown: 0.5
-  resetComboAfter: 0.5
 --- !u!114 &7906082315384302669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -936,16 +933,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3513a00bfad9ee74ea198945c449e400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  hurt: {fileID: 0}
+  color: {fileID: 0}
+  stun: {fileID: 0}
+  flash: {fileID: 0}
+  shock: {fileID: 0}
   meter: {fileID: 5786727586848153841}
   blockCooldown: 0.5
   parryWindowTime: 0.2
   blockMoveSpeedMult: 0.3
   blockKnockbackResistMult: 0.3
-  blockBreakSpeedDebuffMult: 0.5
-  blockBreakPenaltyStunTime: 1
   parryRefillPercent: 33
   isParrying: 0
   isBlocking: 0
+  canBlock: 1
 --- !u!114 &7695876588906252273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1150,7 +1152,7 @@ Transform:
   m_GameObject: {fileID: 5294933188215390016}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.961, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1192,6 +1194,8 @@ MonoBehaviour:
   regen: 0
   iframeTime: 0.3
   regenCooldown: 3
+  blockBreakSpeedDebuffMult: 0.5
+  blockBreakPenaltyStunTime: 1
 --- !u!114 &7040644797569097524
 MonoBehaviour:
   m_ObjectHideFlags: 0

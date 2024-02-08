@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class PlayerAnim : MonoBehaviour
 {
+    [HideInInspector] public Animator anim;
+
     Player player;
     PlayerMovement move;
     ClosestObjectFinder finder;
     PlayerCombat combat;
     Rigidbody rb;
 
-    [HideInInspector] public Animator anim;
-
     void Start()
     {
+        anim = GetComponent<Animator>();
+
         player=transform.root.GetComponent<Player>();
         move=transform.root.GetComponent<PlayerMovement>();
         finder=transform.root.GetComponent<ClosestObjectFinder>();
         combat=transform.root.GetComponent<PlayerCombat>();
         rb=transform.root.GetComponent<Rigidbody>();
-
-        anim = GetComponent<Animator>();
     }
 
     void Update()
@@ -37,8 +37,10 @@ public class PlayerAnim : MonoBehaviour
         float alignmentForward = Vector3.Dot(transform.forward, moveDir);
         float alignmentRight = Vector3.Dot(transform.right, moveDir);
 
-        anim.SetFloat("moveZ", alignmentForward * move.moveSpeed/move.defMoveSpeed * move.dir.magnitude);
-        anim.SetFloat("moveX", alignmentRight * move.moveSpeed/move.defMoveSpeed * move.dir.magnitude);
+        float velocityRatio = move.velocity/(move.defMoveSpeed*.88f+.001f);
+
+        anim.SetFloat("moveZ", alignmentForward * velocityRatio);
+        anim.SetFloat("moveX", alignmentRight * velocityRatio);
     }
 
     void AnimMirror()
@@ -61,7 +63,15 @@ public class PlayerAnim : MonoBehaviour
 
     public void AnimRelease(string type)
     {
-        combat.AnimRelease(type);
+        combat.AttackRelease(type);
+    }
+    public void AnimRecover()
+    {
+        combat.AttackRecover();
+    }
+    public void AnimFinish()
+    {
+        combat.AttackFinish();
     }
 
     // public void PlaySfxFootstep()

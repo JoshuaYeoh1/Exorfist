@@ -15,10 +15,6 @@ public class PlayerHitbox : BaseHitbox
 
         if(hurt) hurt.Hit(damage, knockback, contactPoint, speedDebuffMult, stunTime);
 
-        Singleton.instance.CamShake();
-
-        Singleton.instance.HitStop();
-
-        Singleton.instance.SpawnPopUpText(contactPoint, damage.ToString(), Color.white);
+        shock.SpawnShockwave(contactPoint, Color.white);
     }
 }

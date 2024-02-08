@@ -45,8 +45,6 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        velocity = rb.velocity.magnitude;
-
         if(player.canMove)
         {
             Vector3 camForward = Camera.main.transform.forward;
@@ -58,6 +56,8 @@ public class PlayerMovement : MonoBehaviour
             Move(dir.z, camForward.normalized);
             Move(dir.x, camRight.normalized);
         }
+
+        velocity = Mathf.Round(rb.velocity.magnitude*100)/100;
     }
 
     void Move(float magnitude, Vector3 direction)
@@ -71,6 +71,17 @@ public class PlayerMovement : MonoBehaviour
         float movement = Mathf.Abs(speedDif) * accelRate * Mathf.Sign(speedDif); // slow down or speed up depending on speed difference
 
         rb.AddForce(direction * movement);
+    }
+
+    int tweenSpeedLt=0;
+    public void TweenSpeed(float to, float time=.2f)
+    {
+        LeanTween.cancel(tweenSpeedLt);
+        tweenSpeedLt = LeanTween.value(moveSpeed, to, time).setEaseInOutSine().setOnUpdate(UpdateTweenSpeed).id;
+    }
+    void UpdateTweenSpeed(float value)
+    {
+        moveSpeed = value;
     }
 
     public void Push(float force, Vector3 direction) //, float stopTime)

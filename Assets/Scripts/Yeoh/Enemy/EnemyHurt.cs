@@ -22,29 +22,36 @@ public class EnemyHurt : MonoBehaviour
     {
         if(!iframe)
         {
-            if(dmg>0)
-            {
-                hp.Hit(dmg);
-
-                color.FlashColor(.1f, true);
-
-                if(hp.hp>0) // if still alive
-                {
-                    StartCoroutine(iframing());
-
-                    //stun.Stun(speedDebuffMult, stunTime);
-                }
-                else Die();
-            }
+            DoIFraming(iframeTime);
 
             Knockback(kbForce, contactPoint);
+
+            color.FlashColor(.1f, true);
+
+            Singleton.instance.CamShake();
+
+            Singleton.instance.HitStop();
+
+            hp.Hit(dmg);
+
+            if(hp.hp>0) // if still alive
+            {
+                //stun.Stun(speedDebuffMult, stunTime);
+
+                Singleton.instance.SpawnPopUpText(contactPoint, dmg.ToString(), Color.white);
+            }
+            else Die();
         }
     }
 
-    IEnumerator iframing()
+    public void DoIFraming(float t)
+    {
+        StartCoroutine(iframing(t));
+    }
+    IEnumerator iframing(float t)
     {
         iframe=true;
-        yield return new WaitForSeconds(iframeTime);
+        yield return new WaitForSeconds(t);
         iframe=false;
     }
 
@@ -62,8 +69,11 @@ public class EnemyHurt : MonoBehaviour
 
     void Die()
     {
-        iframe=true;
-        // spawn ragdoll
         Destroy(gameObject);
+    }
+
+    public void SpawnRagdoll()
+    {
+
     }
 }

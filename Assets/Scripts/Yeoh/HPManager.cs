@@ -52,8 +52,12 @@ public class HPManager : MonoBehaviour
 
     public void Hit(float dmg)
     {
-        if(hp>dmg) hp-=dmg;
-        else hp=0;
+        if(dmg>0)
+        {
+            if(hp>dmg) hp-=dmg;
+            else hp=0;
+        }
+        
         UpdateHpBar();
     }    
     

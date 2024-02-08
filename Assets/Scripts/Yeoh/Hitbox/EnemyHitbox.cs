@@ -12,28 +12,11 @@ public class EnemyHitbox : BaseHitbox
     protected override void HandleTargetHit(Rigidbody otherRb)
     {
         PlayerBlock block = otherRb.GetComponent<PlayerBlock>();
+
+        if(block) block.CheckBlock(damage, knockback, contactPoint, speedDebuffMult, stunTime);
         
-        if(block.isParrying)
-        {
-            //owner.Stagger(staggerTime);
+        //if(block.isParrying) //owner.Stagger(staggerTime); // enemy got parried
 
-            block.ParrySuccess(contactPoint);
-
-            hitmarkerColor = shockwaveColor = Color.green;
-        }
-        else if(block.isBlocking)
-        {
-            block.BlockHit(damage, knockback, contactPoint, speedDebuffMult, stunTime);
-
-            hitmarkerColor = shockwaveColor = Color.cyan;
-        }
-        else
-        {
-            PlayerHurt hurt = otherRb.GetComponent<PlayerHurt>();
-
-            hurt.Hit(damage, knockback, contactPoint, speedDebuffMult, stunTime);
-
-            hitmarkerColor = shockwaveColor = Color.red;
-        }
+        hitmarkerColor = Color.red;
     }
 }

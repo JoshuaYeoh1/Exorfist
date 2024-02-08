@@ -22,7 +22,7 @@ public class Singleton : MonoBehaviour
         
         AwakeTransition();
         LoadVolume();
-        AwakeAudio();
+        //AwakeAudio();
     }
 
     void UnlockFPS()
