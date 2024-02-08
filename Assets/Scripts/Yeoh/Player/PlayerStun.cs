@@ -9,6 +9,7 @@ public class PlayerStun : MonoBehaviour
     PlayerCombat combat;
 
     public bool stunned;
+    float currentStunTime;
 
     void Awake()
     {
@@ -19,29 +20,22 @@ public class PlayerStun : MonoBehaviour
 
     public void Stun(float speedDebuffMult=.3f, float stunTime=.5f)
     {
-        if(player.canStun && stunTime>0)
+        if(player.canStun && stunTime>0 && stunTime>currentStunTime)
         {
+            currentStunTime=stunTime;
+
             stunned=true;
 
             player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Stun);
 
             combat.CancelAttack();
 
-            move.moveSpeed = move.defMoveSpeed*speedDebuffMult;
+            move.TweenSpeed(move.defMoveSpeed*speedDebuffMult);
 
             StartCoroutine(RandStunAnim(stunTime));
 
             CancelRecovering();
             RecoveringRt = StartCoroutine(Recovering(stunTime));
-        }
-    }
-
-    void CancelRecovering()
-    {
-        if(RecoveringRt!=null)
-        {
-            StopCoroutine(RecoveringRt);
-            RecoveringRt=null;
         }
     }
 
@@ -53,13 +47,21 @@ public class PlayerStun : MonoBehaviour
 
         player.anim.Play("stun"+i, 4, 0);
 
-        yield return null; // Wait for the next frame to ensure the animation state is updated
+        yield return null; // Wait a frame to ensure the animation state is updated
 
         float animLength = player.anim.GetCurrentAnimatorStateInfo(4).length;
 
         player.anim.SetFloat("stunSpeed", animLength/time);
     }
 
+    void CancelRecovering()
+    {
+        if(RecoveringRt!=null)
+        {
+            StopCoroutine(RecoveringRt);
+            RecoveringRt=null;
+        }
+    }
     Coroutine RecoveringRt;
     IEnumerator Recovering(float time)
     {
@@ -71,11 +73,15 @@ public class PlayerStun : MonoBehaviour
     {
         if(stunned && player.isAlive)
         {
+            currentStunTime=0;
+
             stunned=false;
+
+            player.anim.CrossFade("cancel", .25f, 4, 0);
 
             CancelRecovering();
 
-            move.moveSpeed = move.defMoveSpeed;
+            move.TweenSpeed(move.defMoveSpeed);
 
             player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Idle);
         }

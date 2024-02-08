@@ -11,31 +11,58 @@ public class ClosestObjectFinder : MonoBehaviour
 
     void Update()
     {
-        Collider[] collidersToDmg =  Physics.OverlapSphere(transform.position, range, layers);
+        Collider[] targets =  Physics.OverlapSphere(transform.position, range, layers);
 
-        if(collidersToDmg.Length<=0)
+        if(targets.Length<=0)
         {
             if(target) target=null; // no target if nothing is in range
         }
         else
         {
-            GameObject closestItem = null;
+            GameObject closestTarget = null;
 
             float closestDistance = Mathf.Infinity;
 
-            foreach(Collider other in collidersToDmg) // go through all detected colliders
+            foreach(Collider other in targets) // go through all detected colliders
             {
-                float distance = Vector3.Distance(other.attachedRigidbody.transform.position, transform.position);
+                float distance;
 
-                if(distance < closestDistance) // find and replace with the nearer one
+                if(other.attachedRigidbody) //if target has a rigidbody
                 {
-                    closestDistance = distance;
+                    distance = Vector3.Distance(other.attachedRigidbody.transform.position, transform.position);
 
-                    closestItem = other.attachedRigidbody.gameObject;
+                    if(distance < closestDistance) // find and replace with the nearer one
+                    {
+                        closestDistance = distance;
+
+                        closestTarget = other.attachedRigidbody.gameObject;
+                    }
+                }
+                else if(other.transform.root) //if target has a parent
+                {
+                    distance = Vector3.Distance(other.transform.root.position, transform.position);
+
+                    if(distance < closestDistance) // find and replace with the nearer one
+                    {
+                        closestDistance = distance;
+
+                        closestTarget = other.transform.root.gameObject;
+                    }
+                }
+                else //if just a collider alone
+                {
+                    distance = Vector3.Distance(other.transform.position, transform.position);
+
+                    if(distance < closestDistance) // find and replace with the nearer one
+                    {
+                        closestDistance = distance;
+
+                        closestTarget = other.gameObject;
+                    }
                 }
             }
 
-            if(target!=closestItem) target = closestItem;
+            if(target!=closestTarget) target = closestTarget;
         }
     }
 

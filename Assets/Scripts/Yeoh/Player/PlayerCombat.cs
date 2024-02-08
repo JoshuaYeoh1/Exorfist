@@ -10,16 +10,13 @@ public class PlayerCombat : MonoBehaviour
     [Header("Light Attack")]
     public List<AttackSO> lightCombo;
     public int lightComboCounter=-1;
-    public float lightAttackCooldown=.5f;
 
     [Header("Heavy Attack")]
     public List<AttackSO> heavyCombo;
     public int heavyComboCounter=-1;
-    public float heavyAttackCooldown=.8f;
 
     [Header("Combo Delay")]
     public float comboCooldown=.5f;
-    public float resetComboAfter=.5f;
 
     bool interrupted;
 
@@ -46,10 +43,7 @@ public class PlayerCombat : MonoBehaviour
 
     public void CheckBtn(string type="light")
     {
-        if(player.canAttack)
-        {
-            Attack(type);
-        }
+        if(player.canAttack) Attack(type);
     }
 
     bool canCombo=true, canAttack=true;
@@ -58,49 +52,41 @@ public class PlayerCombat : MonoBehaviour
     {
         if(canCombo && canAttack) // wait for cooldown
         {
-            player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.WindUp);
-
-            interrupted=false;
-
             if(type=="light" && lightComboCounter < lightCombo.Count-1)
             {
-                StartCoroutine(AttackCoolingDown(lightAttackCooldown));
-
                 lightComboCounter++;
+
+                player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.WindUp);
+
+                interrupted=false;
+
+                canAttack=canFinish=false;                
 
                 player.anim.CrossFade(lightCombo[lightComboCounter].animName, .25f, 2, 0); //anim.Play but smoother
 
-                EndComboAfter(lightAttackCooldown + resetComboAfter);
+                if(endingComboRt!=null) StopCoroutine(endingComboRt);
             }
 
             else if(type=="heavy" && heavyComboCounter < heavyCombo.Count-1)
             {
-                StartCoroutine(AttackCoolingDown(heavyAttackCooldown));
-
                 heavyComboCounter++;
+
+                player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.WindUp);
+
+                interrupted=false;
+
+                canAttack=canFinish=false;
                 
                 player.anim.CrossFade(heavyCombo[heavyComboCounter].animName, .25f, 2, 0);
 
-                EndComboAfter(heavyAttackCooldown + resetComboAfter);
+                if(heavyComboCounter == heavyCombo.Count-1) canCombo=false;
 
-                if(heavyComboCounter == heavyCombo.Count-1)
-                {
-                    canCombo=false;
-
-                    EndComboAfter(heavyAttackCooldown + resetComboAfter*2);
-                }
+                if(endingComboRt!=null) StopCoroutine(endingComboRt);
             }
         }
     }
 
-    IEnumerator AttackCoolingDown(float time)
-    {
-        canAttack=false;
-        yield return new WaitForSeconds(time);
-        canAttack=true;
-    }
-
-    public void AnimRelease(string type)
+    public void AttackRelease(string type)
     {
         if(!interrupted)
         {
@@ -124,18 +110,17 @@ public class PlayerCombat : MonoBehaviour
     {
         int i = aSO.hitboxIndex;
 
-        player.hitboxes[i].damage = aSO.damage; // replace hitbox's damage value
+        // copy and replace scriptable object's values to hitbox's values
+        player.hitboxes[i].damage = aSO.damage;
+        player.hitboxes[i].knockback = aSO.knockback;
+        player.hitboxes[i].hasSweepingEdge = aSO.hasSweepingEdge;
 
-        player.hitboxes[i].knockback = aSO.knockback; // replace hitbox's knockback value
-
-        player.hitboxes[i].hasSweepingEdge = aSO.hasSweepingEdge; // if can swipe through enemies
-
-        if(blinkingHitboxRt!=null) StopCoroutine(blinkingHitboxRt); // make sure to cancel before starting coroutine again
-        StartCoroutine(BlinkingHitbox(i)); // enable and disable hitbox rapidly
+        // enable and disable hitbox rapidly
+        if(blinkingHitboxRt!=null) StopCoroutine(blinkingHitboxRt);
+        StartCoroutine(BlinkingHitbox(i)); 
     }
 
     Coroutine blinkingHitboxRt;
-
     IEnumerator BlinkingHitbox(int i)
     {
         foreach(PlayerHitbox hitbox in player.hitboxes) // make sure all hitboxes are disabled
@@ -148,43 +133,51 @@ public class PlayerCombat : MonoBehaviour
         player.hitboxes[i].ToggleActive(false);
     }
 
-    void EndComboAfter(float time)
+    public void AttackRecover()
     {
+        canAttack=canFinish=true;
+
         if(endingComboRt!=null) StopCoroutine(endingComboRt);
-        endingComboRt = StartCoroutine(EndingCombo(time));
+        endingComboRt = StartCoroutine(EndingCombo(comboCooldown));
     }
+
     Coroutine endingComboRt;
     IEnumerator EndingCombo(float time)
     {
         yield return new WaitForSeconds(time); // reset combo after stopping a short while
-
-        player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Idle);
-        
-        EndCombo();
+        ResetCombo();
     }
 
-    void EndCombo()
+    void ResetCombo()
     {
-        StartCoroutine(ComboCoolingDown(comboCooldown));
-
         lightComboCounter = heavyComboCounter = -1;
-    }
 
-    IEnumerator ComboCoolingDown(float time)
-    {
-        canCombo=false;
-        yield return new WaitForSeconds(time);
-        canCombo=true;
+        canAttack=canCombo=true;
     }
 
     public void CancelAttack()
     {
         interrupted=true;
 
-        player.anim.CrossFade("cancel", .1f, 2, 0); // cancel attack
+        player.anim.CrossFade("cancel", .1f, 2, 0); // cancel anim
 
-        EndCombo();
+        ResetCombo();
     }
+
+    bool canFinish;
+
+    public void AttackFinish()
+    {
+        if(canFinish)
+        {
+            canFinish=false;
+
+            player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Idle);
+
+            player.anim.CrossFade("cancel", .25f, 2, 0);
+        }
+    }
+    
 
     // void CheckExitAttack() // INCONSISTENT
     // { 
