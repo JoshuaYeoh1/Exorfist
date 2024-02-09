@@ -29,7 +29,15 @@ public class TempEnemyBehaviours : MonoBehaviour
             }
         }
 
-         
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            Debug.Log("B pressed");
+            self.animator.SetBool("inCombat", true);
+            self.animator.SetBool("MovingAwayFromPlayer", true);
+            self.SetIsMoving(true);
+            sm.movingState.MoveAwayFromPlayerWithLimits(sm);
+            sm.SwitchState(sm.movingState);
+        }
     }
 
     //Move then attack coroutine//

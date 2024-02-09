@@ -36,7 +36,7 @@ public class EnemyAIMovingState : EnemyAIBaseState
                 MoveTowardsPlayer(enemy);
                 break;
             case 2:
-                MoveAwayFromPlayer(enemy);
+                MoveAwayFromPlayerWithLimits(enemy);
                 break;
             case 3:
                 CircleAroundPlayerRight(enemy);
@@ -97,11 +97,12 @@ public class EnemyAIMovingState : EnemyAIBaseState
         enemy.thisEnemy.agent.SetDestination(targetPosition);
     }
 
-    private void MoveAwayFromPlayerWithLimits(EnemyAIStateMachine enemy)
+    public void MoveAwayFromPlayerWithLimits(EnemyAIStateMachine enemy)
     {
-        Debug.Log("Moving away from player");
+        //Debug.Log("Moving away from player");
+        movementIndex = 2;
         //enemy.thisEnemy.SetIsMoving(true);
-        if(enemy.thisEnemy.GetIsMoving() == false)
+        if(enemy.thisEnemy.GetIsMoving() == true)
         {
             //enemy.thisEnemy.SetIsMoving(true);
             //Wow I wonder what this check is
@@ -113,7 +114,7 @@ public class EnemyAIMovingState : EnemyAIBaseState
             }
 
             //Rotate the model to be facing the player
-            enemy.thisEnemy.transform.LookAt(enemy.thisEnemy.playerTransform);
+            enemy.thisEnemy.transform.LookAt(enemy.thisEnemy.playerTransform.position);
             float dist = CalcDistanceToPlayer(enemy);
 
             //initialize variables for calculation and comparison
@@ -137,7 +138,12 @@ public class EnemyAIMovingState : EnemyAIBaseState
                 enemy.thisEnemy.SetIsMoving(false);
                 enemy.SwitchState(enemy.inCombatState);
             }            
-        } 
+        }
+        else
+        {
+            Debug.LogError("IsMoving is false, swapping to combat state");
+            enemy.SwitchState(enemy.inCombatState);
+        }
     }
 
     public void MoveTowardsPlayer(EnemyAIStateMachine enemy)
@@ -179,13 +185,15 @@ public class EnemyAIMovingState : EnemyAIBaseState
     {
         Vector3 targetDirection;
         Vector3 targetPosition;
+        movementIndex = 2;
+        
         if(enemy.thisEnemy.playerTransform == null)
         {
             Debug.Log("No player found in scene");
             return;
         }
         enemy.thisEnemy.transform.LookAt(enemy.thisEnemy.playerTransform.position);
-
+        enemy.thisEnemy.agent.updateRotation = false; //stop navmesh agent from rotating based on location direction.
         targetDirection = enemy.thisEnemy.transform.position - enemy.thisEnemy.playerTransform.position;
         targetPosition = enemy.thisEnemy.transform.position + targetDirection.normalized * enemy.thisEnemy.GetMoveAwayDistance();
         enemy.thisEnemy.agent.SetDestination(targetPosition);
