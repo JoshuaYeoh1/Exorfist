@@ -32,7 +32,7 @@ public class EnemyAI : MonoBehaviour
     public Transform playerTransform;
 
     [Header("States")] //Serializing these fields so that we can inspect them when debugging.
-    [SerializeField] private bool preparingAttack; //startup frames of an attack, or when the enemy is moving towards the player to attack.
+    [SerializeField] private bool preparedAttack; //startup frames of an attack, or when the enemy is moving towards the player to attack.
     [SerializeField] private bool isAttacking;
     [SerializeField] private bool isMoving;
     [SerializeField] private bool isStunned;
@@ -78,6 +78,11 @@ public class EnemyAI : MonoBehaviour
         playerTransform = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
         sm = GetComponent<EnemyAIStateMachine>();
+    }
+
+    private void Update()
+    {
+        //Debug.Log(preparingAttack);
     }
 
     private void LoseHealth(float healthdamage, float balancedamage, float hitStunDuration)
@@ -155,15 +160,9 @@ public class EnemyAI : MonoBehaviour
 
 
     //CircleRadius
-    public float GetCircleRadius()
-    {
-        return circleRadius;
-    }
+    public float GetCircleRadius() { return circleRadius; }
 
-    public void SetClosePlayerRadius(float radius)
-    {
-        closePlayerRadius = radius;
-    }
+    public void SetClosePlayerRadius(float radius) { closePlayerRadius = radius; }
     public float GetClosePlayerRadius() { return closePlayerRadius; }
 
     public float GetFarPlayerRadius() { return farPlayerRadius; }
@@ -171,6 +170,17 @@ public class EnemyAI : MonoBehaviour
     public float GetMoveAwayDistance() { return moveAwayDistance; }
 
     public bool GetIsHitStun() { return isHitStun; }
+
+    public void SetPreparedAttack(bool input) { preparedAttack = input; }
+    public void SetPreparedAttackToFalse()
+    {
+        preparedAttack = false;
+    }
+    public bool GetPreparedAttack() { return preparedAttack; }
+
+    public void SetIsAttacking(bool input) { isAttacking = input;}
+    public bool GetIsAttacking() { return isAttacking; }
+
 
     //Taking damage algorithm
     private void OnTriggerEnter(Collider other)
@@ -195,7 +205,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-
+    //this is for a future event system implementation
     private void OnHitByPlayer(PlayerHitbox thisWep)
     {
         if(isBlocking == true)
