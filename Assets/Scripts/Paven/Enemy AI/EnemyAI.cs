@@ -78,6 +78,7 @@ public class EnemyAI : MonoBehaviour
         playerTransform = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
         sm = GetComponent<EnemyAIStateMachine>();
+        
     }
 
     private void Update()
@@ -100,7 +101,9 @@ public class EnemyAI : MonoBehaviour
             {
                 //switch EnemyAIStateMachine to "HitStun" state, stop all coroutines and play hurt animation, play sound effect, etc.
                 //we can use an event system to call sfx and hurt animations if we need to :P
+                isHitStun = true;
                 sm.HitStunSwitchState(sm.hitStunState);
+                
                 return;
             }
         }

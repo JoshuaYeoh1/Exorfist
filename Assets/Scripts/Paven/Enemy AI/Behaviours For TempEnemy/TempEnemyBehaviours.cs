@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TempEnemyBehaviours : MonoBehaviour
@@ -20,6 +21,12 @@ public class TempEnemyBehaviours : MonoBehaviour
 
     private void Update()
     {
+        if(self.GetIsHitStun() == true)
+        {
+            StopActiveCoroutine();
+            self.SetPreparedAttack(false);
+            self.SetIsAttacking(false);
+        }
         if(Input.GetKeyDown(KeyCode.V))
         {
             Debug.Log("V pressed");
@@ -46,9 +53,18 @@ public class TempEnemyBehaviours : MonoBehaviour
         Debug.Log("Executing moveTowardsThenAttack");
         sm.SwitchState(sm.movingState);
         
-        sm.movingState.MoveTowardsPlayer(sm);
+        sm.movingState.MoveTowardsPlayerWithLimits(sm);
         sm.thisEnemy.SetPreparedAttack(true);
         Debug.Log(sm.thisEnemy.GetPreparedAttack());
+        float dist = Vector3.Distance(self.transform.position, self.playerTransform.position);
+
+        if(dist <= self.GetClosePlayerRadius())
+        {
+            sm.SwitchState(sm.attackingState);
+            //sm.thisEnemy.SetPreparingAttack(false);
+            sm.attackingState.PunchPlayer(sm);
+            StopActiveCoroutine();            
+        }
 
         while(self.GetIsMoving() != false)
         {
@@ -60,7 +76,7 @@ public class TempEnemyBehaviours : MonoBehaviour
         if(sm.thisEnemy.GetPreparedAttack() != true)
         {
             //Debug.Log("Stopping MoveTowardsThenAttack");
-            StopMoveTowardsThenAttack();
+            StopActiveCoroutine();
             sm.SwitchState(sm.inCombatState);
         }
         else
@@ -68,11 +84,11 @@ public class TempEnemyBehaviours : MonoBehaviour
             sm.SwitchState(sm.attackingState);
             //sm.thisEnemy.SetPreparingAttack(false);
             sm.attackingState.PunchPlayer(sm);
-            StopMoveTowardsThenAttack();
+            StopActiveCoroutine();
         }
     }
 
-    public void StopMoveTowardsThenAttack()
+    public void StopActiveCoroutine()
     {
         if(currentCoroutine != null)
         {

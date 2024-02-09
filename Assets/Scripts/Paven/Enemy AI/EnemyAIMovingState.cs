@@ -15,8 +15,8 @@ public class EnemyAIMovingState : EnemyAIBaseState
     {
         enemy.thisEnemy.SetIsMoving(true);
         Debug.Log("Entering move state");
-      /*  isCooldown = false;
-        cooldownDuration = 0.5f; */         
+        /*  isCooldown = false;
+          cooldownDuration = 0.5f; */
     }
 
     public override void ExitState(EnemyAIStateMachine enemy)
@@ -42,7 +42,7 @@ public class EnemyAIMovingState : EnemyAIBaseState
                 CircleAroundPlayerRight(enemy);
                 break;
             default:
-                ForceBreakOutOfMoveState(enemy); 
+                ForceBreakOutOfMoveState(enemy);
                 break;
 
         }
@@ -102,7 +102,7 @@ public class EnemyAIMovingState : EnemyAIBaseState
         //Debug.Log("Moving away from player");
         movementIndex = 2;
         //enemy.thisEnemy.SetIsMoving(true);
-        if(enemy.thisEnemy.GetIsMoving() == true)
+        if (enemy.thisEnemy.GetIsMoving() == true)
         {
             //enemy.thisEnemy.SetIsMoving(true);
             //Wow I wonder what this check is
@@ -131,13 +131,13 @@ public class EnemyAIMovingState : EnemyAIBaseState
                 MoveAwayFromPlayer(enemy);
             }
 
-            if(dist > farPlayerRadius)
+            if (dist > farPlayerRadius)
             {
                 Debug.Log("Enemy is too far, stopping movement");
                 enemy.thisEnemy.agent.SetDestination(enemy.thisEnemy.transform.position);
                 enemy.thisEnemy.SetIsMoving(false);
                 enemy.SwitchState(enemy.inCombatState);
-            }            
+            }
         }
         else
         {
@@ -171,8 +171,8 @@ public class EnemyAIMovingState : EnemyAIBaseState
             enemy.thisEnemy.animator.SetBool("inCombat", true);
             enemy.thisEnemy.animator.SetBool("MovingTowardsPlayer", true);
         }
-        
-        
+
+
     }
 
     public float CalcDistanceToPlayer(EnemyAIStateMachine enemy)
@@ -186,8 +186,8 @@ public class EnemyAIMovingState : EnemyAIBaseState
         Vector3 targetDirection;
         Vector3 targetPosition;
         movementIndex = 2;
-        
-        if(enemy.thisEnemy.playerTransform == null)
+
+        if (enemy.thisEnemy.playerTransform == null)
         {
             Debug.Log("No player found in scene");
             return;
@@ -202,7 +202,7 @@ public class EnemyAIMovingState : EnemyAIBaseState
     //this function assumes the player is already detected
     public void MoveTowardsPlayerWithLimits(EnemyAIStateMachine enemy)
     {
-       float dist = CalcDistanceToPlayer(enemy);
+        float dist = CalcDistanceToPlayer(enemy);
 
         if (dist <= enemy.thisEnemy.GetClosePlayerRadius())
         {

@@ -11,6 +11,7 @@ public class EnemyAIAttackingState : EnemyAIBaseState
     {
         //enemy.thisEnemy.SetPreparingAttack(true);
         enemy.thisEnemy.animator.SetBool("inCombat", true);
+        enemy.thisEnemy.agent.ResetPath();
         PunchPlayer(enemy);
     }
 
