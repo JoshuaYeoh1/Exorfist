@@ -9,11 +9,11 @@ public class PlayerBlock : MonoBehaviour
     PlayerCombat combat;
     [HideInInspector] public PlayerHurt hurt;
     [HideInInspector] public OffsetMeshColor color;
-    public PlayerStun stun;
+    PlayerStun stun;
     [HideInInspector] public FlashSpriteVFX flash;
     [HideInInspector] public ShockwaveVFX shock;
-
     public PlayerBlockMeter meter;
+    InputBuffer buffer;
 
     public float blockCooldown=.5f, parryWindowTime=.2f, blockMoveSpeedMult=.3f, blockKnockbackResistMult=.3f;
     public float parryRefillPercent=33;
@@ -30,34 +30,22 @@ public class PlayerBlock : MonoBehaviour
         stun=GetComponent<PlayerStun>();
         flash=GetComponent<FlashSpriteVFX>();
         shock=GetComponent<ShockwaveVFX>();
+        buffer=GetComponent<InputBuffer>();
     }
 
     void Update()
     {
-        CheckInput();
-
         player.anim.SetBool("isBlocking", isBlocking);
     }
 
-    void CheckInput()
-    {
-        if(Input.GetKeyDown(KeyCode.Q)) OnBtnDown();
-        if(Input.GetKeyUp(KeyCode.Q)) OnBtnUp();
-    }
-
-    bool pressingBtn;
+    public bool pressingBtn;
 
     public void OnBtnDown()
     {
-        pressingBtn=true;
-
         Parry();
     }
-
     public void OnBtnUp()
     {
-        pressingBtn=false;
-
         if(isBlocking) Unblock();
     }
 
@@ -80,6 +68,8 @@ public class PlayerBlock : MonoBehaviour
             move.TweenSpeed(move.defMoveSpeed*blockMoveSpeedMult);
 
             player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Parry);
+
+            buffer.lastPressedBlock=-1;
         }
     }
 
@@ -96,7 +86,6 @@ public class PlayerBlock : MonoBehaviour
         isParrying=false;
 
         if(pressingBtn) Block();
-
         else Unblock();
     }
 
