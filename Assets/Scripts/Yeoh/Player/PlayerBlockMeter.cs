@@ -9,6 +9,7 @@ public class PlayerBlockMeter : MonoBehaviour
 
     [HideInInspector] public bool iframe, regen;
     public float iframeTime=.3f, regenCooldown=3;
+    public float blockBreakSpeedDebuffMult=.5f, blockBreakPenaltyStunTime=1;
 
     void Awake()
     {
@@ -18,35 +19,9 @@ public class PlayerBlockMeter : MonoBehaviour
 
     void Update()
     {
-        if(regen!=hp.regen) hp.regen=regen;
+        if(hp.regen!=regen) hp.regen=regen;
     }
 
-    public void Hit(float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult, float stunTime)
-    {
-        if(dmg>0)
-        {
-            hp.Hit(dmg);
-
-            if(hp.hp<=0) block.BlockBreak(dmg, kbForce, contactPoint, speedDebuffMult, stunTime);
-        }
-    }
-
-    public void DoIFraming()
-    {
-        StartCoroutine(iframing());
-    }
-    IEnumerator iframing()
-    {
-        iframe=true;
-        yield return new WaitForSeconds(iframeTime);
-        iframe=false;
-    }
-
-    public void CancelRegenCooling()
-    {
-        regen=false;
-        if(regenCoolingRt!=null) StopCoroutine(regenCoolingRt);
-    }
     Coroutine regenCoolingRt;
     public void RedoRegenCooling()
     {
@@ -58,15 +33,84 @@ public class PlayerBlockMeter : MonoBehaviour
         yield return new WaitForSeconds(regenCooldown);
         regen=true;
     }
-
-    public bool EnoughToBlock()
+    public void CancelRegenCooling()
     {
-        if(hp.hp>0) return true;
+        regen=false;
+        if(regenCoolingRt!=null) StopCoroutine(regenCoolingRt);
+    }
+
+    public bool IsEmpty()
+    {
+        if(hp.hp<=0) return true;
         return false;
     }
 
     public void Refill(float percent)
     {
         hp.Add(hp.hpMax*percent/100);
+    }
+
+    public void Hit(float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult, float stunTime)
+    {
+        if(!iframe)
+        {
+            DoIFraming(iframeTime);
+
+            hp.Hit(dmg);
+
+            if(hp.hp>0) // if not empty yet
+            {
+                BlockHit(dmg, kbForce, contactPoint, speedDebuffMult, stunTime);
+            }   
+            else
+            {
+                BlockBreak(dmg, kbForce, contactPoint, speedDebuffMult, stunTime);
+            }
+        }        
+    }
+
+    public void DoIFraming(float t)
+    {
+        StartCoroutine(iframing(t));
+    }
+    IEnumerator iframing(float t)
+    {
+        iframe=true;
+        yield return new WaitForSeconds(t);
+        iframe=false;
+    }
+
+    void BlockHit(float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult, float stunTime)
+    {
+        block.canBlock=true;
+
+        block.player.anim.CrossFade("block hit", .1f, 4, 0);
+
+        block.hurt.Knockback(kbForce*block.blockKnockbackResistMult, contactPoint);
+
+        block.flash.SpawnFlash(contactPoint, Color.white);
+
+        block.color.FlashColor(.1f, .5f, .5f, .5f); // flash white
+
+        Singleton.instance.SpawnPopUpText(contactPoint, dmg.ToString(), Color.cyan);
+
+        Singleton.instance.CamShake();
+
+        //Singleton.instance.PlaySFX(Singleton.instance.sfxSubwoofer, transform.position, false);
+    }
+
+    void BlockBreak(float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult, float stunTime)
+    {
+        block.Unblock();
+        
+        block.hurt.Hit(dmg*.5f, kbForce, contactPoint, speedDebuffMult*blockBreakSpeedDebuffMult, blockBreakPenaltyStunTime);
+
+        block.flash.SpawnFlash(contactPoint, Color.red);
+
+        Singleton.instance.SpawnPopUpText(block.player.popUpTextPos.position, "bREAK!", Color.red);
+
+        block.shock.SpawnShockwave(contactPoint, Color.red);
+
+        //Singleton.instance.PlaySFX(Singleton.instance.sfxSubwoofer, transform.position, false);
     }
 }

@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class BaseHitbox : MonoBehaviour
 {
-    [HideInInspector] public GameObject owner;
-    public GameObject hitmarker;
+    protected GameObject owner;
+    Hitmarker hitmarker;
+    protected ShockwaveVFX shock;
 
     public bool enabledOnAwake;
     public float damage, knockback;
@@ -13,10 +14,13 @@ public class BaseHitbox : MonoBehaviour
     public bool hasSweepingEdge;
 
     protected Vector3 contactPoint;
+    protected Color hitmarkerColor;
 
     void Awake()
     {
-        owner = transform.root.gameObject;
+        owner=transform.root.gameObject;
+        hitmarker=GetComponent<Hitmarker>();
+        shock=GetComponent<ShockwaveVFX>();
 
         ToggleActive(enabledOnAwake);
     }
@@ -32,22 +36,16 @@ public class BaseHitbox : MonoBehaviour
 
         Rigidbody otherRb = other.attachedRigidbody;
 
+        hitmarkerColor = Color.white;
+
         if(otherRb && IsTargetValid(otherRb))
         {
             HandleTargetHit(otherRb);
 
             ToggleActive(hasSweepingEdge); // if can swipe through multiple
-
-            //print("dmg: " + damage + " | kb: " + knockback);
         }
 
-        SpawnHitmarker();
-    }
-
-    void SpawnHitmarker()
-    {
-        GameObject spawnedHitmarker = Instantiate(hitmarker, contactPoint, Quaternion.identity);
-        Destroy(spawnedHitmarker, 0.1f);
+        hitmarker.SpawnHitmarker(contactPoint, hitmarkerColor);
     }
 
     protected virtual bool IsTargetValid(Rigidbody otherRb)
@@ -57,6 +55,6 @@ public class BaseHitbox : MonoBehaviour
 
     protected virtual void HandleTargetHit(Rigidbody otherRb)
     {
-
+        //print("dmg: " + damage + " | kb: " + knockback);
     }
 }

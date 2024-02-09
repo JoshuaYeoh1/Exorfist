@@ -13,6 +13,8 @@ public class PlayerHitbox : BaseHitbox
     {
         EnemyHurt hurt = otherRb.GetComponent<EnemyHurt>();
 
-        hurt.Hit(damage, knockback, contactPoint, speedDebuffMult, stunTime);
+        if(hurt) hurt.Hit(damage, knockback, contactPoint, speedDebuffMult, stunTime);
+
+        shock.SpawnShockwave(contactPoint, Color.white);
     }
 }
