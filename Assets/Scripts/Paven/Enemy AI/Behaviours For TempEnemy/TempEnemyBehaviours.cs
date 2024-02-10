@@ -45,6 +45,14 @@ public class TempEnemyBehaviours : MonoBehaviour
             sm.movingState.MoveAwayFromPlayerWithLimits(sm);
             sm.SwitchState(sm.movingState);
         }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            if(currentCoroutine != null)
+            {
+                StopActiveCoroutine();
+            }
+        }
     }
 
     //Move then attack coroutine//

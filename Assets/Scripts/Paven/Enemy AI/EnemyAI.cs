@@ -169,16 +169,13 @@ public class EnemyAI : MonoBehaviour
     public float GetClosePlayerRadius() { return closePlayerRadius; }
 
     public float GetFarPlayerRadius() { return farPlayerRadius; }
-
     public float GetMoveAwayDistance() { return moveAwayDistance; }
 
     public bool GetIsHitStun() { return isHitStun; }
+    public void SetIsHitStun(bool input) { isHitStun = input; }
 
     public void SetPreparedAttack(bool input) { preparedAttack = input; }
-    public void SetPreparedAttackToFalse()
-    {
-        preparedAttack = false;
-    }
+    public void SetPreparedAttackToFalse() { preparedAttack = false; }
     public bool GetPreparedAttack() { return preparedAttack; }
 
     public void SetIsAttacking(bool input) { isAttacking = input;}

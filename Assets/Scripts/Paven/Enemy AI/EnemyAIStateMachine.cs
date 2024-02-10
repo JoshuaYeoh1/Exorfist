@@ -13,7 +13,6 @@ public class EnemyAIStateMachine : MonoBehaviour
     //==Concrete States==//
     //(AKA, only ONE or the other state can be active)
     public EnemyAIInCombatState inCombatState = new EnemyAIInCombatState();
-    public EnemyAIOutOfCombatState outOfCombatState = new EnemyAIOutOfCombatState();
     //==Concrete States==//
 
     //==Sub-states==//
