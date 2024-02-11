@@ -16,6 +16,8 @@ public class EnemyAI : MonoBehaviour
     [HideInInspector] public Rigidbody body;
     [HideInInspector] public NavMeshAgent agent;
     [HideInInspector] public EnemyAIStateMachine sm;
+    [HideInInspector] public EnemyAIAttackTimer atkTimer;
+
     public LayerMask whatIsGround, whatIsPlayer;
 
     [Header("Stats")]
@@ -79,6 +81,23 @@ public class EnemyAI : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         sm = GetComponent<EnemyAIStateMachine>();
         
+    }
+
+    private void Start()
+    {
+        if(AIDirector.instance != null)
+        {
+            AIDirector.instance.enemies.Add(gameObject); //add this EnemyAI gameObject to the AIDirector script
+        }
+        
+    }
+
+    private void OnDestroy()
+    {
+        if(AIDirector.instance != null)
+        {
+            AIDirector.instance.enemies.Remove(gameObject);
+        }
     }
 
     private void Update()

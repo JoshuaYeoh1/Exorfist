@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class TempEnemyBehaviours : MonoBehaviour
@@ -30,10 +29,7 @@ public class TempEnemyBehaviours : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.V))
         {
             Debug.Log("V pressed");
-            if(currentCoroutine == null)
-            {
-                currentCoroutine = StartCoroutine(MoveTowardsThenAttack());
-            }
+            StartMoveTowardsThenAttack();
         }
 
         if (Input.GetKeyDown(KeyCode.B))
@@ -56,7 +52,7 @@ public class TempEnemyBehaviours : MonoBehaviour
     }
 
     //Move then attack coroutine//
-    private IEnumerator MoveTowardsThenAttack()
+    public IEnumerator MoveTowardsThenAttack()
     {
         Debug.Log("Executing moveTowardsThenAttack");
         sm.SwitchState(sm.movingState);
@@ -96,6 +92,13 @@ public class TempEnemyBehaviours : MonoBehaviour
         }
     }
 
+    public void StartMoveTowardsThenAttack()
+    {
+        if (currentCoroutine == null)
+        {
+            currentCoroutine = StartCoroutine(MoveTowardsThenAttack());
+        }
+    }
     public void StopActiveCoroutine()
     {
         if(currentCoroutine != null)

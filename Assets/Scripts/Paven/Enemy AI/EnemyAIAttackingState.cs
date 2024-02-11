@@ -23,7 +23,7 @@ public class EnemyAIAttackingState : EnemyAIBaseState
 
     public override void UpdateState(EnemyAIStateMachine enemy)
     {
-        
+        RotateToLookAtPlayer(enemy);
     }
 
     //isAttacking boolean is handled by animation events
@@ -31,5 +31,10 @@ public class EnemyAIAttackingState : EnemyAIBaseState
     {
         enemy.thisEnemy.transform.LookAt(enemy.thisEnemy.playerTransform.position);
         enemy.thisEnemy.animator.SetBool("Punching", true);
+    }
+
+    private void RotateToLookAtPlayer(EnemyAIStateMachine enemy)
+    {
+        enemy.thisEnemy.transform.LookAt(enemy.thisEnemy.playerTransform.position);
     }
 }
