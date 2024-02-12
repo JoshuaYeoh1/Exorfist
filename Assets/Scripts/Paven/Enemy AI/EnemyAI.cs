@@ -28,7 +28,8 @@ public class EnemyAI : MonoBehaviour
     private float currentBalance;
 
     public float chiDrop;
-    private float moveSpeed = 0.20f;
+    
+    
 
     public float hitStunDuration;
     public Transform playerTransform;
@@ -48,7 +49,6 @@ public class EnemyAI : MonoBehaviour
     public bool circlesPlayer;
 
     [Header("Navigation Numbers")]
-
     //==Navigation Numbers==//
     [SerializeField]
     [Range(0, 5)]
@@ -69,6 +69,10 @@ public class EnemyAI : MonoBehaviour
     [Range(0, 10)]
     private float moveAwayDistance; //float value to determine how far away the enemy should move.
     //==Navigation Numbers==//
+
+    [Header("Movement Speeds")]
+    [SerializeField] private float defaultMovementSpeed;
+    [SerializeField] private float circlingMovementSpeed;
 
     private void Awake()
     {
@@ -169,17 +173,6 @@ public class EnemyAI : MonoBehaviour
         return isIdle;
     }
 
-    //MoveSpeed getters/setters
-    public void SetMoveSpeed(float moveSpeed)
-    {
-        this.moveSpeed = moveSpeed;
-    }
-
-    public float GetMoveSpeed()
-    {
-        return moveSpeed;
-    }
-
 
     //CircleRadius
     public float GetCircleRadius() { return circleRadius; }
@@ -190,9 +183,26 @@ public class EnemyAI : MonoBehaviour
     public float GetFarPlayerRadius() { return farPlayerRadius; }
     public float GetMoveAwayDistance() { return moveAwayDistance; }
 
+    //Movement speed related
+    public float GetCircleSpeed()
+    {
+        return circlingMovementSpeed;
+    }
+    public float GetDefaultSpeed()
+    {
+        return defaultMovementSpeed;
+    }
+    public void SetNavMeshSpeed(float speed)
+    {
+        agent.speed = speed;
+    }
+
+    //hitstun bullshit
     public bool GetIsHitStun() { return isHitStun; }
     public void SetIsHitStun(bool input) { isHitStun = input; }
+    public void SetHitStunToFalse() { isHitStun = false; }
 
+    //prepared atack bullshit
     public void SetPreparedAttack(bool input) { preparedAttack = input; }
     public void SetPreparedAttackToFalse() { preparedAttack = false; }
     public bool GetPreparedAttack() { return preparedAttack; }

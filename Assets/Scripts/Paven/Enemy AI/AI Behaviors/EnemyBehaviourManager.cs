@@ -1,11 +1,11 @@
 using System.Collections;
 using UnityEngine;
 
-public class TempEnemyBehaviours : MonoBehaviour
+public class EnemyBehaviourManager : MonoBehaviour
 {
     private EnemyAIStateMachine sm;
     private EnemyAI self;
-    Coroutine currentCoroutine;
+    public Coroutine currentCoroutine;
 
     
     [SerializeField] private string currentAnimName;
@@ -17,15 +17,10 @@ public class TempEnemyBehaviours : MonoBehaviour
         self = sm.GetComponent<EnemyAI>();
     }
 
-    private void Update()
+    //Move then attack coroutine//
+    private IEnumerator MoveTowardsThenAttack()
     {
         
-    }
-
-    //Move then attack coroutine//
-    public IEnumerator MoveTowardsThenAttack()
-    {
-        StopActiveCoroutine();
         Debug.Log("Executing moveTowardsThenAttack");
         sm.SwitchState(sm.movingState);
         
@@ -33,13 +28,17 @@ public class TempEnemyBehaviours : MonoBehaviour
         sm.thisEnemy.SetPreparedAttack(true);
         //Debug.Log(sm.thisEnemy.GetPreparedAttack());
         float dist = Vector3.Distance(self.transform.position, self.playerTransform.position);
-
+        Debug.Log(dist);
+        //if close enough to player, attack them
         if(dist <= self.GetClosePlayerRadius())
         {
             sm.SwitchState(sm.attackingState);
             //sm.thisEnemy.SetPreparingAttack(false);
             sm.attackingState.PunchPlayer(sm);
-            StopActiveCoroutine();            
+
+            //stop coroutine execution early, Coroutine gets set back to "null" once the punch animation ends, or if the player enters the HitStun state.
+            //the coroutine being set back to null is using an animation event WITHIN the animator component itself. Remember to set it there or else the EnemyAI will bug out!
+            yield return null;
         }
 
         while(self.GetIsMoving() != false)
@@ -57,28 +56,13 @@ public class TempEnemyBehaviours : MonoBehaviour
         }
         else
         {
+            //Once player is in range of the ClosePlayerRadius, stop moving and attack
             sm.SwitchState(sm.attackingState);
             //sm.thisEnemy.SetPreparingAttack(false);
             sm.attackingState.PunchPlayer(sm);
-            StopActiveCoroutine();
+            //
         }
     }
-
-    public IEnumerator CirclePlayerForShortDuration()
-    {
-        StopActiveCoroutine();
-        Debug.Log("Executing CirclePlayer");
-        sm.SwitchState(sm.movingState);
-
-        sm.movingState.CircleAroundPlayerRight(sm);
-
-        while (sm.thisEnemy.GetIsMoving()) 
-        {
-            
-        }
-        yield return null;
-    }
-
     public void StartMoveTowardsThenAttack()
     {
         if (currentCoroutine == null)
@@ -86,11 +70,44 @@ public class TempEnemyBehaviours : MonoBehaviour
             currentCoroutine = StartCoroutine(MoveTowardsThenAttack());
         }
     }
+
+    private IEnumerator CirclePlayerForShortDuration()
+    {
+        //StopActiveCoroutine();
+        Debug.Log("Executing CirclePlayer");
+        sm.SwitchState(sm.movingState);
+
+        sm.movingState.CircleAroundPlayerRight(sm);
+        self.SetIsMoving(true);
+        self.SetNavMeshSpeed(self.GetCircleSpeed());
+        self.animator.SetBool("CirclingPlayer", true);
+
+        yield return new WaitForSeconds(4f);
+
+        sm.movingState.StopMoving(sm);
+        self.SetIsMoving(false);
+        sm.SwitchState(sm.inCombatState);
+        self.animator.SetBool("CirclingPlayer", false);
+        self.SetNavMeshSpeed(self.GetDefaultSpeed());
+        StopActiveCoroutine();
+    }
+    public void StartCirclePlayerForDuration() 
+    {
+        if (currentCoroutine == null)
+        {
+            currentCoroutine = StartCoroutine(CirclePlayerForShortDuration());
+        }
+    }
+    
     public void StopActiveCoroutine()
     {
         if(currentCoroutine != null)
         {
             StopCoroutine(currentCoroutine);
+            currentCoroutine = null;
+        }
+        else
+        {
             currentCoroutine = null;
         }
     }

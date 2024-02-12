@@ -9,7 +9,7 @@ public class EnemyAIMovingState : EnemyAIBaseState
     /*private bool isCooldown;
     private float cooldownDuration;
     private float directionChangeChance;*/
-    private int movementIndex; //dictates the specific movement code that should execute;
+    private int movementIndex = 0; //dictates the specific movement code that should execute;
 
     public override void EnterState(EnemyAIStateMachine enemy)
     {
@@ -30,10 +30,10 @@ public class EnemyAIMovingState : EnemyAIBaseState
         switch (movementIndex)
         {
             case 0:
-
+                MaintainDistanceWithPlayer(enemy);
                 break;
             case 1:
-                MoveTowardsPlayer(enemy);
+                MoveTowardsPlayerWithLimits(enemy);
                 break;
             case 2:
                 MoveAwayFromPlayerWithLimits(enemy);
@@ -99,9 +99,9 @@ public class EnemyAIMovingState : EnemyAIBaseState
 
     public void MoveAwayFromPlayerWithLimits(EnemyAIStateMachine enemy)
     {
-        //Debug.Log("Moving away from player");
+        
         movementIndex = 2;
-        //enemy.thisEnemy.SetIsMoving(true);
+        
         if (enemy.thisEnemy.GetIsMoving() == true)
         {
             //enemy.thisEnemy.SetIsMoving(true);
@@ -148,6 +148,66 @@ public class EnemyAIMovingState : EnemyAIBaseState
 
     public void MoveTowardsPlayer(EnemyAIStateMachine enemy)
     {
+        enemy.thisEnemy.transform.LookAt(enemy.thisEnemy.playerTransform.position);
+        enemy.thisEnemy.agent.SetDestination(enemy.thisEnemy.playerTransform.position);
+        enemy.thisEnemy.animator.SetBool("inCombat", true);
+        enemy.thisEnemy.animator.SetBool("MovingTowardsPlayer", true);
+        enemy.thisEnemy.agent.updateRotation = true;
+    }
+
+    public float CalcDistanceToPlayer(EnemyAIStateMachine enemy)
+    {
+        float dist = Vector3.Distance(enemy.thisEnemy.transform.position, enemy.thisEnemy.playerTransform.position);
+        return dist;
+    }
+
+    public void MoveAwayFromPlayer(EnemyAIStateMachine enemy)
+    {
+        Vector3 targetDirection;
+        Vector3 targetPosition;
+        //movementIndex = 2;
+
+        if (enemy.thisEnemy.playerTransform == null)
+        {
+            Debug.Log("No player found in scene");
+            return;
+        }
+        enemy.thisEnemy.transform.LookAt(enemy.thisEnemy.playerTransform.position);
+        enemy.thisEnemy.agent.updateRotation = false; //stop navmesh agent from rotating based on location direction.
+        enemy.thisEnemy.animator.SetBool("MovingAwayFromPlayer", false);
+        targetDirection = enemy.thisEnemy.transform.position - enemy.thisEnemy.playerTransform.position;
+        targetPosition = enemy.thisEnemy.transform.position + targetDirection.normalized * enemy.thisEnemy.GetMoveAwayDistance();
+        enemy.thisEnemy.agent.SetDestination(targetPosition);
+    }
+
+    public void MaintainDistanceWithPlayer(EnemyAIStateMachine enemy)
+    {
+        float targetDistance = enemy.thisEnemy.GetClosePlayerRadius() / enemy.thisEnemy.GetFarPlayerRadius(); // Get the desired distance from the enemy settings
+        float currentDistance = CalcDistanceToPlayer(enemy);
+
+        if (currentDistance < targetDistance - 1f)
+        {
+            //Too close to the player, move away
+            MoveAwayFromPlayer(enemy);
+        }
+        else if (currentDistance > targetDistance + 1f)
+        {
+            //Too far from the player, move closer
+            MoveTowardsPlayer(enemy);
+        }
+        else
+        {
+            //Within tolerance range, so just maintain position
+            StopMoving(enemy);
+            enemy.thisEnemy.animator.SetBool("MovingTowardsPlayer", false);
+            enemy.thisEnemy.animator.SetBool("MovingAwayFromPlayer", false);
+            enemy.thisEnemy.SetIsMoving(false);
+        }
+    }
+
+    //this function assumes the player is already detected
+    public void MoveTowardsPlayerWithLimits(EnemyAIStateMachine enemy)
+    {
         float dist = CalcDistanceToPlayer(enemy);
         //Debug.Log(dist);
         if (dist < enemy.thisEnemy.GetClosePlayerRadius())
@@ -163,61 +223,15 @@ public class EnemyAIMovingState : EnemyAIBaseState
         }
         else
         {
-            //add animation for "moving towards player" as well
-            //Debug.Log("Executing else code");
             movementIndex = 1;
-            enemy.thisEnemy.transform.LookAt(enemy.thisEnemy.playerTransform.position);
-            enemy.thisEnemy.agent.SetDestination(enemy.thisEnemy.playerTransform.position);
-            enemy.thisEnemy.animator.SetBool("inCombat", true);
-            enemy.thisEnemy.animator.SetBool("MovingTowardsPlayer", true);
-        }
-
-
-    }
-
-    public float CalcDistanceToPlayer(EnemyAIStateMachine enemy)
-    {
-        float dist = Vector3.Distance(enemy.thisEnemy.transform.position, enemy.thisEnemy.playerTransform.position);
-        return dist;
-    }
-
-    public void MoveAwayFromPlayer(EnemyAIStateMachine enemy)
-    {
-        Vector3 targetDirection;
-        Vector3 targetPosition;
-        movementIndex = 2;
-
-        if (enemy.thisEnemy.playerTransform == null)
-        {
-            Debug.Log("No player found in scene");
-            return;
-        }
-        enemy.thisEnemy.transform.LookAt(enemy.thisEnemy.playerTransform.position);
-        enemy.thisEnemy.agent.updateRotation = false; //stop navmesh agent from rotating based on location direction.
-        targetDirection = enemy.thisEnemy.transform.position - enemy.thisEnemy.playerTransform.position;
-        targetPosition = enemy.thisEnemy.transform.position + targetDirection.normalized * enemy.thisEnemy.GetMoveAwayDistance();
-        enemy.thisEnemy.agent.SetDestination(targetPosition);
-    }
-
-    //this function assumes the player is already detected
-    public void MoveTowardsPlayerWithLimits(EnemyAIStateMachine enemy)
-    {
-        float dist = CalcDistanceToPlayer(enemy);
-
-        if (dist <= enemy.thisEnemy.GetClosePlayerRadius())
-        {
-            StopMoving(enemy);
-            enemy.SwitchState(enemy.inCombatState);
-        }
-        else
-        {
             MoveTowardsPlayer(enemy);
         }
     }
 
-    private void StopMoving(EnemyAIStateMachine enemy)
+    public void StopMoving(EnemyAIStateMachine enemy)
     {
-        enemy.thisEnemy.agent.SetDestination(enemy.thisEnemy.playerTransform.position);
+        enemy.thisEnemy.agent.SetDestination(enemy.thisEnemy.transform.position);
+        enemy.thisEnemy.agent.ResetPath();
     }
 
     public void ForceBreakOutOfMoveState(EnemyAIStateMachine enemy)
