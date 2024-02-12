@@ -2157,6 +2157,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   enemies: []
+  attackerCountMax: 4
 --- !u!4 &1555330644
 Transform:
   m_ObjectHideFlags: 0
@@ -2689,6 +2690,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 66050623750103756, guid: 4e8522bbb7f34034b989b6cfe8c365e6,
+        type: 3}
+      propertyPath: farPlayerRadius
+      value: 7.55
+      objectReference: {fileID: 0}
     - target: {fileID: 3113823514537710933, guid: 4e8522bbb7f34034b989b6cfe8c365e6,
         type: 3}
       propertyPath: m_AngularSpeed
@@ -3371,12 +3377,12 @@ PrefabInstance:
     - target: {fileID: 6309900668618448713, guid: 4fd77862394a98f4d8e35ce98a7c25d5,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000017060518
+      value: -0.000000017060518
       objectReference: {fileID: 0}
     - target: {fileID: 6309900668618448713, guid: 4fd77862394a98f4d8e35ce98a7c25d5,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.000000002235673
+      value: 0.000000002235673
       objectReference: {fileID: 0}
     - target: {fileID: 7702360839128002936, guid: 4fd77862394a98f4d8e35ce98a7c25d5,
         type: 3}

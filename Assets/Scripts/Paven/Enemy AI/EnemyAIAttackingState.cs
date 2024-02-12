@@ -10,6 +10,7 @@ public class EnemyAIAttackingState : EnemyAIBaseState
     public override void EnterState(EnemyAIStateMachine enemy)
     {
         //enemy.thisEnemy.SetPreparingAttack(true);
+        enemy.thisEnemy.animator.SetBool("MovingTowardsPlayer", false);
         enemy.thisEnemy.animator.SetBool("inCombat", true);
         enemy.thisEnemy.agent.ResetPath();
         PunchPlayer(enemy);

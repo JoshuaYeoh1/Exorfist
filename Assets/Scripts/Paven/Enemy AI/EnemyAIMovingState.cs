@@ -174,7 +174,7 @@ public class EnemyAIMovingState : EnemyAIBaseState
         }
         enemy.thisEnemy.transform.LookAt(enemy.thisEnemy.playerTransform.position);
         enemy.thisEnemy.agent.updateRotation = false; //stop navmesh agent from rotating based on location direction.
-        enemy.thisEnemy.animator.SetBool("MovingAwayFromPlayer", false);
+        enemy.thisEnemy.animator.SetBool("MovingAwayFromPlayer", true);
         targetDirection = enemy.thisEnemy.transform.position - enemy.thisEnemy.playerTransform.position;
         targetPosition = enemy.thisEnemy.transform.position + targetDirection.normalized * enemy.thisEnemy.GetMoveAwayDistance();
         enemy.thisEnemy.agent.SetDestination(targetPosition);
@@ -182,15 +182,16 @@ public class EnemyAIMovingState : EnemyAIBaseState
 
     public void MaintainDistanceWithPlayer(EnemyAIStateMachine enemy)
     {
-        float targetDistance = enemy.thisEnemy.GetClosePlayerRadius() / enemy.thisEnemy.GetFarPlayerRadius(); // Get the desired distance from the enemy settings
+        movementIndex = 0;
+        float targetDistance = enemy.thisEnemy.GetFarPlayerRadius() / enemy.thisEnemy.GetClosePlayerRadius(); // Get the desired distance from the enemy settings
         float currentDistance = CalcDistanceToPlayer(enemy);
 
-        if (currentDistance < targetDistance - 1f)
+        if (currentDistance < targetDistance - 0.5f)
         {
             //Too close to the player, move away
             MoveAwayFromPlayer(enemy);
         }
-        else if (currentDistance > targetDistance + 1f)
+        else if (currentDistance > targetDistance + 0.5f)
         {
             //Too far from the player, move closer
             MoveTowardsPlayer(enemy);

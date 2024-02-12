@@ -20,20 +20,18 @@ public class EnemyBehaviourManager : MonoBehaviour
     //Move then attack coroutine//
     private IEnumerator MoveTowardsThenAttack()
     {
-        
-        Debug.Log("Executing moveTowardsThenAttack");
+       
         sm.SwitchState(sm.movingState);
         
         sm.movingState.MoveTowardsPlayerWithLimits(sm);
         sm.thisEnemy.SetPreparedAttack(true);
-        //Debug.Log(sm.thisEnemy.GetPreparedAttack());
+        
         float dist = Vector3.Distance(self.transform.position, self.playerTransform.position);
-        Debug.Log(dist);
+        
         //if close enough to player, attack them
         if(dist <= self.GetClosePlayerRadius())
         {
             sm.SwitchState(sm.attackingState);
-            //sm.thisEnemy.SetPreparingAttack(false);
             sm.attackingState.PunchPlayer(sm);
 
             //stop coroutine execution early, Coroutine gets set back to "null" once the punch animation ends, or if the player enters the HitStun state.
@@ -76,7 +74,6 @@ public class EnemyBehaviourManager : MonoBehaviour
         //StopActiveCoroutine();
         Debug.Log("Executing CirclePlayer");
         sm.SwitchState(sm.movingState);
-
         sm.movingState.CircleAroundPlayerRight(sm);
         self.SetIsMoving(true);
         self.SetNavMeshSpeed(self.GetCircleSpeed());
@@ -91,14 +88,64 @@ public class EnemyBehaviourManager : MonoBehaviour
         self.SetNavMeshSpeed(self.GetDefaultSpeed());
         StopActiveCoroutine();
     }
-    public void StartCirclePlayerForDuration() 
+    public void StartCirclePlayerForDuration()
     {
         if (currentCoroutine == null)
         {
             currentCoroutine = StartCoroutine(CirclePlayerForShortDuration());
         }
     }
-    
+
+    private IEnumerator MoveAwayFromPlayerWithLimits()
+    {
+        float dist = Vector3.Distance(self.transform.position, self.playerTransform.position);
+
+        if (dist >= self.GetFarPlayerRadius())
+        {
+            self.animator.SetBool("MovingAwayFromPlayer", false);
+            yield return null;
+            StopActiveCoroutine();
+        }
+        else
+        {
+            Debug.Log("Executing MoveAway from player");
+            sm.SwitchState(sm.movingState);
+            sm.movingState.MoveAwayFromPlayerWithLimits(sm);
+            self.SetIsMoving(true);
+            while (self.GetIsMoving() != false)
+            {
+                yield return null;
+            }
+            Debug.Log("Coroutine ended");
+            self.animator.SetBool("MovingAwayFromPlayer", false);
+            StopActiveCoroutine();
+        } //stop coroutine at end and set current coroutine back to null
+    }
+    public void StartMoveAwayFromPlayerWithLimits()
+    {
+        if(currentCoroutine == null)
+        {
+            currentCoroutine = StartCoroutine(MoveAwayFromPlayerWithLimits());
+        }
+    }
+
+    private IEnumerator MaintainDistanceWithPlayerForShortDuration()
+    {
+        sm.movingState.MaintainDistanceWithPlayer(sm);
+        sm.SwitchState(sm.movingState);
+        self.animator.SetBool("MovingTowardsPlayer", false);
+        yield return new WaitForSeconds(4f);
+        Debug.Log("Coroutine ended");
+        sm.SwitchState(sm.inCombatState);
+        StopActiveCoroutine();
+    }
+    public void StartMaintainDistanceWithPlayerForShortDuration()
+    {
+        if(currentCoroutine == null)
+        {
+            currentCoroutine = StartCoroutine(MaintainDistanceWithPlayerForShortDuration());
+        }
+    }
     public void StopActiveCoroutine()
     {
         if(currentCoroutine != null)
