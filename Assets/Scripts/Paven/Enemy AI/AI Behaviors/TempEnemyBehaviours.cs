@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TempEnemyBehaviours : MonoBehaviour
@@ -20,46 +19,19 @@ public class TempEnemyBehaviours : MonoBehaviour
 
     private void Update()
     {
-        if(self.GetIsHitStun() == true)
-        {
-            StopActiveCoroutine();
-            self.SetPreparedAttack(false);
-            self.SetIsAttacking(false);
-        }
-        if(Input.GetKeyDown(KeyCode.V))
-        {
-            Debug.Log("V pressed");
-            StartMoveTowardsThenAttack();
-        }
-
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            Debug.Log("B pressed");
-            self.animator.SetBool("inCombat", true);
-            self.animator.SetBool("MovingAwayFromPlayer", true);
-            self.SetIsMoving(true);
-            sm.movingState.MoveAwayFromPlayerWithLimits(sm);
-            sm.SwitchState(sm.movingState);
-        }
-
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            if(currentCoroutine != null)
-            {
-                StopActiveCoroutine();
-            }
-        }
+        
     }
 
     //Move then attack coroutine//
     public IEnumerator MoveTowardsThenAttack()
     {
+        StopActiveCoroutine();
         Debug.Log("Executing moveTowardsThenAttack");
         sm.SwitchState(sm.movingState);
         
         sm.movingState.MoveTowardsPlayerWithLimits(sm);
         sm.thisEnemy.SetPreparedAttack(true);
-        Debug.Log(sm.thisEnemy.GetPreparedAttack());
+        //Debug.Log(sm.thisEnemy.GetPreparedAttack());
         float dist = Vector3.Distance(self.transform.position, self.playerTransform.position);
 
         if(dist <= self.GetClosePlayerRadius())
@@ -80,8 +52,8 @@ public class TempEnemyBehaviours : MonoBehaviour
         if(sm.thisEnemy.GetPreparedAttack() != true)
         {
             //Debug.Log("Stopping MoveTowardsThenAttack");
-            StopActiveCoroutine();
             sm.SwitchState(sm.inCombatState);
+            StopActiveCoroutine();
         }
         else
         {
@@ -90,6 +62,21 @@ public class TempEnemyBehaviours : MonoBehaviour
             sm.attackingState.PunchPlayer(sm);
             StopActiveCoroutine();
         }
+    }
+
+    public IEnumerator CirclePlayerForShortDuration()
+    {
+        StopActiveCoroutine();
+        Debug.Log("Executing CirclePlayer");
+        sm.SwitchState(sm.movingState);
+
+        sm.movingState.CircleAroundPlayerRight(sm);
+
+        while (sm.thisEnemy.GetIsMoving()) 
+        {
+            
+        }
+        yield return null;
     }
 
     public void StartMoveTowardsThenAttack()

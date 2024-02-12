@@ -14,7 +14,7 @@ public class EnemyAIMovingState : EnemyAIBaseState
     public override void EnterState(EnemyAIStateMachine enemy)
     {
         enemy.thisEnemy.SetIsMoving(true);
-        Debug.Log("Entering move state");
+        //Debug.Log("Entering move state");
         /*  isCooldown = false;
           cooldownDuration = 0.5f; */
     }
@@ -49,7 +49,7 @@ public class EnemyAIMovingState : EnemyAIBaseState
     }
 
     //circling behaviour should only be called if an enemy is CLOSE to the player.
-    void CircleAroundPlayerRight(EnemyAIStateMachine enemy)
+    public void CircleAroundPlayerRight(EnemyAIStateMachine enemy)
     {
         movementIndex = 3;
         //Null check

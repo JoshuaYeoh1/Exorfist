@@ -8,7 +8,7 @@ public class EnemyAIStateMachine : MonoBehaviour
 {
     //Basic Declarations
     EnemyAIBaseState currentState;
-    public EnemyAI thisEnemy;
+    [HideInInspector] public EnemyAI thisEnemy;
 
     //==Concrete States==//
     //(AKA, only ONE or the other state can be active)
@@ -18,7 +18,6 @@ public class EnemyAIStateMachine : MonoBehaviour
     //==Sub-states==//
     public EnemyAIIdleState idleState = new EnemyAIIdleState();
     public EnemyAIAttackingState attackingState = new EnemyAIAttackingState();
-    public EnemyAIBalanceBrokenState balanceBrokenState = new EnemyAIBalanceBrokenState();
     public EnemyAIHitStunState hitStunState = new EnemyAIHitStunState();
     public EnemyAIMovingState movingState = new EnemyAIMovingState();
     //==Sub-states==//

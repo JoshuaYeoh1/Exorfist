@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using UnityEngine;
 
 public class AIDirector : MonoBehaviour
@@ -64,7 +63,8 @@ public class AIDirector : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("Attacks are not off cooldown");
+                        //Debug.Log("Attacks are not off cooldown");
+                        //Ask enemy to go through their movement options instead, based on several factors (too many enemies near player? back up a little bit) (these factors are defined in a separate enemy script instead)
                     }
                 }
             }

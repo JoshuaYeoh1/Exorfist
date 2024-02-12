@@ -18,7 +18,7 @@ public class EnemyAIAttackTimer : MonoBehaviour
             if(atkCooldownTimeCurrent <= 0)
             {
                 atkCooldown = false;
-                Debug.Log("Attack ready");
+                //Debug.Log("Attack ready");
             }
         }
     }
