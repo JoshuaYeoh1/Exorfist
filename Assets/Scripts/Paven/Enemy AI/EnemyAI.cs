@@ -28,8 +28,6 @@ public class EnemyAI : MonoBehaviour
     private float currentBalance;
 
     public float chiDrop;
-    
-    
 
     public float hitStunDuration;
     public Transform playerTransform;
