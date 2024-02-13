@@ -5,11 +5,29 @@ using UnityEngine;
 
 public class AIDirector : MonoBehaviour
 {
-    [SerializeField] private GameObject player;
-    public List<GameObject> enemies;
-    public List<GameObject> attackingEnemies;
 
-    private List<GameObject> enemiesToRemove;
+    /*  !!HEADS UP IMPORTANT NOTE!! 
+        If you wish to edit the script to debug it, by removing [HideInInspector] from the public lists, do keep in mind that Unity has a null reference bug in regards to the inspector window
+        
+        I'm not sure why it happens, but I figure it's because the objects are being removed ~too quickly~ for unity's inspector to handle. We may need to make a custom debug script in order to keep up
+        
+        Overall, this current iteration of the script works pretty well. Enemies rarely bug out and when they do, it's hardly noticeable.
+        !!HEADS UP IMPORTANT NOTE!!
+
+        |--Purpose of this script--|
+        The purpose of the AI director is to limit the amount of enemies that can attack the players all at once. I plan to add a "shuffle list" feature to change up which enemies attack the player.
+        Furthermore, the AI Director can be disabled to allow the enemies to just be punching bags. Or, instead, to allow for aspects where we want the AI director to stop running.
+
+        Although enemies depend on the Director for commands in regards to how many of them can attack, the logic for the attacks themselves are within the enemy's relevant scripts.
+        So yes, you can ask an enemy to attack without using the director (if you go through the trouble of making a function), although using the director is simply easier.
+        |--Purpose of this script--|
+        
+     */
+    
+    [SerializeField] private GameObject player;
+    [HideInInspector] public List<GameObject> enemies;
+    [HideInInspector] public List<GameObject> attackingEnemies;
+
     private List<GameObject> attackingEnemiesToRemove;
 
     public static AIDirector instance;
@@ -43,18 +61,20 @@ public class AIDirector : MonoBehaviour
     
     void Update()
     {
+        /*
         if (Input.GetKeyDown(KeyCode.K))
         {
             AIDirectorCycle();
         }
-
-        CheckIfEnemiesAreAttacking();
+        */
     }
 
     //This function will essentially act as the "tick" function for our class.
     private void AIDirectorCycle() 
     {
-        //CheckIfEnemiesAreAttacking();
+        
+        RemoveDeadEnemies();
+        CheckIfEnemiesAreAttacking();
         foreach (GameObject enemy in enemies)
         {
             //store references to the gameObject script components
@@ -64,7 +84,8 @@ public class AIDirector : MonoBehaviour
 
             if(enemy == null)
             {
-                enemiesToRemove.Add(enemy);
+                continue;
+                
             }
             if(enemy != null)
             {
@@ -76,7 +97,7 @@ public class AIDirector : MonoBehaviour
                     }
                     if (enemy.GetComponent<EnemyAIAttackTimer>() != null)
                     {
-                        if(thisEnemy?.GetPreparedAttack() == true)
+                        if(thisEnemy?.GetPreparedAttack() == true || thisEnemy?.GetIsAttacking() == true)
                         {
                             continue; //skip element as it's already preparing an attack.
                         }
@@ -129,7 +150,8 @@ public class AIDirector : MonoBehaviour
         for (int i = attackingEnemies.Count - 1; i >= 0; i--)
         {
             GameObject enemy = attackingEnemies[i];
-            //the enemy can become dead very quickly. hence why this check is here.
+            //the enemy can become dead very quickly. hence why this check is here. this will be fixed later to implement a "isDead" boolean
+            
             if(enemy == null)
             {
                 attackingEnemiesToRemove.Add(enemy);
@@ -152,6 +174,27 @@ public class AIDirector : MonoBehaviour
                     // Optionally, remove the enemy from the list if it's null
                     attackingEnemies.RemoveAt(i);
                 }
+            }
+        }
+    }
+
+    private void RemoveDeadEnemies()
+    {
+        //Iterate backwards to avoid issues with index shifting
+        for (int i = enemies.Count - 1; i >= 0; i--)
+        {
+            if (enemies[i] == null)
+            {
+                enemies.RemoveAt(i);
+            }
+        }
+
+        //Also remove dead enemies from the attackingEnemies list if applicable
+        for (int i = attackingEnemies.Count - 1; i >= 0; i--)
+        {
+            if (attackingEnemies[i] == null)
+            {
+                attackingEnemies.RemoveAt(i);
             }
         }
     }

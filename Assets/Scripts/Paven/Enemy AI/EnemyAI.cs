@@ -43,6 +43,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private bool isInCombat;
     [SerializeField] private bool isIdle;
     [SerializeField] private bool isBlocking;
+    [SerializeField] private bool isDead;
 
     [Header("Behaviours")]
     public bool canBlock;
@@ -98,10 +99,10 @@ public class EnemyAI : MonoBehaviour
 
     private void OnDestroy()
     {
-        if(AIDirector.instance != null)
+     /*   if(AIDirector.instance != null)
         {
             AIDirector.instance.enemies.Remove(gameObject);
-        }
+        }*/
     }
 
     private void Update()
@@ -207,9 +208,12 @@ public class EnemyAI : MonoBehaviour
     public void SetPreparedAttackToFalse() { preparedAttack = false; }
     public bool GetPreparedAttack() { return preparedAttack; }
 
+    //isAttacking bullshit
     public void SetIsAttacking(bool input) { isAttacking = input;}
     public bool GetIsAttacking() { return isAttacking; }
 
+    //isDead bullshit
+    public bool GetIsDead() { return isDead; }
 
     //Taking damage algorithm
     private void OnTriggerEnter(Collider other)
@@ -246,5 +250,12 @@ public class EnemyAI : MonoBehaviour
         {
             
         }
+    }
+
+    private void DisableComponentsOnDeath()
+    {
+        Destroy(sm);
+        Destroy(agent);
+        Destroy(atkTimer);
     }
 }
