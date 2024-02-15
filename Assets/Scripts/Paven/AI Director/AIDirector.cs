@@ -112,7 +112,7 @@ public class AIDirector : MonoBehaviour
                         }
                         else
                         {
-                            Debug.Log("Attacks are not off cooldown. Executing movement coroutine instead");
+                            //Debug.Log("Attacks are not off cooldown. Executing movement coroutine instead");
                             //Ask enemy to go through their movement options instead, based on several factors (too many enemies near player? back up a little bit) (these factors are defined in a separate enemy script instead)
                             behaviours.StartMaintainDistanceWithPlayerForShortDuration();
                         }
@@ -126,7 +126,7 @@ public class AIDirector : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("Attacker count max reached, every other Unit is executing a movement function instead.");
+                        //Debug.Log("Attacker count max reached, every other Unit is executing a movement function instead.");
                         //Ask enemy to go through their movement options instead, based on several factors (too many enemies near player? back up a little bit) (these factors are defined in a separate enemy script instead)
                         behaviours.StartMaintainDistanceWithPlayerForShortDuration();
                     }
@@ -135,7 +135,7 @@ public class AIDirector : MonoBehaviour
             }
             else
             {
-                Debug.Log("This enemy does not have an attack timer script attached | Enemy : " + enemy);
+                //Debug.Log("This enemy does not have an attack timer script attached | Enemy : " + enemy);
             }
         }
         //reset attackerCount so that the next list iteration can take it into consideration
@@ -169,9 +169,7 @@ public class AIDirector : MonoBehaviour
                 }
                 else
                 {
-                    // Handle case where the enemy component is null
-                    Debug.LogWarning("EnemyAI component not found on attacking enemy.");
-                    // Optionally, remove the enemy from the list if it's null
+                    //Debug.LogWarning("EnemyAI component not found on attacking enemy.")
                     attackingEnemies.RemoveAt(i);
                 }
             }

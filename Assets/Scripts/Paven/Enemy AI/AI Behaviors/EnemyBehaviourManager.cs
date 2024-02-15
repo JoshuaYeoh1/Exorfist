@@ -135,7 +135,7 @@ public class EnemyBehaviourManager : MonoBehaviour
         sm.SwitchState(sm.movingState);
         self.animator.SetBool("MovingTowardsPlayer", false);
         yield return new WaitForSeconds(4f);
-        Debug.Log("Coroutine ended");
+        //Debug.Log("Coroutine ended");
         sm.SwitchState(sm.inCombatState);
         StopActiveCoroutine();
     }
