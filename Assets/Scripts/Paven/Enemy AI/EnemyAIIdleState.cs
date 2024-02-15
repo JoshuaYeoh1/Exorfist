@@ -6,7 +6,7 @@ public class EnemyAIIdleState : EnemyAIBaseState
 {
     public override void EnterState(EnemyAIStateMachine enemy)
     {
-        Debug.Log("Enemy is Idle");
+        //Debug.Log("Enemy is Idle");
         enemy.thisEnemy.animator.SetBool("inCombat", false);
     }
 
