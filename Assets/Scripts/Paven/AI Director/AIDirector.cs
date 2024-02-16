@@ -75,6 +75,7 @@ public class AIDirector : MonoBehaviour
         
         RemoveDeadEnemies();
         CheckIfEnemiesAreAttacking();
+        Shuffle(enemies);
         foreach (GameObject enemy in enemies)
         {
             //store references to the gameObject script components
@@ -196,4 +197,19 @@ public class AIDirector : MonoBehaviour
             }
         }
     }
+
+    //Fisher-yate shuffle algorithm wow epic. I didn't copy it from stack overflow I swear
+    private void Shuffle(List<GameObject> list)
+    {
+        int n = list.Count;
+        while (n > 1)
+        {
+            n--;
+            int k = Random.Range(0, n + 1);
+            GameObject temp = list[k];
+            list[k] = list[n];
+            list[n] = temp;
+        }
+    }
+
 }
