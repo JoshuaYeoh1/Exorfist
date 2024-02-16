@@ -26,22 +26,7 @@ public class PlayerCombat : MonoBehaviour
         move=GetComponent<PlayerMovement>();
     }
 
-    void Update()
-    {
-        CheckInput();
-    }
-
-    void CheckInput()
-    {
-        if(player.canAttack)
-        {
-            if(Input.GetKeyDown(KeyCode.Space)) Attack("light");
-
-            else if(Input.GetKeyDown(KeyCode.LeftAlt)) Attack("heavy");
-        }
-    }
-
-    public void CheckBtn(string type="light")
+    public void OnBtnDown(string type="light")
     {
         if(player.canAttack) Attack(type);
     }
