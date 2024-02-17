@@ -15,13 +15,19 @@ public class GameStateManager : MonoBehaviour
     [SerializeField] private GameObject gameOverPopUp;
     private void Awake()
     {
-        GameEventSystem.current.OnPlayerDeath += OnPlayerDeath;
+        if (GameEventSystem.current)
+        {
+            GameEventSystem.current.OnPlayerDeath += OnPlayerDeath;
+            //Debug.Log("Event subscribed");
+        }
     }
 
     private void OnDestroy()
     {
-
-        GameEventSystem.current.OnPlayerDeath -= OnPlayerDeath;
+        if (GameEventSystem.current)
+        {
+            GameEventSystem.current.OnPlayerDeath -= OnPlayerDeath;
+        }
     }
 
     public void UpdateGameState(GameState newState)

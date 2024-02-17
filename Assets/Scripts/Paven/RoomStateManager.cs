@@ -11,7 +11,7 @@ public class RoomStateManager : MonoBehaviour
     public enum RoomState {Inactive, Active, Clear, Start };
 
     public RoomState State;
-    [SerializeField] List<GameObject> EnemySpawns = new List<GameObject>();
+    public List<GameObject> EnemySpawns = new List<GameObject>();
 
     private void Awake()
     {
