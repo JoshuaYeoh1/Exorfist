@@ -194,6 +194,14 @@ public class AIDirector : MonoBehaviour
                 attackingEnemies.RemoveAt(i);
             }
         }
+
+        if(enemies.Count == 0)
+        {
+            if(GameEventSystem.current != null)
+            {
+                GameEventSystem.current.notifyRoomStateManager();
+            }
+        }
     }
 
     //Fisher-yate shuffle algorithm wow epic. I didn't copy it from stack overflow I swear

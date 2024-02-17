@@ -46,11 +46,13 @@ public class GameEventSystem : MonoBehaviour
     //"Rooms" meaning things like, the rooms filled with enemies, btw.
     public event Action OnRoomEntered;
     public event Action<RoomState> OnRoomStateChanged;
+    public event Action NotifyRoomStateManager;
     //==Transition and Room related==//
 
     //==GameStateManager Related==//
     public event Action<GameState> OnGameStateChanged;
     //==GameStateManager Related==//
+
     public void spawnEnemies()
     {
         Debug.Log("SpawnEnemies triggered");
@@ -58,7 +60,7 @@ public class GameEventSystem : MonoBehaviour
     }
     public void enemyDeath()
     {
-        Debug.Log("Enemy died");
+        //Debug.Log("Enemy died");
         OnEnemyDeath?.Invoke(); //tysm Jon
     }
     //==Enemy Related==//
@@ -121,6 +123,10 @@ public class GameEventSystem : MonoBehaviour
     public void roomStateChange(RoomState roomState)
     {
         OnRoomStateChanged?.Invoke(roomState);
+    }
+    public void notifyRoomStateManager()
+    {
+        NotifyRoomStateManager?.Invoke();
     }
 
     /*

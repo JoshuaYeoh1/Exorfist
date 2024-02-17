@@ -83,7 +83,7 @@ public class EnemyAI : MonoBehaviour
 
     private void Start()
     {
-        if(AIDirector.instance != null)
+        if (AIDirector.instance != null)
         {
             AIDirector.instance.enemies.Add(gameObject); //add this EnemyAI gameObject to the AIDirector script
         }
@@ -92,15 +92,21 @@ public class EnemyAI : MonoBehaviour
 
     private void OnDestroy()
     {
-     /*   if(AIDirector.instance != null)
-        {
-            AIDirector.instance.enemies.Remove(gameObject);
-        }*/
+        OnEnemyDeath();
     }
 
     private void Update()
     {
         //Debug.Log(preparingAttack);
+    }
+
+
+    private void OnEnemyDeath()
+    {
+        if(GameEventSystem.current != null)
+        {
+            GameEventSystem.current.enemyDeath();
+        }
     }
 
     private void LoseHealth(float healthdamage, float balancedamage, float hitStunDuration)

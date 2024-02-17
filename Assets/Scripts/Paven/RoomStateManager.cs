@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public enum RoomState { Inactive, Active, Clear, Start };
@@ -37,12 +38,23 @@ public class RoomStateManager : MonoBehaviour
         {
             Debug.Log("RoomStateManager event subscriptions initialized");
             GameEventSystem.current.OnEnemyDeath += OnEnemyDeath;
+            GameEventSystem.current.NotifyRoomStateManager += notifyRoomStateManager;
         }
         else
         {
             Debug.LogError("GameEventSystem not found in scene. Please add one in for the RoomStateManager to function properly.");
         }
         
+    }
+
+    private void OnDestroy()
+    {
+        if (GameEventSystem.current != null)
+        {
+            Debug.Log("RoomStateManager event subscriptions initialized");
+            GameEventSystem.current.OnEnemyDeath -= OnEnemyDeath;
+            GameEventSystem.current.NotifyRoomStateManager -= notifyRoomStateManager;
+        }
     }
 
     public void UpdateRoomState(RoomState newState)
@@ -65,7 +77,7 @@ public class RoomStateManager : MonoBehaviour
                 //HandleActive();
                 break;
             case RoomState.Clear:
-                Debug.Log("Clear");
+                Debug.Log("Room cleared!");
                 //HandleLose();
                 break;
             default:
@@ -105,8 +117,19 @@ public class RoomStateManager : MonoBehaviour
                 break;
 
             case RoomState.Active:
-                Debug.Log("Enemy killed and will eventually transition into win state");
+                //Debug.Log("Enemy killed and will eventually transition into win state");
                 Debug.Log(AIDirector.instance.enemies.Count.ToString());
+                if(AIDirector.instance.enemies.Count == 1)
+                {
+                    if (AIDirector.instance.enemies[0].GetComponent<EnemyAI>() == null)
+                    {
+                        Debug.Log("Updating clear state, nicely done!");
+                        UpdateRoomState(RoomState.Clear);
+                        break;
+                    }
+                }
+                
+
                 if(AIDirector.instance.enemies.Count == 0)
                 {
                     UpdateRoomState(RoomState.Clear);
@@ -125,7 +148,7 @@ public class RoomStateManager : MonoBehaviour
         }
         if(State == RoomState.Active)
         {
-            Debug.Log("Enemy killed.");
+            //Debug.Log("Enemy killed.");
         }
         
     }
@@ -138,6 +161,14 @@ public class RoomStateManager : MonoBehaviour
             {
                 enemySpawn.gameObject.SetActive(true);
             }
+        }
+    }
+
+    private void notifyRoomStateManager()
+    {
+        if(State == RoomState.Active)
+        {
+            UpdateRoomState(RoomState.Clear);
         }
     }
 }
