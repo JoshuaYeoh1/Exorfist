@@ -8,8 +8,6 @@ public class GameStateManager : MonoBehaviour
     //public static GameStateManager GSManagerInstance;
 
     public GameState State;
-    public bool enemyTurnOver;
-    public bool createSpawnTiles;
 
     //This is when the GameState changes
     //public static event Action<GameState> OnGameStateChanged;
