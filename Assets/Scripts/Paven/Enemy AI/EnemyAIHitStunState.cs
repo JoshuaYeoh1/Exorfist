@@ -11,12 +11,16 @@ public class EnemyAIHitStunState : EnemyAIBaseState
 
     public override void EnterState(EnemyAIStateMachine enemy)
     {
-        Debug.Log("HitStun state achieved");
         //change animations to "hitStun" animation
         enemy.thisEnemy.transform.LookAt(enemy.thisEnemy.playerTransform.position);
-        enemy.thisEnemy.animator.Play("Hit Stun", -1, 0f);
+        enemy.thisEnemy.SetIsHitStun(true);
         
-        
+
+        if(enemy.thisEnemy.GetIsHitStun() == true)
+        {
+            HitStunCancellation(enemy);
+        }
+        enemy.thisEnemy.animator.Play("Hit Stun", -1, 0f);        
     }
 
     public override void ExitState(EnemyAIStateMachine enemy)
@@ -34,5 +38,17 @@ public class EnemyAIHitStunState : EnemyAIBaseState
         {
             enemy.SwitchState(enemy.inCombatState);
         }
+    }
+
+    private void HitStunCancellation(EnemyAIStateMachine enemy)
+    {
+        enemy.thisEnemy.SetIsAttacking(false);
+        enemy.thisEnemy.SetIsMoving(false);
+        enemy.thisEnemy.agent.ResetPath();
+        enemy.thisEnemy.SetPreparedAttack(false);
+        enemy.thisEnemy.SetIsAttacking(false);
+        enemy.bm.StopActiveCoroutine();
+        enemy.thisEnemy.animator.SetBool("inCombat", true);
+        enemy.thisEnemy.animator.SetBool("Punching", false); //this part of the code needs to be changed later
     }
 }

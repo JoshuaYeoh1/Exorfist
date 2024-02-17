@@ -8,7 +8,9 @@ public class EnemyAIInCombatState : EnemyAIBaseState
 
     public override void EnterState(EnemyAIStateMachine enemy)
     {
-        //play enemyCombat idle animation here
+        enemy.thisEnemy.SetIsMoving(false);
+        enemy.movingState.StopMoving(enemy);
+        SetMovementBoolsToFalse(enemy);
     }
 
     public override void ExitState(EnemyAIStateMachine enemy)
@@ -18,6 +20,13 @@ public class EnemyAIInCombatState : EnemyAIBaseState
 
     public override void UpdateState(EnemyAIStateMachine enemy)
     {
-        //do nothing also
+        enemy.thisEnemy.transform.LookAt(enemy.thisEnemy.playerTransform.position);
+    }
+
+    private void SetMovementBoolsToFalse(EnemyAIStateMachine enemy)
+    {
+        enemy.thisEnemy.animator.SetBool("MovingAwayFromPlayer", false);
+        enemy.thisEnemy.animator.SetBool("MovingTowardsPlayer", false);
+        enemy.thisEnemy.animator.SetBool("CirclingPlayer", false);
     }
 }

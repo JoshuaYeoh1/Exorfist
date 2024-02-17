@@ -9,28 +9,49 @@ public class EnemyAIMovingState : EnemyAIBaseState
     /*private bool isCooldown;
     private float cooldownDuration;
     private float directionChangeChance;*/
+    private int movementIndex = 0; //dictates the specific movement code that should execute;
 
     public override void EnterState(EnemyAIStateMachine enemy)
     {
-        Debug.Log("Entering move state");
-      /*  isCooldown = false;
-        cooldownDuration = 0.5f; */        
+        enemy.thisEnemy.SetIsMoving(true);
+        //Debug.Log("Entering move state");
+        /*  isCooldown = false;
+          cooldownDuration = 0.5f; */
     }
 
     public override void ExitState(EnemyAIStateMachine enemy)
     {
-        Debug.Log("Exiting move state");
+        //Debug.Log("Exiting move state");
         enemy.thisEnemy.SetIsMoving(false);
     }
 
     public override void UpdateState(EnemyAIStateMachine enemy)
     {
-        MoveAwayFromPlayer(enemy);
+        switch (movementIndex)
+        {
+            case 0:
+                MaintainDistanceWithPlayer(enemy);
+                break;
+            case 1:
+                MoveTowardsPlayerWithLimits(enemy);
+                break;
+            case 2:
+                MoveAwayFromPlayerWithLimits(enemy);
+                break;
+            case 3:
+                CircleAroundPlayerRight(enemy);
+                break;
+            default:
+                ForceBreakOutOfMoveState(enemy);
+                break;
+
+        }
     }
 
     //circling behaviour should only be called if an enemy is CLOSE to the player.
-    void CircleAroundPlayerRight(EnemyAIStateMachine enemy)
+    public void CircleAroundPlayerRight(EnemyAIStateMachine enemy)
     {
+        movementIndex = 3;
         //Null check
         if (enemy.thisEnemy.playerTransform == null)
         {
@@ -62,21 +83,26 @@ public class EnemyAIMovingState : EnemyAIBaseState
 
         //Debug.Log(targetPositionDist);
         //Check if the target player is too far to "circle" around.
+
+        /*
         if (targetPositionDist >= enemy.thisEnemy.GetCircleRadius())
         {
             //Debug.Log("Player is too far to circle around. Moving closer instead");
+            movementIndex = 1;
             MoveTowardsPlayer(enemy);
             return;
         }
+        */
 
         enemy.thisEnemy.agent.SetDestination(targetPosition);
     }
 
-    void MoveAwayFromPlayerWithLimits(EnemyAIStateMachine enemy)
+    public void MoveAwayFromPlayerWithLimits(EnemyAIStateMachine enemy)
     {
-        Debug.Log("Moving away from player");
-        //enemy.thisEnemy.SetIsMoving(true);
-        if(enemy.thisEnemy.GetIsMoving() == false)
+        
+        movementIndex = 2;
+        
+        if (enemy.thisEnemy.GetIsMoving() == true)
         {
             //enemy.thisEnemy.SetIsMoving(true);
             //Wow I wonder what this check is
@@ -88,7 +114,7 @@ public class EnemyAIMovingState : EnemyAIBaseState
             }
 
             //Rotate the model to be facing the player
-            enemy.thisEnemy.transform.LookAt(enemy.thisEnemy.playerTransform);
+            enemy.thisEnemy.transform.LookAt(enemy.thisEnemy.playerTransform.position);
             float dist = CalcDistanceToPlayer(enemy);
 
             //initialize variables for calculation and comparison
@@ -105,50 +131,114 @@ public class EnemyAIMovingState : EnemyAIBaseState
                 MoveAwayFromPlayer(enemy);
             }
 
-            if(dist > farPlayerRadius)
+            if (dist > farPlayerRadius)
             {
                 Debug.Log("Enemy is too far, stopping movement");
                 enemy.thisEnemy.agent.SetDestination(enemy.thisEnemy.transform.position);
                 enemy.thisEnemy.SetIsMoving(false);
                 enemy.SwitchState(enemy.inCombatState);
-            }            
-        } 
-    }
-
-    void MoveTowardsPlayer(EnemyAIStateMachine enemy)
-    {
-        Debug.Log("Moving towards player");
-        //add animation for "moving towards player" as well
-        enemy.thisEnemy.agent.SetDestination(enemy.thisEnemy.playerTransform.position);
-        float dist = CalcDistanceToPlayer(enemy);
-        if(dist < enemy.thisEnemy.GetClosePlayerRadius())
+            }
+        }
+        else
         {
-            enemy.thisEnemy.agent.SetDestination(enemy.thisEnemy.transform.position);
-            enemy.thisEnemy.SetIsMoving(false);
-            //stop animation
-            return;
+            Debug.LogError("IsMoving is false, swapping to combat state");
+            enemy.SwitchState(enemy.inCombatState);
         }
     }
 
-    private float CalcDistanceToPlayer(EnemyAIStateMachine enemy)
+    public void MoveTowardsPlayer(EnemyAIStateMachine enemy)
+    {
+        enemy.thisEnemy.transform.LookAt(enemy.thisEnemy.playerTransform.position);
+        enemy.thisEnemy.agent.SetDestination(enemy.thisEnemy.playerTransform.position);
+        enemy.thisEnemy.animator.SetBool("inCombat", true);
+        enemy.thisEnemy.animator.SetBool("MovingTowardsPlayer", true);
+        enemy.thisEnemy.agent.updateRotation = true;
+    }
+
+    public float CalcDistanceToPlayer(EnemyAIStateMachine enemy)
     {
         float dist = Vector3.Distance(enemy.thisEnemy.transform.position, enemy.thisEnemy.playerTransform.position);
         return dist;
     }
 
-    private void MoveAwayFromPlayer(EnemyAIStateMachine enemy)
+    public void MoveAwayFromPlayer(EnemyAIStateMachine enemy)
     {
         Vector3 targetDirection;
         Vector3 targetPosition;
-        if(enemy.thisEnemy.playerTransform == null)
+        //movementIndex = 2;
+
+        if (enemy.thisEnemy.playerTransform == null)
         {
             Debug.Log("No player found in scene");
             return;
         }
         enemy.thisEnemy.transform.LookAt(enemy.thisEnemy.playerTransform.position);
-
+        enemy.thisEnemy.agent.updateRotation = false; //stop navmesh agent from rotating based on location direction.
+        enemy.thisEnemy.animator.SetBool("MovingAwayFromPlayer", true);
         targetDirection = enemy.thisEnemy.transform.position - enemy.thisEnemy.playerTransform.position;
         targetPosition = enemy.thisEnemy.transform.position + targetDirection.normalized * enemy.thisEnemy.GetMoveAwayDistance();
         enemy.thisEnemy.agent.SetDestination(targetPosition);
+    }
+
+    public void MaintainDistanceWithPlayer(EnemyAIStateMachine enemy)
+    {
+        movementIndex = 0;
+        float targetDistance = enemy.thisEnemy.GetFarPlayerRadius() / enemy.thisEnemy.GetClosePlayerRadius(); // Get the desired distance from the enemy settings
+        float currentDistance = CalcDistanceToPlayer(enemy);
+
+        if (currentDistance < targetDistance - 0.5f)
+        {
+            //Too close to the player, move away
+            MoveAwayFromPlayer(enemy);
+        }
+        else if (currentDistance > targetDistance + 0.5f)
+        {
+            //Too far from the player, move closer
+            MoveTowardsPlayer(enemy);
+        }
+        else
+        {
+            //Within tolerance range, so just maintain position
+            StopMoving(enemy);
+            enemy.thisEnemy.animator.SetBool("MovingTowardsPlayer", false);
+            enemy.thisEnemy.animator.SetBool("MovingAwayFromPlayer", false);
+            enemy.thisEnemy.SetIsMoving(false);
+        }
+    }
+
+    //this function assumes the player is already detected
+    public void MoveTowardsPlayerWithLimits(EnemyAIStateMachine enemy)
+    {
+        float dist = CalcDistanceToPlayer(enemy);
+        //Debug.Log(dist);
+        if (dist < enemy.thisEnemy.GetClosePlayerRadius())
+        {
+            //Debug.Log("executing if code");
+            movementIndex = 0;
+            enemy.thisEnemy.transform.LookAt(enemy.thisEnemy.playerTransform.position);
+            enemy.thisEnemy.animator.SetBool("MovingTowardsPlayer", false);
+            enemy.thisEnemy.agent.SetDestination(enemy.thisEnemy.transform.position);
+            enemy.thisEnemy.SetIsMoving(false);
+            //stop animation
+            return;
+        }
+        else
+        {
+            movementIndex = 1;
+            MoveTowardsPlayer(enemy);
+        }
+    }
+
+    public void StopMoving(EnemyAIStateMachine enemy)
+    {
+        enemy.thisEnemy.agent.SetDestination(enemy.thisEnemy.transform.position);
+        enemy.thisEnemy.agent.ResetPath();
+    }
+
+    public void ForceBreakOutOfMoveState(EnemyAIStateMachine enemy)
+    {
+        enemy.thisEnemy.SetIsMoving(false);
+        enemy.thisEnemy.animator.SetBool("isMoving", false);
+        enemy.SwitchState(enemy.inCombatState);
     }
 }

@@ -13,7 +13,7 @@ public class PlayerIdleState : BaseState<PlayerStateMachine.PlayerStates>
 
     public override void EnterState()
     {
-        Debug.Log("Player state: " + stateMachine.GetCurrentState().StateKey);
+        //Debug.Log("Player state: " + stateMachine.GetCurrentState().StateKey);
 
         stateMachine.player.isAlive=true;
         stateMachine.player.canLook=true;

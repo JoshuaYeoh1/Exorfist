@@ -8,25 +8,21 @@ public class EnemyAIStateMachine : MonoBehaviour
 {
     //Basic Declarations
     EnemyAIBaseState currentState;
-    public EnemyAI thisEnemy;
+    [HideInInspector] public EnemyAI thisEnemy;
+    [HideInInspector] public EnemyBehaviourManager bm;
 
-    //==Concrete States==//
-    //(AKA, only ONE or the other state can be active)
+    //==States==//
     public EnemyAIInCombatState inCombatState = new EnemyAIInCombatState();
-    public EnemyAIOutOfCombatState outOfCombatState = new EnemyAIOutOfCombatState();
-    //==Concrete States==//
-
-    //==Sub-states==//
     public EnemyAIIdleState idleState = new EnemyAIIdleState();
     public EnemyAIAttackingState attackingState = new EnemyAIAttackingState();
-    public EnemyAIBalanceBrokenState balanceBrokenState = new EnemyAIBalanceBrokenState();
     public EnemyAIHitStunState hitStunState = new EnemyAIHitStunState();
     public EnemyAIMovingState movingState = new EnemyAIMovingState();
-    //==Sub-states==//
+    //==States==//
 
     private void Awake()
     {
         thisEnemy = GetComponent<EnemyAI>();
+        bm = GetComponent<EnemyBehaviourManager>();
     }
 
     private void Start()
@@ -54,8 +50,10 @@ public class EnemyAIStateMachine : MonoBehaviour
     //This is so that the player can interrupt their movement as well as their attacks :)
     public void HitStunSwitchState(EnemyAIBaseState state)
     {
+        
         currentState = hitStunState;
         SwitchState(hitStunState);
+        bm.currentCoroutine = null;
         thisEnemy.SetIsMoving(false);
         thisEnemy.agent.SetDestination(thisEnemy.transform.position); //stops enemy from moving        
     }

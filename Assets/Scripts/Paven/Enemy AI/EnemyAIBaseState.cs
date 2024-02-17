@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Abstract class that acts as a template to setup every other state the EnemyAI has
+[System.Serializable]
 public abstract class EnemyAIBaseState
 {
     //this function runs when the enemy ENTERS a specific state
