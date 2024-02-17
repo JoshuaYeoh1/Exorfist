@@ -85,7 +85,8 @@ public class PlayerHurt : MonoBehaviour
 
         //feedback.dieAnim(); // screen red
 
-        Invoke("ReloadScene", 2);
+        //Invoke("ReloadScene", 2);
+        GameEventSystem.current.playerDeath();
     }
 
     void RandDeathAnim()

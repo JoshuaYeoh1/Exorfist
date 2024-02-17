@@ -13,6 +13,7 @@ public class GameEventSystem : MonoBehaviour
         if (GameEventSystem.current == null)
         {
             GameEventSystem.current = this;
+            Debug.Log("GameEventSystem defined");
             return;
         }
         else
@@ -23,42 +24,42 @@ public class GameEventSystem : MonoBehaviour
     }
 
     //==Player Related Actions==//
-    public event Action onPlayerHit;
-    public event Action onPlayerHurt;
-    public event Action onPlayerBlock;
-    public event Action onPlayerParry;
-    public event Action onPlayerDeath;
+    public event Action OnPlayerHit;
+    public event Action OnPlayerHurt;
+    public event Action OnPlayerBlock;
+    public event Action OnPlayerParry;
+    public event Action OnPlayerDeath;
     //==Player Related Actions==//
 
     //==Enemy Related Actions==//
-    public event Action onEnemyDeath;
-    public event Action onEnemySpawn;
+    public event Action OnEnemyDeath;
+    public event Action OnEnemySpawn;
     //==Enemy Related Actions==//
 
     //==Objective Related actions==//
-    public event Action onScoreReached;
-    public event Action onLevelFinish;
-    public event Action onLevelStart;
+    public event Action OnScoreReached;
+    public event Action OnLevelFinish;
+    public event Action OnLevelStart;
     //==Objective Related actions==//
 
     //==Transition and Room related==//
     //"Rooms" meaning things like, the rooms filled with enemies, btw.
-    public event Action onRoomEntered;
-    public event Action<RoomStateManager.RoomState> onRoomStateChanged;
+    public event Action OnRoomEntered;
+    public event Action<RoomStateManager.RoomState> OnRoomStateChanged;
     //==Transition and Room related==//
 
     //==GameStateManager Related==//
-    public event Action<GameState> onGameStateChanged;
+    public event Action<GameState> OnGameStateChanged;
     //==GameStateManager Related==//
     public void spawnEnemies()
     {
         Debug.Log("SpawnEnemies triggered");
-        onEnemySpawn?.Invoke();
+        OnEnemySpawn?.Invoke();
     }
     public void enemyDeath()
     {
         Debug.Log("Enemy died");
-        onEnemyDeath?.Invoke(); //tysm Jon
+        OnEnemyDeath?.Invoke(); //tysm Jon
     }
     //==Enemy Related==//
 
@@ -68,27 +69,27 @@ public class GameEventSystem : MonoBehaviour
     public void playerHit()
     {
         Debug.Log("Player hit something");
-        onPlayerHit?.Invoke();
+        OnPlayerHit?.Invoke();
     }
     public void playerHurt()
     {
         Debug.Log("Player got hurt :(");
-        onPlayerHurt?.Invoke();
+        OnPlayerHurt?.Invoke();
     }
     public void playerBlock()
     {
         //Debug.Log("PlayerTurn started");
-        onPlayerBlock?.Invoke();
+        OnPlayerBlock?.Invoke();
     }
     public void playerParry()
     {
         Debug.Log("onplayer parry func");
-        onPlayerParry?.Invoke();
+        OnPlayerParry?.Invoke();
     }
     public void playerDeath()
     {
         Debug.Log("playerDeath()");
-        onPlayerDeath?.Invoke();
+        OnPlayerDeath?.Invoke();
     }
     //==Player Related==//
 
@@ -98,28 +99,28 @@ public class GameEventSystem : MonoBehaviour
     public void scoreReached()
     {
         Debug.Log("Score reached or whatever");
-        onScoreReached?.Invoke();
+        OnScoreReached?.Invoke();
     }
     public void levelStart()
     {
         Debug.Log("Level started");
-        onLevelStart?.Invoke();
+        OnLevelStart?.Invoke();
     }
     public void levelFinish()
     {
         Debug.Log("Level finished");
-        onLevelFinish?.Invoke();
+        OnLevelFinish?.Invoke();
     }
     //==Objective Related==//
 
     //==Misc==//
     public void gameStateChange(GameState newState)
     {
-        onGameStateChanged?.Invoke(newState);
+        OnGameStateChanged?.Invoke(newState);
     }
     public void roomStateChange(RoomStateManager.RoomState roomState)
     {
-        onRoomStateChanged?.Invoke(roomState);
+        OnRoomStateChanged?.Invoke(roomState);
     }
 
     /*

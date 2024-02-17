@@ -11,6 +11,7 @@ public class RoomStateManager : MonoBehaviour
     public enum RoomState {Inactive, Active, Clear, Start };
 
     public RoomState State;
+    [SerializeField] List<GameObject> EnemySpawns = new List<GameObject>();
 
     private void Awake()
     {
@@ -26,7 +27,7 @@ public class RoomStateManager : MonoBehaviour
         {
             case RoomState.Inactive:
                 //This is the initial state of the room
-                //HandleInPlay();
+                //HandleInactive();
                 break;
             case RoomState.Start:
                 //This is where the function for all the enemies spawning in takes place. As well as setting up the kill count for the enemies in the room.
@@ -46,11 +47,10 @@ public class RoomStateManager : MonoBehaviour
         GameEventSystem.current?.roomStateChange(newState);
     }
 
-    private void HandeLose()
+    private void HandleInactive()
     {
 
     }
-    //Add functions for "HandePlay", "HandlePaused" etc, for example if the game is paused, how should the gameStateManager respond?
 }
 
 /*
