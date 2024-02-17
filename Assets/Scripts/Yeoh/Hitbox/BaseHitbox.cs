@@ -7,6 +7,7 @@ public class BaseHitbox : MonoBehaviour
     protected GameObject owner;
     Hitmarker hitmarker;
     protected ShockwaveVFX shock;
+    Collider coll;
 
     public bool enabledOnAwake;
     public float damage, knockback;
@@ -21,13 +22,14 @@ public class BaseHitbox : MonoBehaviour
         owner=transform.root.gameObject;
         hitmarker=GetComponent<Hitmarker>();
         shock=GetComponent<ShockwaveVFX>();
+        coll=GetComponent<Collider>();
 
         ToggleActive(enabledOnAwake);
     }
 
     public void ToggleActive(bool toggle)
     {
-        gameObject.SetActive(toggle);
+        coll.enabled=toggle;
     }
 
     void OnTriggerEnter(Collider other)
@@ -56,5 +58,21 @@ public class BaseHitbox : MonoBehaviour
     protected virtual void HandleTargetHit(Rigidbody otherRb)
     {
         //print("dmg: " + damage + " | kb: " + knockback);
+    }
+
+    public void BlinkHitbox(float time)
+    {
+        if(time>0)
+        {
+            if(blinkingHitboxRt!=null) StopCoroutine(blinkingHitboxRt);
+            blinkingHitboxRt = StartCoroutine(BlinkingHitbox(time)); 
+        }
+    }
+    Coroutine blinkingHitboxRt;
+    IEnumerator BlinkingHitbox(float t)
+    {
+        ToggleActive(true);
+        yield return new WaitForSeconds(t);
+        ToggleActive(false);
     }
 }
