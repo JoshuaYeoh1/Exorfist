@@ -77,45 +77,31 @@ public class PlayerCombat : MonoBehaviour
         {
             player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Attack);
 
-            AttackSO aSO=null;
+            AttackSO atkSO=null;
 
-            if(type=="light") aSO = lightCombo[lightComboCounter];
-            if(type=="heavy") aSO = heavyCombo[heavyComboCounter];
+            if(type=="light") atkSO = lightCombo[lightComboCounter];
+            if(type=="heavy") atkSO = heavyCombo[heavyComboCounter];
 
-            if(aSO)
+            if(atkSO)
             {
-                move.Push(aSO.dash, transform.forward);
+                move.Push(atkSO.dash, transform.forward);
                     
-                ChooseHitbox(aSO);
+                ChooseHitbox(atkSO);
             }
         }
     }
 
-    void ChooseHitbox(AttackSO aSO)
+    void ChooseHitbox(AttackSO atkSO)
     {
-        int i = aSO.hitboxIndex;
+        int i = atkSO.hitboxIndex;
 
         // copy and replace scriptable object's values to hitbox's values
-        player.hitboxes[i].damage = aSO.damage;
-        player.hitboxes[i].knockback = aSO.knockback;
-        player.hitboxes[i].hasSweepingEdge = aSO.hasSweepingEdge;
+        player.hitboxes[i].damage = atkSO.damage;
+        player.hitboxes[i].knockback = atkSO.knockback;
+        player.hitboxes[i].hasSweepingEdge = atkSO.hasSweepingEdge;
 
         // enable and disable hitbox rapidly
-        if(blinkingHitboxRt!=null) StopCoroutine(blinkingHitboxRt);
-        StartCoroutine(BlinkingHitbox(i)); 
-    }
-
-    Coroutine blinkingHitboxRt;
-    IEnumerator BlinkingHitbox(int i)
-    {
-        foreach(PlayerHitbox hitbox in player.hitboxes) // make sure all hitboxes are disabled
-        {
-            hitbox.ToggleActive(false);
-        }
-
-        player.hitboxes[i].ToggleActive(true);
-        yield return new WaitForSeconds(.2f);
-        player.hitboxes[i].ToggleActive(false);
+        player.hitboxes[i].BlinkHitbox(atkSO.hitboxActiveDuration);
     }
 
     public void AttackRecover()
