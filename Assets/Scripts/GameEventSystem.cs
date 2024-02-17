@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
-using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 
 public class GameEventSystem : MonoBehaviour
@@ -11,12 +8,18 @@ public class GameEventSystem : MonoBehaviour
     //Static reference of the current game event system so that it can be accessed from anywhere in the game / project file.
     public static GameEventSystem current;
 
-
-
-    private void Awake()
+    void Awake()
     {
-        current = this;
-        SceneManager.sceneLoaded += onSceneLoaded;
+        if (GameEventSystem.current == null)
+        {
+            GameEventSystem.current = this;
+            return;
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
     }
 
     //==Player Related Actions==//
@@ -38,8 +41,15 @@ public class GameEventSystem : MonoBehaviour
     public event Action onLevelStart;
     //==Objective Related actions==//
 
-
+    //==Transition and Room related==//
+    //"Rooms" meaning things like, the rooms filled with enemies, btw.
+    public event Action onRoomEntered;
+    //==Transition and Room related==//
     //==Enemy Related==//
+
+    //==GameStateManager Related==//
+    public event Action<GameState> OnGameStateChanged;
+    //==GameStateManager Related==//
     public void spawnEnemies()
     {
         Debug.Log("SpawnEnemies triggered");
@@ -102,15 +112,17 @@ public class GameEventSystem : MonoBehaviour
     }
     //==Objective Related==//
 
-    //==Changing Scene Related==//
-    private void checkGameState()
+    //==Misc==//
+    public void gameStateChange(GameState newState)
     {
-        
+        OnGameStateChanged?.Invoke(newState);
     }
 
+    /*
     private void onSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         checkGameState();
     }
-    //==Changing Scene Related==//
+    */
+    //====//
 }
