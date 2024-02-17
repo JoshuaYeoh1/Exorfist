@@ -44,11 +44,11 @@ public class GameEventSystem : MonoBehaviour
     //==Transition and Room related==//
     //"Rooms" meaning things like, the rooms filled with enemies, btw.
     public event Action onRoomEntered;
+    public event Action<RoomStateManager.RoomState> onRoomStateChanged;
     //==Transition and Room related==//
-    //==Enemy Related==//
 
     //==GameStateManager Related==//
-    public event Action<GameState> OnGameStateChanged;
+    public event Action<GameState> onGameStateChanged;
     //==GameStateManager Related==//
     public void spawnEnemies()
     {
@@ -115,7 +115,11 @@ public class GameEventSystem : MonoBehaviour
     //==Misc==//
     public void gameStateChange(GameState newState)
     {
-        OnGameStateChanged?.Invoke(newState);
+        onGameStateChanged?.Invoke(newState);
+    }
+    public void roomStateChange(RoomStateManager.RoomState roomState)
+    {
+        onRoomStateChanged?.Invoke(roomState);
     }
 
     /*
@@ -124,5 +128,5 @@ public class GameEventSystem : MonoBehaviour
         checkGameState();
     }
     */
-    //====//
+    //==Misc==//
 }

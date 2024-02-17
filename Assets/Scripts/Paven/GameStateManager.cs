@@ -43,6 +43,10 @@ public class GameStateManager : MonoBehaviour
         GameEventSystem.current?.gameStateChange(newState);
     }
 
+    private void HandeLose()
+    {
+        
+    }
     //Add functions for "HandePlay", "HandlePaused" etc, for example if the game is paused, how should the gameStateManager respond?
 }
 
