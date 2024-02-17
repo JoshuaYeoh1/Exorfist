@@ -13,12 +13,21 @@ public class RoomStateManager : MonoBehaviour
     public RoomState State;
     public List<GameObject> EnemySpawns = new List<GameObject>();
 
+    //Total enemies dictate the number of enemies in that specific room.
+    //Remaining enemies is the number of enemies currently.
+    [SerializeField] private int remainingEnemies;
+
     private void Awake()
     {
         //CSInstance = this;
         //CSInstance.State = CombatState.DeployPhase;
     }
 
+    private void Start()
+    {
+        State = RoomState.Inactive;
+        GameEventSystem.current.OnEnemyDeath += ReduceEnemyCount;
+    }
     public void UpdateRoomState(RoomState newState)
     {
         State = newState;
@@ -49,7 +58,31 @@ public class RoomStateManager : MonoBehaviour
 
     private void HandleInactive()
     {
+        return; //do nothing
+    }
 
+    private void OnPlayerEnter()
+    {
+        if(State == RoomState.Inactive)
+        {
+            State = RoomState.Active;
+            //spawn enemies and shit
+            //lock door to prevent player from leaving mid-combat
+        }
+    }
+    private void OnEnemyDeath()
+    {
+        
+    }
+
+    private void ReduceEnemyCount()
+    {
+        remainingEnemies--;
+
+        if(remainingEnemies <= 0)
+        {
+            State = RoomState.Clear; //set RoomState to "Clear"
+        }
     }
 }
 
