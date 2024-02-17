@@ -33,7 +33,7 @@ public class EnemyAIHitStunState : EnemyAIBaseState
     {
         if (enemy.thisEnemy.GetIsHitStun())
         {
-            Debug.Log("HitStunTrue");
+            //Debug.Log("HitStunTrue");
             return;
         }
         else

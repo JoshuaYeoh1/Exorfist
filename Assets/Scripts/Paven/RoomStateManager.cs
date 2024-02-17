@@ -3,50 +3,69 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum RoomState { Inactive, Active, Clear, Start };
+
 public class RoomStateManager : MonoBehaviour
 {
-    //GameState manager
-    //public static GameStateManager GSManagerInstance;
-
-    public enum RoomState {Inactive, Active, Clear, Start };
+    //The room state manager class is similar to the GameStateManager class, however this class handles the logic for how the room FLOWS, and whether or not the room is CLEARED.
+    //Since this requires enemies to be considered a "room", the AI director is directly needed for this to function properly. Make sure to have an AI Director present in the scene alongside all the necessary spawner prefabs
 
     public RoomState State;
     public List<GameObject> EnemySpawns = new List<GameObject>();
 
     //Total enemies dictate the number of enemies in that specific room.
     //Remaining enemies is the number of enemies currently.
-    [SerializeField] private int remainingEnemies;
+    [SerializeField] private int enemyWaves; //determines the amount of "waves" the enemies come in, if there are more than one wave. Default is 0 for no waves.
 
     private void Awake()
     {
-        //CSInstance = this;
-        //CSInstance.State = CombatState.DeployPhase;
+
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            UpdateRoomState(RoomState.Active);
+        }
     }
 
     private void Start()
     {
         State = RoomState.Inactive;
-        GameEventSystem.current.OnEnemyDeath += ReduceEnemyCount;
+        if(GameEventSystem.current != null)
+        {
+            Debug.Log("RoomStateManager event subscriptions initialized");
+            GameEventSystem.current.OnEnemyDeath += OnEnemyDeath;
+        }
+        else
+        {
+            Debug.LogError("GameEventSystem not found in scene. Please add one in for the RoomStateManager to function properly.");
+        }
+        
     }
+
     public void UpdateRoomState(RoomState newState)
     {
         State = newState;
-
+        
         switch (newState)
         {
             case RoomState.Inactive:
                 //This is the initial state of the room
                 //HandleInactive();
+                Debug.Log("Inactive");
                 break;
             case RoomState.Start:
-                //This is where the function for all the enemies spawning in takes place. As well as setting up the kill count for the enemies in the room.
-                //HandleStart();
+                Debug.Log("Start");
+                HandleStart();
                 break;
             case RoomState.Active:
-                //This is where the function for calculating whether or not the room is still considered as "clear" or not.
+                Debug.Log("Active");
                 //HandleActive();
                 break;
             case RoomState.Clear:
+                Debug.Log("Clear");
                 //HandleLose();
                 break;
             default:
@@ -56,39 +75,69 @@ public class RoomStateManager : MonoBehaviour
         GameEventSystem.current?.roomStateChange(newState);
     }
 
-    private void HandleInactive()
+    private IEnumerator HandleStart()
     {
-        return; //do nothing
+        yield return null;
     }
-
     private void OnPlayerEnter()
     {
         if(State == RoomState.Inactive)
         {
-            State = RoomState.Active;
+            UpdateRoomState(RoomState.Active);
+            return;
             //spawn enemies and shit
             //lock door to prevent player from leaving mid-combat
         }
     }
     private void OnEnemyDeath()
     {
+        //null check for AI Director.
+        if(AIDirector.instance == null)
+        {
+            Debug.LogError("There's no AI director in the scene asshole! PUT IT IN!");
+            return;
+        }
+
+        switch (State)
+        {
+            case RoomState.Inactive:
+                Debug.Log("Room state is currently inactive");
+                break;
+
+            case RoomState.Active:
+                Debug.Log("Enemy killed and will eventually transition into win state");
+                Debug.Log(AIDirector.instance.enemies.Count.ToString());
+                if(AIDirector.instance.enemies.Count == 0)
+                {
+                    UpdateRoomState(RoomState.Clear);
+                } 
+                break;
+
+            case RoomState.Clear:
+                break;
+
+            case RoomState.Start:
+                break;
+
+            default:
+                Debug.LogError("RoomState is neither inactive nor active. We ain't giving a shit");
+                throw new ArgumentOutOfRangeException(nameof(State), State, null);
+        }
+        if(State == RoomState.Active)
+        {
+            Debug.Log("Enemy killed.");
+        }
         
     }
 
-    private void ReduceEnemyCount()
+    private void StaticRoomSetup()
     {
-        remainingEnemies--;
-
-        if(remainingEnemies <= 0)
+        foreach(GameObject enemySpawn in EnemySpawns)
         {
-            State = RoomState.Clear; //set RoomState to "Clear"
+            if(enemySpawn != null)
+            {
+                enemySpawn.gameObject.SetActive(true);
+            }
         }
     }
 }
-
-/*
- * Context:
- * Deploy phase = Deployment part, similar to Into The Breach
- * PlayerTurn, EnemyTurn, Victory, Lose = self explanatory.
- * Decide = Runs checks to see if the game should keep going (i.e if HeatGauge == max, immediately trigger lose state)
- */
