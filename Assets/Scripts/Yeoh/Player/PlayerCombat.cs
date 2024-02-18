@@ -6,6 +6,7 @@ public class PlayerCombat : MonoBehaviour
 {
     Player player;
     PlayerMovement move;
+    InputBuffer buffer;
 
     [Header("Light Attack")]
     public List<AttackSO> lightCombo;
@@ -24,18 +25,14 @@ public class PlayerCombat : MonoBehaviour
     {
         player=GetComponent<Player>();
         move=GetComponent<PlayerMovement>();
-    }
-
-    public void OnBtnDown(string type="light")
-    {
-        if(player.canAttack) Attack(type);
+        buffer=GetComponent<InputBuffer>();
     }
 
     bool canCombo=true, canAttack=true;
 
-    void Attack(string type)
+    public void Attack(string type="light")
     {
-        if(canCombo && canAttack) // wait for cooldown
+        if(canCombo && canAttack && player.canAttack) // wait for cooldown
         {
             if(type=="light" && lightComboCounter < lightCombo.Count-1)
             {
@@ -50,6 +47,8 @@ public class PlayerCombat : MonoBehaviour
                 player.anim.CrossFade(lightCombo[lightComboCounter].animName, .25f, 2, 0); //anim.Play but smoother
 
                 if(endingComboRt!=null) StopCoroutine(endingComboRt);
+
+                buffer.lastPressedLightAttack=-1;
             }
 
             else if(type=="heavy" && heavyComboCounter < heavyCombo.Count-1)
@@ -67,6 +66,8 @@ public class PlayerCombat : MonoBehaviour
                 if(heavyComboCounter == heavyCombo.Count-1) canCombo=false;
 
                 if(endingComboRt!=null) StopCoroutine(endingComboRt);
+
+                buffer.lastPressedHeavyAttack=-1;
             }
         }
     }
@@ -112,6 +113,20 @@ public class PlayerCombat : MonoBehaviour
         endingComboRt = StartCoroutine(EndingCombo(comboCooldown));
     }
 
+    bool canFinish;
+
+    public void AttackFinish()
+    {
+        if(canFinish)
+        {
+            canFinish=false;
+
+            player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Idle);
+
+            player.anim.CrossFade("cancel", .25f, 2, 0);
+        }
+    }
+
     Coroutine endingComboRt;
     IEnumerator EndingCombo(float time)
     {
@@ -132,21 +147,12 @@ public class PlayerCombat : MonoBehaviour
 
         player.anim.CrossFade("cancel", .1f, 2, 0); // cancel anim
 
-        ResetCombo();
-    }
+        lightComboCounter = heavyComboCounter = -1;
 
-    bool canFinish;
+        canAttack=canCombo=false;
 
-    public void AttackFinish()
-    {
-        if(canFinish)
-        {
-            canFinish=false;
-
-            player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Idle);
-
-            player.anim.CrossFade("cancel", .25f, 2, 0);
-        }
+        if(endingComboRt!=null) StopCoroutine(endingComboRt);
+        endingComboRt = StartCoroutine(EndingCombo(comboCooldown));
     }
     
 

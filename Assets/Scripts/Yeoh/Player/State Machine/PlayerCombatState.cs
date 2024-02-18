@@ -13,12 +13,15 @@ public class PlayerCombatState : BaseState<PlayerStateMachine.PlayerStates>
 
     public override void EnterState()
     {
-        //Debug.Log("Player state: " + stateMachine.GetCurrentState().StateKey);
+        Debug.Log("Player state: " + stateMachine.GetCurrentState().StateKey);
 
-        stateMachine.player.canLook=true;
+        stateMachine.player.anim.SetBool("inCombat", true);
+
         stateMachine.player.canAttack=true;
         stateMachine.player.canBlock=true;
-        stateMachine.player.canStun=true;
+        stateMachine.player.canCast=true;
+        stateMachine.player.canHurt=true;
+        stateMachine.player.canStun=true; 
     }
 
     public override void UpdateState()
@@ -28,9 +31,14 @@ public class PlayerCombatState : BaseState<PlayerStateMachine.PlayerStates>
         CheckNoCombat();
     }
 
+    public override void FixedUpdateState()
+    {
+        stateMachine.player.look.CheckLook();
+    }
+
     public override void ExitState()
     {
-
+        stateMachine.player.anim.SetBool("inCombat", false);
     }
 
     public override PlayerStateMachine.PlayerStates GetNextState() // Implement the logic to determine the next state from the this state

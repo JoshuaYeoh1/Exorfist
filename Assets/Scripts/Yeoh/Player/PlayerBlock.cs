@@ -14,6 +14,7 @@ public class PlayerBlock : MonoBehaviour
     [HideInInspector] public ShockwaveVFX shock;
     public PlayerBlockMeter meter;
     InputBuffer buffer;
+    PlayerCataclysmWave aoe;
 
     public float blockCooldown=.5f, parryWindowTime=.2f, blockMoveSpeedMult=.3f, blockKnockbackResistMult=.3f;
     public float parryRefillPercent=33;
@@ -31,6 +32,7 @@ public class PlayerBlock : MonoBehaviour
         flash=GetComponent<FlashSpriteVFX>();
         shock=GetComponent<ShockwaveVFX>();
         buffer=GetComponent<InputBuffer>();
+        aoe=GetComponent<PlayerCataclysmWave>();
     }
 
     void Update()
@@ -40,24 +42,17 @@ public class PlayerBlock : MonoBehaviour
 
     public bool pressingBtn;
 
-    public void OnBtnDown()
-    {
-        Parry();
-    }
-    public void OnBtnUp()
-    {
-        if(isBlocking) Unblock();
-    }
-
     [HideInInspector] public bool canBlock=true;
 
-    void Parry()
+    public void Parry()
     {
-        if(player.canBlock && canBlock && !meter.IsEmpty())
+        if(canBlock && !meter.IsEmpty() && player.canBlock)
         {
             canBlock=false;
 
             combat.CancelAttack();
+
+            aoe.Cancel();
 
             stun.Recover();
 
@@ -89,7 +84,7 @@ public class PlayerBlock : MonoBehaviour
         else Unblock();
     }
 
-    void Block()
+    public void Block()
     {
         isBlocking=true;
 
