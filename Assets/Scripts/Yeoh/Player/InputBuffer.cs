@@ -6,17 +6,19 @@ public class InputBuffer : MonoBehaviour
 {
     PlayerCombat combat;
     PlayerBlock block;
-    PlayerCataclysmWave aoe;
+    PlayerAOE aoe;
+    PlayerLaser laser;
 
     public float inputBufferTime=.3f;
     
-    [HideInInspector] public float lastPressedLightAttack=-1, lastPressedHeavyAttack=-1, lastPressedBlock=-1, lastPressedAOE=-1;
+    [HideInInspector] public float lastPressedLightAttack=-1, lastPressedHeavyAttack=-1, lastPressedBlock=-1, lastPressedAOE=-1, lastPressedLaser=-1;
 
     void Awake()
     {
         combat=GetComponent<PlayerCombat>();
         block=GetComponent<PlayerBlock>();
-        aoe=GetComponent<PlayerCataclysmWave>();
+        aoe=GetComponent<PlayerAOE>();
+        laser=GetComponent<PlayerLaser>();
     }
 
     void Update()
@@ -49,6 +51,10 @@ public class InputBuffer : MonoBehaviour
     {
         lastPressedAOE = Time.time;
     }
+    public void Laser()
+    {
+        lastPressedLaser = Time.time;
+    }
 
     void CheckInputBuffer()
     {
@@ -71,6 +77,12 @@ public class InputBuffer : MonoBehaviour
         {
             aoe.StartCast();
         }
+
+        if(Time.time-lastPressedLaser < inputBufferTime)
+        {
+            laser.StartCast();
+        }
+        
     }
 
     void KeyboardInput()
@@ -84,6 +96,8 @@ public class InputBuffer : MonoBehaviour
         if(Input.GetKeyUp(KeyCode.Q)) BlockUp();
 
         if(Input.GetKeyUp(KeyCode.Z)) AOE();
+
+        if(Input.GetKeyUp(KeyCode.X)) Laser();
     }
     
 }

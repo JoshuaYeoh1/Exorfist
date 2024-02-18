@@ -9,6 +9,9 @@ public class Player : MonoBehaviour
     [HideInInspector] public ClosestObjectFinder finder;
     [HideInInspector] public PlayerLook look;
     [HideInInspector] public InputBuffer buffer;
+    [HideInInspector] public PlayerCombat combat;
+    [HideInInspector] public PlayerAOE aoe;
+    [HideInInspector] public PlayerLaser laser;
     
     public Animator anim;
     public Transform popUpTextPos;
@@ -23,5 +26,15 @@ public class Player : MonoBehaviour
         finder=GetComponent<ClosestObjectFinder>();
         look=GetComponent<PlayerLook>();
         buffer=GetComponent<InputBuffer>();
+        combat=GetComponent<PlayerCombat>();
+        aoe=GetComponent<PlayerAOE>();
+        laser=GetComponent<PlayerLaser>();
+    }
+
+    public void CancelActions()
+    {
+        combat.CancelAttack();
+        aoe.Cancel();
+        laser.Cancel();
     }
 }

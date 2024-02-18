@@ -6,8 +6,6 @@ public class PlayerStun : MonoBehaviour
 {
     Player player;
     PlayerMovement move;
-    PlayerCombat combat;
-    PlayerCataclysmWave aoe;
 
     public bool stunned;
     float currentStunTime;
@@ -16,8 +14,6 @@ public class PlayerStun : MonoBehaviour
     {
         player=GetComponent<Player>();
         move=GetComponent<PlayerMovement>();
-        combat=GetComponent<PlayerCombat>();
-        aoe=GetComponent<PlayerCataclysmWave>();
     }
 
     public void Stun(float speedDebuffMult=.3f, float stunTime=.5f)
@@ -28,9 +24,7 @@ public class PlayerStun : MonoBehaviour
 
             stunned=true;
 
-            combat.CancelAttack();
-
-            aoe.Cancel();
+            player.CancelActions();
 
             player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Stun);
 

@@ -6,7 +6,6 @@ public class PlayerBlock : MonoBehaviour
 {
     [HideInInspector] public Player player;
     PlayerMovement move;
-    PlayerCombat combat;
     [HideInInspector] public PlayerHurt hurt;
     [HideInInspector] public OffsetMeshColor color;
     PlayerStun stun;
@@ -14,7 +13,6 @@ public class PlayerBlock : MonoBehaviour
     [HideInInspector] public ShockwaveVFX shock;
     public PlayerBlockMeter meter;
     InputBuffer buffer;
-    PlayerCataclysmWave aoe;
 
     public float blockCooldown=.5f, parryWindowTime=.2f, blockMoveSpeedMult=.3f, blockKnockbackResistMult=.3f;
     public float parryRefillPercent=33;
@@ -25,14 +23,12 @@ public class PlayerBlock : MonoBehaviour
     {
         player=GetComponent<Player>();
         move=GetComponent<PlayerMovement>();
-        combat=GetComponent<PlayerCombat>();
         hurt=GetComponent<PlayerHurt>();
         color=GetComponent<OffsetMeshColor>();
         stun=GetComponent<PlayerStun>();
         flash=GetComponent<FlashSpriteVFX>();
         shock=GetComponent<ShockwaveVFX>();
         buffer=GetComponent<InputBuffer>();
-        aoe=GetComponent<PlayerCataclysmWave>();
     }
 
     void Update()
@@ -50,9 +46,7 @@ public class PlayerBlock : MonoBehaviour
         {
             canBlock=false;
 
-            combat.CancelAttack();
-
-            aoe.Cancel();
+            player.CancelActions();
 
             stun.Recover();
 
@@ -134,7 +128,7 @@ public class PlayerBlock : MonoBehaviour
 
         meter.Refill(parryRefillPercent);
 
-        flash.SpawnFlash(contactPoint, Color.yellow);
+        flash.SpawnFlash(contactPoint, Color.green);
 
         color.FlashColor(.1f, -.5f, .5f, -.5f); // flash green
 

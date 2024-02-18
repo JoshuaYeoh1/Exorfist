@@ -5,6 +5,7 @@ using UnityEngine;
 public class BaseHitbox : MonoBehaviour
 {
     protected GameObject owner;
+    public Transform hitboxOrigin;
     Hitmarker hitmarker;
     protected ShockwaveVFX shock;
     Collider coll;
@@ -34,11 +35,18 @@ public class BaseHitbox : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        contactPoint = other.ClosestPointOnBounds(transform.position);
-
         Rigidbody otherRb = other.attachedRigidbody;
 
         hitmarkerColor = Color.white;
+
+        if(hitboxOrigin)
+        {
+            contactPoint = other.ClosestPointOnBounds(hitboxOrigin.position);
+        }
+        else
+        {
+            contactPoint = other.ClosestPointOnBounds(transform.position);
+        }
 
         if(otherRb && IsTargetValid(otherRb))
         {
