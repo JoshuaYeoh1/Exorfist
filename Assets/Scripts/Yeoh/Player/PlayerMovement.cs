@@ -45,17 +45,14 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(player.canMove)
-        {
-            Vector3 camForward = Camera.main.transform.forward;
-            Vector3 camRight = Camera.main.transform.right;
+        Vector3 camForward = Camera.main.transform.forward;
+        Vector3 camRight = Camera.main.transform.right;
 
-            camForward.y=0;
-            camRight.y=0;
+        camForward.y=0;
+        camRight.y=0;
 
-            Move(dir.z, camForward.normalized);
-            Move(dir.x, camRight.normalized);
-        }
+        Move(dir.z, camForward.normalized);
+        Move(dir.x, camRight.normalized);
 
         velocity = Mathf.Round(rb.velocity.magnitude*100)/100;
     }

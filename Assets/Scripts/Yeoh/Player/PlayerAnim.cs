@@ -11,6 +11,7 @@ public class PlayerAnim : MonoBehaviour
     ClosestObjectFinder finder;
     PlayerCombat combat;
     Rigidbody rb;
+    PlayerCataclysmWave aoe;
 
     void Start()
     {
@@ -21,13 +22,13 @@ public class PlayerAnim : MonoBehaviour
         finder=transform.root.GetComponent<ClosestObjectFinder>();
         combat=transform.root.GetComponent<PlayerCombat>();
         rb=transform.root.GetComponent<Rigidbody>();
+        aoe=transform.root.GetComponent<PlayerCataclysmWave>();
     }
 
     void Update()
     {
         AnimBlendTree();
         AnimMirror();
-        AnimCombat();
     }
 
     void AnimBlendTree()
@@ -52,15 +53,6 @@ public class PlayerAnim : MonoBehaviour
         else anim.SetBool("mirror", true);
     }
 
-    void AnimCombat()
-    {
-        if(player.canLook && finder.target)
-        {
-            anim.SetBool("inCombat", true);
-        }
-        else anim.SetBool("inCombat", false);
-    }
-
     public void AnimRelease(string type)
     {
         combat.AttackRelease(type);
@@ -72,6 +64,15 @@ public class PlayerAnim : MonoBehaviour
     public void AnimFinish()
     {
         combat.AttackFinish();
+    }
+
+    public void AOERelease()
+    {
+        aoe.Release();
+    }
+    public void AOEFinish()
+    {
+        aoe.Finish();
     }
 
     // public void PlaySfxFootstep()

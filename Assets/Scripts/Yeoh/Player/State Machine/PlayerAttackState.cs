@@ -15,15 +15,21 @@ public class PlayerAttackState : BaseState<PlayerStateMachine.PlayerStates>
     {
         Debug.Log("Player state: " + stateMachine.GetCurrentState().StateKey);
 
-        stateMachine.player.canLook=true;
         stateMachine.player.canAttack=true;
         stateMachine.player.canBlock=false;
-        stateMachine.player.canStun=false;
+        stateMachine.player.canCast=false;
+        stateMachine.player.canHurt=true;
+        stateMachine.player.canStun=false; 
     }
 
     public override void UpdateState()
     {
         stateMachine.player.move.NoInput();
+    }
+
+    public override void FixedUpdateState()
+    {
+        stateMachine.player.look.CheckLook();
     }
 
     public override void ExitState()

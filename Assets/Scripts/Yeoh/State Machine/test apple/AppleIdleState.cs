@@ -21,6 +21,11 @@ public class AppleIdleState : BaseState<AppleStateMachine.AppleStates>
 
     }
 
+    public override void FixedUpdateState()
+    {
+        
+    }
+
     public override void ExitState()
     {
 
