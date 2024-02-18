@@ -19,19 +19,15 @@ public class PlayerLook : MonoBehaviour
         rb=GetComponent<Rigidbody>();
     }
 
-    void FixedUpdate()
+    public void CheckLook()
     {
-        if(player.canLook)
+        if(finder.target) // if there is a target in range
         {
-            if(!finder.target) // if no targets in range
-            {
-                if(player.canMove && move.dir.sqrMagnitude>0 && rb.velocity.normalized!=Vector3.zero) // if joystick is moved
-                {
-                    FaceTowards(rb.velocity.normalized); // face move direction
-                }
-            }
-
-            else FaceTowards(GetDir(finder.target.transform.position, transform.position)); // else face at target
+            FaceTowards(GetDir(finder.target.transform.position, transform.position)); // face at target
+        }
+        else if(move.dir.sqrMagnitude>0) // if joystick is moved
+        {
+            FaceTowards(rb.velocity.normalized); // face move direction
         }
     }
 

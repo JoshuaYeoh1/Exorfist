@@ -6,28 +6,27 @@ public class PlayerAnim : MonoBehaviour
 {
     [HideInInspector] public Animator anim;
 
-    Player player;
     PlayerMovement move;
-    ClosestObjectFinder finder;
     PlayerCombat combat;
     Rigidbody rb;
+    PlayerAOE aoe;
+    PlayerLaser laser;
 
     void Start()
     {
         anim = GetComponent<Animator>();
 
-        player=transform.root.GetComponent<Player>();
         move=transform.root.GetComponent<PlayerMovement>();
-        finder=transform.root.GetComponent<ClosestObjectFinder>();
         combat=transform.root.GetComponent<PlayerCombat>();
         rb=transform.root.GetComponent<Rigidbody>();
+        aoe=transform.root.GetComponent<PlayerAOE>();
+        laser=transform.root.GetComponent<PlayerLaser>();
     }
 
     void Update()
     {
         AnimBlendTree();
         AnimMirror();
-        AnimCombat();
     }
 
     void AnimBlendTree()
@@ -52,15 +51,6 @@ public class PlayerAnim : MonoBehaviour
         else anim.SetBool("mirror", true);
     }
 
-    void AnimCombat()
-    {
-        if(player.canLook && finder.target)
-        {
-            anim.SetBool("inCombat", true);
-        }
-        else anim.SetBool("inCombat", false);
-    }
-
     public void AnimRelease(string type)
     {
         combat.AttackRelease(type);
@@ -74,6 +64,24 @@ public class PlayerAnim : MonoBehaviour
         combat.AttackFinish();
     }
 
+    public void AOERelease()
+    {
+        aoe.Release();
+    }
+    public void AOEFinish()
+    {
+        aoe.Finish();
+    }
+
+    public void LaserRelease()
+    {
+        laser.Release();
+    }
+    public void LaserFinish()
+    {
+        laser.Finish();
+    }
+    
     // public void PlaySfxFootstep()
     // {
     //     Singleton.instance.playSFX(sfxPlayerFst,transform);

@@ -9,6 +9,13 @@ public class ClosestObjectFinder : MonoBehaviour
     public float range=5;
     public LayerMask layers;
 
+    [HideInInspector] public float defRange;
+    
+    void Awake()
+    {
+        defRange=range;
+    }
+
     void Update()
     {
         Collider[] targets =  Physics.OverlapSphere(transform.position, range, layers);

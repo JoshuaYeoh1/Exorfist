@@ -6,6 +6,7 @@ public class OffsetMeshColor : MonoBehaviour
 {
     public GameObject skinsGroup;
     public float rOffset=.5f, gOffset=-.5f, bOffset=-.5f;
+    public bool ignoreEmission;
 
     public Renderer[] renderers;
     public List<Color> defaultColors = new List<Color>();
@@ -26,7 +27,7 @@ public class OffsetMeshColor : MonoBehaviour
             {
                 defaultColors.Add(renderers[j].materials[i].color);
 
-                defaultEmissionColors.Add(renderers[j].materials[i].GetColor("_EmissionColor"));
+                if(!ignoreEmission) defaultEmissionColors.Add(renderers[j].materials[i].GetColor("_EmissionColor"));
             }
         }
     }
@@ -45,7 +46,7 @@ public class OffsetMeshColor : MonoBehaviour
 
                 renderers[j].materials[i].color = newColor;
 
-                if(eOffset)
+                if(eOffset && !ignoreEmission)
                 {
                     Color newEmissionColor = new Color(defaultEmissionColors[index].r+rOffset,
                                                 defaultEmissionColors[index].g+gOffset,

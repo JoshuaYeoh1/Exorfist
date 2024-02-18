@@ -6,6 +6,7 @@ public class PlayerCombat : MonoBehaviour
 {
     Player player;
     PlayerMovement move;
+    InputBuffer buffer;
 
     [Header("Light Attack")]
     public List<AttackSO> lightCombo;
@@ -24,18 +25,14 @@ public class PlayerCombat : MonoBehaviour
     {
         player=GetComponent<Player>();
         move=GetComponent<PlayerMovement>();
-    }
-
-    public void OnBtnDown(string type="light")
-    {
-        if(player.canAttack) Attack(type);
+        buffer=GetComponent<InputBuffer>();
     }
 
     bool canCombo=true, canAttack=true;
 
-    void Attack(string type)
+    public void Attack(string type="light")
     {
-        if(canCombo && canAttack) // wait for cooldown
+        if(canCombo && canAttack && player.canAttack) // wait for cooldown
         {
             if(type=="light" && lightComboCounter < lightCombo.Count-1)
             {
@@ -50,6 +47,8 @@ public class PlayerCombat : MonoBehaviour
                 player.anim.CrossFade(lightCombo[lightComboCounter].animName, .25f, 2, 0); //anim.Play but smoother
 
                 if(endingComboRt!=null) StopCoroutine(endingComboRt);
+
+                buffer.lastPressedLightAttack=-1;
             }
 
             else if(type=="heavy" && heavyComboCounter < heavyCombo.Count-1)
@@ -67,6 +66,8 @@ public class PlayerCombat : MonoBehaviour
                 if(heavyComboCounter == heavyCombo.Count-1) canCombo=false;
 
                 if(endingComboRt!=null) StopCoroutine(endingComboRt);
+
+                buffer.lastPressedHeavyAttack=-1;
             }
         }
     }
@@ -77,45 +78,31 @@ public class PlayerCombat : MonoBehaviour
         {
             player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Attack);
 
-            AttackSO aSO=null;
+            AttackSO atkSO=null;
 
-            if(type=="light") aSO = lightCombo[lightComboCounter];
-            if(type=="heavy") aSO = heavyCombo[heavyComboCounter];
+            if(type=="light") atkSO = lightCombo[lightComboCounter];
+            if(type=="heavy") atkSO = heavyCombo[heavyComboCounter];
 
-            if(aSO)
+            if(atkSO)
             {
-                move.Push(aSO.dash, transform.forward);
+                move.Push(atkSO.dash, transform.forward);
                     
-                ChooseHitbox(aSO);
+                ChooseHitbox(atkSO);
             }
         }
     }
 
-    void ChooseHitbox(AttackSO aSO)
+    void ChooseHitbox(AttackSO atkSO)
     {
-        int i = aSO.hitboxIndex;
+        int i = atkSO.hitboxIndex;
 
         // copy and replace scriptable object's values to hitbox's values
-        player.hitboxes[i].damage = aSO.damage;
-        player.hitboxes[i].knockback = aSO.knockback;
-        player.hitboxes[i].hasSweepingEdge = aSO.hasSweepingEdge;
+        player.hitboxes[i].damage = atkSO.damage;
+        player.hitboxes[i].knockback = atkSO.knockback;
+        player.hitboxes[i].hasSweepingEdge = atkSO.hasSweepingEdge;
 
         // enable and disable hitbox rapidly
-        if(blinkingHitboxRt!=null) StopCoroutine(blinkingHitboxRt);
-        StartCoroutine(BlinkingHitbox(i)); 
-    }
-
-    Coroutine blinkingHitboxRt;
-    IEnumerator BlinkingHitbox(int i)
-    {
-        foreach(PlayerHitbox hitbox in player.hitboxes) // make sure all hitboxes are disabled
-        {
-            hitbox.ToggleActive(false);
-        }
-
-        player.hitboxes[i].ToggleActive(true);
-        yield return new WaitForSeconds(.2f);
-        player.hitboxes[i].ToggleActive(false);
+        player.hitboxes[i].BlinkHitbox(atkSO.hitboxActiveDuration);
     }
 
     public void AttackRecover()
@@ -124,6 +111,20 @@ public class PlayerCombat : MonoBehaviour
 
         if(endingComboRt!=null) StopCoroutine(endingComboRt);
         endingComboRt = StartCoroutine(EndingCombo(comboCooldown));
+    }
+
+    bool canFinish;
+
+    public void AttackFinish()
+    {
+        if(canFinish)
+        {
+            canFinish=false;
+
+            player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Idle);
+
+            player.anim.CrossFade("cancel", .25f, 2, 0);
+        }
     }
 
     Coroutine endingComboRt;
@@ -146,21 +147,12 @@ public class PlayerCombat : MonoBehaviour
 
         player.anim.CrossFade("cancel", .1f, 2, 0); // cancel anim
 
-        ResetCombo();
-    }
+        lightComboCounter = heavyComboCounter = -1;
 
-    bool canFinish;
+        canAttack=canCombo=false;
 
-    public void AttackFinish()
-    {
-        if(canFinish)
-        {
-            canFinish=false;
-
-            player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Idle);
-
-            player.anim.CrossFade("cancel", .25f, 2, 0);
-        }
+        if(endingComboRt!=null) StopCoroutine(endingComboRt);
+        endingComboRt = StartCoroutine(EndingCombo(comboCooldown));
     }
     
 

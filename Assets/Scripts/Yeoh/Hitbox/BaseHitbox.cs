@@ -5,8 +5,10 @@ using UnityEngine;
 public class BaseHitbox : MonoBehaviour
 {
     protected GameObject owner;
+    public Transform hitboxOrigin;
     Hitmarker hitmarker;
     protected ShockwaveVFX shock;
+    Collider coll;
 
     public bool enabledOnAwake;
     public float damage, knockback;
@@ -21,22 +23,30 @@ public class BaseHitbox : MonoBehaviour
         owner=transform.root.gameObject;
         hitmarker=GetComponent<Hitmarker>();
         shock=GetComponent<ShockwaveVFX>();
+        coll=GetComponent<Collider>();
 
         ToggleActive(enabledOnAwake);
     }
 
     public void ToggleActive(bool toggle)
     {
-        gameObject.SetActive(toggle);
+        coll.enabled=toggle;
     }
 
     void OnTriggerEnter(Collider other)
     {
-        contactPoint = other.ClosestPointOnBounds(transform.position);
-
         Rigidbody otherRb = other.attachedRigidbody;
 
         hitmarkerColor = Color.white;
+
+        if(hitboxOrigin)
+        {
+            contactPoint = other.ClosestPointOnBounds(hitboxOrigin.position);
+        }
+        else
+        {
+            contactPoint = other.ClosestPointOnBounds(transform.position);
+        }
 
         if(otherRb && IsTargetValid(otherRb))
         {
@@ -56,5 +66,21 @@ public class BaseHitbox : MonoBehaviour
     protected virtual void HandleTargetHit(Rigidbody otherRb)
     {
         //print("dmg: " + damage + " | kb: " + knockback);
+    }
+
+    public void BlinkHitbox(float time)
+    {
+        if(time>0)
+        {
+            if(blinkingHitboxRt!=null) StopCoroutine(blinkingHitboxRt);
+            blinkingHitboxRt = StartCoroutine(BlinkingHitbox(time)); 
+        }
+    }
+    Coroutine blinkingHitboxRt;
+    IEnumerator BlinkingHitbox(float t)
+    {
+        ToggleActive(true);
+        yield return new WaitForSeconds(t);
+        ToggleActive(false);
     }
 }

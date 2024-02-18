@@ -10,7 +10,7 @@ public class PlayerHurt : MonoBehaviour
     Rigidbody rb;
     PlayerStun stun;
 
-    bool iframe;
+    public bool iframe;
     public float iframeTime=.5f;
 
     void Awake()
@@ -24,7 +24,7 @@ public class PlayerHurt : MonoBehaviour
 
     public void Hit(float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult=.3f, float stunTime=.5f)
     {
-        if(!iframe && player.isAlive)
+        if(!iframe && player.isAlive && player.canHurt)
         {
             DoIFraming(iframeTime);
 

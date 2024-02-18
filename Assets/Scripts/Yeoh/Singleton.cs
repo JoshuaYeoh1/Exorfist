@@ -37,21 +37,15 @@ public class Singleton : MonoBehaviour
 
         //UpdateShuffleMusic();
         //UpdateShuffleAmbient();
-    }
-
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
-    
-    [Header("Game")]
-    public bool controlsEnabled=true;
-    public GameObject popUpTextPrefab;
+    }    
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void CamShake(float time=.2f)
+    public void CamShake(float time=.2f, float amp=.5f, float freq=2)
     {
-        GameObject.FindGameObjectWithTag("Cinemachine").GetComponent<CameraCinemachine>().Shake(time);
+        GameObject.FindGameObjectWithTag("Cinemachine").GetComponent<CameraCinemachine>().Shake(time, amp, freq);
+
+        Vibrator.Vibrate();
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -83,6 +77,8 @@ public class Singleton : MonoBehaviour
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public GameObject popUpTextPrefab;
 
     public void SpawnPopUpText(Vector3 pos, string text, Color color, float scaleMult=.35f, float force=2f)
     {
@@ -178,7 +174,7 @@ public class Singleton : MonoBehaviour
     void EnableTransition()
     {
         isTransitioning=true;
-        controlsEnabled=false;
+        //controlsEnabled=false;
         transitionCanvas.SetActive(true);
         transitionCanvasGroup.interactable=true;
         transitionCanvasGroup.blocksRaycasts=true;
@@ -188,7 +184,7 @@ public class Singleton : MonoBehaviour
     {
         transitionCanvasGroup.interactable=false;
         transitionCanvasGroup.blocksRaycasts=false;
-        controlsEnabled=true;
+        //controlsEnabled=true;
         isTransitioning=false;
     }
 

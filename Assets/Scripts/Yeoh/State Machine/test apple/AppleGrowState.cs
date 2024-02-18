@@ -28,6 +28,11 @@ public class AppleGrowState : BaseState<AppleStateMachine.AppleStates>
         }
     }
 
+    public override void FixedUpdateState()
+    {
+        
+    }
+
     public override void ExitState()
     {
 
