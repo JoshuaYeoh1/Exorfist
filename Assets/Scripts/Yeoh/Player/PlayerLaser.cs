@@ -8,12 +8,19 @@ public class PlayerLaser : MonoBehaviour
     InputBuffer buffer;
     ClosestObjectFinder finder;
 
-    public GameObject hitboxPrefab, castingBarPrefab;
-    public Transform castingBarTr, firepointTr;
+    [Header("Casting")]
+    public GameObject castingBarPrefab;
+    public Transform castingBarTr;
+    public float castTime=1;
     
-    public float range=10, castTime=.25f, sustainTime=5, damageInterval=.2f, cooldown=45;
+    [Header("Trails")]
+    public GameObject castTrailVFXPrefab;
+    public Transform[] castTrailTr;
 
-    bool canCast=true, isCasting;
+    [Header("Cast")]
+    public Transform firepointTr;
+    public GameObject hitboxPrefab;
+    public float range=10, sustainTime=5, damageInterval=.2f, cooldown=45;
 
     void Awake()
     {
@@ -21,6 +28,8 @@ public class PlayerLaser : MonoBehaviour
         buffer=GetComponent<InputBuffer>();
         finder=GetComponent<ClosestObjectFinder>();
     }
+
+    bool canCast=true;
 
     public void StartCast()
     {
@@ -33,7 +42,9 @@ public class PlayerLaser : MonoBehaviour
             buffer.lastPressedLaser=-1;
         }
     }
-    
+
+    bool isCasting;
+
     Coroutine castingRt;
     IEnumerator Casting()
     {
@@ -44,6 +55,8 @@ public class PlayerLaser : MonoBehaviour
         ShowCastingBar();
 
         player.anim.CrossFade("casting", .25f, 2, 0);
+
+        EnableCastTrails();
 
         yield return new WaitForSeconds(castTime);
 
@@ -59,6 +72,8 @@ public class PlayerLaser : MonoBehaviour
         Singleton.instance.HitStop();
 
         StartCoroutine(Sustaining());
+
+        DisableCastTrails();
     }
 
     IEnumerator Sustaining()
@@ -139,6 +154,8 @@ public class PlayerLaser : MonoBehaviour
             Finish();
 
             HideCastingBar();
+
+            DisableCastTrails();
         }
     }
 
@@ -160,5 +177,26 @@ public class PlayerLaser : MonoBehaviour
     void HideCastingBar(float time=0)
     {
         if(bar) Destroy(bar, time);
+    }
+
+    List<GameObject> trails = new List<GameObject>();
+
+    void EnableCastTrails()
+    {
+        for(int i=0; i<castTrailTr.Length; i++)
+        {
+            trails.Add( Instantiate(castTrailVFXPrefab, castTrailTr[i].position, Quaternion.identity) );
+            trails[i].hideFlags = HideFlags.HideInHierarchy;
+            trails[i].transform.parent = castTrailTr[i];
+        }
+    }
+
+    void DisableCastTrails()
+    {
+        foreach (GameObject trail in trails)
+        {
+            if(trail) Destroy(trail);
+        }
+        trails.Clear();
     }
 }

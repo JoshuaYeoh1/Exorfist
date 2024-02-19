@@ -5,24 +5,29 @@ using UnityEngine;
 public class TrailParticles : MonoBehaviour
 {
     public GameObject trailPrefab;
-    public float scaleMult=1;
+
     public List<Transform> trailPoints = new List<Transform>();
     List<GameObject> myTrails = new List<GameObject>();
-    bool trailIsOn;
+
+    public float scaleMult=1;
+    public bool enableOnAwake=true;
 
     void Awake()
     {
-        enableTrail();
+        if(enableOnAwake) EnableTrail();
     }
 
-    public void enableTrail(bool toggle=true)
+    bool trailIsOn;
+
+    public void EnableTrail(bool toggle=true)
     {
         if(toggle && !trailIsOn)
         {
-            spawnTrails();
+            SpawnTrails();
 
             trailIsOn=true;
         }
+
         else if(!toggle && trailIsOn)
         {
             trailIsOn=false;
@@ -40,7 +45,7 @@ public class TrailParticles : MonoBehaviour
         }
     }
 
-    void spawnTrails()
+    void SpawnTrails()
     {
         for(int i=0;i<trailPoints.Count;i++)
         {
@@ -68,10 +73,10 @@ public class TrailParticles : MonoBehaviour
 
     void OnEnable()
     {
-        enableTrail(true);
+        if(enableOnAwake) EnableTrail(true);
     }
     void OnDisable()
     {
-        enableTrail(false);
+        EnableTrail(false);
     }
 }

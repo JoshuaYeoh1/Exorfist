@@ -28,10 +28,6 @@ public class EnemyHurt : MonoBehaviour
 
             color.FlashColor(.1f, true);
 
-            Singleton.instance.CamShake();
-
-            Singleton.instance.HitStop();
-
             hp.Hit(dmg);
 
             if(hp.hp>0) // if still alive

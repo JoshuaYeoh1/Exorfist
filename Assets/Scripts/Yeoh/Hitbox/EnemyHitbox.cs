@@ -25,6 +25,6 @@ public class EnemyHitbox : BaseHitbox
             }
         }
 
-        hitmarkerColor = Color.red;
+        hitmarker.SpawnHitmarker(contactPoint, Color.red);
     }
 }

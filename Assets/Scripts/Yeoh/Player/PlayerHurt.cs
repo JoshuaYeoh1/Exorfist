@@ -32,10 +32,6 @@ public class PlayerHurt : MonoBehaviour
 
             color.FlashColor(.1f, true); // flash red
 
-            Singleton.instance.CamShake();
-
-            Singleton.instance.HitStop();
-
             //Singleton.instance.PlaySFX(Singleton.instance.sfxSubwoofer, transform.position, false);
 
             hp.Hit(dmg);
