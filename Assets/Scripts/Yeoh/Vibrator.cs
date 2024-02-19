@@ -2,27 +2,31 @@ using UnityEngine;
 
 public static class Vibrator
 {
-
-#if UNITY_ANDROID && !UNITY_EDITOR
-    public static AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-    public static AndroidJavaObject currentActivity = new unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-    public static AndroidJavaObject vibrator = currentActivity.Call<AndroidJavaObject>("getSystemService", "vibrator");
-#else
     public static AndroidJavaClass unityPlayer;
     public static AndroidJavaObject currentActivity;
     public static AndroidJavaObject vibrator;
-#endif
 
-    public static void Vibrate(long milliseconds=250)
+    static Vibrator()
     {
-        if(IsAndroid()) vibrator.Call("vibrate", milliseconds);
+#if UNITY_ANDROID && !UNITY_EDITOR
+        unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+        currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+        vibrator = currentActivity.Call<AndroidJavaObject>("getSystemService", "vibrator");
+#endif
+    }
 
-        else Handheld.Vibrate();
+    public static void Vibrate(long milliseconds = 250)
+    {
+        if (IsAndroid())
+            vibrator.Call("vibrate", milliseconds);
+        else
+            Handheld.Vibrate();
     }
 
     public static void Cancel()
     {
-        if(IsAndroid()) vibrator.Call("cancel");
+        if (IsAndroid())
+            vibrator.Call("cancel");
     }
 
     public static bool IsAndroid()
@@ -33,5 +37,4 @@ public static class Vibrator
         return false;
 #endif
     }
-
 }
