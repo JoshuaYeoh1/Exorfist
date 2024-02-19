@@ -11,6 +11,7 @@ public class LoseStateButtons : MonoBehaviour
 
     public void QuitGame()
     {
-        Application.Quit();
+        //Application.Quit();
+        Singleton.instance.TransitionOut(0, true);
     }
 }
