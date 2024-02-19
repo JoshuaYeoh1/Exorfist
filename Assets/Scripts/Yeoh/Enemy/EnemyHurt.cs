@@ -18,11 +18,6 @@ public class EnemyHurt : MonoBehaviour
         rb=GetComponent<Rigidbody>();
     }
 
-    void OnEnable()
-    {
-        StartCoroutine(IFrameFlickering());
-    }
-
     public void Hit(float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult=.3f, float stunTime=.5f)
     {
         if(!iframe)
@@ -45,13 +40,42 @@ public class EnemyHurt : MonoBehaviour
 
     public void DoIFraming(float t)
     {
-        StartCoroutine(iframing(t));
+        StartCoroutine(IFraming(t));
     }
-    IEnumerator iframing(float t)
+    IEnumerator IFraming(float t)
     {
         iframe=true;
+
+        StartIFrameFlicker();
+
         yield return new WaitForSeconds(t);
+
         iframe=false;
+
+        StopIFrameFlicker();
+    }
+
+    void StartIFrameFlicker()
+    {
+        if(iFrameFlickeringRt!=null) StopCoroutine(iFrameFlickeringRt);
+        iFrameFlickeringRt = StartCoroutine(IFrameFlickering());
+    }
+    void StopIFrameFlicker()
+    {
+        if(iFrameFlickeringRt!=null) StopCoroutine(iFrameFlickeringRt);
+        color.OffsetColor();
+    }
+
+    Coroutine iFrameFlickeringRt;
+    IEnumerator IFrameFlickering()
+    {
+        while(true)
+        {
+            color.OffsetColor(.5f, -.5f, -.5f);
+            yield return new WaitForSecondsRealtime(.05f);
+            color.OffsetColor();
+            yield return new WaitForSecondsRealtime(.05f);
+        }
     }
 
     public void Knockback(float force, Vector3 contactPoint)
@@ -69,20 +93,6 @@ public class EnemyHurt : MonoBehaviour
     void Die()
     {
         Destroy(gameObject);
-    }
-
-    IEnumerator IFrameFlickering()
-    {
-        while(true)
-        {
-            if(iframe)
-            {
-                color.OffsetColor(.5f, -.5f, -.5f);
-                yield return new WaitForSecondsRealtime(.05f);
-                color.OffsetColor();
-            }
-            yield return new WaitForSecondsRealtime(.05f);
-        }
     }
 
     public void SpawnRagdoll()

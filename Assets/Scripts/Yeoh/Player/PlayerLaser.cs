@@ -72,8 +72,6 @@ public class PlayerLaser : MonoBehaviour
         Singleton.instance.HitStop();
 
         StartCoroutine(Sustaining());
-
-        DisableCastTrails();
     }
 
     IEnumerator Sustaining()
@@ -93,6 +91,8 @@ public class PlayerLaser : MonoBehaviour
         player.anim.CrossFade("laser finish", .1f, 2, 0);
 
         finder.range=finder.defRange;
+
+        DisableCastTrails();
     }
 
     GameObject laser;
