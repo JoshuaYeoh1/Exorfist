@@ -4,6 +4,7 @@ public class DoorTriggerEnter : MonoBehaviour
 {
     [SerializeField] private GameObject popUpPrefab;
     private GameObject popUpPrefabRef;
+    public Transform currentRoomTransform;
 
     private void Start()
     {
@@ -16,18 +17,23 @@ public class DoorTriggerEnter : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        Debug.Log("Trigger enter");
+        GameObject player = other.transform.parent.gameObject;
+        if (player.CompareTag("Player"))
         {
+            OnDoorTriggerEnter();
             if(popUpPrefabRef == null)
             {
                 popUpPrefabRef = Instantiate(popUpPrefab);
+
             }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        GameObject player = other.transform.parent.gameObject;
+        if (player.CompareTag("Player"))
         {
             if(popUpPrefabRef != null)
             {
@@ -39,5 +45,10 @@ public class DoorTriggerEnter : MonoBehaviour
     private void OnRoomEnter()
     {
         Destroy(popUpPrefabRef);
+    }
+
+    private void OnDoorTriggerEnter()
+    {
+        GameEventSystem.current.doorTriggerEnter(currentRoomTransform);
     }
 }

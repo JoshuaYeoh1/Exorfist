@@ -47,6 +47,7 @@ public class GameEventSystem : MonoBehaviour
     public event Action OnRoomEntered;
     public event Action<RoomState> OnRoomStateChanged;
     public event Action NotifyRoomStateManager;
+    public event Action<Transform> OnDoorTriggerEnter;
     //==Transition and Room related==//
 
     //==GameStateManager Related==//
@@ -127,6 +128,14 @@ public class GameEventSystem : MonoBehaviour
     public void notifyRoomStateManager()
     {
         NotifyRoomStateManager?.Invoke();
+    }
+    public void roomEntered()
+    {
+        OnRoomEntered?.Invoke();
+    }
+    public void doorTriggerEnter(Transform transform)
+    {
+        OnDoorTriggerEnter?.Invoke(transform);
     }
 
     /*
