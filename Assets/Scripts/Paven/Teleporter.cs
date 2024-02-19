@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class Teleporter : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private Transform teleporterEnd;
+    private void OnCollisionEnter(Collision collision)
     {
-        
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            GameObject player = collision.gameObject;
+            TeleportPlayer(player);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void TeleportPlayer(GameObject Player)
     {
-        
+        Player.transform.position = teleporterEnd.position;
     }
 }
