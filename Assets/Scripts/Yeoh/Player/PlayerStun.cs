@@ -18,7 +18,7 @@ public class PlayerStun : MonoBehaviour
 
     public void Stun(float speedDebuffMult=.3f, float stunTime=.5f)
     {
-        if(stunTime>0 && stunTime>currentStunTime && player.canStun)
+        if(stunTime>0 && stunTime>=currentStunTime && player.canStun)
         {
             currentStunTime=stunTime;
 

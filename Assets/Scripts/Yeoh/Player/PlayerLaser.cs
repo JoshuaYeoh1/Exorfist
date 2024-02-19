@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerLaser : MonoBehaviour
 {
@@ -8,12 +9,24 @@ public class PlayerLaser : MonoBehaviour
     InputBuffer buffer;
     ClosestObjectFinder finder;
 
-    public GameObject hitboxPrefab, castingBarPrefab;
-    public Transform castingBarTr, firepointTr;
+    [Header("Casting")]
+    public GameObject castingBarPrefab;
+    public Transform castingBarTr;
+    public float castTime=1;
     
-    public float range=10, castTime=.25f, sustainTime=5, damageInterval=.2f, cooldown=45;
+    [Header("Trails")]
+    public GameObject castTrailVFXPrefab;
+    public Transform[] castTrailTr;
 
-    bool canCast=true, isCasting;
+    [Header("Cast")]
+    public Transform firepointTr;
+    public GameObject hitboxPrefab;
+    public float range=10, sustainTime=5, damageInterval=.2f;
+
+    [Header("Cooldown")]
+    public Image radialBar;
+    public float cooldown=45;
+    float radialFill;
 
     void Awake()
     {
@@ -21,6 +34,13 @@ public class PlayerLaser : MonoBehaviour
         buffer=GetComponent<InputBuffer>();
         finder=GetComponent<ClosestObjectFinder>();
     }
+
+    void Update()
+    {
+        if(radialBar.IsActive()) radialBar.fillAmount = radialFill;
+    }
+
+    bool canCast=true;
 
     public void StartCast()
     {
@@ -33,7 +53,9 @@ public class PlayerLaser : MonoBehaviour
             buffer.lastPressedLaser=-1;
         }
     }
-    
+
+    bool isCasting;
+
     Coroutine castingRt;
     IEnumerator Casting()
     {
@@ -44,6 +66,8 @@ public class PlayerLaser : MonoBehaviour
         ShowCastingBar();
 
         player.anim.CrossFade("casting", .25f, 2, 0);
+
+        EnableCastTrails();
 
         yield return new WaitForSeconds(castTime);
 
@@ -78,6 +102,8 @@ public class PlayerLaser : MonoBehaviour
         player.anim.CrossFade("laser finish", .1f, 2, 0);
 
         finder.range=finder.defRange;
+
+        DisableCastTrails();
     }
 
     GameObject laser;
@@ -120,8 +146,23 @@ public class PlayerLaser : MonoBehaviour
 
     IEnumerator Cooling()
     {
+        radialFill=1;
+        TweenFill(0, cooldown);
+
         yield return new WaitForSeconds(cooldown);
+
         canCast=true;
+    }
+    
+    int tweenFillLt=0;
+    public void TweenFill(float to, float time=.01f)
+    {
+        LeanTween.cancel(tweenFillLt);
+        tweenFillLt = LeanTween.value(radialFill, to, time).setEaseInOutSine().setOnUpdate(UpdateTweenFill).id;
+    }
+    void UpdateTweenFill(float value)
+    {
+        radialFill = value;
     }
 
     public void Cancel()
@@ -139,6 +180,8 @@ public class PlayerLaser : MonoBehaviour
             Finish();
 
             HideCastingBar();
+
+            DisableCastTrails();
         }
     }
 
@@ -160,5 +203,26 @@ public class PlayerLaser : MonoBehaviour
     void HideCastingBar(float time=0)
     {
         if(bar) Destroy(bar, time);
+    }
+
+    List<GameObject> trails = new List<GameObject>();
+
+    void EnableCastTrails()
+    {
+        for(int i=0; i<castTrailTr.Length; i++)
+        {
+            trails.Add( Instantiate(castTrailVFXPrefab, castTrailTr[i].position, Quaternion.identity) );
+            trails[i].hideFlags = HideFlags.HideInHierarchy;
+            trails[i].transform.parent = castTrailTr[i];
+        }
+    }
+
+    void DisableCastTrails()
+    {
+        foreach (GameObject trail in trails)
+        {
+            if(trail) Destroy(trail);
+        }
+        trails.Clear();
     }
 }

@@ -6,17 +6,15 @@ public class BaseHitbox : MonoBehaviour
 {
     protected GameObject owner;
     public Transform hitboxOrigin;
-    Hitmarker hitmarker;
+    protected Hitmarker hitmarker;
     protected ShockwaveVFX shock;
     Collider coll;
 
-    public bool enabledOnAwake;
+    public bool enabledOnAwake, hasSweepingEdge, camShake=true, hitStop=true;
     public float damage, knockback;
     public float speedDebuffMult=.3f, stunTime=.5f;
-    public bool hasSweepingEdge;
 
     protected Vector3 contactPoint;
-    protected Color hitmarkerColor;
 
     void Awake()
     {
@@ -37,8 +35,6 @@ public class BaseHitbox : MonoBehaviour
     {
         Rigidbody otherRb = other.attachedRigidbody;
 
-        hitmarkerColor = Color.white;
-
         if(hitboxOrigin)
         {
             contactPoint = other.ClosestPointOnBounds(hitboxOrigin.position);
@@ -52,10 +48,11 @@ public class BaseHitbox : MonoBehaviour
         {
             HandleTargetHit(otherRb);
 
+            if(camShake) Singleton.instance.CamShake();
+            if(hitStop) Singleton.instance.HitStop();
+
             ToggleActive(hasSweepingEdge); // if can swipe through multiple
         }
-
-        hitmarker.SpawnHitmarker(contactPoint, hitmarkerColor);
     }
 
     protected virtual bool IsTargetValid(Rigidbody otherRb)

@@ -26,12 +26,6 @@ public class EnemyHurt : MonoBehaviour
 
             Knockback(kbForce, contactPoint);
 
-            color.FlashColor(.1f, true);
-
-            Singleton.instance.CamShake();
-
-            Singleton.instance.HitStop();
-
             hp.Hit(dmg);
 
             if(hp.hp>0) // if still alive
@@ -46,13 +40,42 @@ public class EnemyHurt : MonoBehaviour
 
     public void DoIFraming(float t)
     {
-        StartCoroutine(iframing(t));
+        StartCoroutine(IFraming(t));
     }
-    IEnumerator iframing(float t)
+    IEnumerator IFraming(float t)
     {
         iframe=true;
+
+        StartIFrameFlicker();
+
         yield return new WaitForSeconds(t);
+
         iframe=false;
+
+        StopIFrameFlicker();
+    }
+
+    void StartIFrameFlicker()
+    {
+        if(iFrameFlickeringRt!=null) StopCoroutine(iFrameFlickeringRt);
+        iFrameFlickeringRt = StartCoroutine(IFrameFlickering());
+    }
+    void StopIFrameFlicker()
+    {
+        if(iFrameFlickeringRt!=null) StopCoroutine(iFrameFlickeringRt);
+        color.OffsetColor();
+    }
+
+    Coroutine iFrameFlickeringRt;
+    IEnumerator IFrameFlickering()
+    {
+        while(true)
+        {
+            color.OffsetColor(.5f, -.5f, -.5f);
+            yield return new WaitForSecondsRealtime(.05f);
+            color.OffsetColor();
+            yield return new WaitForSecondsRealtime(.05f);
+        }
     }
 
     public void Knockback(float force, Vector3 contactPoint)

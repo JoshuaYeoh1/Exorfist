@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using TMPro;
+using Cinemachine;
 
 public class Singleton : MonoBehaviour
 {
@@ -34,10 +35,13 @@ public class Singleton : MonoBehaviour
     void Update()
     {
         UpdateReloadButton();
+        CinemachineUpdateMethod();
 
         //UpdateShuffleMusic();
         //UpdateShuffleAmbient();
     }    
+
+
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -49,7 +53,7 @@ public class Singleton : MonoBehaviour
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
     int tweenTimeLt=0;
     public void TweenTime(float to, float time=.01f)
     {
@@ -61,18 +65,29 @@ public class Singleton : MonoBehaviour
         Time.timeScale = value;
     }
 
+    void CinemachineUpdateMethod()
+    {
+        if(Time.timeScale<1) Camera.main.GetComponent<CinemachineBrain>().m_UpdateMethod = CinemachineBrain.UpdateMethod.LateUpdate;
+        else Camera.main.GetComponent<CinemachineBrain>().m_UpdateMethod = CinemachineBrain.UpdateMethod.FixedUpdate;
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    [HideInInspector] public bool canHitStop=true;
+
     public void HitStop(float fadeIn=.05f, float wait=.01f, float fadeOut=.25f)
     {
-        if(hitStoppingRt!=null) StopCoroutine(hitStoppingRt);
-        hitStoppingRt = StartCoroutine(HitStopping(fadeIn, wait, fadeOut));
+        if(canHitStop)
+        {
+            if(hitStoppingRt!=null) StopCoroutine(hitStoppingRt);
+            hitStoppingRt = StartCoroutine(HitStopping(fadeIn, wait, fadeOut));
+        }
     }
     Coroutine hitStoppingRt;
     IEnumerator HitStopping(float fadeIn, float wait, float fadeOut)
     {
         TweenTime(0, fadeIn);
-
         yield return new WaitForSecondsRealtime(fadeIn + wait);
-
         TweenTime(1, fadeOut);
     }
 
@@ -98,7 +113,6 @@ public class Singleton : MonoBehaviour
             tmp.color = color;
         }
     }
-
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
     

@@ -15,6 +15,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5055933939956402077, guid: fc9b2ec0bba8ed64ca58c287a73aa6ea,
         type: 3}
+      propertyPath: hitStop
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5055933939956402077, guid: fc9b2ec0bba8ed64ca58c287a73aa6ea,
+        type: 3}
+      propertyPath: camShake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5055933939956402077, guid: fc9b2ec0bba8ed64ca58c287a73aa6ea,
+        type: 3}
       propertyPath: knockback
       value: 30
       objectReference: {fileID: 0}
@@ -139,4 +149,4 @@ MonoBehaviour:
   destroyOnStart: 1
   minTime: 0.1
   maxTime: 0.1
-  shrinkTime: 0.1
+  shrinkTime: 0.01

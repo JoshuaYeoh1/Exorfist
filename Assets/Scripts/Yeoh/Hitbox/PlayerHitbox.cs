@@ -16,5 +16,6 @@ public class PlayerHitbox : BaseHitbox
         if(hurt) hurt.Hit(damage, knockback, contactPoint, speedDebuffMult, stunTime);
 
         shock.SpawnShockwave(contactPoint, Color.white);
+        hitmarker.SpawnHitmarker(contactPoint, Color.white);
     }
 }
