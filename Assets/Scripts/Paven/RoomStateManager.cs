@@ -16,6 +16,7 @@ public class RoomStateManager : MonoBehaviour
     //Total enemies dictate the number of enemies in that specific room.
     //Remaining enemies is the number of enemies currently.
     [SerializeField] private int enemyWaves; //determines the amount of "waves" the enemies come in, if there are more than one wave. Default is 0 for no waves.
+    [SerializeField] private Transform currentRoomTeleportTransform;
 
     private void Awake()
     {
@@ -38,6 +39,9 @@ public class RoomStateManager : MonoBehaviour
             Debug.Log("RoomStateManager event subscriptions initialized");
             GameEventSystem.current.OnEnemyDeath += OnEnemyDeath;
             GameEventSystem.current.NotifyRoomStateManager += notifyRoomStateManager;
+            GameEventSystem.current.OnDoorTriggerEnter += SetCurrentDoorTransform;
+            GameEventSystem.current.OnRoomEntered += OnRoomEntered;
+            
         }
         else
         {
@@ -53,6 +57,8 @@ public class RoomStateManager : MonoBehaviour
             Debug.Log("RoomStateManager event subscriptions initialized");
             GameEventSystem.current.OnEnemyDeath -= OnEnemyDeath;
             GameEventSystem.current.NotifyRoomStateManager -= notifyRoomStateManager;
+            GameEventSystem.current.OnDoorTriggerEnter -= SetCurrentDoorTransform;
+            GameEventSystem.current.OnRoomEntered -= OnRoomEntered;
         }
     }
 
@@ -169,5 +175,29 @@ public class RoomStateManager : MonoBehaviour
         {
             UpdateRoomState(RoomState.Clear);
         }
+    }
+
+    private void TeleportPlayerToRoom()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if(player != null)
+        {
+            player.transform.position = currentRoomTeleportTransform.position;
+        }
+        else
+        {
+            Debug.LogError("Player is null, fuck off");
+        }
+    }
+
+    private void OnRoomEntered()
+    {
+        TeleportPlayerToRoom();
+        UpdateRoomState(RoomState.Active);
+    }
+
+    private void SetCurrentDoorTransform(Transform transform)
+    {
+        currentRoomTeleportTransform = transform;
     }
 }
