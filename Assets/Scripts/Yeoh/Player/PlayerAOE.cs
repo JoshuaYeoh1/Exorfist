@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerAOE : MonoBehaviour
 {
@@ -19,12 +20,21 @@ public class PlayerAOE : MonoBehaviour
     [Header("Cast")]
     public GameObject hitboxPrefab;
     public GameObject explodeVFXPrefab;
+
+    [Header("Cooldown")]
+    public Image radialBar;
     public float cooldown=45;
+    float radialFill;
 
     void Awake()
     {
         player=GetComponent<Player>();
         buffer=GetComponent<InputBuffer>();
+    }
+
+    void Update()
+    {
+        if(radialBar.IsActive()) radialBar.fillAmount = radialFill;
     }
 
     bool canCast=true;
@@ -92,8 +102,23 @@ public class PlayerAOE : MonoBehaviour
 
     IEnumerator Cooling()
     {
+        radialFill=1;
+        TweenFill(0, cooldown);
+
         yield return new WaitForSeconds(cooldown);
+
         canCast=true;
+    }
+    
+    int tweenFillLt=0;
+    public void TweenFill(float to, float time=.01f)
+    {
+        LeanTween.cancel(tweenFillLt);
+        tweenFillLt = LeanTween.value(radialFill, to, time).setEaseInOutSine().setOnUpdate(UpdateTweenFill).id;
+    }
+    void UpdateTweenFill(float value)
+    {
+        radialFill = value;
     }
 
     public void Cancel()
