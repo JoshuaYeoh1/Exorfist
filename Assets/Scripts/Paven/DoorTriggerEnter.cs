@@ -18,7 +18,7 @@ public class DoorTriggerEnter : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("Trigger enter");
-        GameObject player = other.transform.parent.gameObject;
+        GameObject player = other.transform.root.gameObject;
         if (player.CompareTag("Player"))
         {
             OnDoorTriggerEnter();
@@ -32,7 +32,7 @@ public class DoorTriggerEnter : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        GameObject player = other.transform.parent.gameObject;
+        GameObject player = other.transform.root.gameObject;
         if (player.CompareTag("Player"))
         {
             if(popUpPrefabRef != null)

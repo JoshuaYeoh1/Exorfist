@@ -6,7 +6,7 @@ public class OffsetMeshColor : MonoBehaviour
 {
     public GameObject skinsGroup;
     public float rOffset=.5f, gOffset=-.5f, bOffset=-.5f;
-    public bool ignoreEmission;
+    public bool ignoreEmission=true;
 
     public Renderer[] renderers;
     public List<Color> defaultColors = new List<Color>();
