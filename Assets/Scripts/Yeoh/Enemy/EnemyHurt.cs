@@ -18,6 +18,11 @@ public class EnemyHurt : MonoBehaviour
         rb=GetComponent<Rigidbody>();
     }
 
+    void OnEnable()
+    {
+        StartCoroutine(IFrameFlickering());
+    }
+
     public void Hit(float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult=.3f, float stunTime=.5f)
     {
         if(!iframe)
@@ -25,8 +30,6 @@ public class EnemyHurt : MonoBehaviour
             DoIFraming(iframeTime);
 
             Knockback(kbForce, contactPoint);
-
-            color.FlashColor(.1f, true);
 
             hp.Hit(dmg);
 
@@ -66,6 +69,20 @@ public class EnemyHurt : MonoBehaviour
     void Die()
     {
         Destroy(gameObject);
+    }
+
+    IEnumerator IFrameFlickering()
+    {
+        while(true)
+        {
+            if(iframe)
+            {
+                color.OffsetColor(.5f, -.5f, -.5f);
+                yield return new WaitForSecondsRealtime(.05f);
+                color.OffsetColor();
+            }
+            yield return new WaitForSecondsRealtime(.05f);
+        }
     }
 
     public void SpawnRagdoll()
