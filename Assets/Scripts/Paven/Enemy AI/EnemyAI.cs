@@ -90,10 +90,10 @@ public class EnemyAI : MonoBehaviour
         
     }
 
-    private void OnDestroy()
-    {
-        OnEnemyDeath();
-    }
+    // private void OnDestroy()
+    // {
+    //     OnEnemyDeath(gameObject);
+    // }
 
     private void Update()
     {
@@ -101,11 +101,11 @@ public class EnemyAI : MonoBehaviour
     }
 
 
-    private void OnEnemyDeath()
+    private void OnEnemyDeath(GameObject victim)
     {
         if(GameEventSystem.current != null)
         {
-            GameEventSystem.current.enemyDeath();
+            GameEventSystem.current.enemyDeath(victim);
         }
     }
 
@@ -117,6 +117,7 @@ public class EnemyAI : MonoBehaviour
             if(currentHealth <= 0)
             {
                 //switch EnemyAIStateMachine to "dying" state, stop all coroutines
+                OnEnemyDeath(gameObject);
                 Destroy(gameObject);
                 return;
             }

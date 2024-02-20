@@ -92,6 +92,8 @@ public class EnemyHurt : MonoBehaviour
 
     void Die()
     {
+        GameEventSystem.current.enemyDeath(gameObject);
+        
         Destroy(gameObject);
     }
 

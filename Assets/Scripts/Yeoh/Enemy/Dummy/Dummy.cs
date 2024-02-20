@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class Dummy : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public GameObject enemyPrefab;
+
+    void Awake()
     {
-        
+        GameEventSystem.current.OnEnemyDeath += Die;
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnDestroy()
     {
-        
+        GameEventSystem.current.OnEnemyDeath -= Die;
     }
+
+    public void Die(GameObject victim)
+    {
+        if(victim==gameObject) Instantiate(enemyPrefab, transform.position, Quaternion.identity);
+    }    
 }

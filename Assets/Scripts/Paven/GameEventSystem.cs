@@ -32,7 +32,7 @@ public class GameEventSystem : MonoBehaviour
     //==Player Related Actions==//
 
     //==Enemy Related Actions==//
-    public event Action OnEnemyDeath;
+    public event Action<GameObject> OnEnemyDeath;
     public event Action OnEnemySpawn;
     //==Enemy Related Actions==//
 
@@ -59,10 +59,10 @@ public class GameEventSystem : MonoBehaviour
         Debug.Log("SpawnEnemies triggered");
         OnEnemySpawn?.Invoke();
     }
-    public void enemyDeath()
+    public void enemyDeath(GameObject victim)
     {
         //Debug.Log("Enemy died");
-        OnEnemyDeath?.Invoke(); //tysm Jon
+        OnEnemyDeath?.Invoke(victim); //tysm Jon
     }
     //==Enemy Related==//
 

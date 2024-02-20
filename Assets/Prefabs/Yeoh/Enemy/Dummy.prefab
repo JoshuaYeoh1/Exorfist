@@ -110,6 +110,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84e47e0eb841d36409fdc12bba8dbc91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyPrefab: {fileID: 867879939165794473, guid: 2a1ea169ace0a0145a137f096021dd15,
+    type: 3}
 --- !u!114 &6763901832515306268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,6 +193,7 @@ MonoBehaviour:
   rOffset: 0.5
   gOffset: -0.5
   bOffset: -0.5
+  ignoreEmission: 1
   renderers: []
   defaultColors: []
   defaultEmissionColors: []

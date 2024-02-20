@@ -106,7 +106,7 @@ public class RoomStateManager : MonoBehaviour
             //lock door to prevent player from leaving mid-combat
         }
     }
-    private void OnEnemyDeath()
+    private void OnEnemyDeath(GameObject enemy)
     {
         //null check for AI Director.
         if(AIDirector.instance == null)
