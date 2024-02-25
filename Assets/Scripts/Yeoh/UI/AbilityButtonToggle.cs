@@ -5,7 +5,7 @@ using UnityEngine;
 public class AbilityButtonToggle : MonoBehaviour
 {
     public GameObject group1, group2;
-    public float slowMoTime=3, slowMoMult=.1f;
+    public float slowMoTime=3, slowMoMult=.5f;
 
     public void ShowAbilities()
     {
@@ -14,7 +14,7 @@ public class AbilityButtonToggle : MonoBehaviour
 
         Singleton.instance.canHitStop=false;
 
-        Singleton.instance.TweenTime(slowMoMult, .25f);
+        Singleton.instance.TweenTime(slowMoMult, .5f);
 
         slowMoCountdownRt = StartCoroutine(SlowMoCountdown());
     }
@@ -22,7 +22,7 @@ public class AbilityButtonToggle : MonoBehaviour
     Coroutine slowMoCountdownRt;
     IEnumerator SlowMoCountdown()
     {
-        yield return new WaitForSecondsRealtime(3);
+        yield return new WaitForSecondsRealtime(slowMoTime);
         HideAbilities();
     }
 
