@@ -31,11 +31,6 @@ public class PlayerBlock : MonoBehaviour
         buffer=GetComponent<InputBuffer>();
     }
 
-    void Update()
-    {
-        player.anim.SetBool("isBlocking", isBlocking);
-    }
-
     public bool pressingBtn;
 
     [HideInInspector] public bool canBlock=true;
@@ -108,13 +103,15 @@ public class PlayerBlock : MonoBehaviour
 
     public void CheckBlock(float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult, float stunTime)
     {
+        Singleton.instance.CamShake();
+
         if(isParrying)
         {
             ParrySuccess(contactPoint);
         }
         else if(isBlocking)
         {
-            meter.Hit(dmg, kbForce, contactPoint, speedDebuffMult, stunTime);
+            meter.Hit(dmg, kbForce, contactPoint);
         }
         else
         {
@@ -134,10 +131,13 @@ public class PlayerBlock : MonoBehaviour
 
         Singleton.instance.SpawnPopUpText(player.popUpTextPos.position, "PARRY!", Color.green);
 
-        Singleton.instance.CamShake();
-
         shock.SpawnShockwave(contactPoint, Color.green);
 
         //Singleton.instance.HitStop(); // fucks up your timing
+    }
+
+    void Update() // testing
+    {
+        if(Input.GetKeyDown(KeyCode.Delete)) CheckBlock(1, 1, transform.position, .3f, 1);
     }
 }

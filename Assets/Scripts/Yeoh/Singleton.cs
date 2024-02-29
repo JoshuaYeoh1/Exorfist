@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using TMPro;
-using Cinemachine;
 
 public class Singleton : MonoBehaviour
 {
@@ -34,18 +33,29 @@ public class Singleton : MonoBehaviour
 
     void Update()
     {
+        UpdateFixedDeltaTime();
         UpdateReloadButton();
-        CinemachineUpdateMethod();
-
         //UpdateShuffleMusic();
         //UpdateShuffleAmbient();
-    }    
+    }
 
-
+    void UpdateFixedDeltaTime() // to fix physics stuttering
+    {
+        if(Time.timeScale==1)
+        {
+            if(Time.fixedDeltaTime!=.02f)
+            Time.fixedDeltaTime=.02f; // default value
+        }
+        else // if slow mo
+        {
+            if(Time.fixedDeltaTime!=.02f*Time.timeScale)
+            Time.fixedDeltaTime = .02f*Time.timeScale;
+        }
+    }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void CamShake(float time=.2f, float amp=.5f, float freq=2)
+    public void CamShake(float time=.2f, float amp=1.5f, float freq=2)
     {
         GameObject.FindGameObjectWithTag("Cinemachine").GetComponent<CameraCinemachine>().Shake(time, amp, freq);
 
@@ -63,12 +73,6 @@ public class Singleton : MonoBehaviour
     void UpdateTweenTime(float value)
     {
         Time.timeScale = value;
-    }
-
-    void CinemachineUpdateMethod()
-    {
-        if(Time.timeScale<1) Camera.main.GetComponent<CinemachineBrain>().m_UpdateMethod = CinemachineBrain.UpdateMethod.LateUpdate;
-        else Camera.main.GetComponent<CinemachineBrain>().m_UpdateMethod = CinemachineBrain.UpdateMethod.FixedUpdate;
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////

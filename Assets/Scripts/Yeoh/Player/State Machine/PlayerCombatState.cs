@@ -15,8 +15,7 @@ public class PlayerCombatState : BaseState<PlayerStateMachine.PlayerStates>
     {
         Debug.Log("Player state: " + stateMachine.GetCurrentState().StateKey);
 
-        stateMachine.player.anim.SetBool("inCombat", true);
-
+        stateMachine.player.canMove=true;
         stateMachine.player.canAttack=true;
         stateMachine.player.canBlock=true;
         stateMachine.player.canCast=true;
@@ -26,8 +25,6 @@ public class PlayerCombatState : BaseState<PlayerStateMachine.PlayerStates>
 
     public override void UpdateState()
     {
-        stateMachine.player.move.CheckInput();
-
         CheckNoCombat();
     }
 
@@ -38,7 +35,7 @@ public class PlayerCombatState : BaseState<PlayerStateMachine.PlayerStates>
 
     public override void ExitState()
     {
-        stateMachine.player.anim.SetBool("inCombat", false);
+
     }
 
     public override PlayerStateMachine.PlayerStates GetNextState() // Implement the logic to determine the next state from the this state

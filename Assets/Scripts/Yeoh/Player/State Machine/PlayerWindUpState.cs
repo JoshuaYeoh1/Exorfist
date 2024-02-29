@@ -15,6 +15,7 @@ public class PlayerWindUpState : BaseState<PlayerStateMachine.PlayerStates>
     {
         Debug.Log("Player state: " + stateMachine.GetCurrentState().StateKey);
 
+        stateMachine.player.canMove=false;
         stateMachine.player.canAttack=true;
         stateMachine.player.canBlock=true;
         stateMachine.player.canCast=false;
@@ -24,7 +25,7 @@ public class PlayerWindUpState : BaseState<PlayerStateMachine.PlayerStates>
 
     public override void UpdateState()
     {
-        stateMachine.player.move.NoInput();
+
     }
 
     public override void FixedUpdateState()

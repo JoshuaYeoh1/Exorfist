@@ -11,6 +11,7 @@ public class PlayerAnim : MonoBehaviour
     Rigidbody rb;
     PlayerAOE aoe;
     PlayerLaser laser;
+    ClosestObjectFinder finder;
 
     void Start()
     {
@@ -21,12 +22,14 @@ public class PlayerAnim : MonoBehaviour
         rb=transform.root.GetComponent<Rigidbody>();
         aoe=transform.root.GetComponent<PlayerAOE>();
         laser=transform.root.GetComponent<PlayerLaser>();
+        finder=transform.root.GetComponent<ClosestObjectFinder>();
     }
 
     void Update()
     {
         AnimBlendTree();
         AnimMirror();
+        AnimCombat();
     }
 
     void AnimBlendTree()
@@ -51,6 +54,12 @@ public class PlayerAnim : MonoBehaviour
         else anim.SetBool("mirror", true);
     }
 
+    void AnimCombat()
+    {
+        if(finder.target) anim.SetBool("inCombat", true);
+        else anim.SetBool("inCombat", false);
+    }
+    
     public void AnimRelease(string type)
     {
         combat.AttackRelease(type);

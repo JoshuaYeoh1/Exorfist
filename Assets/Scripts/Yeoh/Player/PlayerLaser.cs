@@ -89,7 +89,7 @@ public class PlayerLaser : MonoBehaviour
     {
         SpawnLaser();
 
-        finder.range=range;
+        finder.outerRange=range;
 
         yield return new WaitForSeconds(sustainTime);
 
@@ -101,7 +101,7 @@ public class PlayerLaser : MonoBehaviour
 
         player.anim.CrossFade("laser finish", .1f, 2, 0);
 
-        finder.range=finder.defRange;
+        finder.outerRange=finder.defRange;
 
         DisableCastTrails();
     }
