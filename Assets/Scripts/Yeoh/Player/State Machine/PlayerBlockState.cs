@@ -15,16 +15,19 @@ public class PlayerBlockState : BaseState<PlayerStateMachine.PlayerStates>
     {
         Debug.Log("Player state: " + stateMachine.GetCurrentState().StateKey);
 
+        stateMachine.player.canMove=true;
         stateMachine.player.canAttack=false;
-        stateMachine.player.canBlock=false;
+        stateMachine.player.canBlock=true;
         stateMachine.player.canCast=false;
         stateMachine.player.canHurt=true;
-        stateMachine.player.canStun=true; 
+        stateMachine.player.canStun=true;
+
+        stateMachine.player.anim.SetBool("isBlocking", true);
     }
 
     public override void UpdateState()
     {
-        stateMachine.player.move.CheckInput();
+
     }
 
     public override void FixedUpdateState()
@@ -34,7 +37,7 @@ public class PlayerBlockState : BaseState<PlayerStateMachine.PlayerStates>
 
     public override void ExitState()
     {
-
+        stateMachine.player.anim.SetBool("isBlocking", false);
     }
 
     public override PlayerStateMachine.PlayerStates GetNextState() // Implement the logic to determine the next state from the this state

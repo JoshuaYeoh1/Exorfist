@@ -33,7 +33,7 @@ public class AbilityButtonToggle : MonoBehaviour
         group1.SetActive(true);
         group2.SetActive(false);
 
-        Singleton.instance.TweenTime(1);
+        Singleton.instance.TweenTime(1, .5f);
 
         Singleton.instance.canHitStop=true;
     }

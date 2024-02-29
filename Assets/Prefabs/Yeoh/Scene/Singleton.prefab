@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2500824665300239398}
   - component: {fileID: 592815320566954911}
-  - component: {fileID: 3256383212411201401}
   - component: {fileID: 2326280011152673731}
   - component: {fileID: 606035994893123991}
   m_Layer: 0
@@ -49,6 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2378e27a3687c2c42a2c7da9b5c28674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canHitStop: 1
   popUpTextPrefab: {fileID: 4640091990393059759, guid: 7b89e69c6ce448d49aafc85ea3881732,
     type: 3}
   transitionAnimator: {fileID: 3212584771030718874}
@@ -70,18 +70,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 01dc8c4faf1f14540aebc0f0aabbd199, type: 3}
   - {fileID: 8300000, guid: af11eb7bb2f26bb43b65fe9fd6c7c54d, type: 3}
   - {fileID: 8300000, guid: cd1b90a4428a9754fbd595c1153d5e32, type: 3}
---- !u!114 &3256383212411201401
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1872862223611332692}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa5dc9585d3c6d241a515580c54e9520, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!82 &2326280011152673731
 AudioSource:
   m_ObjectHideFlags: 0

@@ -127,9 +127,4 @@ public class PlayerHurt : MonoBehaviour
     {
         Singleton.instance.ReloadScene();
     }
-
-    void Update() // testing
-    {
-        if(Input.GetKeyDown(KeyCode.Delete)) Hit(1, 1, transform.position, .3f, 1);
-    }
 }

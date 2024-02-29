@@ -21,10 +21,11 @@ public class PlayerMovement : MonoBehaviour
         defMoveSpeed = moveSpeed;
     }
 
-    // void Update()
-    // {
-    //     CheckInput();
-    // }
+    void Update()
+    {
+        if(player.canMove) CheckInput();
+        else NoInput();
+    }
 
     public void CheckInput()
     {

@@ -10,7 +10,7 @@ public class BaseHitbox : MonoBehaviour
     protected ShockwaveVFX shock;
     Collider coll;
 
-    public bool enabledOnAwake, hasSweepingEdge, camShake=true, hitStop=true;
+    public bool enabledOnAwake;
     public float damage, knockback;
     public float speedDebuffMult=.3f, stunTime=.5f;
 
@@ -47,11 +47,6 @@ public class BaseHitbox : MonoBehaviour
         if(otherRb && IsTargetValid(otherRb))
         {
             HandleTargetHit(otherRb);
-
-            if(camShake) Singleton.instance.CamShake();
-            if(hitStop) Singleton.instance.HitStop();
-
-            ToggleActive(hasSweepingEdge); // if can swipe through multiple
         }
     }
 

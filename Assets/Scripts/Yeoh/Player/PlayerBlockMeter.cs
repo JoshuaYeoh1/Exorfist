@@ -50,7 +50,7 @@ public class PlayerBlockMeter : MonoBehaviour
         hp.Add(hp.hpMax*percent/100);
     }
 
-    public void Hit(float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult, float stunTime)
+    public void Hit(float dmg, float kbForce, Vector3 contactPoint)
     {
         if(!iframe)
         {
@@ -60,11 +60,11 @@ public class PlayerBlockMeter : MonoBehaviour
 
             if(hp.hp>0) // if not empty yet
             {
-                BlockHit(dmg, kbForce, contactPoint, speedDebuffMult, stunTime);
+                BlockHit(dmg, kbForce, contactPoint);
             }   
             else
             {
-                BlockBreak(dmg, kbForce, contactPoint, speedDebuffMult, stunTime);
+                BlockBreak(dmg, kbForce, contactPoint);
             }
         }        
     }
@@ -80,7 +80,7 @@ public class PlayerBlockMeter : MonoBehaviour
         iframe=false;
     }
 
-    void BlockHit(float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult, float stunTime)
+    void BlockHit(float dmg, float kbForce, Vector3 contactPoint)
     {
         block.canBlock=true;
 
@@ -94,16 +94,14 @@ public class PlayerBlockMeter : MonoBehaviour
 
         Singleton.instance.SpawnPopUpText(contactPoint, dmg.ToString(), Color.cyan);
 
-        Singleton.instance.CamShake();
-
         //Singleton.instance.PlaySFX(Singleton.instance.sfxSubwoofer, transform.position, false);
     }
 
-    void BlockBreak(float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult, float stunTime)
+    void BlockBreak(float dmg, float kbForce, Vector3 contactPoint)
     {
         block.Unblock();
         
-        block.hurt.Hit(dmg*.5f, kbForce, contactPoint, speedDebuffMult*blockBreakSpeedDebuffMult, blockBreakPenaltyStunTime);
+        block.hurt.Hit(dmg*.5f, kbForce, contactPoint, blockBreakSpeedDebuffMult, blockBreakPenaltyStunTime);
 
         block.flash.SpawnFlash(contactPoint, Color.red);
 
