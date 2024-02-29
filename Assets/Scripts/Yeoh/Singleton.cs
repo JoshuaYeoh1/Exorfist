@@ -68,11 +68,11 @@ public class Singleton : MonoBehaviour
     public void TweenTime(float to, float time=.01f)
     {
         LeanTween.cancel(tweenTimeLt);
-        tweenTimeLt = LeanTween.value(Time.timeScale, to, time).setEaseInOutSine().setIgnoreTimeScale(true).setOnUpdate(UpdateTweenTime).id;
-    }
-    void UpdateTweenTime(float value)
-    {
-        Time.timeScale = value;
+        tweenTimeLt = LeanTween.value(Time.timeScale, to, time)
+                        .setEaseInOutSine()
+                        .setIgnoreTimeScale(true)
+                        .setOnUpdate( (float value)=>{Time.timeScale=value;} )
+                        .id;
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////

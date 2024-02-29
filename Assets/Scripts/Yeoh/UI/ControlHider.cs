@@ -17,6 +17,13 @@ public class ControlHider : MonoBehaviour
 
     void Update()
     {
+        CheckAttackButton();
+        CheckBlockButton();
+        CheckAbilityButton();
+    }
+
+    void CheckAttackButton()
+    {
         if(player.canAttack)
         {
             foreach(GameObject atkBtn in attackBtns)
@@ -31,11 +38,19 @@ public class ControlHider : MonoBehaviour
                 ToggleActive(atkBtn, false);
             }
         }
+    }
 
+    void CheckBlockButton()
+    {
         if(player.canBlock) ToggleActive(blockBtn, true);
-        else ToggleActive(blockBtn, false);
 
+        else ToggleActive(blockBtn, false);
+    }
+
+    void CheckAbilityButton()
+    {
         if(player.canCast) ToggleActive(abilityBtn, true);
+
         else
         {
             if(abilityBtn.activeSelf)

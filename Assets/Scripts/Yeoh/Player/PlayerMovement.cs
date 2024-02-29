@@ -75,11 +75,10 @@ public class PlayerMovement : MonoBehaviour
     public void TweenSpeed(float to, float time=.2f)
     {
         LeanTween.cancel(tweenSpeedLt);
-        tweenSpeedLt = LeanTween.value(moveSpeed, to, time).setEaseInOutSine().setOnUpdate(UpdateTweenSpeed).id;
-    }
-    void UpdateTweenSpeed(float value)
-    {
-        moveSpeed = value;
+        tweenSpeedLt = LeanTween.value(moveSpeed, to, time)
+                        .setEaseInOutSine()
+                        .setOnUpdate( (float value)=>{moveSpeed=value;} )
+                        .id;
     }
 
     public void Push(float force, Vector3 direction) //, float stopTime)

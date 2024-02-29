@@ -6,41 +6,30 @@ using UnityEngine;
 public class CameraCinemachine : MonoBehaviour
 {
     [HideInInspector] public CinemachineFreeLook cm;
-    [HideInInspector] public float defaultSize, currentSize;
     CinemachineBasicMultiChannelPerlin[] cbmcp;
-    float defaultAmplitude, defaultFrequency;
+
+    [HideInInspector] public float defaultSize, defaultAmplitude, defaultFrequency;
 
     void Awake()
     {
         cm=GetComponent<CinemachineFreeLook>();
-
         cbmcp = cm.GetComponentsInChildren<CinemachineBasicMultiChannelPerlin>();
+
+        defaultSize=cm.m_Lens.OrthographicSize;
         defaultAmplitude = cbmcp[0].m_AmplitudeGain;
         defaultFrequency = cbmcp[0].m_FrequencyGain;
-
-        defaultSize=currentSize=cm.m_Lens.OrthographicSize;
-    }
-
-    void FixedUpdate()
-    {
-        if(currentSize!=cm.m_Lens.OrthographicSize) currentSize=cm.m_Lens.OrthographicSize;
     }
 
     int camSizeLt=0;
-    public void changeCamSize(float newCamSize, float time)
-    {
-        cancelCamSize();
-        camSizeLt = LeanTween.value(cm.m_Lens.OrthographicSize, newCamSize, time).setEaseInOutSine().setOnUpdate(TweenUpdate).id;
-
-        //Singleton.instance.playSFX(Singleton.instance.sfxCamPan, transform, false);
-    }
-    void TweenUpdate(float value)
-    {
-        cm.m_Lens.OrthographicSize = value;
-    }
-    public void cancelCamSize()
+    public void ChangeCamSize(float newCamSize, float time)
     {
         LeanTween.cancel(camSizeLt);
+        camSizeLt = LeanTween.value(cm.m_Lens.OrthographicSize, newCamSize, time)
+                        .setEaseInOutSine()
+                        .setOnUpdate( (float value)=>{cm.m_Lens.OrthographicSize=value;} )
+                        .id;
+
+        //Singleton.instance.playSFX(Singleton.instance.sfxCamPan, transform, false);
     }
     
     Coroutine shakeRt;

@@ -114,11 +114,10 @@ public class PlayerAOE : MonoBehaviour
     public void TweenFill(float to, float time=.01f)
     {
         LeanTween.cancel(tweenFillLt);
-        tweenFillLt = LeanTween.value(radialFill, to, time).setEaseInOutSine().setOnUpdate(UpdateTweenFill).id;
-    }
-    void UpdateTweenFill(float value)
-    {
-        radialFill = value;
+        tweenFillLt = LeanTween.value(radialFill, to, time)
+                        .setEaseInOutSine()
+                        .setOnUpdate( (float value)=>{radialFill=value;} )
+                        .id;
     }
 
     public void Cancel()
