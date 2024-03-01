@@ -17,8 +17,7 @@ public class Player : MonoBehaviour
     public Transform popUpTextPos;
     public List<PlayerHitbox> hitboxes;
 
-    public bool isGrounded;
-    public bool isAlive=true, canMove, canAttack, canBlock, canCast, canHurt, canStun;
+    public bool isAlive=true, isGrounded, canMove, canTurn, canAttack, canBlock, canCast, canHurt, canStun;
 
     void Awake()
     {

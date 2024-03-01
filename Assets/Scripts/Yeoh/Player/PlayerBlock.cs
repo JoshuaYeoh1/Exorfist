@@ -6,7 +6,7 @@ public class PlayerBlock : MonoBehaviour
 {
     [HideInInspector] public Player player;
     PlayerMovement move;
-    [HideInInspector] public PlayerHurt hurt;
+    PlayerHurt hurt;
     [HideInInspector] public OffsetMeshColor color;
     PlayerStun stun;
     [HideInInspector] public FlashSpriteVFX flash;
@@ -108,15 +108,19 @@ public class PlayerBlock : MonoBehaviour
         if(isParrying)
         {
             ParrySuccess(contactPoint);
+
+            SetBlockedPoint(contactPoint);
         }
         else if(isBlocking)
         {
             meter.Hit(dmg, kbForce, contactPoint);
+
+            SetBlockedPoint(contactPoint);
         }
         else
         {
             hurt.Hit(dmg, kbForce, contactPoint, speedDebuffMult, stunTime);
-        }        
+        }   
     }
 
     public void ParrySuccess(Vector3 contactPoint)
@@ -127,13 +131,29 @@ public class PlayerBlock : MonoBehaviour
 
         flash.SpawnFlash(contactPoint, Color.green);
 
-        color.FlashColor(.1f, -.5f, .5f, -.5f); // flash green
+        hurt.DoIFraming(hurt.iframeTime, -.5f, .5f, -.5f); // flicker green
 
         Singleton.instance.SpawnPopUpText(player.popUpTextPos.position, "PARRY!", Color.green);
 
         shock.SpawnShockwave(contactPoint, Color.green);
 
         //Singleton.instance.HitStop(); // fucks up your timing
+    }
+
+    [HideInInspector] public Vector3 blockedPoint;
+
+    void SetBlockedPoint(Vector3 point)
+    {
+        if(settingBlockedPointRt!=null) StopCoroutine(settingBlockedPointRt);
+        settingBlockedPointRt=StartCoroutine(SettingBlockedPoint(point));
+    }
+    
+    Coroutine settingBlockedPointRt;
+    IEnumerator SettingBlockedPoint(Vector3 point)
+    {
+        blockedPoint = point;
+        yield return new WaitForSeconds(.25f);
+        blockedPoint = Vector3.zero;
     }
 
     void Update() // testing

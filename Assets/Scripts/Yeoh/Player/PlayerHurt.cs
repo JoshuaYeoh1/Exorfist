@@ -26,7 +26,7 @@ public class PlayerHurt : MonoBehaviour
     {
         if(!iframe && player.isAlive && player.canHurt)
         {
-            DoIFraming(iframeTime);
+            DoIFraming(iframeTime, .5f, -.5f, -.5f); // flicker red
 
             Knockback(kbForce, contactPoint);
 
@@ -46,44 +46,46 @@ public class PlayerHurt : MonoBehaviour
         }
     }
 
-    public void DoIFraming(float t)
+    public void DoIFraming(float t, float r, float g, float b)
     {
-        StartCoroutine(IFraming(t));
+        if(iFramingRt!=null) StopCoroutine(iFramingRt);
+        iFramingRt = StartCoroutine(IFraming(t, r, g, b));
     }
-    IEnumerator IFraming(float t)
+
+    Coroutine iFramingRt;
+    IEnumerator IFraming(float t, float r, float g, float b)
     {
         iframe=true;
-
-        StartIFrameFlicker();
+        StartIFrameFlicker(r, g, b);
 
         yield return new WaitForSeconds(t);
 
         iframe=false;
-
         StopIFrameFlicker();
     }
 
-    void StartIFrameFlicker()
+    void StartIFrameFlicker(float r, float g, float b)
     {
         if(iFrameFlickeringRt!=null) StopCoroutine(iFrameFlickeringRt);
-        iFrameFlickeringRt = StartCoroutine(IFrameFlickering());
-    }
-    void StopIFrameFlicker()
-    {
-        if(iFrameFlickeringRt!=null) StopCoroutine(iFrameFlickeringRt);
-        color.OffsetColor();
+        iFrameFlickeringRt = StartCoroutine(IFrameFlickering(r, g, b));
     }
 
     Coroutine iFrameFlickeringRt;
-    IEnumerator IFrameFlickering()
+    IEnumerator IFrameFlickering(float r, float g, float b)
     {
         while(true)
         {
-            color.OffsetColor(.5f, -.5f, -.5f);
+            color.OffsetColor(r, g, b);
             yield return new WaitForSecondsRealtime(.05f);
             color.OffsetColor();
             yield return new WaitForSecondsRealtime(.05f);
         }
+    }
+
+    void StopIFrameFlicker()
+    {
+        if(iFrameFlickeringRt!=null) StopCoroutine(iFrameFlickeringRt);
+        color.OffsetColor();
     }
 
     public void Knockback(float force, Vector3 contactPoint)

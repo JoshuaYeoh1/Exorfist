@@ -16,6 +16,7 @@ public class PlayerIdleState : BaseState<PlayerStateMachine.PlayerStates>
         Debug.Log("Player state: " + stateMachine.GetCurrentState().StateKey);
 
         stateMachine.player.canMove=true;
+        stateMachine.player.canTurn=true;
         stateMachine.player.canAttack=true;
         stateMachine.player.canBlock=true;
         stateMachine.player.canCast=true;
@@ -31,7 +32,7 @@ public class PlayerIdleState : BaseState<PlayerStateMachine.PlayerStates>
 
     public override void FixedUpdateState()
     {
-        stateMachine.player.look.CheckLook();
+
     }
 
     public override void ExitState()

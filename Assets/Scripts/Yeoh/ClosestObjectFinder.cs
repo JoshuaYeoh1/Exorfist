@@ -17,11 +17,25 @@ public class ClosestObjectFinder : MonoBehaviour
         defRange=outerRange;
     }
 
-    void Update()
+    void OnEnable()
     {
-        ScanInnerRange();
-        ScanOuterRange();
+        StartCoroutine(SlowUpdate());
+    }
 
+    IEnumerator SlowUpdate()
+    {
+        while(true)
+        {
+            ScanInnerRange();
+            ScanOuterRange();
+            CheckWhichTarget();
+
+            yield return new WaitForSeconds(.1f);
+        }
+    }
+
+    void CheckWhichTarget()
+    {
         // prioritize the inner target
         if(innerTarget) target = innerTarget;
         else if(outerTarget) target = outerTarget;

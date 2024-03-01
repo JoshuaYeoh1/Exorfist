@@ -16,6 +16,7 @@ public class PlayerDeathState : BaseState<PlayerStateMachine.PlayerStates>
         Debug.Log("Player state: " + stateMachine.GetCurrentState().StateKey);
 
         stateMachine.player.canMove=false;
+        stateMachine.player.canTurn=false;
         stateMachine.player.canAttack=false;
         stateMachine.player.canBlock=false;
         stateMachine.player.canCast=false;

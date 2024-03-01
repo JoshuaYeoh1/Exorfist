@@ -90,7 +90,34 @@ public class PlayerAnim : MonoBehaviour
     {
         laser.Finish();
     }
-    
+
+    public GameObject footstepLVfx, footstepRVfx;
+    public Transform footstepLTr, footstepRTr;
+    // Time interval between footsteps
+    float footstepInterval=.1f;
+    float lastFootstepTime;
+
+    public void AnimFootstep(string type="left")
+    {
+        if(Time.time-lastFootstepTime > footstepInterval)
+        {
+            lastFootstepTime = Time.time;
+
+            GameObject step=null;
+
+            if(type=="left")
+            {
+                step=Instantiate(footstepLVfx, footstepLTr.position, footstepLTr.rotation);
+            }
+            if(type=="right")
+            {
+                step=Instantiate(footstepRVfx, footstepRTr.position, footstepLTr.rotation);
+            }
+
+            if(step) step.hideFlags = HideFlags.HideInHierarchy;
+        }
+    }
+
     // public void PlaySfxFootstep()
     // {
     //     Singleton.instance.playSFX(sfxPlayerFst,transform);

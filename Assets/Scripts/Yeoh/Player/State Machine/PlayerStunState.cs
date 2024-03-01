@@ -16,6 +16,7 @@ public class PlayerStunState : BaseState<PlayerStateMachine.PlayerStates>
         Debug.Log("Player state: " + stateMachine.GetCurrentState().StateKey);
 
         stateMachine.player.canMove=true;
+        stateMachine.player.canTurn=false;
         stateMachine.player.canAttack=false;
         stateMachine.player.canBlock=true;
         stateMachine.player.canCast=false;

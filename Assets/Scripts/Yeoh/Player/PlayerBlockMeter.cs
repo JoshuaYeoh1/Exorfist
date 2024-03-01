@@ -6,15 +6,17 @@ public class PlayerBlockMeter : MonoBehaviour
 {
     HPManager hp;
     PlayerBlock block;
+    PlayerHurt hurt;
 
-    [HideInInspector] public bool iframe, regen;
-    public float iframeTime=.3f, regenCooldown=3;
+    [HideInInspector] public bool regen;
+    public float regenCooldown=3;
     public float blockBreakSpeedDebuffMult=.5f, blockBreakPenaltyStunTime=1;
 
     void Awake()
     {
         hp=GetComponent<HPManager>();
         block=transform.root.GetComponent<PlayerBlock>();
+        hurt=transform.root.GetComponent<PlayerHurt>();
     }
 
     void Update()
@@ -52,10 +54,8 @@ public class PlayerBlockMeter : MonoBehaviour
 
     public void Hit(float dmg, float kbForce, Vector3 contactPoint)
     {
-        if(!iframe)
+        if(!hurt.iframe)
         {
-            DoIFraming(iframeTime);
-
             hp.Hit(dmg);
 
             if(hp.hp>0) // if not empty yet
@@ -69,28 +69,17 @@ public class PlayerBlockMeter : MonoBehaviour
         }        
     }
 
-    public void DoIFraming(float t)
-    {
-        StartCoroutine(iframing(t));
-    }
-    IEnumerator iframing(float t)
-    {
-        iframe=true;
-        yield return new WaitForSeconds(t);
-        iframe=false;
-    }
-
     void BlockHit(float dmg, float kbForce, Vector3 contactPoint)
     {
         block.canBlock=true;
 
         block.player.anim.CrossFade("block hit", .1f, 4, 0);
 
-        block.hurt.Knockback(kbForce*block.blockKnockbackResistMult, contactPoint);
+        hurt.Knockback(kbForce*block.blockKnockbackResistMult, contactPoint);
 
         block.flash.SpawnFlash(contactPoint, Color.white);
 
-        block.color.FlashColor(.1f, .5f, .5f, .5f); // flash white
+        hurt.DoIFraming(hurt.iframeTime, -.5f, .5f, .5f); // flicker cyan
 
         Singleton.instance.SpawnPopUpText(contactPoint, dmg.ToString(), Color.cyan);
 
@@ -101,7 +90,7 @@ public class PlayerBlockMeter : MonoBehaviour
     {
         block.Unblock();
         
-        block.hurt.Hit(dmg*.5f, kbForce, contactPoint, blockBreakSpeedDebuffMult, blockBreakPenaltyStunTime);
+        hurt.Hit(dmg*.5f, kbForce, contactPoint, blockBreakSpeedDebuffMult, blockBreakPenaltyStunTime);
 
         block.flash.SpawnFlash(contactPoint, Color.red);
 

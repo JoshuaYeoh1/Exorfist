@@ -159,9 +159,9 @@ public class PlayerLaser : MonoBehaviour
     {
         LeanTween.cancel(tweenFillLt);
         tweenFillLt = LeanTween.value(radialFill, to, time)
-                        .setEaseInOutSine()
-                        .setOnUpdate( (float value)=>{radialFill=value;} )
-                        .id;
+            .setEaseInOutSine()
+            .setOnUpdate( (float value)=>{radialFill=value;} )
+            .id;
     }
 
     public void Cancel()

@@ -8,6 +8,7 @@ public class PlayerLook : MonoBehaviour
     PlayerMovement move;
     ClosestObjectFinder finder;
     Rigidbody rb;
+    PlayerBlock block;
 
     public float turnSpeed=10;
 
@@ -17,21 +18,31 @@ public class PlayerLook : MonoBehaviour
         move=GetComponent<PlayerMovement>();
         finder=GetComponent<ClosestObjectFinder>();
         rb=GetComponent<Rigidbody>();
+        block=GetComponent<PlayerBlock>();
     }
 
-    public void CheckLook()
+    void FixedUpdate()
     {
-        if(finder.target) // if there is a target in range
+        if(player.canTurn) CheckTurn();
+    }
+
+    public void CheckTurn()
+    {
+        if(block.blockedPoint!=Vector3.zero)
         {
-            FaceTowards(GetDir(finder.target.transform.position, transform.position)); // face at target
+            TurnTowards(GetDir(block.blockedPoint, transform.position), turnSpeed*10);
+        }
+        else if(finder.target) // if there is a target in range
+        {
+            TurnTowards(GetDir(finder.target.transform.position, transform.position), turnSpeed); // face at target
         }
         else if(move.dir.sqrMagnitude>0) // if joystick is moved
         {
-            FaceTowards(rb.velocity.normalized); // face move direction
+            TurnTowards(rb.velocity.normalized, turnSpeed); // face move direction
         }
     }
 
-    void FaceTowards(Vector3 direction)
+    void TurnTowards(Vector3 direction, float turnSpeed)
     {
         Quaternion lookRotation = Quaternion.LookRotation(direction);
 

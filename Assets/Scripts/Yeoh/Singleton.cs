@@ -55,7 +55,7 @@ public class Singleton : MonoBehaviour
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void CamShake(float time=.2f, float amp=1.5f, float freq=2)
+    public void CamShake(float time=.1f, float amp=1.5f, float freq=2)
     {
         GameObject.FindGameObjectWithTag("Cinemachine").GetComponent<CameraCinemachine>().Shake(time, amp, freq);
 
@@ -69,10 +69,10 @@ public class Singleton : MonoBehaviour
     {
         LeanTween.cancel(tweenTimeLt);
         tweenTimeLt = LeanTween.value(Time.timeScale, to, time)
-                        .setEaseInOutSine()
-                        .setIgnoreTimeScale(true)
-                        .setOnUpdate( (float value)=>{Time.timeScale=value;} )
-                        .id;
+            .setEaseInOutSine()
+            .setIgnoreTimeScale(true)
+            .setOnUpdate( (float value)=>{Time.timeScale=value;} )
+            .id;
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
