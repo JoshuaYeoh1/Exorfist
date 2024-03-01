@@ -494,10 +494,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   constrainTo: {fileID: 223469155328006127}
+  fixedUpdate: 1
   positionMult: {x: 1, y: 1, z: 1}
   rotationMult: {x: 0, y: 1, z: 0}
   scaleMult: {x: 0, y: 0, z: 0}
-  fixedUpdate: 1
+  positionOffset: {x: 0, y: 0, z: 0}
+  rotationOffset: {x: 0, y: 0, z: 0}
+  scaleOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &1793853544459572365
 GameObject:
   m_ObjectHideFlags: 0
@@ -1189,6 +1192,7 @@ GameObject:
   - component: {fileID: 7175919161133666863}
   - component: {fileID: 8706064815427648548}
   - component: {fileID: 7434681468493391431}
+  - component: {fileID: 4809607273973910138}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -1258,6 +1262,7 @@ MonoBehaviour:
   stateMachine: {fileID: 0}
   move: {fileID: 0}
   finder: {fileID: 0}
+  manual: {fileID: 0}
   look: {fileID: 0}
   buffer: {fileID: 0}
   combat: {fileID: 0}
@@ -1270,6 +1275,7 @@ MonoBehaviour:
   - {fileID: 9988966597485364}
   - {fileID: 7070125429898489180}
   - {fileID: 4407643766088684248}
+  target: {fileID: 0}
   isAlive: 1
   isGrounded: 0
   canMove: 0
@@ -1606,6 +1612,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 685fdd2ace7c58a44a13a6521d38fd2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetObject: {fileID: 0}
+  vertices: []
+  topMostVertex: {x: 0, y: 0, z: 0}
+--- !u!114 &4809607273973910138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4341965082236069434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da4b1c732cef6f40aed36bc720a91ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  maxRange: 10
+  layers:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &4356791878913300190
 GameObject:
   m_ObjectHideFlags: 0
@@ -2616,10 +2642,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   constrainTo: {fileID: 3166115015793700770}
+  fixedUpdate: 1
   positionMult: {x: 1, y: 1, z: 1}
   rotationMult: {x: 0, y: 1, z: 0}
   scaleMult: {x: 0, y: 0, z: 0}
-  fixedUpdate: 1
+  positionOffset: {x: 0, y: 0, z: 0}
+  rotationOffset: {x: 0, y: 0, z: 0}
+  scaleOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &8198037249070777350
 GameObject:
   m_ObjectHideFlags: 0

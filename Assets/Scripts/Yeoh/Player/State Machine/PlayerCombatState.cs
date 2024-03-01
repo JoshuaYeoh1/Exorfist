@@ -46,7 +46,7 @@ public class PlayerCombatState : BaseState<PlayerStateMachine.PlayerStates>
 
     void CheckNoCombat()
     {
-        if(!stateMachine.player.finder.target)
+        if(!stateMachine.player.target)
         {
             stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Idle);
         }

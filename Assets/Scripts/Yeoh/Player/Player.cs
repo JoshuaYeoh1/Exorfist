@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     [HideInInspector] public PlayerStateMachine stateMachine;
     [HideInInspector] public PlayerMovement move;
     [HideInInspector] public ClosestObjectFinder finder;
+    [HideInInspector] public ManualTarget manual;
     [HideInInspector] public PlayerLook look;
     [HideInInspector] public InputBuffer buffer;
     [HideInInspector] public PlayerCombat combat;
@@ -16,6 +17,7 @@ public class Player : MonoBehaviour
     public Animator anim;
     public Transform popUpTextPos;
     public List<PlayerHitbox> hitboxes;
+    public GameObject target;
 
     public bool isAlive=true, isGrounded, canMove, canTurn, canAttack, canBlock, canCast, canHurt, canStun;
 
@@ -24,11 +26,24 @@ public class Player : MonoBehaviour
         stateMachine=GetComponent<PlayerStateMachine>();
         move=GetComponent<PlayerMovement>();
         finder=GetComponent<ClosestObjectFinder>();
+        manual=GetComponent<ManualTarget>();
         look=GetComponent<PlayerLook>();
         buffer=GetComponent<InputBuffer>();
         combat=GetComponent<PlayerCombat>();
         aoe=GetComponent<PlayerAOE>();
         laser=GetComponent<PlayerLaser>();
+    }
+
+    void Update()
+    {
+        CheckTargetPriority();
+    }
+
+    void CheckTargetPriority()
+    {
+        if(manual.target) target=manual.target;
+        else if(finder.target) target=finder.target;
+        else target=null;
     }
 
     public void CancelActions()

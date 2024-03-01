@@ -6,7 +6,6 @@ public class PlayerLook : MonoBehaviour
 {
     Player player;
     PlayerMovement move;
-    ClosestObjectFinder finder;
     Rigidbody rb;
     PlayerBlock block;
 
@@ -16,7 +15,6 @@ public class PlayerLook : MonoBehaviour
     {
         player=GetComponent<Player>();
         move=GetComponent<PlayerMovement>();
-        finder=GetComponent<ClosestObjectFinder>();
         rb=GetComponent<Rigidbody>();
         block=GetComponent<PlayerBlock>();
     }
@@ -32,9 +30,9 @@ public class PlayerLook : MonoBehaviour
         {
             TurnTowards(GetDir(block.blockedPoint, transform.position), turnSpeed*10);
         }
-        else if(finder.target) // if there is a target in range
+        else if(player.target) // if there is a target in range
         {
-            TurnTowards(GetDir(finder.target.transform.position, transform.position), turnSpeed); // face at target
+            TurnTowards(GetDir(player.target.transform.position, transform.position), turnSpeed); // face at target
         }
         else if(move.dir.sqrMagnitude>0) // if joystick is moved
         {

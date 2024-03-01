@@ -55,7 +55,7 @@ public class PlayerIdleState : BaseState<PlayerStateMachine.PlayerStates>
 
     void CheckCombat()
     {
-        if(stateMachine.player.finder.target)
+        if(stateMachine.player.target)
         {
             stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Combat);
         }

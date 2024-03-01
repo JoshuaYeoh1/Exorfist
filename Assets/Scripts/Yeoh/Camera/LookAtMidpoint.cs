@@ -23,7 +23,7 @@ public class LookAtMidpoint : MonoBehaviour
 
     void FindMidpoint()
     {
-        if(player.finder.target) enemyTr = player.finder.target.transform;
+        if(player.target) enemyTr = player.target.transform;
         else enemyTr = player.transform;
 
         Vector3 midpoint = Vector3.Lerp(player.transform.position, enemyTr.position, middle);

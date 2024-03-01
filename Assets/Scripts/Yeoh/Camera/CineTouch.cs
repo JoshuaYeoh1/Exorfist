@@ -5,9 +5,9 @@ public class Cinetouch : MonoBehaviour
 {
     CinemachineFreeLook cineFreeLook;
     TouchField touchField;
-    ClosestObjectFinder finder;
+    Player player;
 
-    public float SenstivityX = .2f, SenstivityY = -.2f;
+    public float senstivityX=.1f, senstivityY=-.1f;
 
     public float recenterWaitTime=3;
     float lastTouchedTime;
@@ -16,16 +16,16 @@ public class Cinetouch : MonoBehaviour
     {
         cineFreeLook=GetComponent<CinemachineFreeLook>();
         touchField = GameObject.FindGameObjectWithTag("TouchField").GetComponent<TouchField>();
-        finder = GameObject.FindGameObjectWithTag("Player").GetComponent<ClosestObjectFinder>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
     void Update()
     {
         if(touchField)
         {
-            cineFreeLook.m_XAxis.Value += touchField.TouchDist.x * 200 * SenstivityX * Time.deltaTime;
+            cineFreeLook.m_XAxis.Value += touchField.TouchDist.x * 200 * senstivityX * Time.unscaledDeltaTime;
         
-            cineFreeLook.m_YAxis.Value += touchField.TouchDist.y * SenstivityY * Time.deltaTime;
+            cineFreeLook.m_YAxis.Value += touchField.TouchDist.y * senstivityY * Time.unscaledDeltaTime;
 
             CheckRecenter();
         }
@@ -33,7 +33,7 @@ public class Cinetouch : MonoBehaviour
 
     void CheckRecenter()
     {
-        if(touchField.Pressed || finder.target)
+        if(touchField.Pressed || player.target)
         {
             if(cineFreeLook.m_RecenterToTargetHeading.m_enabled)
             cineFreeLook.m_RecenterToTargetHeading.m_enabled=false;

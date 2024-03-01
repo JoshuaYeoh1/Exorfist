@@ -11,7 +11,7 @@ public class PlayerAnim : MonoBehaviour
     Rigidbody rb;
     PlayerAOE aoe;
     PlayerLaser laser;
-    ClosestObjectFinder finder;
+    Player player;
 
     void Start()
     {
@@ -22,7 +22,7 @@ public class PlayerAnim : MonoBehaviour
         rb=transform.root.GetComponent<Rigidbody>();
         aoe=transform.root.GetComponent<PlayerAOE>();
         laser=transform.root.GetComponent<PlayerLaser>();
-        finder=transform.root.GetComponent<ClosestObjectFinder>();
+        player=transform.root.GetComponent<Player>();
     }
 
     void Update()
@@ -56,7 +56,7 @@ public class PlayerAnim : MonoBehaviour
 
     void AnimCombat()
     {
-        if(finder.target) anim.SetBool("inCombat", true);
+        if(player.target) anim.SetBool("inCombat", true);
         else anim.SetBool("inCombat", false);
     }
     

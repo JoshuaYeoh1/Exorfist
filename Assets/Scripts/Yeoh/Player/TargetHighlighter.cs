@@ -4,33 +4,30 @@ using UnityEngine;
 
 public class TargetHighlighter : MonoBehaviour
 {
-    ClosestObjectFinder finder;
+    Player player;
     MaterialManager matManager;
     TopMostVertexFinder topFinder;
 
     public Material outlineMaterial;
     public GameObject indicatorPrefab;
-    GameObject indicator;
-    TransformConstraint indicatorTC;
-
-    float topY;
 
     void Awake()
     {
-        finder=GetComponent<ClosestObjectFinder>();
+        player=GetComponent<Player>();
         matManager=GetComponent<MaterialManager>();
         topFinder=GetComponent<TopMostVertexFinder>();
     }
 
     GameObject lastTarget;
+    float topY;
 
     void Update()
     {
-        if(lastTarget!=finder.target)
+        if(lastTarget!=player.target)
         {
             if(lastTarget) ToggleHighlight(lastTarget, false);
 
-            lastTarget=finder.target;
+            lastTarget=player.target;
 
             if(lastTarget) ToggleHighlight(lastTarget, true);
         }
@@ -39,6 +36,9 @@ public class TargetHighlighter : MonoBehaviour
 
         if(indicatorTC) indicatorTC.positionOffset.y = topY + offsetY;
     }
+
+    GameObject indicator;
+    TransformConstraint indicatorTC;
 
     void ToggleHighlight(GameObject target, bool toggle)
     {
