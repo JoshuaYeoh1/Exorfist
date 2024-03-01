@@ -15,15 +15,22 @@ public class PlayerParryState : BaseState<PlayerStateMachine.PlayerStates>
     {
         Debug.Log("Player state: " + stateMachine.GetCurrentState().StateKey);
 
-        stateMachine.player.canLook=true;
+        stateMachine.player.canMove=true;
         stateMachine.player.canAttack=false;
-        stateMachine.player.canBlock=false;
-        stateMachine.player.canStun=false;
+        stateMachine.player.canBlock=true;
+        stateMachine.player.canCast=false;
+        stateMachine.player.canHurt=true;
+        stateMachine.player.canStun=true; 
     }
 
     public override void UpdateState()
     {
-        stateMachine.player.move.CheckInput();
+
+    }
+
+    public override void FixedUpdateState()
+    {
+        stateMachine.player.look.CheckLook();
     }
 
     public override void ExitState()

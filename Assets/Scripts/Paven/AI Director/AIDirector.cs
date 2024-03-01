@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class AIDirector : MonoBehaviour
@@ -194,6 +192,14 @@ public class AIDirector : MonoBehaviour
             if (attackingEnemies[i] == null)
             {
                 attackingEnemies.RemoveAt(i);
+            }
+        }
+
+        if(enemies.Count == 0)
+        {
+            if(GameEventSystem.current != null)
+            {
+                GameEventSystem.current.notifyRoomStateManager();
             }
         }
     }

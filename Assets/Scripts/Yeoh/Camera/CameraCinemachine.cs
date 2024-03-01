@@ -6,46 +6,34 @@ using UnityEngine;
 public class CameraCinemachine : MonoBehaviour
 {
     [HideInInspector] public CinemachineFreeLook cm;
-    [HideInInspector] public float defaultSize, currentSize;
     CinemachineBasicMultiChannelPerlin[] cbmcp;
-    float defaultAmplitude, defaultFrequency;
-    public float shakeAmplitude=.5f, shakeFrequency=2;
+
+    [HideInInspector] public float defaultSize, defaultAmplitude, defaultFrequency;
 
     void Awake()
     {
         cm=GetComponent<CinemachineFreeLook>();
-
         cbmcp = cm.GetComponentsInChildren<CinemachineBasicMultiChannelPerlin>();
+
+        defaultSize=cm.m_Lens.OrthographicSize;
         defaultAmplitude = cbmcp[0].m_AmplitudeGain;
         defaultFrequency = cbmcp[0].m_FrequencyGain;
-
-        defaultSize=currentSize=cm.m_Lens.OrthographicSize;
-    }
-
-    void FixedUpdate()
-    {
-        if(currentSize!=cm.m_Lens.OrthographicSize) currentSize=cm.m_Lens.OrthographicSize;
     }
 
     int camSizeLt=0;
-    public void changeCamSize(float newCamSize, float time)
+    public void ChangeCamSize(float newCamSize, float time)
     {
-        cancelCamSize();
-        camSizeLt = LeanTween.value(cm.m_Lens.OrthographicSize, newCamSize, time).setEaseInOutSine().setOnUpdate(TweenUpdate).id;
+        LeanTween.cancel(camSizeLt);
+        camSizeLt = LeanTween.value(cm.m_Lens.OrthographicSize, newCamSize, time)
+                        .setEaseInOutSine()
+                        .setOnUpdate( (float value)=>{cm.m_Lens.OrthographicSize=value;} )
+                        .id;
 
         //Singleton.instance.playSFX(Singleton.instance.sfxCamPan, transform, false);
     }
-    void TweenUpdate(float value)
-    {
-        cm.m_Lens.OrthographicSize = value;
-    }
-    public void cancelCamSize()
-    {
-        LeanTween.cancel(camSizeLt);
-    }
     
     Coroutine shakeRt;
-    public void Shake(float time, float amp=.5f, float freq=2)
+    public void Shake(float time, float amp, float freq)
     {
         if(shakeRt!=null) StopCoroutine(shakeRt);
         shakeRt=StartCoroutine(Shaking(time, amp, freq));
@@ -57,20 +45,14 @@ public class CameraCinemachine : MonoBehaviour
         DoShake(false);
     }
 
-    public void DoShake(bool toggle=true, float amp=.5f, float freq=2)
+    public void DoShake(bool toggle=true, float amp=0, float freq=0)
     {
-        float origAmp = shakeAmplitude;
-        float origFreq = shakeFrequency;
-
-        shakeAmplitude=amp;
-        shakeFrequency=freq;
-
         foreach(CinemachineBasicMultiChannelPerlin _cbmcp in cbmcp)
         {
             if(toggle)
             {
-                _cbmcp.m_AmplitudeGain = shakeAmplitude;
-                _cbmcp.m_FrequencyGain = shakeFrequency;
+                _cbmcp.m_AmplitudeGain = amp;
+                _cbmcp.m_FrequencyGain = freq;
             }
             else
             {
@@ -78,9 +60,6 @@ public class CameraCinemachine : MonoBehaviour
                 _cbmcp.m_FrequencyGain = defaultFrequency;
             }
         }
-
-        shakeAmplitude=origAmp;
-        shakeFrequency=origFreq;
     }
 
     // int camMoveLt=0;

@@ -6,67 +6,98 @@ public class InputBuffer : MonoBehaviour
 {
     PlayerCombat combat;
     PlayerBlock block;
+    PlayerAOE aoe;
+    PlayerLaser laser;
+
+    public float inputBufferTime=.3f;
+    
+    [HideInInspector] public float lastPressedLightAttack=-1, lastPressedHeavyAttack=-1, lastPressedBlock=-1, lastPressedAOE=-1, lastPressedLaser=-1;
 
     void Awake()
     {
         combat=GetComponent<PlayerCombat>();
         block=GetComponent<PlayerBlock>();
+        aoe=GetComponent<PlayerAOE>();
+        laser=GetComponent<PlayerLaser>();
     }
 
-    public float inputBufferTime=.3f;
-    
-    [HideInInspector] public float lastPressedLightAttack=-1, lastPressedHeavyAttack=-1, lastPressedBlock=-1;
+    void Update()
+    {
+        KeyboardInput(); // temp for testing on PC
+        CheckInputBuffer();
+    }
 
-    public void OnBtnDownLightAttack()
+    public void LightAttack()
     {
         lastPressedLightAttack = Time.time;
     }
-
-    public void OnBtnDownHeavyAttack()
+    public void HeavyAttack()
     {
         lastPressedHeavyAttack = Time.time;
     }
-
-    public void OnBtnDownBlock()
+    public void BlockDown()
     {
         lastPressedBlock = Time.time;
 
         block.pressingBtn=true;
     }
-    public void OnBtnUpBlock()
+    public void BlockUp()
     {
-        block.OnBtnUp();
+        if(block.isBlocking) block.Unblock();
 
         block.pressingBtn=false;
     }
+    public void AOE()
+    {
+        lastPressedAOE = Time.time;
+    }
+    public void Laser()
+    {
+        lastPressedLaser = Time.time;
+    }
 
-    void Update()
+    void CheckInputBuffer()
     {
         if(Time.time-lastPressedLightAttack < inputBufferTime)
         {
-            combat.OnBtnDown("light");
+            combat.Attack("light");
         }
 
         if(Time.time-lastPressedHeavyAttack < inputBufferTime)
         {
-            combat.OnBtnDown("heavy");
+            combat.Attack("heavy");
         }
 
         if(Time.time-lastPressedBlock < inputBufferTime)
         {
-            block.OnBtnDown();
+            block.Parry();
         }
 
-        KeyboardInput(); // temp for testing on PC
+        if(Time.time-lastPressedAOE < inputBufferTime)
+        {
+            aoe.StartCast();
+        }
+
+        if(Time.time-lastPressedLaser < inputBufferTime)
+        {
+            laser.StartCast();
+        }
+        
     }
 
     void KeyboardInput()
     {
-        if(Input.GetKeyDown(KeyCode.Space)) OnBtnDownLightAttack();
+        if(Input.GetKeyDown(KeyCode.Space)) LightAttack();
 
-        if(Input.GetKeyDown(KeyCode.LeftAlt)) OnBtnDownHeavyAttack();
+        if(Input.GetKeyDown(KeyCode.LeftAlt)) HeavyAttack();
 
-        if(Input.GetKeyDown(KeyCode.Q)) OnBtnDownBlock();
-        if(Input.GetKeyUp(KeyCode.Q)) OnBtnUpBlock();
+        if(Input.GetKeyDown(KeyCode.Q)) BlockDown();
+
+        if(Input.GetKeyUp(KeyCode.Q)) BlockUp();
+
+        if(Input.GetKeyUp(KeyCode.Z)) AOE();
+
+        if(Input.GetKeyUp(KeyCode.X)) Laser();
     }
+    
 }

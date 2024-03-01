@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
@@ -9,19 +6,37 @@ public class EnemySpawner : MonoBehaviour
     private Vector3 spawnPos;
     private Quaternion rotation;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            //Instantiate with parameters to prevent enemies being a child of the EnemySpawner gameObject upon spawning.
-            Instantiate(enemyPrefab, spawnPos, rotation);
-        }
-    }
-
     private void Start()
     {
         spawnPos = transform.position;
         rotation = transform.rotation;
+
+        //GameEventSystem.current.OnRoomEntered += SpawnEnemy;
+        GameEventSystem.current.OnRoomStateChanged += OnRoomStateChanged;
+    }
+
+    private void OnDestroy()
+    {
+        GameEventSystem.current.OnRoomStateChanged -= OnRoomStateChanged;
+    }
+
+    private void SpawnEnemy()
+    {
+        Instantiate(enemyPrefab, spawnPos, rotation);
+    }
+
+    //SpawnEnemy if the room state changes to "RoomState.Active"
+    private void OnRoomStateChanged(RoomState state)
+    {
+        if(state == RoomState.Active)
+        {
+            SpawnEnemy();
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(transform.position, 1);
     }
 }

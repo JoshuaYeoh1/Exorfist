@@ -13,19 +13,24 @@ public class PlayerCombatState : BaseState<PlayerStateMachine.PlayerStates>
 
     public override void EnterState()
     {
-        //Debug.Log("Player state: " + stateMachine.GetCurrentState().StateKey);
+        Debug.Log("Player state: " + stateMachine.GetCurrentState().StateKey);
 
-        stateMachine.player.canLook=true;
+        stateMachine.player.canMove=true;
         stateMachine.player.canAttack=true;
         stateMachine.player.canBlock=true;
-        stateMachine.player.canStun=true;
+        stateMachine.player.canCast=true;
+        stateMachine.player.canHurt=true;
+        stateMachine.player.canStun=true; 
     }
 
     public override void UpdateState()
     {
-        stateMachine.player.move.CheckInput();
-
         CheckNoCombat();
+    }
+
+    public override void FixedUpdateState()
+    {
+        stateMachine.player.look.CheckLook();
     }
 
     public override void ExitState()

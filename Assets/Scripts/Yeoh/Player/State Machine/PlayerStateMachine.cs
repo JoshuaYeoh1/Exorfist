@@ -16,6 +16,7 @@ public class PlayerStateMachine : StateMachine<PlayerStateMachine.PlayerStates>
         Stun,
         Death,
         Pause,
+        Casting,
         Cast,
     }
 
@@ -34,6 +35,9 @@ public class PlayerStateMachine : StateMachine<PlayerStateMachine.PlayerStates>
         PlayerBlockState blockState = new PlayerBlockState(this);
         PlayerStunState stunState = new PlayerStunState(this);
         PlayerDeathState deathState = new PlayerDeathState(this);
+        PlayerPauseState pauseState = new PlayerPauseState(this);
+        PlayerCastingState castingState = new PlayerCastingState(this);
+        PlayerCastState castState = new PlayerCastState(this);
 
         States.Add(PlayerStates.Idle, idleState);
         States.Add(PlayerStates.Move, moveState);
@@ -44,6 +48,9 @@ public class PlayerStateMachine : StateMachine<PlayerStateMachine.PlayerStates>
         States.Add(PlayerStates.Block, blockState);
         States.Add(PlayerStates.Stun, stunState);
         States.Add(PlayerStates.Death, deathState);
+        States.Add(PlayerStates.Pause, pauseState);
+        States.Add(PlayerStates.Casting, castingState);
+        States.Add(PlayerStates.Cast, castState);
 
         CurrentState = States[PlayerStates.Idle];
     }

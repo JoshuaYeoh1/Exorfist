@@ -5,6 +5,7 @@ public class Cinetouch : MonoBehaviour
 {
     CinemachineFreeLook cineFreeLook;
     TouchField touchField;
+    ClosestObjectFinder finder;
 
     public float SenstivityX = .2f, SenstivityY = -.2f;
 
@@ -14,26 +15,25 @@ public class Cinetouch : MonoBehaviour
     void Awake()
     {
         cineFreeLook=GetComponent<CinemachineFreeLook>();
-
         touchField = GameObject.FindGameObjectWithTag("TouchField").GetComponent<TouchField>();
+        finder = GameObject.FindGameObjectWithTag("Player").GetComponent<ClosestObjectFinder>();
     }
 
     void Update()
     {
         if(touchField)
         {
-            CheckPressing();
-
             cineFreeLook.m_XAxis.Value += touchField.TouchDist.x * 200 * SenstivityX * Time.deltaTime;
         
             cineFreeLook.m_YAxis.Value += touchField.TouchDist.y * SenstivityY * Time.deltaTime;
+
+            CheckRecenter();
         }
-        else Debug.Log("woi no touch field brother");
     }
 
-    void CheckPressing()
+    void CheckRecenter()
     {
-        if(touchField.Pressed)
+        if(touchField.Pressed || finder.target)
         {
             if(cineFreeLook.m_RecenterToTargetHeading.m_enabled)
             cineFreeLook.m_RecenterToTargetHeading.m_enabled=false;

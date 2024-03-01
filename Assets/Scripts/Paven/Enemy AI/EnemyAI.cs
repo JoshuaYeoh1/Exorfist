@@ -1,8 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -88,24 +83,30 @@ public class EnemyAI : MonoBehaviour
 
     private void Start()
     {
-        if(AIDirector.instance != null)
+        if (AIDirector.instance != null)
         {
             AIDirector.instance.enemies.Add(gameObject); //add this EnemyAI gameObject to the AIDirector script
         }
         
     }
 
-    private void OnDestroy()
-    {
-     /*   if(AIDirector.instance != null)
-        {
-            AIDirector.instance.enemies.Remove(gameObject);
-        }*/
-    }
+    // private void OnDestroy()
+    // {
+    //     OnEnemyDeath(gameObject);
+    // }
 
     private void Update()
     {
         //Debug.Log(preparingAttack);
+    }
+
+
+    private void OnEnemyDeath(GameObject victim)
+    {
+        if(GameEventSystem.current != null)
+        {
+            GameEventSystem.current.enemyDeath(victim);
+        }
     }
 
     private void LoseHealth(float healthdamage, float balancedamage, float hitStunDuration)
@@ -116,6 +117,7 @@ public class EnemyAI : MonoBehaviour
             if(currentHealth <= 0)
             {
                 //switch EnemyAIStateMachine to "dying" state, stop all coroutines
+                OnEnemyDeath(gameObject);
                 Destroy(gameObject);
                 return;
             }

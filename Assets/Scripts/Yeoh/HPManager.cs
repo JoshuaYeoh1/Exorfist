@@ -4,39 +4,56 @@ using UnityEngine;
 
 public class HPManager : MonoBehaviour
 {
-    public bool regen, regenWhenEmpty;
-    public float hp=100, hpMax=100, regenHp=.2f, regenTime=.1f;
+    public float hp=100, hpMax=100;
+
+    [Header("Regeneration")]
+    public bool regen;
+    public bool regenWhenEmpty;
+    public float regenHp=.2f, regenTime=.1f;
+
+    [Header("UI Bar")]
     public GameObject hpBarFill;
     public InOutAnim hpBar;
-    bool canShow=true, canHide;
+    public bool hideWhenFull=true, hideWhenEmpty;
+    public float animTime=.5f;
 
     void Awake()
     {
         hp=hpMax;
-        StartCoroutine(HpRegenerating());
     } 
+    
+    void OnEnable()
+    {
+        StartCoroutine(HpRegenerating());
+    }
 
     void Update()
     {
         hp = Mathf.Clamp(hp, 0, hpMax);
 
+        CheckUIBarVisibility();
+    }
+
+    bool canShow=true, canHide;
+
+    void CheckUIBarVisibility()
+    {
         if(hpBar)
         {
-            if(hp>0 && hp<hpMax && canShow)
+            if(canHide && ((hideWhenFull && hp>=hpMax) || (hideWhenEmpty && hp<=0)) )
             {
-                canShow=false;
+                hpBar.animOut(animTime);
 
-                hpBar.animIn(.5f);
-
-                Invoke("ToggleHide",.5f);
-            }
-            else if((hp<=0 || hp>=hpMax) && canHide)
-            {
                 canHide=false;
+                Invoke("ToggleShow", animTime);                
+            }
 
-                hpBar.animOut(.5f);
+            if(canShow && hp>0 && hp<hpMax)
+            {
+                hpBar.animIn(animTime);
 
-                Invoke("ToggleShow",.5f);
+                canShow=false;
+                Invoke("ToggleHide", animTime);
             }
         }
     }

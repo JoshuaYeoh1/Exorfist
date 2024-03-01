@@ -6,7 +6,6 @@ public class PlayerBlock : MonoBehaviour
 {
     [HideInInspector] public Player player;
     PlayerMovement move;
-    PlayerCombat combat;
     [HideInInspector] public PlayerHurt hurt;
     [HideInInspector] public OffsetMeshColor color;
     PlayerStun stun;
@@ -24,7 +23,6 @@ public class PlayerBlock : MonoBehaviour
     {
         player=GetComponent<Player>();
         move=GetComponent<PlayerMovement>();
-        combat=GetComponent<PlayerCombat>();
         hurt=GetComponent<PlayerHurt>();
         color=GetComponent<OffsetMeshColor>();
         stun=GetComponent<PlayerStun>();
@@ -33,31 +31,17 @@ public class PlayerBlock : MonoBehaviour
         buffer=GetComponent<InputBuffer>();
     }
 
-    void Update()
-    {
-        player.anim.SetBool("isBlocking", isBlocking);
-    }
-
     public bool pressingBtn;
-
-    public void OnBtnDown()
-    {
-        Parry();
-    }
-    public void OnBtnUp()
-    {
-        if(isBlocking) Unblock();
-    }
 
     [HideInInspector] public bool canBlock=true;
 
-    void Parry()
+    public void Parry()
     {
-        if(player.canBlock && canBlock && !meter.IsEmpty())
+        if(canBlock && !meter.IsEmpty() && player.canBlock)
         {
             canBlock=false;
 
-            combat.CancelAttack();
+            player.CancelActions();
 
             stun.Recover();
 
@@ -89,7 +73,7 @@ public class PlayerBlock : MonoBehaviour
         else Unblock();
     }
 
-    void Block()
+    public void Block()
     {
         isBlocking=true;
 
@@ -119,13 +103,15 @@ public class PlayerBlock : MonoBehaviour
 
     public void CheckBlock(float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult, float stunTime)
     {
+        Singleton.instance.CamShake();
+
         if(isParrying)
         {
             ParrySuccess(contactPoint);
         }
         else if(isBlocking)
         {
-            meter.Hit(dmg, kbForce, contactPoint, speedDebuffMult, stunTime);
+            meter.Hit(dmg, kbForce, contactPoint);
         }
         else
         {
@@ -139,16 +125,19 @@ public class PlayerBlock : MonoBehaviour
 
         meter.Refill(parryRefillPercent);
 
-        flash.SpawnFlash(contactPoint, Color.yellow);
+        flash.SpawnFlash(contactPoint, Color.green);
 
         color.FlashColor(.1f, -.5f, .5f, -.5f); // flash green
 
         Singleton.instance.SpawnPopUpText(player.popUpTextPos.position, "PARRY!", Color.green);
 
-        Singleton.instance.CamShake();
-
         shock.SpawnShockwave(contactPoint, Color.green);
 
         //Singleton.instance.HitStop(); // fucks up your timing
+    }
+
+    void Update() // testing
+    {
+        if(Input.GetKeyDown(KeyCode.Delete)) CheckBlock(1, 1, transform.position, .3f, 1);
     }
 }

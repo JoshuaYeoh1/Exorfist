@@ -48,18 +48,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2378e27a3687c2c42a2c7da9b5c28674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SFXObject: {fileID: 1726934793502344471, guid: 0fd39e6196c787f429af7a3664f9f95f,
-    type: 3}
-  musicSource: {fileID: 2326280011152673731}
-  ambSource: {fileID: 606035994893123991}
-  mus: []
-  amb: []
-  mixer: {fileID: 24100000, guid: fbf0ac9f190fb3e448002736bcdca631, type: 2}
-  controlsEnabled: 1
+  canHitStop: 1
   popUpTextPrefab: {fileID: 4640091990393059759, guid: 7b89e69c6ce448d49aafc85ea3881732,
     type: 3}
   transitionAnimator: {fileID: 3212584771030718874}
   isTransitioning: 0
+  mixer: {fileID: 24100000, guid: fbf0ac9f190fb3e448002736bcdca631, type: 2}
+  musicSource: {fileID: 2326280011152673731}
+  ambSource: {fileID: 606035994893123991}
+  musicClipsDefault: []
+  ambientClipsDefault: []
+  SFXObject: {fileID: 1726934793502344471, guid: 0fd39e6196c787f429af7a3664f9f95f,
+    type: 3}
   sfxTransition:
   - {fileID: 8300000, guid: f40c56ca1515090479b60b21125aa670, type: 3}
   - {fileID: 8300000, guid: a939ba72368897c4f9a612839a41be5a, type: 3}

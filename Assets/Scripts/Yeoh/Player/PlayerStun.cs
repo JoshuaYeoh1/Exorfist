@@ -6,7 +6,6 @@ public class PlayerStun : MonoBehaviour
 {
     Player player;
     PlayerMovement move;
-    PlayerCombat combat;
 
     public bool stunned;
     float currentStunTime;
@@ -15,20 +14,19 @@ public class PlayerStun : MonoBehaviour
     {
         player=GetComponent<Player>();
         move=GetComponent<PlayerMovement>();
-        combat=GetComponent<PlayerCombat>();
     }
 
     public void Stun(float speedDebuffMult=.3f, float stunTime=.5f)
     {
-        if(player.canStun && stunTime>0 && stunTime>currentStunTime)
+        if(stunTime>0 && stunTime>=currentStunTime && player.canStun)
         {
             currentStunTime=stunTime;
 
             stunned=true;
 
-            player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Stun);
+            player.CancelActions();
 
-            combat.CancelAttack();
+            player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Stun);
 
             move.TweenSpeed(move.defMoveSpeed*speedDebuffMult);
 

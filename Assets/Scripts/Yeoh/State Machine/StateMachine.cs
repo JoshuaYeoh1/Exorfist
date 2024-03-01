@@ -30,6 +30,11 @@ public abstract class StateMachine<EState> : MonoBehaviour where EState : Enum
         }
     }
 
+    void FixedUpdate()
+    {
+        CurrentState.FixedUpdateState();
+    }
+
     public void TransitionToState(EState StateKey)
     {
         isTransitioningState=true;

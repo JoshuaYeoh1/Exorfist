@@ -33,56 +33,71 @@ public class Singleton : MonoBehaviour
 
     void Update()
     {
+        UpdateFixedDeltaTime();
         UpdateReloadButton();
-
         //UpdateShuffleMusic();
         //UpdateShuffleAmbient();
     }
 
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
-    
-    [Header("Game")]
-    public bool controlsEnabled=true;
-    public GameObject popUpTextPrefab;
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    public void CamShake(float time=.2f)
+    void UpdateFixedDeltaTime() // to fix physics stuttering
     {
-        GameObject.FindGameObjectWithTag("Cinemachine").GetComponent<CameraCinemachine>().Shake(time);
+        if(Time.timeScale==1)
+        {
+            if(Time.fixedDeltaTime!=.02f)
+            Time.fixedDeltaTime=.02f; // default value
+        }
+        else // if slow mo
+        {
+            if(Time.fixedDeltaTime!=.02f*Time.timeScale)
+            Time.fixedDeltaTime = .02f*Time.timeScale;
+        }
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
+
+    public void CamShake(float time=.2f, float amp=1.5f, float freq=2)
+    {
+        GameObject.FindGameObjectWithTag("Cinemachine").GetComponent<CameraCinemachine>().Shake(time, amp, freq);
+
+        Vibrator.Vibrate();
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     int tweenTimeLt=0;
     public void TweenTime(float to, float time=.01f)
     {
         LeanTween.cancel(tweenTimeLt);
-        tweenTimeLt = LeanTween.value(Time.timeScale, to, time).setEaseInOutSine().setIgnoreTimeScale(true).setOnUpdate(UpdateTweenTime).id;
+        tweenTimeLt = LeanTween.value(Time.timeScale, to, time)
+                        .setEaseInOutSine()
+                        .setIgnoreTimeScale(true)
+                        .setOnUpdate( (float value)=>{Time.timeScale=value;} )
+                        .id;
     }
-    void UpdateTweenTime(float value)
-    {
-        Time.timeScale = value;
-    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    [HideInInspector] public bool canHitStop=true;
 
     public void HitStop(float fadeIn=.05f, float wait=.01f, float fadeOut=.25f)
     {
-        if(hitStoppingRt!=null) StopCoroutine(hitStoppingRt);
-        hitStoppingRt = StartCoroutine(HitStopping(fadeIn, wait, fadeOut));
+        if(canHitStop)
+        {
+            if(hitStoppingRt!=null) StopCoroutine(hitStoppingRt);
+            hitStoppingRt = StartCoroutine(HitStopping(fadeIn, wait, fadeOut));
+        }
     }
     Coroutine hitStoppingRt;
     IEnumerator HitStopping(float fadeIn, float wait, float fadeOut)
     {
         TweenTime(0, fadeIn);
-
         yield return new WaitForSecondsRealtime(fadeIn + wait);
-
         TweenTime(1, fadeOut);
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public GameObject popUpTextPrefab;
 
     public void SpawnPopUpText(Vector3 pos, string text, Color color, float scaleMult=.35f, float force=2f)
     {
@@ -102,7 +117,6 @@ public class Singleton : MonoBehaviour
             tmp.color = color;
         }
     }
-
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
@@ -178,7 +192,7 @@ public class Singleton : MonoBehaviour
     void EnableTransition()
     {
         isTransitioning=true;
-        controlsEnabled=false;
+        //controlsEnabled=false;
         transitionCanvas.SetActive(true);
         transitionCanvasGroup.interactable=true;
         transitionCanvasGroup.blocksRaycasts=true;
@@ -188,7 +202,7 @@ public class Singleton : MonoBehaviour
     {
         transitionCanvasGroup.interactable=false;
         transitionCanvasGroup.blocksRaycasts=false;
-        controlsEnabled=true;
+        //controlsEnabled=true;
         isTransitioning=false;
     }
 

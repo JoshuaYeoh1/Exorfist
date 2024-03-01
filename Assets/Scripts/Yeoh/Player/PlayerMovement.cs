@@ -21,10 +21,11 @@ public class PlayerMovement : MonoBehaviour
         defMoveSpeed = moveSpeed;
     }
 
-    // void Update()
-    // {
-    //     CheckInput();
-    // }
+    void Update()
+    {
+        if(player.canMove) CheckInput();
+        else NoInput();
+    }
 
     public void CheckInput()
     {
@@ -45,17 +46,14 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(player.canMove)
-        {
-            Vector3 camForward = Camera.main.transform.forward;
-            Vector3 camRight = Camera.main.transform.right;
+        Vector3 camForward = Camera.main.transform.forward;
+        Vector3 camRight = Camera.main.transform.right;
 
-            camForward.y=0;
-            camRight.y=0;
+        camForward.y=0;
+        camRight.y=0;
 
-            Move(dir.z, camForward.normalized);
-            Move(dir.x, camRight.normalized);
-        }
+        Move(dir.z, camForward.normalized);
+        Move(dir.x, camRight.normalized);
 
         velocity = Mathf.Round(rb.velocity.magnitude*100)/100;
     }
@@ -77,11 +75,10 @@ public class PlayerMovement : MonoBehaviour
     public void TweenSpeed(float to, float time=.2f)
     {
         LeanTween.cancel(tweenSpeedLt);
-        tweenSpeedLt = LeanTween.value(moveSpeed, to, time).setEaseInOutSine().setOnUpdate(UpdateTweenSpeed).id;
-    }
-    void UpdateTweenSpeed(float value)
-    {
-        moveSpeed = value;
+        tweenSpeedLt = LeanTween.value(moveSpeed, to, time)
+                        .setEaseInOutSine()
+                        .setOnUpdate( (float value)=>{moveSpeed=value;} )
+                        .id;
     }
 
     public void Push(float force, Vector3 direction) //, float stopTime)

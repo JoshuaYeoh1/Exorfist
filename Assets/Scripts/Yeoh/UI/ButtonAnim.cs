@@ -23,6 +23,14 @@ public class ButtonAnim : MonoBehaviour
         ToggleHoverSprite(false);
     }
 
+    void OnDisable()
+    {
+        LeanTween.cancel(gameObject);
+        ResetButton();
+        ToggleHoverSprite(false);
+        inBtn=pressedBtn=false;
+    }
+
     public void OnMouseEnter()
     {
         inBtn=true;

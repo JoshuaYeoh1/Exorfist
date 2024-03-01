@@ -15,15 +15,22 @@ public class PlayerWindUpState : BaseState<PlayerStateMachine.PlayerStates>
     {
         Debug.Log("Player state: " + stateMachine.GetCurrentState().StateKey);
 
-        stateMachine.player.canLook=true;
+        stateMachine.player.canMove=false;
         stateMachine.player.canAttack=true;
         stateMachine.player.canBlock=true;
-        stateMachine.player.canStun=true;
+        stateMachine.player.canCast=false;
+        stateMachine.player.canHurt=true;
+        stateMachine.player.canStun=true; 
     }
 
     public override void UpdateState()
     {
-        stateMachine.player.move.NoInput();
+
+    }
+
+    public override void FixedUpdateState()
+    {
+        stateMachine.player.look.CheckLook();
     }
 
     public override void ExitState()

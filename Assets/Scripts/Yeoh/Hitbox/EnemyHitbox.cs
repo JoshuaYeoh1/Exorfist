@@ -13,24 +13,18 @@ public class EnemyHitbox : BaseHitbox
     {
         PlayerBlock block = otherRb.GetComponent<PlayerBlock>();
 
-        if(block) block.CheckBlock(damage, knockback, contactPoint, speedDebuffMult, stunTime);
-
-        if (block.isParrying)
+        if(block)
         {
-            EnemyAI thisEnemy = owner.GetComponent<EnemyAI>();
-            if (thisEnemy != null)
+            block.CheckBlock(damage, knockback, contactPoint, speedDebuffMult, stunTime);
+
+            if(block.isParrying)
             {
-                thisEnemy.sm.SwitchState(thisEnemy.sm.hitStunState);
-            }
-            else
-            {
-                Debug.Log("Enemy that got parried does not have a EnemyAI script attached");
-                return;
+                EnemyAI thisEnemy = owner.GetComponent<EnemyAI>();
+                
+                if(thisEnemy) thisEnemy.sm.SwitchState(thisEnemy.sm.hitStunState);
             }
         }
 
-        //if(block.isParrying) //owner.Stagger(staggerTime); // enemy got parried
-
-        hitmarkerColor = Color.red;
+        hitmarker.SpawnHitmarker(contactPoint, Color.red);
     }
 }

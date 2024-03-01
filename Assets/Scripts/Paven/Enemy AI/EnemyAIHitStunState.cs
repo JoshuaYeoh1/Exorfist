@@ -12,8 +12,9 @@ public class EnemyAIHitStunState : EnemyAIBaseState
     public override void EnterState(EnemyAIStateMachine enemy)
     {
         //change animations to "hitStun" animation
-        enemy.thisEnemy.transform.LookAt(enemy.thisEnemy.playerTransform.position);
         enemy.thisEnemy.SetIsHitStun(true);
+        enemy.thisEnemy.transform.LookAt(enemy.thisEnemy.playerTransform.position);
+        //enemy.thisEnemy.SetIsHitStun(true);
         
 
         if(enemy.thisEnemy.GetIsHitStun() == true)
@@ -32,22 +33,24 @@ public class EnemyAIHitStunState : EnemyAIBaseState
     {
         if (enemy.thisEnemy.GetIsHitStun())
         {
+            //Debug.Log("HitStunTrue");
             return;
         }
         else
         {
-            enemy.SwitchState(enemy.inCombatState);
+            //enemy.SwitchState(enemy.inCombatState);
         }
     }
 
     private void HitStunCancellation(EnemyAIStateMachine enemy)
     {
+        enemy.bm.StopActiveCoroutine();
+        enemy.thisEnemy.agent.ResetPath();
         enemy.thisEnemy.SetIsAttacking(false);
         enemy.thisEnemy.SetIsMoving(false);
-        enemy.thisEnemy.agent.ResetPath();
         enemy.thisEnemy.SetPreparedAttack(false);
         enemy.thisEnemy.SetIsAttacking(false);
-        enemy.bm.StopActiveCoroutine();
+        //enemy.bm.StopActiveCoroutine();
         enemy.thisEnemy.animator.SetBool("inCombat", true);
         enemy.thisEnemy.animator.SetBool("Punching", false); //this part of the code needs to be changed later
     }

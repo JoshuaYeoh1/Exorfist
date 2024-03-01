@@ -10,7 +10,7 @@ public class PlayerHurt : MonoBehaviour
     Rigidbody rb;
     PlayerStun stun;
 
-    bool iframe;
+    public bool iframe;
     public float iframeTime=.5f;
 
     void Awake()
@@ -24,17 +24,11 @@ public class PlayerHurt : MonoBehaviour
 
     public void Hit(float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult=.3f, float stunTime=.5f)
     {
-        if(!iframe && player.isAlive)
+        if(!iframe && player.isAlive && player.canHurt)
         {
             DoIFraming(iframeTime);
 
             Knockback(kbForce, contactPoint);
-
-            color.FlashColor(.1f, true); // flash red
-
-            Singleton.instance.CamShake();
-
-            Singleton.instance.HitStop();
 
             //Singleton.instance.PlaySFX(Singleton.instance.sfxSubwoofer, transform.position, false);
 
@@ -54,13 +48,42 @@ public class PlayerHurt : MonoBehaviour
 
     public void DoIFraming(float t)
     {
-        StartCoroutine(iframing(t));
+        StartCoroutine(IFraming(t));
     }
-    IEnumerator iframing(float t)
+    IEnumerator IFraming(float t)
     {
         iframe=true;
+
+        StartIFrameFlicker();
+
         yield return new WaitForSeconds(t);
+
         iframe=false;
+
+        StopIFrameFlicker();
+    }
+
+    void StartIFrameFlicker()
+    {
+        if(iFrameFlickeringRt!=null) StopCoroutine(iFrameFlickeringRt);
+        iFrameFlickeringRt = StartCoroutine(IFrameFlickering());
+    }
+    void StopIFrameFlicker()
+    {
+        if(iFrameFlickeringRt!=null) StopCoroutine(iFrameFlickeringRt);
+        color.OffsetColor();
+    }
+
+    Coroutine iFrameFlickeringRt;
+    IEnumerator IFrameFlickering()
+    {
+        while(true)
+        {
+            color.OffsetColor(.5f, -.5f, -.5f);
+            yield return new WaitForSecondsRealtime(.05f);
+            color.OffsetColor();
+            yield return new WaitForSecondsRealtime(.05f);
+        }
     }
 
     public void Knockback(float force, Vector3 contactPoint)
@@ -85,7 +108,8 @@ public class PlayerHurt : MonoBehaviour
 
         //feedback.dieAnim(); // screen red
 
-        Invoke("ReloadScene", 2);
+        //Invoke("ReloadScene", 2);
+        GameEventSystem.current.playerDeath();
     }
 
     void RandDeathAnim()
@@ -102,10 +126,5 @@ public class PlayerHurt : MonoBehaviour
     void ReloadScene()
     {
         Singleton.instance.ReloadScene();
-    }
-
-    void Update() // testing
-    {
-        if(Input.GetKeyDown(KeyCode.Delete)) Hit(1, 1, transform.position, .3f, 1);
     }
 }

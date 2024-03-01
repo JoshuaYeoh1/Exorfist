@@ -15,16 +15,22 @@ public class PlayerDeathState : BaseState<PlayerStateMachine.PlayerStates>
     {
         Debug.Log("Player state: " + stateMachine.GetCurrentState().StateKey);
 
-        stateMachine.player.isAlive=false;
-        stateMachine.player.canLook=false;
+        stateMachine.player.canMove=false;
         stateMachine.player.canAttack=false;
         stateMachine.player.canBlock=false;
-        stateMachine.player.canStun=false;
+        stateMachine.player.canCast=false;
+        stateMachine.player.canHurt=false;
+        stateMachine.player.canStun=false; 
     }
 
     public override void UpdateState()
     {
-        stateMachine.player.move.NoInput();
+
+    }
+
+    public override void FixedUpdateState()
+    {
+        
     }
 
     public override void ExitState()
