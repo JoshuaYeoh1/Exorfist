@@ -122,7 +122,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   destroyOnStart: 0
   minTime: 0
-  maxTime: 0.1
+  maxTime: 1
   shrinkTime: 0.1
 --- !u!114 &8649411588133304262
 MonoBehaviour:
@@ -137,3 +137,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onlyY: 0
+  fixedUpdate: 1

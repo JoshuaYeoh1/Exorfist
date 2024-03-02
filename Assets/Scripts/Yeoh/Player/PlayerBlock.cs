@@ -13,6 +13,7 @@ public class PlayerBlock : MonoBehaviour
     [HideInInspector] public ShockwaveVFX shock;
     public PlayerBlockMeter meter;
     InputBuffer buffer;
+    public GameObject sparksVFXPrefab;
 
     public float blockCooldown=.5f, parryWindowTime=.2f, blockMoveSpeedMult=.3f, blockKnockbackResistMult=.3f;
     public float parryRefillPercent=33;
@@ -103,8 +104,6 @@ public class PlayerBlock : MonoBehaviour
 
     public void CheckBlock(float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult, float stunTime)
     {
-        Singleton.instance.CamShake();
-
         if(isParrying)
         {
             ParrySuccess(contactPoint);
@@ -129,7 +128,7 @@ public class PlayerBlock : MonoBehaviour
 
         meter.Refill(parryRefillPercent);
 
-        flash.SpawnFlash(contactPoint, Color.green);
+        PlaySparkVFX(contactPoint, Color.green);
 
         hurt.DoIFraming(hurt.iframeTime, -.5f, .5f, -.5f); // flicker green
 
@@ -156,8 +155,15 @@ public class PlayerBlock : MonoBehaviour
         blockedPoint = Vector3.zero;
     }
 
+    public void PlaySparkVFX(Vector3 contactPoint, Color color)
+    {
+        flash.SpawnFlash(contactPoint, color);
+        GameObject spark = Instantiate(sparksVFXPrefab, contactPoint, Quaternion.identity);
+        spark.hideFlags = HideFlags.HideInHierarchy;
+    }
+
     void Update() // testing
     {
-        if(Input.GetKeyDown(KeyCode.Delete)) CheckBlock(1, 1, transform.position, .3f, 1);
+        if(Input.GetKeyDown(KeyCode.Delete)) CheckBlock(1, 1, GetComponent<TopVertexFinder>().GetTopVertex(gameObject), .3f, 1);
     }
 }

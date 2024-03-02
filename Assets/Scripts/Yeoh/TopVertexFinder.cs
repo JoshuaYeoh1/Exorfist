@@ -121,10 +121,10 @@ public class TopVertexFinder : MonoBehaviour
             }
         }
 
-        return topMostVertex - _targetObject.transform.position;
+        return topMostVertex;
     }
 
-    void OnDrawGizmos()
+    void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawSphere(topMostVertex, .05f);

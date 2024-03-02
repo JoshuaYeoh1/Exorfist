@@ -10,12 +10,22 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5055933939956402077, guid: fc9b2ec0bba8ed64ca58c287a73aa6ea,
         type: 3}
+      propertyPath: shake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5055933939956402077, guid: fc9b2ec0bba8ed64ca58c287a73aa6ea,
+        type: 3}
       propertyPath: damage
       value: 99
       objectReference: {fileID: 0}
     - target: {fileID: 5055933939956402077, guid: fc9b2ec0bba8ed64ca58c287a73aa6ea,
         type: 3}
       propertyPath: hitStop
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5055933939956402077, guid: fc9b2ec0bba8ed64ca58c287a73aa6ea,
+        type: 3}
+      propertyPath: hitstop
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5055933939956402077, guid: fc9b2ec0bba8ed64ca58c287a73aa6ea,
@@ -41,7 +51,7 @@ PrefabInstance:
     - target: {fileID: 7837638076690019627, guid: fc9b2ec0bba8ed64ca58c287a73aa6ea,
         type: 3}
       propertyPath: m_Name
-      value: AOE Hitbox Variant
+      value: AOE Hitbox
       objectReference: {fileID: 0}
     - target: {fileID: 8885923955357744345, guid: fc9b2ec0bba8ed64ca58c287a73aa6ea,
         type: 3}

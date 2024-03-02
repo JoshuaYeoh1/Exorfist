@@ -26,5 +26,7 @@ public class EnemyHitbox : BaseHitbox
         }
 
         hitmarker.SpawnHitmarker(contactPoint, Color.red);
+        GameObject impact = Instantiate(impactVFXPrefab, contactPoint, Quaternion.identity);
+        impact.hideFlags = HideFlags.HideInHierarchy;
     }
 }

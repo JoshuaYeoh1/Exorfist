@@ -79,7 +79,7 @@ public class Singleton : MonoBehaviour
 
     [HideInInspector] public bool canHitStop=true;
 
-    public void HitStop(float fadeIn=.05f, float wait=.01f, float fadeOut=.25f)
+    public void HitStop(float fadeIn=.01f, float wait=.05f, float fadeOut=.25f)
     {
         if(canHitStop)
         {

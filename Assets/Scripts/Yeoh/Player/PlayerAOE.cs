@@ -91,13 +91,15 @@ public class PlayerAOE : MonoBehaviour
         GameObject vfx = Instantiate(explodeVFXPrefab, new Vector3(transform.position.x, transform.position.y+.5f, transform.position.z), Quaternion.identity);
         vfx.hideFlags = HideFlags.HideInHierarchy;
 
-        Singleton.instance.CamShake(.5f, 1);
-        Singleton.instance.HitStop();
+        Singleton.instance.CamShake(.5f, 3);
+        Singleton.instance.HitStop(.05f, .1f);
     }
 
     public void Finish()
     {
         player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Idle);
+
+        player.anim.CrossFade("cancel", .25f, 2, 0);
     }
 
     IEnumerator Cooling()

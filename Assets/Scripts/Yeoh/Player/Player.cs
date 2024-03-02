@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     [HideInInspector] public PlayerCombat combat;
     [HideInInspector] public PlayerAOE aoe;
     [HideInInspector] public PlayerLaser laser;
+    [HideInInspector] public PlayerHeal heal;
     
     public Animator anim;
     public Transform popUpTextPos;
@@ -32,6 +33,7 @@ public class Player : MonoBehaviour
         combat=GetComponent<PlayerCombat>();
         aoe=GetComponent<PlayerAOE>();
         laser=GetComponent<PlayerLaser>();
+        heal=GetComponent<PlayerHeal>();
     }
 
     void Update()
@@ -51,5 +53,6 @@ public class Player : MonoBehaviour
         combat.CancelAttack();
         aoe.Cancel();
         laser.Cancel();
+        heal.Cancel();
     }
 }

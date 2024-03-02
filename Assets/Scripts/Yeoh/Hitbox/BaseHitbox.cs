@@ -9,6 +9,7 @@ public class BaseHitbox : MonoBehaviour
     protected Hitmarker hitmarker;
     protected ShockwaveVFX shock;
     Collider coll;
+    public GameObject impactVFXPrefab;
 
     public bool enabledOnAwake;
     public float damage, knockback;

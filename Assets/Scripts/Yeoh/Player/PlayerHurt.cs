@@ -9,6 +9,7 @@ public class PlayerHurt : MonoBehaviour
     OffsetMeshColor color;
     Rigidbody rb;
     PlayerStun stun;
+    public GameObject bloodVFXPrefab;
 
     public bool iframe;
     public float iframeTime=.5f;
@@ -29,6 +30,12 @@ public class PlayerHurt : MonoBehaviour
             DoIFraming(iframeTime, .5f, -.5f, -.5f); // flicker red
 
             Knockback(kbForce, contactPoint);
+
+            Singleton.instance.CamShake();
+            Singleton.instance.HitStop();
+
+            GameObject blood = Instantiate(bloodVFXPrefab, contactPoint, Quaternion.identity);
+            blood.hideFlags = HideFlags.HideInHierarchy;
 
             //Singleton.instance.PlaySFX(Singleton.instance.sfxSubwoofer, transform.position, false);
 

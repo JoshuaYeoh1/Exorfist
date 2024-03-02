@@ -12,36 +12,37 @@ public class TargetHighlighter : MonoBehaviour
     public Material outlineMaterial;
     public GameObject indicatorPrefab;
 
-    Color defaultOutlineColor;
-
     void Awake()
     {
         player=GetComponent<Player>();
         matManager=GetComponent<MaterialManager>();
         topFinder=GetComponent<TopVertexFinder>();
-
-        defaultOutlineColor = outlineMaterial.color;
     }
 
-    GameObject lastTarget;
+    GameObject target;
     float topY;
 
     void Update()
     {
-        if(lastTarget!=player.target)
-        {
-            if(lastTarget) ToggleHighlight(lastTarget, false);
+        CheckSwitchTarget();
 
-            lastTarget=player.target;
-
-            if(lastTarget) ToggleHighlight(lastTarget, true);
-        }
-
-        if(indicator && !lastTarget) Destroy(indicator);
+        if(indicator && !target) Destroy(indicator);
 
         if(indicatorTC) indicatorTC.positionOffset.y = topY + offsetY;
 
         CheckManualColor();
+    }
+
+    void CheckSwitchTarget()
+    {
+        if(target!=player.target)
+        {
+            if(target) ToggleHighlight(target, false);
+
+            target=player.target;
+
+            if(target) ToggleHighlight(target, true);
+        }
     }
 
     GameObject indicator;
@@ -50,28 +51,24 @@ public class TargetHighlighter : MonoBehaviour
 
     void ToggleHighlight(GameObject target, bool toggle)
     {
-        Renderer[] targetRenderers=target.GetComponentsInChildren<Renderer>();
-        
-        for(int i=0; i<targetRenderers.Length; i++)
-        {
-            if(toggle) matManager.AddMaterial(targetRenderers[i], outlineMaterial);
-            else matManager.RemoveMaterial(targetRenderers[i], outlineMaterial);
-        }
-
         if(toggle)
         {
+            matManager.AddMaterial(target, outlineMaterial);
+
             indicator=Instantiate(indicatorPrefab, target.transform.position, Quaternion.identity);
             indicator.hideFlags = HideFlags.HideInHierarchy;
 
             indicatorTC = indicator.GetComponent<TransformConstraint>();
             indicatorTC.constrainTo = target.transform;
 
-            topY = topFinder.GetTopVertex(target).y;
+            topY = topFinder.GetTopVertex(target).y - target.transform.position.y;
 
             indicatorSR = indicator.GetComponent<SpriteRenderer>();
         }
         else
         {
+            matManager.RemoveMaterial(target, outlineMaterial);
+
             if(indicator) Destroy(indicator);
         }
     }
@@ -96,18 +93,20 @@ public class TargetHighlighter : MonoBehaviour
     {
         Color newColor;
 
-        if(player.manual.target && lastTarget==player.manual.target)
+        if(player.manual.target && target==player.manual.target)
         {
             newColor = Color.cyan;
         }
-        else newColor = defaultOutlineColor;
+        else newColor = outlineMaterial.color;
 
-        if(outlineMaterial.color != newColor) outlineMaterial.color = newColor;
+        if(target)
+        {
+            foreach(Material outlineMat in matManager.GetMaterials(target, outlineMaterial))
+            {
+                if(outlineMat.color != newColor) outlineMat.color = newColor;
+            }
+        }
+
         if(indicatorSR && indicatorSR.color != newColor) indicatorSR.color = newColor;
-    }
-
-    void OnDisable()
-    {
-        outlineMaterial.color = defaultOutlineColor;
     }
 }

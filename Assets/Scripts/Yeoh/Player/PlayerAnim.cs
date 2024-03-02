@@ -11,6 +11,7 @@ public class PlayerAnim : MonoBehaviour
     Rigidbody rb;
     PlayerAOE aoe;
     PlayerLaser laser;
+    PlayerHeal heal;
     Player player;
 
     void Start()
@@ -22,6 +23,7 @@ public class PlayerAnim : MonoBehaviour
         rb=transform.root.GetComponent<Rigidbody>();
         aoe=transform.root.GetComponent<PlayerAOE>();
         laser=transform.root.GetComponent<PlayerLaser>();
+        heal=transform.root.GetComponent<PlayerHeal>();
         player=transform.root.GetComponent<Player>();
     }
 
@@ -32,6 +34,8 @@ public class PlayerAnim : MonoBehaviour
         AnimCombat();
     }
 
+    public float baseMoveAnimSpeed=5;
+
     void AnimBlendTree()
     {
         Vector3 moveDir = rb.velocity.normalized;
@@ -39,7 +43,7 @@ public class PlayerAnim : MonoBehaviour
         float alignmentForward = Vector3.Dot(transform.forward, moveDir);
         float alignmentRight = Vector3.Dot(transform.right, moveDir);
 
-        float velocityRatio = move.velocity/(move.defMoveSpeed*.88f+.001f);
+        float velocityRatio = move.velocity/(baseMoveAnimSpeed*.88f+.001f);
 
         anim.SetFloat("moveZ", alignmentForward * velocityRatio);
         anim.SetFloat("moveX", alignmentRight * velocityRatio);
@@ -89,6 +93,15 @@ public class PlayerAnim : MonoBehaviour
     public void LaserFinish()
     {
         laser.Finish();
+    }
+
+    public void HealRelease()
+    {
+        heal.Release();
+    }
+    public void HealFinish()
+    {
+        heal.Finish();
     }
 
     public GameObject footstepLVfx, footstepRVfx;

@@ -77,7 +77,7 @@ public class PlayerBlockMeter : MonoBehaviour
 
         hurt.Knockback(kbForce*block.blockKnockbackResistMult, contactPoint);
 
-        block.flash.SpawnFlash(contactPoint, Color.white);
+        block.PlaySparkVFX(contactPoint, Color.white);
 
         hurt.DoIFraming(hurt.iframeTime, -.5f, .5f, .5f); // flicker cyan
 
@@ -92,7 +92,7 @@ public class PlayerBlockMeter : MonoBehaviour
         
         hurt.Hit(dmg*.5f, kbForce, contactPoint, blockBreakSpeedDebuffMult, blockBreakPenaltyStunTime);
 
-        block.flash.SpawnFlash(contactPoint, Color.red);
+        block.PlaySparkVFX(contactPoint, Color.red);
 
         Singleton.instance.SpawnPopUpText(block.player.popUpTextPos.position, "bREAK!", Color.red);
 

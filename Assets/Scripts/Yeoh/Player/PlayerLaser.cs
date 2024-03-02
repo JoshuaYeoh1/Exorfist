@@ -80,7 +80,7 @@ public class PlayerLaser : MonoBehaviour
 
     public void Release()
     {
-        Singleton.instance.HitStop();
+        Singleton.instance.HitStop(.05f, .1f);
 
         StartCoroutine(Sustaining());
     }
@@ -142,6 +142,8 @@ public class PlayerLaser : MonoBehaviour
     public void Finish()
     {
         player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Idle);
+
+        player.anim.CrossFade("cancel", .25f, 2, 0);
     }
 
     IEnumerator Cooling()

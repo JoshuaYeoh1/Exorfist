@@ -4,21 +4,24 @@ using UnityEngine;
 
 public class LookAtMidpoint : MonoBehaviour
 {
-    Player player;
+    public Player player;
     Transform enemyTr;
-    Vector3 midpointXZ;
+    TransformConstraint constraint;
+
+    Vector3 midpoint;
+    public Vector3 midpointOffset;
 
     public float panTime=1, middle=.5f;
 
     void Awake()
     {
-        player=transform.root.GetComponent<Player>();
+        constraint=GetComponent<TransformConstraint>();
     }
 
     void FixedUpdate()
     {
         FindMidpoint();
-        SmoothTowards(midpointXZ, panTime);
+        SmoothTowards(ref constraint.positionOffset, midpoint-player.transform.position, panTime);
     }
 
     void FindMidpoint()
@@ -26,15 +29,15 @@ public class LookAtMidpoint : MonoBehaviour
         if(player.target) enemyTr = player.target.transform;
         else enemyTr = player.transform;
 
-        Vector3 midpoint = Vector3.Lerp(player.transform.position, enemyTr.position, middle);
+        Vector3 midPos = Vector3.Lerp(player.transform.position, enemyTr.position, middle);
 
-        midpointXZ = new Vector3(midpoint.x, transform.position.y, midpoint.z);
+        midpoint = midPos+midpointOffset;
     }
 
     Vector3 velocity;
 
-    void SmoothTowards(Vector3 pos, float moveTime)
+    void SmoothTowards(ref Vector3 selfPos, Vector3 targetPos, float moveTime)
     {
-        transform.position = Vector3.SmoothDamp(transform.position, pos, ref velocity, moveTime);
+        selfPos = Vector3.SmoothDamp(selfPos, targetPos, ref velocity, moveTime);
     }
 }

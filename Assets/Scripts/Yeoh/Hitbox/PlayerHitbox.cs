@@ -23,5 +23,7 @@ public class PlayerHitbox : BaseHitbox
         if(hitstop) Singleton.instance.HitStop();
         if(shockwave) shock.SpawnShockwave(contactPoint, Color.white);
         hitmarker.SpawnHitmarker(contactPoint, Color.white);
+        GameObject impact = Instantiate(impactVFXPrefab, contactPoint, Quaternion.identity);
+        impact.hideFlags = HideFlags.HideInHierarchy;
     }
 }
