@@ -25,51 +25,54 @@ public class TargetHighlighter : MonoBehaviour
     void Update()
     {
         CheckSwitchTarget();
-
-        if(indicator && !target) Destroy(indicator);
-
-        if(indicatorTC) indicatorTC.positionOffset.y = topY + offsetY;
-
         CheckManualColor();
+
+        if(indicatorTC) indicatorTC.positionOffset.y = topY + offsetY; // animated float
     }
 
     void CheckSwitchTarget()
     {
         if(target!=player.target)
         {
-            if(target) ToggleHighlight(target, false);
+            if(indicator) Destroy(indicator);
+
+            Unhighlight(target);
 
             target=player.target;
 
-            if(target) ToggleHighlight(target, true);
+            Highlight(target);
         }
+
+        if((!target || !player.target) && indicator) Destroy(indicator);
     }
 
     GameObject indicator;
     TransformConstraint indicatorTC;
     SpriteRenderer indicatorSR;
 
-    void ToggleHighlight(GameObject target, bool toggle)
+    void Highlight(GameObject _target)
     {
-        if(toggle)
+        if(_target)
         {
-            matManager.AddMaterial(target, outlineMaterial);
+            matManager.AddMaterial(_target, outlineMaterial);
 
-            indicator=Instantiate(indicatorPrefab, target.transform.position, Quaternion.identity);
+            indicator=Instantiate(indicatorPrefab, _target.transform.position, Quaternion.identity);
             indicator.hideFlags = HideFlags.HideInHierarchy;
 
             indicatorTC = indicator.GetComponent<TransformConstraint>();
-            indicatorTC.constrainTo = target.transform;
+            indicatorTC.constrainTo = _target.transform;
 
-            topY = topFinder.GetTopVertex(target).y - target.transform.position.y;
+            topY = topFinder.GetTopVertex(_target).y - _target.transform.position.y;
 
             indicatorSR = indicator.GetComponent<SpriteRenderer>();
         }
-        else
-        {
-            matManager.RemoveMaterial(target, outlineMaterial);
+    }
 
-            if(indicator) Destroy(indicator);
+    void Unhighlight(GameObject _target)
+    {
+        if(_target)
+        {
+            matManager.RemoveMaterial(_target, outlineMaterial);
         }
     }
 
