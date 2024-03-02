@@ -15,18 +15,16 @@ public static class Vibrator
 #endif
     }
 
-    public static void Vibrate(long milliseconds = 250)
+    public static void Vibrate(long milliseconds = 100)
     {
-        if (IsAndroid())
-            vibrator.Call("vibrate", milliseconds);
-        else
-            Handheld.Vibrate();
+        if(IsAndroid()) vibrator.Call("vibrate", milliseconds);
+        
+        else Handheld.Vibrate();
     }
 
     public static void Cancel()
     {
-        if (IsAndroid())
-            vibrator.Call("cancel");
+        if(IsAndroid()) vibrator.Call("cancel");
     }
 
     public static bool IsAndroid()

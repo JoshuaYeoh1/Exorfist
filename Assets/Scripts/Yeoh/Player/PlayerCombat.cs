@@ -100,6 +100,9 @@ public class PlayerCombat : MonoBehaviour
         player.hitboxes[i].damage = atkSO.damage;
         player.hitboxes[i].knockback = atkSO.knockback;
         player.hitboxes[i].hasSweepingEdge = atkSO.hasSweepingEdge;
+        player.hitboxes[i].shake = atkSO.shake;
+        player.hitboxes[i].hitstop = atkSO.hitstop;
+        player.hitboxes[i].shockwave = atkSO.shockwave;
 
         // enable and disable hitbox rapidly
         player.hitboxes[i].BlinkHitbox(atkSO.hitboxActiveDuration);

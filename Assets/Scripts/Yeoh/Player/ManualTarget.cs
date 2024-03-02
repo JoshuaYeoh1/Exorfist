@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class ManualTarget : MonoBehaviour
 {
@@ -10,11 +11,11 @@ public class ManualTarget : MonoBehaviour
     public LayerMask layers;
 
     [Header("Leniency")]
-    public float tapRadius=1;
+    public float tapRadius=.5f;
     Vector2 startTapPos, endTapPos;
     float lastTappedTime;
-    public float maxSwipeDistance = 50; // Maximum distance for a tap to be considered a swipe
-    public float maxSwipeTime = 0.5f; // Maximum time for a tap to be considered a swipe
+    public float minSwipeDistance = 100; // distance for a tap to be considered a swipe
+    public float minSwipeTime = 0.25f; // time for a tap to be considered a swipe
 
     void Update()
     {
@@ -24,6 +25,9 @@ public class ManualTarget : MonoBehaviour
 
     void CheckInput()
     {
+        // Check if the current pointer event is over a UI element
+        if(IsPointerOverUI(Input.mousePosition)) return;
+
         if(Input.GetMouseButtonDown(0))
         {
             startTapPos = Input.mousePosition; // Record the start position and time of the tap
@@ -35,13 +39,14 @@ public class ManualTarget : MonoBehaviour
 
             float swipeDistance = Vector2.Distance(startTapPos, endTapPos); // Calculate the distance moved and time taken
 
-            if(swipeDistance<maxSwipeDistance && Time.time-lastTappedTime < maxSwipeTime) // Check if tapped
+            if(swipeDistance<minSwipeDistance && Time.time-lastTappedTime < minSwipeTime) // Check if tapped
             {
                 DoSphereCast();
             }
             else // Check if swiped
             {
-                Vector2 swipeDirection = endTapPos - startTapPos; //Debug.Log("Swiped in direction: " + swipeDirection.normalized);
+                Vector2 swipeVector = endTapPos-startTapPos;
+                Vector2 swipeDirection = swipeVector.normalized; //Debug.Log("Swiped in direction: " + swipeDirection);
             }
         }
     }
@@ -79,5 +84,26 @@ public class ManualTarget : MonoBehaviour
 
             if(distance>maxRange) target=null;
         }
+    }
+
+    List<RaycastResult> raycastResults = new List<RaycastResult>();
+
+    bool IsPointerOverUI(Vector2 touchPos)
+    {
+        PointerEventData eventDataPos = new PointerEventData(EventSystem.current);
+
+        eventDataPos.position = touchPos;
+
+        EventSystem.current.RaycastAll(eventDataPos, raycastResults);
+
+        if(raycastResults.Count>0) // if more than 0, then UI is touched
+        {
+            foreach(RaycastResult result in raycastResults)
+            {
+                if(result.gameObject.tag!="TouchField") return true; // ignore UI elements with this tag
+            }
+        }
+
+        return false;
     }
 }

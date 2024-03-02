@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TopMostVertexFinder : MonoBehaviour
+public class TopVertexFinder : MonoBehaviour
 {
     public GameObject targetObject;
 
@@ -12,7 +12,7 @@ public class TopMostVertexFinder : MonoBehaviour
     SkinnedMeshRenderer[] smrs, childrenSmrs;
     MeshFilter[] mfs, childrenMfs;
 
-    public Vector3 GetTopMostVertex(GameObject _targetObject)
+    public Vector3 GetTopVertex(GameObject _targetObject)
     {
         targetObject = _targetObject;
 
@@ -121,13 +121,13 @@ public class TopMostVertexFinder : MonoBehaviour
             }
         }
 
-        return topMostVertex;
+        return topMostVertex - _targetObject.transform.position;
     }
 
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(topMostVertex, .1f);
+        Gizmos.DrawSphere(topMostVertex, .05f);
 
         if(vertices.Count>0)
         {
@@ -137,22 +137,22 @@ public class TopMostVertexFinder : MonoBehaviour
 
                 foreach(MeshFilter mf in mfs)
                 {
-                    Gizmos.DrawSphere(mf.transform.TransformPoint(vertex), 0.05f);
+                    Gizmos.DrawSphere(mf.transform.TransformPoint(vertex), 0.02f);
                 }
 
                 foreach(SkinnedMeshRenderer smr in smrs)
                 {
-                    Gizmos.DrawSphere(smr.transform.TransformPoint(vertex), 0.05f);
+                    Gizmos.DrawSphere(smr.transform.TransformPoint(vertex), 0.02f);
                 }
                 
                 foreach(MeshFilter childMf in childrenMfs)
                 {
-                    Gizmos.DrawSphere(childMf.transform.TransformPoint(vertex), 0.05f);
+                    Gizmos.DrawSphere(childMf.transform.TransformPoint(vertex), 0.02f);
                 }
 
                 foreach(SkinnedMeshRenderer childSmr in childrenSmrs)
                 {
-                    Gizmos.DrawSphere(childSmr.transform.TransformPoint(vertex), 0.05f);
+                    Gizmos.DrawSphere(childSmr.transform.TransformPoint(vertex), 0.02f);
                 }
             }
         }

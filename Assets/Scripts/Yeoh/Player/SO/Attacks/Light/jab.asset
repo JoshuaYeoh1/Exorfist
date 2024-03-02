@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b74d8ad991053eb499cd80903f237879, type: 3}
   m_Name: jab
   m_EditorClassIdentifier: 
-  dash: 20
+  dash: 10
   damage: 10
   knockback: 10
   hitboxActiveDuration: 0.2
   animName: jab
   hitboxIndex: 0
   hasSweepingEdge: 0
+  shake: 1
+  hitstop: 0
+  shockwave: 0

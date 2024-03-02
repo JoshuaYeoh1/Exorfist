@@ -1417,8 +1417,8 @@ MonoBehaviour:
   hpMax: 100
   regen: 1
   regenWhenEmpty: 0
-  regenHp: 0.2
-  regenTime: 0.1
+  regenHp: 0.1
+  regenTime: 0.2
   hpBarFill: {fileID: 3814676325344115711}
   hpBar: {fileID: 5567046889037794044}
   hideWhenFull: 1
@@ -1632,6 +1632,9 @@ MonoBehaviour:
   layers:
     serializedVersion: 2
     m_Bits: 64
+  tapRadius: 0.5
+  maxSwipeDistance: 100
+  maxSwipeTime: 0.25
 --- !u!1 &4356791878913300190
 GameObject:
   m_ObjectHideFlags: 0
@@ -6588,12 +6591,12 @@ PrefabInstance:
     - target: {fileID: 2929252283123773938, guid: aaa2c939c0359ac4dbce3f49e8b90252,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 269
+      value: 350
       objectReference: {fileID: 0}
     - target: {fileID: 2929252283123773938, guid: aaa2c939c0359ac4dbce3f49e8b90252,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 269
+      value: 350
       objectReference: {fileID: 0}
     - target: {fileID: 2929252283123773938, guid: aaa2c939c0359ac4dbce3f49e8b90252,
         type: 3}

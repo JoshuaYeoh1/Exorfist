@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerHitbox : BaseHitbox
 {
-    public bool hasSweepingEdge, camShake=true, hitStop=true;
+    public bool hasSweepingEdge, shake=true, hitstop=true, shockwave=true;
 
     protected override bool IsTargetValid(Rigidbody otherRb)
     {
@@ -19,9 +19,9 @@ public class PlayerHitbox : BaseHitbox
 
         ToggleActive(hasSweepingEdge); // if can swipe through multiple
 
-        if(camShake) Singleton.instance.CamShake();
-        if(hitStop) Singleton.instance.HitStop();
-        shock.SpawnShockwave(contactPoint, Color.white);
+        if(shake) Singleton.instance.CamShake();
+        if(hitstop) Singleton.instance.HitStop();
+        if(shockwave) shock.SpawnShockwave(contactPoint, Color.white);
         hitmarker.SpawnHitmarker(contactPoint, Color.white);
     }
 }
