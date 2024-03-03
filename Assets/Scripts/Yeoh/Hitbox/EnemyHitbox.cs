@@ -11,20 +11,12 @@ public class EnemyHitbox : BaseHitbox
 
     protected override void HandleTargetHit(Rigidbody otherRb)
     {
-        PlayerBlock block = otherRb.GetComponent<PlayerBlock>();
+        GameEventSystem.current.OnHit(owner, otherRb.gameObject, damage, knockback, contactPoint, speedDebuffMult, stunTime);
 
-        if(block)
-        {
-            block.CheckBlock(damage, knockback, contactPoint, speedDebuffMult, stunTime);
 
-            if(block.isParrying)
-            {
-                EnemyAI thisEnemy = owner.GetComponent<EnemyAI>();
-                
-                if(thisEnemy) thisEnemy.sm.SwitchState(thisEnemy.sm.hitStunState);
-            }
-        }
 
+
+        // move to vfx manager later
         hitmarker.SpawnHitmarker(contactPoint, Color.red);
         GameObject impact = Instantiate(impactVFXPrefab, contactPoint, Quaternion.identity);
         impact.hideFlags = HideFlags.HideInHierarchy;

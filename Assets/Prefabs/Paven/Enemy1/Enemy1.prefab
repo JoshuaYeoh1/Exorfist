@@ -72,7 +72,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 89e9466fa4b70ed4fb6cba74e6554041,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.723
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 89e9466fa4b70ed4fb6cba74e6554041,
         type: 3}
@@ -1292,6 +1292,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 89e9466fa4b70ed4fb6cba74e6554041,
         type: 3}
       insertIndex: -1
+      addedObject: {fileID: -91235074309198852}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 89e9466fa4b70ed4fb6cba74e6554041,
+        type: 3}
+      insertIndex: -1
       addedObject: {fileID: 6326348844055177680}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 89e9466fa4b70ed4fb6cba74e6554041,
         type: 3}
@@ -1358,9 +1362,7 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 0
-  healthMax: 50
   balanceMax: 100
-  iframeTime: 0.3
   chiDrop: 5
   hitStunDuration: 0
   playerTransform: {fileID: 0}
@@ -1381,6 +1383,8 @@ MonoBehaviour:
   moveAwayDistance: 5
   defaultMovementSpeed: 2.5
   circlingMovementSpeed: 1.4
+  bloodVFXPrefab: {fileID: 8143432443608686193, guid: e28eceefa8801bf42ba0b1d5f6ec5610,
+    type: 3}
   ragdollPrefab: {fileID: 5486493928632695043, guid: 1cbc63bfcc3304d4d94fd56cd7a53e4b,
     type: 3}
 --- !u!114 &7231320871284026034
@@ -1497,6 +1501,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &-91235074309198852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 867879939165794473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad136ebf89760554ead31d146afbf1b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iframeTime: 0.1
 --- !u!114 &6326348844055177680
 MonoBehaviour:
   m_ObjectHideFlags: 0

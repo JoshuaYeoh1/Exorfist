@@ -18,29 +18,25 @@ public class RoomStateManager : MonoBehaviour
     [SerializeField] private int enemyWaves; //determines the amount of "waves" the enemies come in, if there are more than one wave. Default is 0 for no waves.
     [SerializeField] private Transform currentRoomTeleportTransform;
 
-    private void Awake()
-    {
-
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            UpdateRoomState(RoomState.Active);
-        }
-    }
-
-    private void Start()
+    void Awake()
     {
         State = RoomState.Inactive;
+    }
+
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.P)) UpdateRoomState(RoomState.Active);
+    }
+
+    void OnEnable()
+    {
         if(GameEventSystem.current != null)
         {
             Debug.Log("RoomStateManager event subscriptions initialized");
-            GameEventSystem.current.OnEnemyDeath += OnEnemyDeath;
-            GameEventSystem.current.NotifyRoomStateManager += notifyRoomStateManager;
-            GameEventSystem.current.OnDoorTriggerEnter += SetCurrentDoorTransform;
-            GameEventSystem.current.OnRoomEntered += OnRoomEntered;
+            GameEventSystem.current.DeathEvent += OnEnemyDeath;
+            GameEventSystem.current.NotifyRoomStateManagerEvent += notifyRoomStateManager;
+            GameEventSystem.current.DoorTriggerEnterEvent += SetCurrentDoorTransform;
+            GameEventSystem.current.RoomEnterEvent += OnRoomEntered;
             
         }
         else
@@ -49,16 +45,15 @@ public class RoomStateManager : MonoBehaviour
         }
         
     }
-
-    private void OnDestroy()
+    void OnDisable()
     {
         if (GameEventSystem.current != null)
         {
             Debug.Log("RoomStateManager event subscriptions initialized");
-            GameEventSystem.current.OnEnemyDeath -= OnEnemyDeath;
-            GameEventSystem.current.NotifyRoomStateManager -= notifyRoomStateManager;
-            GameEventSystem.current.OnDoorTriggerEnter -= SetCurrentDoorTransform;
-            GameEventSystem.current.OnRoomEntered -= OnRoomEntered;
+            GameEventSystem.current.DeathEvent -= OnEnemyDeath;
+            GameEventSystem.current.NotifyRoomStateManagerEvent -= notifyRoomStateManager;
+            GameEventSystem.current.DoorTriggerEnterEvent -= SetCurrentDoorTransform;
+            GameEventSystem.current.RoomEnterEvent -= OnRoomEntered;
         }
     }
 
@@ -89,7 +84,7 @@ public class RoomStateManager : MonoBehaviour
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
         }
 
-        GameEventSystem.current?.roomStateChange(newState);
+        GameEventSystem.current?.OnRoomStateChange(newState);
     }
 
     private IEnumerator HandleStart()
@@ -106,8 +101,10 @@ public class RoomStateManager : MonoBehaviour
             //lock door to prevent player from leaving mid-combat
         }
     }
-    private void OnEnemyDeath(GameObject enemy)
+    private void OnEnemyDeath(GameObject victim, GameObject killer)
     {
+        if(victim.tag!="Player") return;
+
         //null check for AI Director.
         if(AIDirector.instance == null)
         {
@@ -133,7 +130,6 @@ public class RoomStateManager : MonoBehaviour
                         break;
                     }
                 }
-                
 
                 if(AIDirector.instance.enemies.Count == 0)
                 {
@@ -155,7 +151,6 @@ public class RoomStateManager : MonoBehaviour
         {
             //Debug.Log("Enemy killed.");
         }
-        
     }
 
     private void StaticRoomSetup()

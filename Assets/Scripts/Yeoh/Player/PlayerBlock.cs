@@ -32,6 +32,15 @@ public class PlayerBlock : MonoBehaviour
         buffer=GetComponent<InputBuffer>();
     }
 
+    void OnEnable()
+    {
+        GameEventSystem.current.HitEvent += CheckBlock;
+    }
+    void OnDisble()
+    {
+        GameEventSystem.current.HitEvent -= CheckBlock;
+    }
+
     public bool pressingBtn;
 
     [HideInInspector] public bool canBlock=true;
@@ -102,27 +111,29 @@ public class PlayerBlock : MonoBehaviour
         canBlock=true;
     }
 
-    public void CheckBlock(float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult, float stunTime)
+    public void CheckBlock(GameObject attacker, GameObject victim, float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult, float stunTime)
     {
+        if(victim!=gameObject) return;
+        
         if(isParrying)
         {
-            ParrySuccess(contactPoint);
+            ParrySuccess(attacker, contactPoint);
 
             SetBlockedPoint(contactPoint);
         }
         else if(isBlocking)
         {
-            meter.Hit(dmg, kbForce, contactPoint);
+            meter.Hurt(attacker, dmg, kbForce, contactPoint);
 
             SetBlockedPoint(contactPoint);
         }
         else
         {
-            hurt.Hit(dmg, kbForce, contactPoint, speedDebuffMult, stunTime);
+            hurt.Hurt(attacker, dmg, kbForce, contactPoint, speedDebuffMult, stunTime);
         }   
     }
 
-    public void ParrySuccess(Vector3 contactPoint)
+    public void ParrySuccess(GameObject attacker, Vector3 contactPoint)
     {
         canBlock=true;
 
@@ -131,6 +142,12 @@ public class PlayerBlock : MonoBehaviour
         PlaySparkVFX(contactPoint, Color.green);
 
         hurt.DoIFraming(hurt.iframeTime, -.5f, .5f, -.5f); // flicker green
+
+        GameEventSystem.current.OnBlock(gameObject, attacker, contactPoint, true, false);
+
+
+
+        // move to vfx manager later
 
         Singleton.instance.SpawnPopUpText(player.popUpTextPos.position, "PARRY!", Color.green);
 
@@ -164,6 +181,6 @@ public class PlayerBlock : MonoBehaviour
 
     void Update() // testing
     {
-        if(Input.GetKeyDown(KeyCode.Delete)) CheckBlock(1, 1, GetComponent<TopVertexFinder>().GetTopVertex(gameObject), .3f, 1);
+        if(Input.GetKeyDown(KeyCode.Delete)) CheckBlock(null, gameObject, 10, 1, GetComponent<TopVertexFinder>().GetTopVertex(gameObject), .3f, 1);
     }
 }

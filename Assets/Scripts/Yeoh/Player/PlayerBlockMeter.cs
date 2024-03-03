@@ -52,7 +52,7 @@ public class PlayerBlockMeter : MonoBehaviour
         hp.Add(hp.hpMax*percent/100);
     }
 
-    public void Hit(float dmg, float kbForce, Vector3 contactPoint)
+    public void Hurt(GameObject attacker, float dmg, float kbForce, Vector3 contactPoint)
     {
         if(!hurt.iframe)
         {
@@ -60,16 +60,16 @@ public class PlayerBlockMeter : MonoBehaviour
 
             if(hp.hp>0) // if not empty yet
             {
-                BlockHit(dmg, kbForce, contactPoint);
+                BlockHit(attacker, dmg, kbForce, contactPoint);
             }   
             else
             {
-                BlockBreak(dmg, kbForce, contactPoint);
+                BlockBreak(attacker, dmg, kbForce, contactPoint);
             }
         }        
     }
 
-    void BlockHit(float dmg, float kbForce, Vector3 contactPoint)
+    void BlockHit(GameObject attacker, float dmg, float kbForce, Vector3 contactPoint)
     {
         block.canBlock=true;
 
@@ -77,20 +77,34 @@ public class PlayerBlockMeter : MonoBehaviour
 
         hurt.Knockback(kbForce*block.blockKnockbackResistMult, contactPoint);
 
-        block.PlaySparkVFX(contactPoint, Color.white);
-
         hurt.DoIFraming(hurt.iframeTime, -.5f, .5f, .5f); // flicker cyan
+
+        GameEventSystem.current.OnBlock(block.gameObject, attacker, contactPoint, false, false);
+
+
+
+
+        // move to vfx manager later
+
+        block.PlaySparkVFX(contactPoint, Color.white);
 
         Singleton.instance.SpawnPopUpText(contactPoint, dmg.ToString(), Color.cyan);
 
         //Singleton.instance.PlaySFX(Singleton.instance.sfxSubwoofer, transform.position, false);
     }
 
-    void BlockBreak(float dmg, float kbForce, Vector3 contactPoint)
+    void BlockBreak(GameObject attacker, float dmg, float kbForce, Vector3 contactPoint)
     {
         block.Unblock();
         
-        hurt.Hit(dmg*.5f, kbForce, contactPoint, blockBreakSpeedDebuffMult, blockBreakPenaltyStunTime);
+        hurt.Hurt(attacker, dmg*.5f, kbForce, contactPoint, blockBreakSpeedDebuffMult, blockBreakPenaltyStunTime);
+
+        GameEventSystem.current.OnBlock(block.gameObject, attacker, contactPoint, false, true);
+
+
+
+
+        // move to vfx manager later
 
         block.PlaySparkVFX(contactPoint, Color.red);
 

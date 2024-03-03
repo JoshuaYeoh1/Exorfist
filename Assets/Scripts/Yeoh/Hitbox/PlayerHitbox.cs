@@ -13,12 +13,13 @@ public class PlayerHitbox : BaseHitbox
 
     protected override void HandleTargetHit(Rigidbody otherRb)
     {
-        EnemyHurt hurt = otherRb.GetComponent<EnemyHurt>();
-
-        if(hurt) hurt.Hit(damage, knockback, contactPoint, speedDebuffMult, stunTime);
+        GameEventSystem.current.OnHit(owner, otherRb.gameObject, damage, knockback, contactPoint, speedDebuffMult, stunTime);
 
         ToggleActive(hasSweepingEdge); // if can swipe through multiple
 
+
+
+        // move to vfx manager later
         if(shake) Singleton.instance.CamShake();
         if(hitstop) Singleton.instance.HitStop();
         if(shockwave) shock.SpawnShockwave(contactPoint, Color.white);

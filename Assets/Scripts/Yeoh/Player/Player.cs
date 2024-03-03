@@ -34,6 +34,8 @@ public class Player : MonoBehaviour
         aoe=GetComponent<PlayerAOE>();
         laser=GetComponent<PlayerLaser>();
         heal=GetComponent<PlayerHeal>();
+
+        GameEventSystem.current.OnSpawn(gameObject);
     }
 
     void Update()

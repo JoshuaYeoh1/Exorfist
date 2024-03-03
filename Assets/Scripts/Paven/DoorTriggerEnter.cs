@@ -8,12 +8,12 @@ public class DoorTriggerEnter : MonoBehaviour
 
     private void Start()
     {
-        GameEventSystem.current.OnRoomEntered += OnRoomEnter;
+        GameEventSystem.current.RoomEnterEvent += OnRoomEnter;
     }
 
     private void OnDestroy()
     {
-        GameEventSystem.current.OnRoomEntered -= OnRoomEnter;
+        GameEventSystem.current.RoomEnterEvent -= OnRoomEnter;
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -49,6 +49,6 @@ public class DoorTriggerEnter : MonoBehaviour
 
     private void OnDoorTriggerEnter()
     {
-        GameEventSystem.current.doorTriggerEnter(currentRoomTransform);
+        GameEventSystem.current.OnDoorTriggerEnter(currentRoomTransform);
     }
 }

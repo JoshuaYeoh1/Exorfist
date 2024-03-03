@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BaseHitbox : MonoBehaviour
 {
-    protected GameObject owner;
+    public GameObject owner;
     public Transform hitboxOrigin;
     protected Hitmarker hitmarker;
     protected ShockwaveVFX shock;
@@ -58,7 +58,7 @@ public class BaseHitbox : MonoBehaviour
 
     protected virtual void HandleTargetHit(Rigidbody otherRb)
     {
-        //print("dmg: " + damage + " | kb: " + knockback);
+        //Debug.Log($"dmg: {damage} | kb: {knockback}");
     }
 
     public void BlinkHitbox(float time)

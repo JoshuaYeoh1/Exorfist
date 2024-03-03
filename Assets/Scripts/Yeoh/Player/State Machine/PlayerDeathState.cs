@@ -23,8 +23,6 @@ public class PlayerDeathState : BaseState<PlayerStateMachine.PlayerStates>
         stateMachine.player.canHurt=false;
         stateMachine.player.canStun=false;
 
-        GameEventSystem.current.playerDeath();
-
         RandDeathAnim();
         Singleton.instance.SpawnPopUpText(stateMachine.player.popUpTextPos.position, "DEAD!", Color.red);
         //feedback.dieAnim(); // screen red

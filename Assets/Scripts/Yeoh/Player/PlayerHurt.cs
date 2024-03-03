@@ -9,10 +9,11 @@ public class PlayerHurt : MonoBehaviour
     OffsetMeshColor color;
     Rigidbody rb;
     PlayerStun stun;
-    public GameObject bloodVFXPrefab;
 
     public bool iframe;
     public float iframeTime=.5f;
+
+    public GameObject bloodVFXPrefab;
 
     void Awake()
     {
@@ -23,7 +24,7 @@ public class PlayerHurt : MonoBehaviour
         stun=GetComponent<PlayerStun>();
     }
 
-    public void Hit(float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult=.3f, float stunTime=.5f)
+    public void Hurt(GameObject attacker, float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult=.3f, float stunTime=.5f)
     {
         if(!iframe && player.isAlive && player.canHurt)
         {
@@ -31,13 +32,7 @@ public class PlayerHurt : MonoBehaviour
 
             Knockback(kbForce, contactPoint);
 
-            Singleton.instance.CamShake();
-            Singleton.instance.HitStop();
-
-            GameObject blood = Instantiate(bloodVFXPrefab, contactPoint, Quaternion.identity);
-            blood.hideFlags = HideFlags.HideInHierarchy;
-
-            //Singleton.instance.PlaySFX(Singleton.instance.sfxSubwoofer, transform.position, false);
+            GameEventSystem.current.OnHurt(gameObject, attacker, dmg, kbForce, contactPoint, speedDebuffMult, stunTime);
 
             hp.Hit(dmg);
 
@@ -49,7 +44,21 @@ public class PlayerHurt : MonoBehaviour
                 
                 // flash screen red
             }
-            else Die();
+            else Die(attacker);
+
+
+
+
+
+            // move to vfx manager later
+            Singleton.instance.SpawnPopUpText(contactPoint, dmg.ToString(), Color.red);
+            Singleton.instance.CamShake();
+            Singleton.instance.HitStop();
+
+            GameObject blood = Instantiate(bloodVFXPrefab, contactPoint, Quaternion.identity);
+            blood.hideFlags = HideFlags.HideInHierarchy;
+
+            //Singleton.instance.PlaySFX(Singleton.instance.sfxSubwoofer, transform.position, false);
         }
     }
 
@@ -107,8 +116,10 @@ public class PlayerHurt : MonoBehaviour
         }
     }
 
-    void Die()
+    void Die(GameObject killer)
     {
         player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Death);
+
+        GameEventSystem.current.OnDeath(gameObject, killer);
     }
 }

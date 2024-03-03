@@ -13,21 +13,14 @@ public class GameStateManager : MonoBehaviour
     //public static event Action<GameState> OnGameStateChanged;
 
     [SerializeField] private GameObject gameOverPopUp;
-    private void Awake()
-    {
-        if (GameEventSystem.current)
-        {
-            GameEventSystem.current.OnPlayerDeath += OnPlayerDeath;
-            //Debug.Log("Event subscribed");
-        }
-    }
 
-    private void OnDestroy()
+    void OnEnable()
     {
-        if (GameEventSystem.current)
-        {
-            GameEventSystem.current.OnPlayerDeath -= OnPlayerDeath;
-        }
+        GameEventSystem.current.DeathEvent += OnPlayerDeath;
+    }
+    void OnDisable()
+    {
+        GameEventSystem.current.DeathEvent -= OnPlayerDeath;
     }
 
     public void UpdateGameState(GameState newState)
@@ -53,7 +46,7 @@ public class GameStateManager : MonoBehaviour
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
         }
         //Invoke and notify observers 
-        GameEventSystem.current?.gameStateChange(newState);
+        GameEventSystem.current?.OnGameStateChange(newState);
     }
 
     private void HandleLose()
@@ -61,9 +54,9 @@ public class GameStateManager : MonoBehaviour
         SpawnLosePopup();
     }
 
-    void OnPlayerDeath()
+    void OnPlayerDeath(GameObject victim, GameObject killer)
     {
-        Invoke("SwitchLoseState", 3); // lose after 3 seconds
+        if(victim.tag=="Player") Invoke("SwitchLoseState", 3); // lose after 3 seconds
     }
 
     void SwitchLoseState()
