@@ -158,7 +158,7 @@ public class EnemyAI : MonoBehaviour
 
     void OnParried(GameObject defender, GameObject attacker, Vector3 contactPoint, bool parry, bool broke)
     {
-        if(attacker!=gameObject && !parry) return;
+        if(attacker!=gameObject || !parry) return;
 
         Stun();
     }
