@@ -1,0 +1,115 @@
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
+
+public class TargetHighlighter : MonoBehaviour
+{
+    Player player;
+    MaterialManager matManager;
+    TopVertexFinder topFinder;
+
+    public Material outlineMaterial;
+    public GameObject indicatorPrefab;
+
+    void Awake()
+    {
+        player=GetComponent<Player>();
+        matManager=GetComponent<MaterialManager>();
+        topFinder=GetComponent<TopVertexFinder>();
+    }
+
+    GameObject target;
+    float topY;
+
+    void Update()
+    {
+        CheckSwitchTarget();
+        CheckManualColor();
+
+        if(indicatorTC) indicatorTC.positionOffset.y = topY + offsetY; // animated float
+    }
+
+    void CheckSwitchTarget()
+    {
+        if(target!=player.target)
+        {
+            if(indicator) Destroy(indicator);
+
+            Unhighlight(target);
+
+            target=player.target;
+
+            Highlight(target);
+        }
+
+        if((!target || !player.target) && indicator) Destroy(indicator);
+    }
+
+    GameObject indicator;
+    TransformConstraint indicatorTC;
+    SpriteRenderer indicatorSR;
+
+    void Highlight(GameObject _target)
+    {
+        if(_target)
+        {
+            matManager.AddMaterial(_target, outlineMaterial);
+
+            indicator=Instantiate(indicatorPrefab, _target.transform.position, Quaternion.identity);
+            indicator.hideFlags = HideFlags.HideInHierarchy;
+
+            indicatorTC = indicator.GetComponent<TransformConstraint>();
+            indicatorTC.constrainTo = _target.transform;
+
+            topY = topFinder.GetTopVertex(_target).y - _target.transform.position.y;
+
+            indicatorSR = indicator.GetComponent<SpriteRenderer>();
+        }
+    }
+
+    void Unhighlight(GameObject _target)
+    {
+        if(_target)
+        {
+            matManager.RemoveMaterial(_target, outlineMaterial);
+        }
+    }
+
+    float offsetY;
+
+    void PlayOffsetAnim()
+    {
+        LeanTween.value(.1f, .25f, .5f)
+            .setEaseInOutSine()
+            .setIgnoreTimeScale(true)
+            .setLoopPingPong()
+            .setOnUpdate( (float value)=>{offsetY=value;} );
+    }
+
+    void OnEnable()
+    {
+        PlayOffsetAnim();
+    }
+
+    void CheckManualColor()
+    {
+        Color newColor;
+
+        if(player.manual.target && target==player.manual.target)
+        {
+            newColor = Color.cyan;
+        }
+        else newColor = outlineMaterial.color;
+
+        if(target)
+        {
+            foreach(Material outlineMat in matManager.GetMaterials(target, outlineMaterial))
+            {
+                if(outlineMat.color != newColor) outlineMat.color = newColor;
+            }
+        }
+
+        if(indicatorSR && indicatorSR.color != newColor) indicatorSR.color = newColor;
+    }
+}
