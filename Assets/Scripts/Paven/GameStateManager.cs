@@ -61,13 +61,18 @@ public class GameStateManager : MonoBehaviour
         SpawnLosePopup();
     }
 
-    private void OnPlayerDeath()
+    void OnPlayerDeath()
+    {
+        Invoke("SwitchLoseState", 3); // lose after 3 seconds
+    }
+
+    void SwitchLoseState()
     {
         State = GameState.Lose;
         UpdateGameState(State);
     }
 
-    private void SpawnLosePopup()
+    void SpawnLosePopup()
     {
         Instantiate(gameOverPopUp);
     }

@@ -13,6 +13,7 @@ public class PlayerAnim : MonoBehaviour
     PlayerLaser laser;
     PlayerHeal heal;
     Player player;
+    Ragdoller ragdoll;
 
     void Start()
     {
@@ -25,6 +26,7 @@ public class PlayerAnim : MonoBehaviour
         laser=transform.root.GetComponent<PlayerLaser>();
         heal=transform.root.GetComponent<PlayerHeal>();
         player=transform.root.GetComponent<Player>();
+        ragdoll=transform.root.GetComponent<Ragdoller>();
     }
 
     void Update()
@@ -135,4 +137,9 @@ public class PlayerAnim : MonoBehaviour
     // {
     //     Singleton.instance.playSFX(sfxPlayerFst,transform);
     // }
+
+    public void AnimRagdoll()
+    {
+        ragdoll.ToggleRagdoll(true);
+    }
 }

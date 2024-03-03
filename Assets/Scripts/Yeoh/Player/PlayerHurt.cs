@@ -110,30 +110,5 @@ public class PlayerHurt : MonoBehaviour
     void Die()
     {
         player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Death);
-
-        RandDeathAnim();
-
-        Singleton.instance.SpawnPopUpText(player.popUpTextPos.position, "DEAD!", Color.red);
-
-        //feedback.dieAnim(); // screen red
-
-        //Invoke("ReloadScene", 2);
-        GameEventSystem.current.playerDeath();
-    }
-
-    void RandDeathAnim()
-    {
-        int i = Random.Range(1, 2);
-        player.anim.CrossFade("death"+i, .1f, 2, 0);
-    }
-
-    public void SpawnRagdoll()
-    {
-
-    }
-
-    void ReloadScene()
-    {
-        Singleton.instance.ReloadScene();
     }
 }

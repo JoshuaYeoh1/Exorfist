@@ -9,7 +9,7 @@ public class FloatingHPBar : MonoBehaviour
     public GameObject hpBarPrefab;
     public Transform hpBarPos;
 
-    HPBar floatingHpBar;
+    [HideInInspector] public HPBar floatingHpBar;
 
     void Start()
     {
@@ -24,7 +24,7 @@ public class FloatingHPBar : MonoBehaviour
 
     void FixedUpdate()
     {
-        floatingHpBar.transform.position = hpBarPos.position;
+        if(floatingHpBar) floatingHpBar.transform.position = hpBarPos.position;
     }
 
     void OnDestroy()

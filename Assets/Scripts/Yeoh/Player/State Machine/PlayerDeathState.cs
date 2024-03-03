@@ -21,7 +21,13 @@ public class PlayerDeathState : BaseState<PlayerStateMachine.PlayerStates>
         stateMachine.player.canBlock=false;
         stateMachine.player.canCast=false;
         stateMachine.player.canHurt=false;
-        stateMachine.player.canStun=false; 
+        stateMachine.player.canStun=false;
+
+        GameEventSystem.current.playerDeath();
+
+        RandDeathAnim();
+        Singleton.instance.SpawnPopUpText(stateMachine.player.popUpTextPos.position, "DEAD!", Color.red);
+        //feedback.dieAnim(); // screen red
     }
 
     public override void UpdateState()
@@ -42,5 +48,11 @@ public class PlayerDeathState : BaseState<PlayerStateMachine.PlayerStates>
     public override PlayerStateMachine.PlayerStates GetNextState() // Implement the logic to determine the next state from the this state
     {
         return StateKey;
+    }
+
+    void RandDeathAnim()
+    {
+        int i = Random.Range(1, 2);
+        stateMachine.player.anim.CrossFade("death"+i, .1f, 2, 0);
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -21,6 +22,9 @@ public class EnemyAI : MonoBehaviour
 
     public float balanceMax;
     private float currentBalance;
+
+    bool iframe;
+    public float iframeTime=.1f;
 
     public float chiDrop;
 
@@ -68,6 +72,9 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float defaultMovementSpeed;
     [SerializeField] private float circlingMovementSpeed;
 
+    OffsetMeshColor offsetColor;
+    HPManager hp;
+
     private void Awake()
     {
         //code to set things like event subscriptions, etc.
@@ -75,10 +82,12 @@ public class EnemyAI : MonoBehaviour
         currentBalance = balanceMax;
 
         animator = GetComponent<Animator>();
+        body = GetComponent<Rigidbody>();
         playerTransform = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
         sm = GetComponent<EnemyAIStateMachine>();
-        
+        offsetColor = GetComponent<OffsetMeshColor>();
+        hp = GetComponent<HPManager>();
     }
 
     private void Start()
@@ -98,44 +107,138 @@ public class EnemyAI : MonoBehaviour
     private void Update()
     {
         //Debug.Log(preparingAttack);
+        UpdateHPManager();
     }
 
-
-    private void OnEnemyDeath(GameObject victim)
+    //Taking damage algorithm
+    private void OnTriggerEnter(Collider other)
     {
-        if(GameEventSystem.current != null)
+        if (other != null)
         {
-            GameEventSystem.current.enemyDeath(victim);
-        }
-    }
-
-    private void LoseHealth(float healthdamage, float balancedamage, float hitStunDuration)
-    {
-        if(currentHealth > 0)
-        {
-            currentHealth = currentHealth - healthdamage;
-            if(currentHealth <= 0)
+            if (other.gameObject.GetComponent<PlayerHitbox>() != null)
             {
-                //switch EnemyAIStateMachine to "dying" state, stop all coroutines
-                OnEnemyDeath(gameObject);
-                Destroy(gameObject);
-                return;
+                PlayerHitbox thisWep = other.gameObject.GetComponent<PlayerHitbox>();
+                //pseudocode notes for balance mechanic and blocking
+
+                //if(isBlocking == true) { blockAttack(), reduceBalance() }
+
+                //use thisWep.hitStun duration etc, as values to be passed into the "takingDamage" function" | Should be added later
+                isHitStun = true;
+                LoseHealth(thisWep.damage, thisWep.damage, thisWep.knockback, thisWep.contactPoint);
             }
             else
             {
-                //switch EnemyAIStateMachine to "HitStun" state, stop all coroutines and play hurt animation, play sound effect, etc.
-                //we can use an event system to call sfx and hurt animations if we need to :P
-                isHitStun = true;
-                sm.HitStunSwitchState(sm.hitStunState);
-                
                 return;
+            }
+        }
+    }
+
+    //this is for a future event system implementation
+    private void OnHitByPlayer(PlayerHitbox thisWep)
+    {
+        if(isBlocking == true)
+        {
+            //passing thisWep.damage into the "balanceDamage" field for now
+            LoseBalance(thisWep.damage, thisWep.damage);
+        }
+        else
+        {
+            
+        }
+    }
+
+    private void LoseHealth(float healthdamage, float balancedamage, float kbForce, Vector3 contactPoint, float speedDebuffMult=.3f, float stunTime=.2f)
+    {
+        if(currentHealth > 0)
+        {
+            if(!iframe)
+            {
+                DoIFraming(iframeTime);
+
+                Knockback(body, kbForce, contactPoint);
+
+                Singleton.instance.SpawnPopUpText(contactPoint, healthdamage.ToString(), Color.white);
+                
+                currentHealth -= healthdamage;
+
+                if(currentHealth <= 0)
+                {
+                    OnEnemyDeath();
+                    return;
+                }
+                else
+                {
+                    //switch EnemyAIStateMachine to "HitStun" state, stop all coroutines and play hurt animation, play sound effect, etc.
+                    //we can use an event system to call sfx and hurt animations if we need to :P
+                    isHitStun = true;
+                    sm.HitStunSwitchState(sm.hitStunState);
+                    
+                    return;
+                }
             }
         }
         else
         {
             //switch EnemyAIStateMachine to "dying" state, stop all coroutines as needed (if we're using coroutines that is)
         }
+    }
 
+    void UpdateHPManager()
+    {
+        hp.hpMax=healthMax;
+        hp.hp=currentHealth;
+    }
+
+    public void DoIFraming(float t)
+    {
+        StartCoroutine(IFraming(t));
+    }
+    IEnumerator IFraming(float t)
+    {
+        iframe=true;
+
+        StartIFrameFlicker();
+
+        yield return new WaitForSeconds(t);
+
+        iframe=false;
+
+        StopIFrameFlicker();
+    }
+
+    void StartIFrameFlicker()
+    {
+        if(iFrameFlickeringRt!=null) StopCoroutine(iFrameFlickeringRt);
+        iFrameFlickeringRt = StartCoroutine(IFrameFlickering());
+    }
+    void StopIFrameFlicker()
+    {
+        if(iFrameFlickeringRt!=null) StopCoroutine(iFrameFlickeringRt);
+        offsetColor.OffsetColor();
+    }
+
+    Coroutine iFrameFlickeringRt;
+    IEnumerator IFrameFlickering()
+    {
+        while(true)
+        {
+            offsetColor.OffsetColor(.5f, -.5f, -.5f);
+            yield return new WaitForSecondsRealtime(.05f);
+            offsetColor.OffsetColor();
+            yield return new WaitForSecondsRealtime(.05f);
+        }
+    }
+
+    public void Knockback(Rigidbody rb, float force, Vector3 contactPoint)
+    {
+        if(force>0)
+        {
+            Vector3 kbVector = rb.transform.position - contactPoint;
+            kbVector.y = 0;
+
+            rb.velocity = new Vector3(0, rb.velocity.y, 0);
+            rb.AddForce(kbVector.normalized * force, ForceMode.Impulse);
+        }
     }
 
     private void LoseBalance(float balanceDamage, float blockStun)
@@ -151,6 +254,18 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    public GameObject ragdollPrefab;
+
+    void OnEnemyDeath()
+    {
+        GameEventSystem.current.enemyDeath(gameObject);
+
+        //switch EnemyAIStateMachine to "dying" state, stop all coroutines
+        
+        Instantiate(ragdollPrefab, transform.position, transform.rotation);
+
+        Destroy(gameObject);
+    }
     
     //IsMoving getters/setters
     public void SetIsMoving(bool isMoving)
@@ -214,43 +329,6 @@ public class EnemyAI : MonoBehaviour
 
     //isDead bullshit
     public bool GetIsDead() { return isDead; }
-
-    //Taking damage algorithm
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other != null)
-        {
-            if (other.gameObject.GetComponent<PlayerHitbox>() != null)
-            {
-                PlayerHitbox thisWep = other.gameObject.GetComponent<PlayerHitbox>();
-                //pseudocode notes for balance mechanic and blocking
-
-                //if(isBlocking == true) { blockAttack(), reduceBalance() }
-
-                //use thisWep.hitStun duration etc, as values to be passed into the "takingDamage" function" | Should be added later
-                isHitStun = true;
-                LoseHealth(thisWep.damage, thisWep.damage, 0.2f);
-            }
-            else
-            {
-                return;
-            }
-        }
-    }
-
-    //this is for a future event system implementation
-    private void OnHitByPlayer(PlayerHitbox thisWep)
-    {
-        if(isBlocking == true)
-        {
-            //passing thisWep.damage into the "balanceDamage" field for now
-            LoseBalance(thisWep.damage, thisWep.damage);
-        }
-        else
-        {
-            
-        }
-    }
 
     private void DisableComponentsOnDeath()
     {

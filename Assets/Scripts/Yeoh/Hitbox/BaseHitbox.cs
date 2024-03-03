@@ -15,7 +15,7 @@ public class BaseHitbox : MonoBehaviour
     public float damage, knockback;
     public float speedDebuffMult=.3f, stunTime=.5f;
 
-    protected Vector3 contactPoint;
+    public Vector3 contactPoint;
 
     void Awake()
     {

@@ -96,9 +96,4 @@ public class EnemyHurt : MonoBehaviour
         
         Destroy(gameObject);
     }
-
-    public void SpawnRagdoll()
-    {
-
-    }
 }
