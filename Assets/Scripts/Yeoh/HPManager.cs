@@ -9,11 +9,7 @@ public class HPManager : MonoBehaviour
     [Header("Regeneration")]
     public bool regen;
     public bool regenWhenEmpty;
-<<<<<<< HEAD
-    public float regenHp=.2f, regenTime=.1f;
-=======
     public float regenHp=.2f, regenInterval=.1f;
->>>>>>> main
 
     [Header("UI Bar")]
     public GameObject hpBarFill;

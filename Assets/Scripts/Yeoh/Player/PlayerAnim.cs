@@ -11,13 +11,9 @@ public class PlayerAnim : MonoBehaviour
     Rigidbody rb;
     PlayerAOE aoe;
     PlayerLaser laser;
-<<<<<<< HEAD
-    ClosestObjectFinder finder;
-=======
     PlayerHeal heal;
     Player player;
     Ragdoller ragdoll;
->>>>>>> main
 
     void Start()
     {
@@ -28,13 +24,9 @@ public class PlayerAnim : MonoBehaviour
         rb=transform.root.GetComponent<Rigidbody>();
         aoe=transform.root.GetComponent<PlayerAOE>();
         laser=transform.root.GetComponent<PlayerLaser>();
-<<<<<<< HEAD
-        finder=transform.root.GetComponent<ClosestObjectFinder>();
-=======
         heal=transform.root.GetComponent<PlayerHeal>();
         player=transform.root.GetComponent<Player>();
         ragdoll=transform.root.GetComponent<Ragdoller>();
->>>>>>> main
     }
 
     void Update()
@@ -70,11 +62,7 @@ public class PlayerAnim : MonoBehaviour
 
     void AnimCombat()
     {
-<<<<<<< HEAD
-        if(finder.target) anim.SetBool("inCombat", true);
-=======
         if(player.target) anim.SetBool("inCombat", true);
->>>>>>> main
         else anim.SetBool("inCombat", false);
     }
     
@@ -108,9 +96,6 @@ public class PlayerAnim : MonoBehaviour
     {
         laser.Finish();
     }
-<<<<<<< HEAD
-    
-=======
 
     public void HealRelease()
     {
@@ -148,7 +133,6 @@ public class PlayerAnim : MonoBehaviour
         }
     }
 
->>>>>>> main
     // public void PlaySfxFootstep()
     // {
     //     Singleton.instance.playSFX(sfxPlayerFst,transform);

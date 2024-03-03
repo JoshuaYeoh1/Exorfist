@@ -5,22 +5,6 @@ using UnityEngine;
 public class Dummy : MonoBehaviour
 {
     public GameObject enemyPrefab;
-<<<<<<< HEAD
-
-    void Awake()
-    {
-        GameEventSystem.current.OnEnemyDeath += Die;
-    }
-
-    void OnDestroy()
-    {
-        GameEventSystem.current.OnEnemyDeath -= Die;
-    }
-
-    public void Die(GameObject victim)
-    {
-        if(victim==gameObject) Instantiate(enemyPrefab, transform.position, Quaternion.identity);
-=======
     EnemyHurt hurt;
 
     void Awake()
@@ -55,6 +39,5 @@ public class Dummy : MonoBehaviour
         Instantiate(enemyPrefab, transform.position, Quaternion.identity);
 
         Destroy(gameObject);
->>>>>>> main
     }    
 }

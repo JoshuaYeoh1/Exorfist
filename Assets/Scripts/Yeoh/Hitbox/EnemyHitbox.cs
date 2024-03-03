@@ -13,21 +13,6 @@ public class EnemyHitbox : BaseHitbox
     {
         GameEventSystem.current.OnHit(owner, otherRb.gameObject, damage, knockback, contactPoint, speedDebuffMult, stunTime);
 
-<<<<<<< HEAD
-        if(block)
-        {
-            block.CheckBlock(damage, knockback, contactPoint, speedDebuffMult, stunTime);
-
-            if(block.isParrying)
-            {
-                EnemyAI thisEnemy = owner.GetComponent<EnemyAI>();
-                
-                if(thisEnemy) thisEnemy.sm.SwitchState(thisEnemy.sm.hitStunState);
-            }
-        }
-
-        hitmarker.SpawnHitmarker(contactPoint, Color.red);
-=======
 
 
 
@@ -35,6 +20,5 @@ public class EnemyHitbox : BaseHitbox
         hitmarker.SpawnHitmarker(contactPoint, Color.red);
         GameObject impact = Instantiate(impactVFXPrefab, contactPoint, Quaternion.identity);
         impact.hideFlags = HideFlags.HideInHierarchy;
->>>>>>> main
     }
 }

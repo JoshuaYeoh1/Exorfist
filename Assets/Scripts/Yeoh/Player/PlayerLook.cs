@@ -21,15 +21,6 @@ public class PlayerLook : MonoBehaviour
 
     public void CheckLook()
     {
-<<<<<<< HEAD
-        if(finder.target) // if there is a target in range
-        {
-            FaceTowards(GetDir(finder.target.transform.position, transform.position)); // face at target
-        }
-        else if(move.dir.sqrMagnitude>0) // if joystick is moved
-        {
-            FaceTowards(rb.velocity.normalized); // face move direction
-=======
         if(player.canTurn) CheckTurn();
     }
 
@@ -46,7 +37,6 @@ public class PlayerLook : MonoBehaviour
         else if(move.dir.sqrMagnitude>0) // if joystick is moved
         {
             TurnTowards(rb.velocity.normalized, turnSpeed); // face move direction
->>>>>>> main
         }
     }
 

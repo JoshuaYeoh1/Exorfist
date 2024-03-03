@@ -6,11 +6,7 @@ public class PlayerBlock : MonoBehaviour
 {
     [HideInInspector] public Player player;
     PlayerMovement move;
-<<<<<<< HEAD
-    [HideInInspector] public PlayerHurt hurt;
-=======
     PlayerHurt hurt;
->>>>>>> main
     [HideInInspector] public OffsetMeshColor color;
     PlayerStun stun;
     [HideInInspector] public FlashSpriteVFX flash;
@@ -36,8 +32,6 @@ public class PlayerBlock : MonoBehaviour
         buffer=GetComponent<InputBuffer>();
     }
 
-<<<<<<< HEAD
-=======
     void OnEnable()
     {
         GameEventSystem.current.HitEvent += CheckBlock;
@@ -47,7 +41,6 @@ public class PlayerBlock : MonoBehaviour
         GameEventSystem.current.HitEvent -= CheckBlock;
     }
 
->>>>>>> main
     public bool pressingBtn;
 
     [HideInInspector] public bool canBlock=true;
@@ -120,13 +113,8 @@ public class PlayerBlock : MonoBehaviour
 
     public void CheckBlock(GameObject attacker, GameObject victim, float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult, float stunTime)
     {
-<<<<<<< HEAD
-        Singleton.instance.CamShake();
-
-=======
         if(victim!=gameObject) return;
         
->>>>>>> main
         if(isParrying)
         {
             ParrySuccess(attacker, contactPoint);
@@ -135,13 +123,9 @@ public class PlayerBlock : MonoBehaviour
         }
         else if(isBlocking)
         {
-<<<<<<< HEAD
-            meter.Hit(dmg, kbForce, contactPoint);
-=======
             meter.Hurt(attacker, dmg, kbForce, contactPoint);
 
             SetBlockedPoint(contactPoint);
->>>>>>> main
         }
         else
         {
@@ -155,11 +139,7 @@ public class PlayerBlock : MonoBehaviour
 
         meter.Refill(parryRefillPercent);
 
-<<<<<<< HEAD
-        flash.SpawnFlash(contactPoint, Color.green);
-=======
         PlaySparkVFX(contactPoint, Color.green);
->>>>>>> main
 
         hurt.DoIFraming(hurt.iframeTime, -.5f, .5f, -.5f); // flicker green
 
@@ -176,11 +156,6 @@ public class PlayerBlock : MonoBehaviour
         //Singleton.instance.HitStop(); // fucks up your timing
     }
 
-<<<<<<< HEAD
-    void Update() // testing
-    {
-        if(Input.GetKeyDown(KeyCode.Delete)) CheckBlock(1, 1, transform.position, .3f, 1);
-=======
     [HideInInspector] public Vector3 blockedPoint;
 
     void SetBlockedPoint(Vector3 point)
@@ -207,6 +182,5 @@ public class PlayerBlock : MonoBehaviour
     void Update() // testing
     {
         if(Input.GetKeyDown(KeyCode.Delete)) CheckBlock(null, gameObject, 10, 1, GetComponent<TopVertexFinder>().GetTopVertex(gameObject), .3f, 1);
->>>>>>> main
     }
 }

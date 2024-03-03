@@ -32,11 +32,7 @@ public class PlayerHurt : MonoBehaviour
 
             Knockback(kbForce, contactPoint);
 
-<<<<<<< HEAD
-            //Singleton.instance.PlaySFX(Singleton.instance.sfxSubwoofer, transform.position, false);
-=======
             GameEventSystem.current.OnHurt(gameObject, attacker, dmg, kbForce, contactPoint, speedDebuffMult, stunTime);
->>>>>>> main
 
             hp.Hit(dmg);
 
@@ -68,15 +64,6 @@ public class PlayerHurt : MonoBehaviour
 
     public void DoIFraming(float t, float r, float g, float b)
     {
-<<<<<<< HEAD
-        StartCoroutine(IFraming(t));
-    }
-    IEnumerator IFraming(float t)
-    {
-        iframe=true;
-
-        StartIFrameFlicker();
-=======
         if(iFramingRt!=null) StopCoroutine(iFramingRt);
         iFramingRt = StartCoroutine(IFraming(t, r, g, b));
     }
@@ -86,34 +73,10 @@ public class PlayerHurt : MonoBehaviour
     {
         iframe=true;
         StartIFrameFlicker(r, g, b);
->>>>>>> main
 
         yield return new WaitForSeconds(t);
 
         iframe=false;
-<<<<<<< HEAD
-
-        StopIFrameFlicker();
-    }
-
-    void StartIFrameFlicker()
-    {
-        if(iFrameFlickeringRt!=null) StopCoroutine(iFrameFlickeringRt);
-        iFrameFlickeringRt = StartCoroutine(IFrameFlickering());
-    }
-    void StopIFrameFlicker()
-    {
-        if(iFrameFlickeringRt!=null) StopCoroutine(iFrameFlickeringRt);
-        color.OffsetColor();
-    }
-
-    Coroutine iFrameFlickeringRt;
-    IEnumerator IFrameFlickering()
-    {
-        while(true)
-        {
-            color.OffsetColor(.5f, -.5f, -.5f);
-=======
         StopIFrameFlicker();
     }
 
@@ -129,20 +92,16 @@ public class PlayerHurt : MonoBehaviour
         while(true)
         {
             color.OffsetColor(r, g, b);
->>>>>>> main
             yield return new WaitForSecondsRealtime(.05f);
             color.OffsetColor();
             yield return new WaitForSecondsRealtime(.05f);
         }
-<<<<<<< HEAD
-=======
     }
 
     void StopIFrameFlicker()
     {
         if(iFrameFlickeringRt!=null) StopCoroutine(iFrameFlickeringRt);
         color.OffsetColor();
->>>>>>> main
     }
 
     public void Knockback(float force, Vector3 contactPoint)
@@ -161,33 +120,6 @@ public class PlayerHurt : MonoBehaviour
     {
         player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Death);
 
-<<<<<<< HEAD
-        RandDeathAnim();
-
-        Singleton.instance.SpawnPopUpText(player.popUpTextPos.position, "DEAD!", Color.red);
-
-        //feedback.dieAnim(); // screen red
-
-        //Invoke("ReloadScene", 2);
-        GameEventSystem.current.playerDeath();
-    }
-
-    void RandDeathAnim()
-    {
-        int i = Random.Range(1, 2);
-        player.anim.CrossFade("death"+i, .1f, 2, 0);
-    }
-
-    public void SpawnRagdoll()
-    {
-
-    }
-
-    void ReloadScene()
-    {
-        Singleton.instance.ReloadScene();
-=======
         GameEventSystem.current.OnDeath(gameObject, killer);
->>>>>>> main
     }
 }

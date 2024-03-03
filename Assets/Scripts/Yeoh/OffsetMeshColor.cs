@@ -49,11 +49,7 @@ public class OffsetMeshColor : MonoBehaviour
                     renderers[j].materials[i].color = newColor;
                 }
 
-<<<<<<< HEAD
-                if(eOffset && !ignoreEmission)
-=======
                 if(eOffset && !ignoreEmission && index < defaultEmissionColors.Count)
->>>>>>> main
                 {
                     Color newEmissionColor = new Color(defaultEmissionColors[index].r+rOffset,
                                                 defaultEmissionColors[index].g+gOffset,

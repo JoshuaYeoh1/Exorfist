@@ -16,23 +16,18 @@ public class PlayerDeathState : BaseState<PlayerStateMachine.PlayerStates>
         Debug.Log("Player state: " + stateMachine.GetCurrentState().StateKey);
 
         stateMachine.player.canMove=false;
-<<<<<<< HEAD
-=======
         stateMachine.player.canTurn=false;
->>>>>>> main
         stateMachine.player.canAttack=false;
         stateMachine.player.canBlock=false;
         stateMachine.player.canCast=false;
         stateMachine.player.canHurt=false;
-<<<<<<< HEAD
-        stateMachine.player.canStun=false; 
-=======
         stateMachine.player.canStun=false;
 
         RandDeathAnim();
+
+        // move to vfx manager later
         Singleton.instance.SpawnPopUpText(stateMachine.player.popUpTextPos.position, "DEAD!", Color.red);
         //feedback.dieAnim(); // screen red
->>>>>>> main
     }
 
     public override void UpdateState()

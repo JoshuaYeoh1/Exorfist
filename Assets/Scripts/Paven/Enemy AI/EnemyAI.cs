@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-=======
 using System.Collections;
->>>>>>> main
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -86,22 +83,12 @@ public class EnemyAI : MonoBehaviour
 
     void Start()
     {
-<<<<<<< HEAD
-        if (AIDirector.instance != null)
-=======
         if(AIDirector.instance)
->>>>>>> main
         {
             AIDirector.instance.enemies.Add(gameObject); //add this EnemyAI gameObject to the AIDirector script
         }
     }
 
-<<<<<<< HEAD
-    // private void OnDestroy()
-    // {
-    //     OnEnemyDeath(gameObject);
-    // }
-=======
     void OnEnable()
     {
         GameEventSystem.current.HitEvent += OnHit;
@@ -116,55 +103,21 @@ public class EnemyAI : MonoBehaviour
         GameEventSystem.current.BlockEvent -= OnParried;
         GameEventSystem.current.DeathEvent -= OnDeath;
     }
->>>>>>> main
 
     void Update()
     {
         //Debug.Log(preparingAttack);
     }
 
-<<<<<<< HEAD
-
-    private void OnEnemyDeath(GameObject victim)
-    {
-        if(GameEventSystem.current != null)
-        {
-            GameEventSystem.current.enemyDeath(victim);
-        }
-    }
-
-    private void LoseHealth(float healthdamage, float balancedamage, float hitStunDuration)
-=======
     void OnHit(GameObject attacker, GameObject victim, float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult=.3f, float stunTime=.5f)
->>>>>>> main
     {
         if(victim!=gameObject) return;
 
         //this is for a future event system implementation
         if(!isBlocking)
         {
-<<<<<<< HEAD
-            currentHealth = currentHealth - healthdamage;
-            if(currentHealth <= 0)
-            {
-                //switch EnemyAIStateMachine to "dying" state, stop all coroutines
-                OnEnemyDeath(gameObject);
-                Destroy(gameObject);
-                return;
-            }
-            else
-            {
-                //switch EnemyAIStateMachine to "HitStun" state, stop all coroutines and play hurt animation, play sound effect, etc.
-                //we can use an event system to call sfx and hurt animations if we need to :P
-                isHitStun = true;
-                sm.HitStunSwitchState(sm.hitStunState);
-                
-                return;
-            }
-=======
             hurt.Hurt(attacker, dmg, kbForce, contactPoint);
             //EnemyHurt script already broadcasts to OnHurt event, no need to broadcast it again here
->>>>>>> main
         }
         else
         {

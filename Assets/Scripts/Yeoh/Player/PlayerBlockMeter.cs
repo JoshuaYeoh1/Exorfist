@@ -52,11 +52,7 @@ public class PlayerBlockMeter : MonoBehaviour
         hp.Add(hp.hpMax*percent/100);
     }
 
-<<<<<<< HEAD
-    public void Hit(float dmg, float kbForce, Vector3 contactPoint)
-=======
     public void Hurt(GameObject attacker, float dmg, float kbForce, Vector3 contactPoint)
->>>>>>> main
     {
         if(!hurt.iframe)
         {
@@ -64,39 +60,16 @@ public class PlayerBlockMeter : MonoBehaviour
 
             if(hp.hp>0) // if not empty yet
             {
-<<<<<<< HEAD
-                BlockHit(dmg, kbForce, contactPoint);
-            }   
-            else
-            {
-                BlockBreak(dmg, kbForce, contactPoint);
-=======
                 BlockHit(attacker, dmg, kbForce, contactPoint);
             }   
             else
             {
                 BlockBreak(attacker, dmg, kbForce, contactPoint);
->>>>>>> main
             }
         }        
     }
 
-<<<<<<< HEAD
-    public void DoIFraming(float t)
-    {
-        StartCoroutine(iframing(t));
-    }
-    IEnumerator iframing(float t)
-    {
-        iframe=true;
-        yield return new WaitForSeconds(t);
-        iframe=false;
-    }
-
-    void BlockHit(float dmg, float kbForce, Vector3 contactPoint)
-=======
     void BlockHit(GameObject attacker, float dmg, float kbForce, Vector3 contactPoint)
->>>>>>> main
     {
         block.canBlock=true;
 
@@ -120,19 +93,11 @@ public class PlayerBlockMeter : MonoBehaviour
         //Singleton.instance.PlaySFX(Singleton.instance.sfxSubwoofer, transform.position, false);
     }
 
-<<<<<<< HEAD
-    void BlockBreak(float dmg, float kbForce, Vector3 contactPoint)
-    {
-        block.Unblock();
-        
-        block.hurt.Hit(dmg*.5f, kbForce, contactPoint, blockBreakSpeedDebuffMult, blockBreakPenaltyStunTime);
-=======
     void BlockBreak(GameObject attacker, float dmg, float kbForce, Vector3 contactPoint)
     {
         block.Unblock();
         
         hurt.Hurt(attacker, dmg*.5f, kbForce, contactPoint, blockBreakSpeedDebuffMult, blockBreakPenaltyStunTime);
->>>>>>> main
 
         GameEventSystem.current.OnBlock(block.gameObject, attacker, contactPoint, false, true);
 

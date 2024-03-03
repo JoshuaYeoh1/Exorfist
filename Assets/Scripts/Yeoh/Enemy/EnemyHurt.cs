@@ -26,11 +26,8 @@ public class EnemyHurt : MonoBehaviour
 
             Knockback(kbForce, contactPoint);
 
-<<<<<<< HEAD
-=======
             GameEventSystem.current.OnHurt(gameObject, attacker, dmg, kbForce, contactPoint, speedDebuffMult, stunTime);
 
->>>>>>> main
             hp.Hit(dmg);
 
             if(hp.hp>0) // if still alive
@@ -102,17 +99,6 @@ public class EnemyHurt : MonoBehaviour
 
     void Die(GameObject killer)
     {
-<<<<<<< HEAD
-        GameEventSystem.current.enemyDeath(gameObject);
-        
-        Destroy(gameObject);
-    }
-
-    public void SpawnRagdoll()
-    {
-
-=======
         GameEventSystem.current.OnDeath(gameObject, killer);
->>>>>>> main
     }
 }
