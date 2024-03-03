@@ -16,7 +16,11 @@ public class PlayerParryState : BaseState<PlayerStateMachine.PlayerStates>
         Debug.Log("Player state: " + stateMachine.GetCurrentState().StateKey);
 
         stateMachine.player.canMove=true;
+<<<<<<< HEAD
         stateMachine.player.canAttack=false;
+=======
+        stateMachine.player.canTurn=true;
+>>>>>>> main
         stateMachine.player.canBlock=true;
         stateMachine.player.canCast=false;
         stateMachine.player.canHurt=true;
@@ -30,7 +34,11 @@ public class PlayerParryState : BaseState<PlayerStateMachine.PlayerStates>
 
     public override void FixedUpdateState()
     {
+<<<<<<< HEAD
         stateMachine.player.look.CheckLook();
+=======
+
+>>>>>>> main
     }
 
     public override void ExitState()

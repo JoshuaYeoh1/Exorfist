@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+using System.Collections;
+>>>>>>> main
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -16,9 +20,6 @@ public class EnemyAI : MonoBehaviour
     public LayerMask whatIsGround, whatIsPlayer;
 
     [Header("Stats")]
-    public float healthMax;
-    private float currentHealth;
-
     public float balanceMax;
     private float currentBalance;
 
@@ -68,38 +69,61 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float defaultMovementSpeed;
     [SerializeField] private float circlingMovementSpeed;
 
-    private void Awake()
+    EnemyHurt hurt;
+
+    void Awake()
     {
         //code to set things like event subscriptions, etc.
-        currentHealth = healthMax;
-        currentBalance = balanceMax;
-
         animator = GetComponent<Animator>();
+        body = GetComponent<Rigidbody>();
         playerTransform = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
         sm = GetComponent<EnemyAIStateMachine>();
-        
+        hurt = GetComponent<EnemyHurt>();
+
+        GameEventSystem.current.OnSpawn(gameObject);
     }
 
-    private void Start()
+    void Start()
     {
+<<<<<<< HEAD
         if (AIDirector.instance != null)
+=======
+        if(AIDirector.instance)
+>>>>>>> main
         {
             AIDirector.instance.enemies.Add(gameObject); //add this EnemyAI gameObject to the AIDirector script
         }
-        
     }
 
+<<<<<<< HEAD
     // private void OnDestroy()
     // {
     //     OnEnemyDeath(gameObject);
     // }
+=======
+    void OnEnable()
+    {
+        GameEventSystem.current.HitEvent += OnHit;
+        GameEventSystem.current.HurtEvent += OnHurt;
+        GameEventSystem.current.BlockEvent += OnParried;
+        GameEventSystem.current.DeathEvent += OnDeath;
+    }
+    void OnDisable()
+    {
+        GameEventSystem.current.HitEvent -= OnHit;
+        GameEventSystem.current.HurtEvent -= OnHurt;
+        GameEventSystem.current.BlockEvent -= OnParried;
+        GameEventSystem.current.DeathEvent -= OnDeath;
+    }
+>>>>>>> main
 
-    private void Update()
+    void Update()
     {
         //Debug.Log(preparingAttack);
     }
 
+<<<<<<< HEAD
 
     private void OnEnemyDeath(GameObject victim)
     {
@@ -110,9 +134,16 @@ public class EnemyAI : MonoBehaviour
     }
 
     private void LoseHealth(float healthdamage, float balancedamage, float hitStunDuration)
+=======
+    void OnHit(GameObject attacker, GameObject victim, float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult=.3f, float stunTime=.5f)
+>>>>>>> main
     {
-        if(currentHealth > 0)
+        if(victim!=gameObject) return;
+
+        //this is for a future event system implementation
+        if(!isBlocking)
         {
+<<<<<<< HEAD
             currentHealth = currentHealth - healthdamage;
             if(currentHealth <= 0)
             {
@@ -130,27 +161,79 @@ public class EnemyAI : MonoBehaviour
                 
                 return;
             }
+=======
+            hurt.Hurt(attacker, dmg, kbForce, contactPoint);
+            //EnemyHurt script already broadcasts to OnHurt event, no need to broadcast it again here
+>>>>>>> main
         }
         else
         {
-            //switch EnemyAIStateMachine to "dying" state, stop all coroutines as needed (if we're using coroutines that is)
+            //passing half damage into the "balanceDamage" field for now
+            //placeholder: receive half damage and 10% of stun time only
+            LoseBalance(dmg*.5f, stunTime*.1f);
         }
-
     }
 
-    private void LoseBalance(float balanceDamage, float blockStun)
+    public GameObject bloodVFXPrefab;
+
+    void OnHurt(GameObject victim, GameObject attacker, float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult=.3f, float stunTime=.5f)
     {
-        if(currentBalance > 0)
+        if(victim!=gameObject) return;
+
+        if(speedDebuffMult<1 && stunTime>0)
         {
-            currentBalance = currentBalance - balanceDamage;
-            if(currentBalance <=0)
+            Stun(speedDebuffMult, stunTime);
+        }
+
+        //move to vfx manager later
+        GameObject blood = Instantiate(bloodVFXPrefab, contactPoint, Quaternion.identity);
+        blood.hideFlags = HideFlags.HideInHierarchy;
+    }
+
+    void LoseBalance(float balanceDamage, float blockStun)
+    {
+        if(currentBalance>0)
+        {
+            currentBalance -= balanceDamage;
+
+            if(currentBalance<=0)
             {
                 //switch EnemyAIStateMachine to "BalanceBroken" state, stop all coroutines and play balancebroken animation (probably just a longer stun with a vfx), play sound effect, etc.
-                return;
             }
         }
     }
 
+    void OnParried(GameObject defender, GameObject attacker, Vector3 contactPoint, bool parry, bool broke)
+    {
+        if(attacker!=gameObject && !parry) return;
+
+        Stun();
+    }
+
+    void Stun(float speedDebuffMult=.3f, float stunTime=.5f)
+    {
+        //switch EnemyAIStateMachine to "HitStun" state, stop all coroutines and play hurt animation, play sound effect, etc.
+        //we can use an event system to call sfx and hurt animations if we need to :P
+        isHitStun = true;
+        sm.HitStunSwitchState(sm.hitStunState);
+    }
+
+    public GameObject ragdollPrefab;
+
+    void OnDeath(GameObject victim, GameObject killer)
+    {
+        if(victim!=gameObject) return;
+
+        //switch EnemyAIStateMachine to "dying" state, stop all coroutines as needed (if we're using coroutines that is)
+        
+        //EnemyHurt script already broadcasts to OnDeath event, no need to broadcast it again here
+        
+        //Debug.Log($"{victim.name}: wtf {killer.name} is hacking!11!1!");
+
+        Instantiate(ragdollPrefab, transform.position, transform.rotation);
+
+        Destroy(gameObject);
+    }
     
     //IsMoving getters/setters
     public void SetIsMoving(bool isMoving)
@@ -214,43 +297,6 @@ public class EnemyAI : MonoBehaviour
 
     //isDead bullshit
     public bool GetIsDead() { return isDead; }
-
-    //Taking damage algorithm
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other != null)
-        {
-            if (other.gameObject.GetComponent<PlayerHitbox>() != null)
-            {
-                PlayerHitbox thisWep = other.gameObject.GetComponent<PlayerHitbox>();
-                //pseudocode notes for balance mechanic and blocking
-
-                //if(isBlocking == true) { blockAttack(), reduceBalance() }
-
-                //use thisWep.hitStun duration etc, as values to be passed into the "takingDamage" function" | Should be added later
-                isHitStun = true;
-                LoseHealth(thisWep.damage, thisWep.damage, 0.2f);
-            }
-            else
-            {
-                return;
-            }
-        }
-    }
-
-    //this is for a future event system implementation
-    private void OnHitByPlayer(PlayerHitbox thisWep)
-    {
-        if(isBlocking == true)
-        {
-            //passing thisWep.damage into the "balanceDamage" field for now
-            LoseBalance(thisWep.damage, thisWep.damage);
-        }
-        else
-        {
-            
-        }
-    }
 
     private void DisableComponentsOnDeath()
     {

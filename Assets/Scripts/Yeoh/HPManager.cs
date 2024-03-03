@@ -9,7 +9,11 @@ public class HPManager : MonoBehaviour
     [Header("Regeneration")]
     public bool regen;
     public bool regenWhenEmpty;
+<<<<<<< HEAD
     public float regenHp=.2f, regenTime=.1f;
+=======
+    public float regenHp=.2f, regenInterval=.1f;
+>>>>>>> main
 
     [Header("UI Bar")]
     public GameObject hpBarFill;
@@ -82,7 +86,7 @@ public class HPManager : MonoBehaviour
     {
         while(true)
         {
-            yield return new WaitForSeconds(regenTime);
+            yield return new WaitForSeconds(regenInterval);
 
             if(hp<hpMax && (hp>0 || regenWhenEmpty) )
             {
