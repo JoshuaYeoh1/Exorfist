@@ -25,9 +25,15 @@ public class CameraCinemachine : MonoBehaviour
     {
         LeanTween.cancel(camSizeLt);
         camSizeLt = LeanTween.value(cm.m_Lens.OrthographicSize, newCamSize, time)
+<<<<<<< HEAD
                         .setEaseInOutSine()
                         .setOnUpdate( (float value)=>{cm.m_Lens.OrthographicSize=value;} )
                         .id;
+=======
+            .setEaseInOutSine()
+            .setOnUpdate( (float value)=>{cm.m_Lens.OrthographicSize=value;} )
+            .id;
+>>>>>>> main
 
         //Singleton.instance.playSFX(Singleton.instance.sfxCamPan, transform, false);
     }

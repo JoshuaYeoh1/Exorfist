@@ -8,7 +8,11 @@ public class EnterRoomPopup : MonoBehaviour
     {
         if(GameEventSystem.current != null)
         {
+<<<<<<< HEAD
             GameEventSystem.current.OnRoomEntered += ClosePopUp;
+=======
+            GameEventSystem.current.RoomEnterEvent += ClosePopUp;
+>>>>>>> main
         }
     }
 
@@ -16,7 +20,11 @@ public class EnterRoomPopup : MonoBehaviour
     {
         if (GameEventSystem.current != null)
         {
+<<<<<<< HEAD
             GameEventSystem.current.OnRoomEntered -= ClosePopUp;
+=======
+            GameEventSystem.current.RoomEnterEvent -= ClosePopUp;
+>>>>>>> main
         }
     }
 
@@ -30,7 +38,11 @@ public class EnterRoomPopup : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("Player"); //find player
         if(player != null)
         {
+<<<<<<< HEAD
             GameEventSystem.current.roomEntered();
+=======
+            GameEventSystem.current.OnRoomEnter();
+>>>>>>> main
         }
         else
         {

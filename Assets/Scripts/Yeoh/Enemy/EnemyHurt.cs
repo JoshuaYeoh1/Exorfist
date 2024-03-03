@@ -18,7 +18,7 @@ public class EnemyHurt : MonoBehaviour
         rb=GetComponent<Rigidbody>();
     }
 
-    public void Hit(float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult=.3f, float stunTime=.5f)
+    public void Hurt(GameObject attacker, float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult=.3f, float stunTime=.5f)
     {
         if(!iframe)
         {
@@ -26,6 +26,11 @@ public class EnemyHurt : MonoBehaviour
 
             Knockback(kbForce, contactPoint);
 
+<<<<<<< HEAD
+=======
+            GameEventSystem.current.OnHurt(gameObject, attacker, dmg, kbForce, contactPoint, speedDebuffMult, stunTime);
+
+>>>>>>> main
             hp.Hit(dmg);
 
             if(hp.hp>0) // if still alive
@@ -34,7 +39,12 @@ public class EnemyHurt : MonoBehaviour
 
                 Singleton.instance.SpawnPopUpText(contactPoint, dmg.ToString(), Color.white);
             }
-            else Die();
+            else Die(attacker);
+
+
+
+            // move to vfx manager later
+            Singleton.instance.SpawnPopUpText(contactPoint, dmg.ToString(), Color.white);
         }
     }
 
@@ -90,8 +100,9 @@ public class EnemyHurt : MonoBehaviour
         }
     }
 
-    void Die()
+    void Die(GameObject killer)
     {
+<<<<<<< HEAD
         GameEventSystem.current.enemyDeath(gameObject);
         
         Destroy(gameObject);
@@ -100,5 +111,8 @@ public class EnemyHurt : MonoBehaviour
     public void SpawnRagdoll()
     {
 
+=======
+        GameEventSystem.current.OnDeath(gameObject, killer);
+>>>>>>> main
     }
 }

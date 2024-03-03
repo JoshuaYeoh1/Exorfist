@@ -12,12 +12,20 @@ public class EnemySpawner : MonoBehaviour
         rotation = transform.rotation;
 
         //GameEventSystem.current.OnRoomEntered += SpawnEnemy;
+<<<<<<< HEAD
         GameEventSystem.current.OnRoomStateChanged += OnRoomStateChanged;
+=======
+        GameEventSystem.current.RoomStateChangedEvent += OnRoomStateChanged;
+>>>>>>> main
     }
 
     private void OnDestroy()
     {
+<<<<<<< HEAD
         GameEventSystem.current.OnRoomStateChanged -= OnRoomStateChanged;
+=======
+        GameEventSystem.current.RoomStateChangedEvent -= OnRoomStateChanged;
+>>>>>>> main
     }
 
     private void SpawnEnemy()

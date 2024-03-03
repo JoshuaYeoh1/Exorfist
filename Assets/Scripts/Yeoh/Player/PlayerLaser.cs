@@ -80,7 +80,11 @@ public class PlayerLaser : MonoBehaviour
 
     public void Release()
     {
+<<<<<<< HEAD
         Singleton.instance.HitStop();
+=======
+        Singleton.instance.HitStop(.05f, .1f);
+>>>>>>> main
 
         StartCoroutine(Sustaining());
     }
@@ -142,6 +146,11 @@ public class PlayerLaser : MonoBehaviour
     public void Finish()
     {
         player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Idle);
+<<<<<<< HEAD
+=======
+
+        player.anim.CrossFade("cancel", .25f, 2, 0);
+>>>>>>> main
     }
 
     IEnumerator Cooling()
@@ -159,9 +168,15 @@ public class PlayerLaser : MonoBehaviour
     {
         LeanTween.cancel(tweenFillLt);
         tweenFillLt = LeanTween.value(radialFill, to, time)
+<<<<<<< HEAD
                         .setEaseInOutSine()
                         .setOnUpdate( (float value)=>{radialFill=value;} )
                         .id;
+=======
+            .setEaseInOutSine()
+            .setOnUpdate( (float value)=>{radialFill=value;} )
+            .id;
+>>>>>>> main
     }
 
     public void Cancel()

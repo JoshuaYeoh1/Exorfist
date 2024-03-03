@@ -13,6 +13,7 @@ public class ClosestObjectFinder : MonoBehaviour
     [HideInInspector] public float defRange;
     
     void Awake()
+<<<<<<< HEAD
     {
         defRange=outerRange;
     }
@@ -38,6 +39,47 @@ public class ClosestObjectFinder : MonoBehaviour
         }
         else // if nothing is in range
         {
+=======
+    {
+        defRange=outerRange;
+    }
+
+    void OnEnable()
+    {
+        StartCoroutine(SlowUpdate());
+    }
+
+    IEnumerator SlowUpdate()
+    {
+        while(true)
+        {
+            ScanInnerRange();
+            ScanOuterRange();
+            CheckWhichTarget();
+
+            yield return new WaitForSeconds(.1f);
+        }
+    }
+
+    void CheckWhichTarget()
+    {
+        // prioritize the inner target
+        if(innerTarget) target = innerTarget;
+        else if(outerTarget) target = outerTarget;
+        else target=null;
+    }
+
+    void ScanInnerRange()
+    {
+        Collider[] targets =  Physics.OverlapSphere(transform.position, innerRange, layers);
+
+        if(targets.Length>0)
+        {
+            if(!innerTarget) innerTarget = GetClosestObject(targets);
+        }
+        else // if nothing is in range
+        {
+>>>>>>> main
             if(innerTarget) innerTarget=null; 
         }
 

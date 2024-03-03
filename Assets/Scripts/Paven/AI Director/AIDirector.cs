@@ -199,7 +199,11 @@ public class AIDirector : MonoBehaviour
         {
             if(GameEventSystem.current != null)
             {
+<<<<<<< HEAD
                 GameEventSystem.current.notifyRoomStateManager();
+=======
+                GameEventSystem.current.OnNotifyRoomStateManager();
+>>>>>>> main
             }
         }
     }
