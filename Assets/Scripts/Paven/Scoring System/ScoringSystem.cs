@@ -56,7 +56,7 @@ public class ScoringSystem : MonoBehaviour
     }
     private void IncreaseScoreParry(GameObject defender, GameObject attacker, Vector3 contactPoint, bool parry, bool broke)
     {
-        if(defender.tag!="Player" && !parry) return;
+        if(defender.tag!="Player" || !parry) return;
 
         score += parryIncrement * multiplier;
     }

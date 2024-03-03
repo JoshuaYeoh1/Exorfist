@@ -19,7 +19,12 @@ public class PlayerLook : MonoBehaviour
         block=GetComponent<PlayerBlock>();
     }
 
-    public void CheckLook()
+    void FixedUpdate()
+    {
+        CheckLook();
+    }
+
+    void CheckLook()
     {
         if(player.canTurn) CheckTurn();
     }
