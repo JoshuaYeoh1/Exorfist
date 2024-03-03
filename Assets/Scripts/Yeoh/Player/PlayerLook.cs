@@ -21,11 +21,6 @@ public class PlayerLook : MonoBehaviour
 
     void FixedUpdate()
     {
-        CheckLook();
-    }
-
-    void CheckLook()
-    {
         if(player.canTurn) CheckTurn();
     }
 
