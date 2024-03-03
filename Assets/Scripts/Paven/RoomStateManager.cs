@@ -130,7 +130,6 @@ public class RoomStateManager : MonoBehaviour
                         break;
                     }
                 }
-
                 if(AIDirector.instance.enemies.Count == 0)
                 {
                     UpdateRoomState(RoomState.Clear);

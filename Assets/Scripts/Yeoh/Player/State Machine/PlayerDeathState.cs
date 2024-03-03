@@ -24,6 +24,8 @@ public class PlayerDeathState : BaseState<PlayerStateMachine.PlayerStates>
         stateMachine.player.canStun=false;
 
         RandDeathAnim();
+
+        // move to vfx manager later
         Singleton.instance.SpawnPopUpText(stateMachine.player.popUpTextPos.position, "DEAD!", Color.red);
         //feedback.dieAnim(); // screen red
     }
