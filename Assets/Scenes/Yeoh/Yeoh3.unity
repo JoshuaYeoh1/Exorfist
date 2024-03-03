@@ -6096,7 +6096,7 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1368635061}
     m_Modifications:
-    - target: {fileID: -7983204403028912013, guid: 1cbc63bfcc3304d4d94fd56cd7a53e4b,
+    - target: {fileID: -7983204403028912013, guid: bf9086d29094ecb45aeadbfb9d13b329,
         type: 3}
       propertyPath: ragdollMass
       value: 0
@@ -6155,6 +6155,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Enemy Ragdoll (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: -7983204403028912013, guid: 1cbc63bfcc3304d4d94fd56cd7a53e4b,
+        type: 3}
+      propertyPath: ragdollMass
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
