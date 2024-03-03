@@ -13,8 +13,6 @@ public class PlayerHurt : MonoBehaviour
     public bool iframe;
     public float iframeTime=.5f;
 
-    public GameObject bloodVFXPrefab;
-
     void Awake()
     {
         player=GetComponent<Player>();
@@ -24,19 +22,15 @@ public class PlayerHurt : MonoBehaviour
         stun=GetComponent<PlayerStun>();
     }
 
-    public void Hurt(GameObject attacker, float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult=.3f, float stunTime=.5f)
+    public void Hit(float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult=.3f, float stunTime=.5f)
     {
         if(!iframe && player.isAlive && player.canHurt)
         {
-            DoIFraming(iframeTime, .5f, -.5f, -.5f); // flicker red
+            DoIFraming(iframeTime);
 
             Knockback(kbForce, contactPoint);
 
-<<<<<<< HEAD
             //Singleton.instance.PlaySFX(Singleton.instance.sfxSubwoofer, transform.position, false);
-=======
-            GameEventSystem.current.OnHurt(gameObject, attacker, dmg, kbForce, contactPoint, speedDebuffMult, stunTime);
->>>>>>> main
 
             hp.Hit(dmg);
 
@@ -48,27 +42,12 @@ public class PlayerHurt : MonoBehaviour
                 
                 // flash screen red
             }
-            else Die(attacker);
-
-
-
-
-
-            // move to vfx manager later
-            Singleton.instance.SpawnPopUpText(contactPoint, dmg.ToString(), Color.red);
-            Singleton.instance.CamShake();
-            Singleton.instance.HitStop();
-
-            GameObject blood = Instantiate(bloodVFXPrefab, contactPoint, Quaternion.identity);
-            blood.hideFlags = HideFlags.HideInHierarchy;
-
-            //Singleton.instance.PlaySFX(Singleton.instance.sfxSubwoofer, transform.position, false);
+            else Die();
         }
     }
 
-    public void DoIFraming(float t, float r, float g, float b)
+    public void DoIFraming(float t)
     {
-<<<<<<< HEAD
         StartCoroutine(IFraming(t));
     }
     IEnumerator IFraming(float t)
@@ -76,22 +55,10 @@ public class PlayerHurt : MonoBehaviour
         iframe=true;
 
         StartIFrameFlicker();
-=======
-        if(iFramingRt!=null) StopCoroutine(iFramingRt);
-        iFramingRt = StartCoroutine(IFraming(t, r, g, b));
-    }
-
-    Coroutine iFramingRt;
-    IEnumerator IFraming(float t, float r, float g, float b)
-    {
-        iframe=true;
-        StartIFrameFlicker(r, g, b);
->>>>>>> main
 
         yield return new WaitForSeconds(t);
 
         iframe=false;
-<<<<<<< HEAD
 
         StopIFrameFlicker();
     }
@@ -113,36 +80,10 @@ public class PlayerHurt : MonoBehaviour
         while(true)
         {
             color.OffsetColor(.5f, -.5f, -.5f);
-=======
-        StopIFrameFlicker();
-    }
-
-    void StartIFrameFlicker(float r, float g, float b)
-    {
-        if(iFrameFlickeringRt!=null) StopCoroutine(iFrameFlickeringRt);
-        iFrameFlickeringRt = StartCoroutine(IFrameFlickering(r, g, b));
-    }
-
-    Coroutine iFrameFlickeringRt;
-    IEnumerator IFrameFlickering(float r, float g, float b)
-    {
-        while(true)
-        {
-            color.OffsetColor(r, g, b);
->>>>>>> main
             yield return new WaitForSecondsRealtime(.05f);
             color.OffsetColor();
             yield return new WaitForSecondsRealtime(.05f);
         }
-<<<<<<< HEAD
-=======
-    }
-
-    void StopIFrameFlicker()
-    {
-        if(iFrameFlickeringRt!=null) StopCoroutine(iFrameFlickeringRt);
-        color.OffsetColor();
->>>>>>> main
     }
 
     public void Knockback(float force, Vector3 contactPoint)
@@ -157,11 +98,10 @@ public class PlayerHurt : MonoBehaviour
         }
     }
 
-    void Die(GameObject killer)
+    void Die()
     {
         player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Death);
 
-<<<<<<< HEAD
         RandDeathAnim();
 
         Singleton.instance.SpawnPopUpText(player.popUpTextPos.position, "DEAD!", Color.red);
@@ -186,8 +126,5 @@ public class PlayerHurt : MonoBehaviour
     void ReloadScene()
     {
         Singleton.instance.ReloadScene();
-=======
-        GameEventSystem.current.OnDeath(gameObject, killer);
->>>>>>> main
     }
 }

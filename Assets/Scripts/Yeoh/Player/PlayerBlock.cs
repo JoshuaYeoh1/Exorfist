@@ -6,18 +6,13 @@ public class PlayerBlock : MonoBehaviour
 {
     [HideInInspector] public Player player;
     PlayerMovement move;
-<<<<<<< HEAD
     [HideInInspector] public PlayerHurt hurt;
-=======
-    PlayerHurt hurt;
->>>>>>> main
     [HideInInspector] public OffsetMeshColor color;
     PlayerStun stun;
     [HideInInspector] public FlashSpriteVFX flash;
     [HideInInspector] public ShockwaveVFX shock;
     public PlayerBlockMeter meter;
     InputBuffer buffer;
-    public GameObject sparksVFXPrefab;
 
     public float blockCooldown=.5f, parryWindowTime=.2f, blockMoveSpeedMult=.3f, blockKnockbackResistMult=.3f;
     public float parryRefillPercent=33;
@@ -36,18 +31,6 @@ public class PlayerBlock : MonoBehaviour
         buffer=GetComponent<InputBuffer>();
     }
 
-<<<<<<< HEAD
-=======
-    void OnEnable()
-    {
-        GameEventSystem.current.HitEvent += CheckBlock;
-    }
-    void OnDisble()
-    {
-        GameEventSystem.current.HitEvent -= CheckBlock;
-    }
-
->>>>>>> main
     public bool pressingBtn;
 
     [HideInInspector] public bool canBlock=true;
@@ -118,56 +101,33 @@ public class PlayerBlock : MonoBehaviour
         canBlock=true;
     }
 
-    public void CheckBlock(GameObject attacker, GameObject victim, float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult, float stunTime)
+    public void CheckBlock(float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult, float stunTime)
     {
-<<<<<<< HEAD
         Singleton.instance.CamShake();
 
-=======
-        if(victim!=gameObject) return;
-        
->>>>>>> main
         if(isParrying)
         {
-            ParrySuccess(attacker, contactPoint);
-
-            SetBlockedPoint(contactPoint);
+            ParrySuccess(contactPoint);
         }
         else if(isBlocking)
         {
-<<<<<<< HEAD
             meter.Hit(dmg, kbForce, contactPoint);
-=======
-            meter.Hurt(attacker, dmg, kbForce, contactPoint);
-
-            SetBlockedPoint(contactPoint);
->>>>>>> main
         }
         else
         {
-            hurt.Hurt(attacker, dmg, kbForce, contactPoint, speedDebuffMult, stunTime);
-        }   
+            hurt.Hit(dmg, kbForce, contactPoint, speedDebuffMult, stunTime);
+        }        
     }
 
-    public void ParrySuccess(GameObject attacker, Vector3 contactPoint)
+    public void ParrySuccess(Vector3 contactPoint)
     {
         canBlock=true;
 
         meter.Refill(parryRefillPercent);
 
-<<<<<<< HEAD
         flash.SpawnFlash(contactPoint, Color.green);
-=======
-        PlaySparkVFX(contactPoint, Color.green);
->>>>>>> main
 
-        hurt.DoIFraming(hurt.iframeTime, -.5f, .5f, -.5f); // flicker green
-
-        GameEventSystem.current.OnBlock(gameObject, attacker, contactPoint, true, false);
-
-
-
-        // move to vfx manager later
+        color.FlashColor(.1f, -.5f, .5f, -.5f); // flash green
 
         Singleton.instance.SpawnPopUpText(player.popUpTextPos.position, "PARRY!", Color.green);
 
@@ -176,37 +136,8 @@ public class PlayerBlock : MonoBehaviour
         //Singleton.instance.HitStop(); // fucks up your timing
     }
 
-<<<<<<< HEAD
     void Update() // testing
     {
         if(Input.GetKeyDown(KeyCode.Delete)) CheckBlock(1, 1, transform.position, .3f, 1);
-=======
-    [HideInInspector] public Vector3 blockedPoint;
-
-    void SetBlockedPoint(Vector3 point)
-    {
-        if(settingBlockedPointRt!=null) StopCoroutine(settingBlockedPointRt);
-        settingBlockedPointRt=StartCoroutine(SettingBlockedPoint(point));
-    }
-    
-    Coroutine settingBlockedPointRt;
-    IEnumerator SettingBlockedPoint(Vector3 point)
-    {
-        blockedPoint = point;
-        yield return new WaitForSeconds(.25f);
-        blockedPoint = Vector3.zero;
-    }
-
-    public void PlaySparkVFX(Vector3 contactPoint, Color color)
-    {
-        flash.SpawnFlash(contactPoint, color);
-        GameObject spark = Instantiate(sparksVFXPrefab, contactPoint, Quaternion.identity);
-        spark.hideFlags = HideFlags.HideInHierarchy;
-    }
-
-    void Update() // testing
-    {
-        if(Input.GetKeyDown(KeyCode.Delete)) CheckBlock(null, gameObject, 10, 1, GetComponent<TopVertexFinder>().GetTopVertex(gameObject), .3f, 1);
->>>>>>> main
     }
 }

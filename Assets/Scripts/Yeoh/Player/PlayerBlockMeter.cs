@@ -6,17 +6,15 @@ public class PlayerBlockMeter : MonoBehaviour
 {
     HPManager hp;
     PlayerBlock block;
-    PlayerHurt hurt;
 
-    [HideInInspector] public bool regen;
-    public float regenCooldown=3;
+    [HideInInspector] public bool iframe, regen;
+    public float iframeTime=.3f, regenCooldown=3;
     public float blockBreakSpeedDebuffMult=.5f, blockBreakPenaltyStunTime=1;
 
     void Awake()
     {
         hp=GetComponent<HPManager>();
         block=transform.root.GetComponent<PlayerBlock>();
-        hurt=transform.root.GetComponent<PlayerHurt>();
     }
 
     void Update()
@@ -52,36 +50,25 @@ public class PlayerBlockMeter : MonoBehaviour
         hp.Add(hp.hpMax*percent/100);
     }
 
-<<<<<<< HEAD
     public void Hit(float dmg, float kbForce, Vector3 contactPoint)
-=======
-    public void Hurt(GameObject attacker, float dmg, float kbForce, Vector3 contactPoint)
->>>>>>> main
     {
-        if(!hurt.iframe)
+        if(!iframe)
         {
+            DoIFraming(iframeTime);
+
             hp.Hit(dmg);
 
             if(hp.hp>0) // if not empty yet
             {
-<<<<<<< HEAD
                 BlockHit(dmg, kbForce, contactPoint);
             }   
             else
             {
                 BlockBreak(dmg, kbForce, contactPoint);
-=======
-                BlockHit(attacker, dmg, kbForce, contactPoint);
-            }   
-            else
-            {
-                BlockBreak(attacker, dmg, kbForce, contactPoint);
->>>>>>> main
             }
         }        
     }
 
-<<<<<<< HEAD
     public void DoIFraming(float t)
     {
         StartCoroutine(iframing(t));
@@ -94,54 +81,29 @@ public class PlayerBlockMeter : MonoBehaviour
     }
 
     void BlockHit(float dmg, float kbForce, Vector3 contactPoint)
-=======
-    void BlockHit(GameObject attacker, float dmg, float kbForce, Vector3 contactPoint)
->>>>>>> main
     {
         block.canBlock=true;
 
         block.player.anim.CrossFade("block hit", .1f, 4, 0);
 
-        hurt.Knockback(kbForce*block.blockKnockbackResistMult, contactPoint);
+        block.hurt.Knockback(kbForce*block.blockKnockbackResistMult, contactPoint);
 
-        hurt.DoIFraming(hurt.iframeTime, -.5f, .5f, .5f); // flicker cyan
+        block.flash.SpawnFlash(contactPoint, Color.white);
 
-        GameEventSystem.current.OnBlock(block.gameObject, attacker, contactPoint, false, false);
-
-
-
-
-        // move to vfx manager later
-
-        block.PlaySparkVFX(contactPoint, Color.white);
+        block.color.FlashColor(.1f, .5f, .5f, .5f); // flash white
 
         Singleton.instance.SpawnPopUpText(contactPoint, dmg.ToString(), Color.cyan);
 
         //Singleton.instance.PlaySFX(Singleton.instance.sfxSubwoofer, transform.position, false);
     }
 
-<<<<<<< HEAD
     void BlockBreak(float dmg, float kbForce, Vector3 contactPoint)
     {
         block.Unblock();
         
         block.hurt.Hit(dmg*.5f, kbForce, contactPoint, blockBreakSpeedDebuffMult, blockBreakPenaltyStunTime);
-=======
-    void BlockBreak(GameObject attacker, float dmg, float kbForce, Vector3 contactPoint)
-    {
-        block.Unblock();
-        
-        hurt.Hurt(attacker, dmg*.5f, kbForce, contactPoint, blockBreakSpeedDebuffMult, blockBreakPenaltyStunTime);
->>>>>>> main
 
-        GameEventSystem.current.OnBlock(block.gameObject, attacker, contactPoint, false, true);
-
-
-
-
-        // move to vfx manager later
-
-        block.PlaySparkVFX(contactPoint, Color.red);
+        block.flash.SpawnFlash(contactPoint, Color.red);
 
         Singleton.instance.SpawnPopUpText(block.player.popUpTextPos.position, "bREAK!", Color.red);
 

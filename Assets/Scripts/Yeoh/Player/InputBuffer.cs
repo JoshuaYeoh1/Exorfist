@@ -8,19 +8,10 @@ public class InputBuffer : MonoBehaviour
     PlayerBlock block;
     PlayerAOE aoe;
     PlayerLaser laser;
-<<<<<<< HEAD
 
     public float inputBufferTime=.3f;
     
     [HideInInspector] public float lastPressedLightAttack=-1, lastPressedHeavyAttack=-1, lastPressedBlock=-1, lastPressedAOE=-1, lastPressedLaser=-1;
-=======
-    PlayerHeal heal;
-
-    public float inputBufferTime=.3f;
-    
-    [HideInInspector] public float lastPressedLightAttack=-1, lastPressedHeavyAttack=-1, lastPressedBlock=-1;
-    [HideInInspector] public float lastPressedAOE=-1, lastPressedLaser=-1, lastPressedHeal=-1;
->>>>>>> main
 
     void Awake()
     {
@@ -28,10 +19,6 @@ public class InputBuffer : MonoBehaviour
         block=GetComponent<PlayerBlock>();
         aoe=GetComponent<PlayerAOE>();
         laser=GetComponent<PlayerLaser>();
-<<<<<<< HEAD
-=======
-        heal=GetComponent<PlayerHeal>();
->>>>>>> main
     }
 
     void Update()
@@ -69,32 +56,18 @@ public class InputBuffer : MonoBehaviour
         lastPressedLaser = Time.time;
     }
 
-<<<<<<< HEAD
-=======
-    public void AOE()
-    {
-        lastPressedAOE = Time.time;
-    }
-    public void Laser()
-    {
-        lastPressedLaser = Time.time;
-    }
-    public void Heal()
-    {
-        lastPressedHeal = Time.time;
-    }
-
->>>>>>> main
     void CheckInputBuffer()
     {
         if(Time.time-lastPressedLightAttack < inputBufferTime)
         {
             combat.Attack("light");
         }
+
         if(Time.time-lastPressedHeavyAttack < inputBufferTime)
         {
             combat.Attack("heavy");
         }
+
         if(Time.time-lastPressedBlock < inputBufferTime)
         {
             block.Parry();
@@ -104,28 +77,17 @@ public class InputBuffer : MonoBehaviour
         {
             aoe.StartCast();
         }
-<<<<<<< HEAD
 
-=======
->>>>>>> main
         if(Time.time-lastPressedLaser < inputBufferTime)
         {
             laser.StartCast();
         }
-<<<<<<< HEAD
         
-=======
-        if(Time.time-lastPressedHeal < inputBufferTime)
-        {
-            heal.StartCast();
-        }
->>>>>>> main
     }
 
     void KeyboardInput()
     {
         if(Input.GetKeyDown(KeyCode.Space)) LightAttack();
-<<<<<<< HEAD
 
         if(Input.GetKeyDown(KeyCode.LeftAlt)) HeavyAttack();
 
@@ -136,15 +98,6 @@ public class InputBuffer : MonoBehaviour
         if(Input.GetKeyUp(KeyCode.Z)) AOE();
 
         if(Input.GetKeyUp(KeyCode.X)) Laser();
-=======
-        if(Input.GetKeyDown(KeyCode.LeftAlt)) HeavyAttack();
-        if(Input.GetKeyDown(KeyCode.Q)) BlockDown();
-        if(Input.GetKeyUp(KeyCode.Q)) BlockUp();
-
-        if(Input.GetKeyUp(KeyCode.Z)) AOE();
-        if(Input.GetKeyUp(KeyCode.X)) Laser();
-        if(Input.GetKeyUp(KeyCode.C)) Heal();
->>>>>>> main
     }
     
 }

@@ -16,10 +16,6 @@ public class PlayerMoveState : BaseState<PlayerStateMachine.PlayerStates>
         Debug.Log("Player state: " + stateMachine.GetCurrentState().StateKey);
 
         stateMachine.player.canMove=true;
-<<<<<<< HEAD
-=======
-        stateMachine.player.canTurn=true;
->>>>>>> main
         stateMachine.player.canAttack=true;
         stateMachine.player.canBlock=true;
         stateMachine.player.canCast=true;
@@ -35,11 +31,7 @@ public class PlayerMoveState : BaseState<PlayerStateMachine.PlayerStates>
 
     public override void FixedUpdateState()
     {
-<<<<<<< HEAD
         stateMachine.player.look.CheckLook();
-=======
-
->>>>>>> main
     }
 
     public override void ExitState()
@@ -62,7 +54,7 @@ public class PlayerMoveState : BaseState<PlayerStateMachine.PlayerStates>
 
     void CheckCombat()
     {
-        if(stateMachine.player.target)
+        if(stateMachine.player.finder.target)
         {
             stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Combat);
         }

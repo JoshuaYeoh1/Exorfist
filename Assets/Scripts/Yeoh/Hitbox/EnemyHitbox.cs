@@ -11,9 +11,8 @@ public class EnemyHitbox : BaseHitbox
 
     protected override void HandleTargetHit(Rigidbody otherRb)
     {
-        GameEventSystem.current.OnHit(owner, otherRb.gameObject, damage, knockback, contactPoint, speedDebuffMult, stunTime);
+        PlayerBlock block = otherRb.GetComponent<PlayerBlock>();
 
-<<<<<<< HEAD
         if(block)
         {
             block.CheckBlock(damage, knockback, contactPoint, speedDebuffMult, stunTime);
@@ -27,14 +26,5 @@ public class EnemyHitbox : BaseHitbox
         }
 
         hitmarker.SpawnHitmarker(contactPoint, Color.red);
-=======
-
-
-
-        // move to vfx manager later
-        hitmarker.SpawnHitmarker(contactPoint, Color.red);
-        GameObject impact = Instantiate(impactVFXPrefab, contactPoint, Quaternion.identity);
-        impact.hideFlags = HideFlags.HideInHierarchy;
->>>>>>> main
     }
 }
