@@ -14,5 +14,5 @@ public class AttackSO : ScriptableObject
 
     public int hitboxIndex=0;
 
-    public bool hasSweepingEdge, shake, hitstop, shockwave;
+    public bool hasSweepingEdge;
 }
