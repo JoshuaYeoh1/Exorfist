@@ -22,8 +22,14 @@ public class Ragdoller : MonoBehaviour
         rigColls = rigParent.GetComponentsInChildren<Collider>();
         rigRbs = rigParent.GetComponentsInChildren<Rigidbody>();
 
-        if(ragdollOnAwake) ToggleRagdoll(true);
-        else ToggleRagdoll(false);
+        ToggleRagdoll(ragdollOnAwake);
+    }
+
+    bool isRagdoll;
+
+    void FixedUpdate()
+    {
+        if(isRagdoll) AlignToRagdoll();
     }
 
     public void ToggleRagdoll(bool toggle=true)
@@ -44,7 +50,7 @@ public class Ragdoller : MonoBehaviour
             else rb.useGravity=false;
         }
 
-        if(!toggle) AlignToRagdoll();
+        isRagdoll=toggle;
     }
 
     void AlignToRagdoll()
