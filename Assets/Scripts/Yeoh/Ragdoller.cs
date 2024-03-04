@@ -25,13 +25,6 @@ public class Ragdoller : MonoBehaviour
         ToggleRagdoll(ragdollOnAwake);
     }
 
-    bool isRagdoll;
-
-    void FixedUpdate()
-    {
-        if(isRagdoll) AlignToRagdoll();
-    }
-
     public void ToggleRagdoll(bool toggle=true)
     {
         if(mainAnimator) mainAnimator.enabled=!toggle;
@@ -53,6 +46,13 @@ public class Ragdoller : MonoBehaviour
         isRagdoll=toggle;
     }
 
+    bool isRagdoll;
+
+    void LateUpdate()
+    {
+        if(isRagdoll) AlignToRagdoll();
+    }
+
     void AlignToRagdoll()
     {
         Vector3 originalHipsPos = rigHips.position; // world space
@@ -65,6 +65,17 @@ public class Ragdoller : MonoBehaviour
         if(Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit))
         {
             transform.position = new Vector3(transform.position.x, hit.point.y, transform.position.z);
+        }
+    }
+
+    public void PushRagdoll(float force, Vector3 contactPoint, float radiusMult=.5f)
+    {
+        if(isRagdoll)
+        {
+            foreach(Rigidbody rb in rigRbs)
+            {
+                rb.AddExplosionForce(force, contactPoint, force*radiusMult, 0, ForceMode.Impulse);
+            }
         }
     }
 }

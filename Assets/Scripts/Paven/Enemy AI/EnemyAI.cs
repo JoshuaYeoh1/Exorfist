@@ -173,7 +173,7 @@ public class EnemyAI : MonoBehaviour
 
     public GameObject ragdollPrefab;
 
-    void OnDeath(GameObject victim, GameObject killer)
+    void OnDeath(GameObject victim, GameObject killer, float dmg, float kbForce, Vector3 contactPoint)
     {
         if(victim!=gameObject) return;
 
@@ -183,7 +183,9 @@ public class EnemyAI : MonoBehaviour
         
         //Debug.Log($"{victim.name}: wtf {killer.name} is hacking!11!1!");
 
-        Instantiate(ragdollPrefab, transform.position, transform.rotation);
+        Ragdoller ragdoll = Instantiate(ragdollPrefab, transform.position, transform.rotation).GetComponent<Ragdoller>();
+
+        ragdoll.PushRagdoll(kbForce, contactPoint);
 
         Destroy(gameObject);
     }

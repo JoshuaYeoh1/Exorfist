@@ -73,7 +73,7 @@ public class ScoringSystem : MonoBehaviour
         score += hitIncrement * multiplier;
     }
 
-    private void IncreaseScoreKill(GameObject victim, GameObject killer)
+    private void IncreaseScoreKill(GameObject victim, GameObject killer, float dmg, float kbForce, Vector3 contactPoint)
     {
         if(killer.tag!="Player") return;
 
@@ -97,7 +97,7 @@ public class ScoringSystem : MonoBehaviour
         
     }
 
-    private void IncreaseMultiplier(GameObject victim, GameObject killer)
+    private void IncreaseMultiplier(GameObject victim, GameObject killer, float dmg, float kbForce, Vector3 contactPoint)
     {
         if(killer.tag!="Player") return;
         

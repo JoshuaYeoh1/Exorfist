@@ -54,7 +54,7 @@ public class GameStateManager : MonoBehaviour
         SpawnLosePopup();
     }
 
-    void OnPlayerDeath(GameObject victim, GameObject killer)
+    void OnPlayerDeath(GameObject victim, GameObject killer, float dmg, float kbForce, Vector3 contactPoint)
     {
         if(victim.tag=="Player") Invoke("SwitchLoseState", 3); // lose after 3 seconds
     }

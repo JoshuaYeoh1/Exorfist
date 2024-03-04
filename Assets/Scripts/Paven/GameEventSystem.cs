@@ -15,7 +15,7 @@ public class GameEventSystem : MonoBehaviour
     public event Action<GameObject> SpawnEvent;
     public event Action<GameObject, GameObject, float, float, Vector3, float, float> HitEvent;
     public event Action<GameObject, GameObject, float, float, Vector3, float, float> HurtEvent;
-    public event Action<GameObject, GameObject> DeathEvent;
+    public event Action<GameObject, GameObject, float, float, Vector3> DeathEvent;
     public event Action<GameObject, GameObject, Vector3, bool, bool> BlockEvent;
 
     public void OnSpawn(GameObject subject)
@@ -30,9 +30,9 @@ public class GameEventSystem : MonoBehaviour
     {
         HurtEvent?.Invoke(victim, attacker, dmg, kbForce, contactPoint, speedDebuffMult, stunTime); //Debug.Log($"{victim.name} was hurt by {attacker.name} for {dmg}");
     }
-    public void OnDeath(GameObject victim, GameObject killer)
+    public void OnDeath(GameObject victim, GameObject killer, float dmg, float kbForce, Vector3 contactPoint)
     {
-        DeathEvent?.Invoke(victim, killer); //Debug.Log($"{victim.name} was killed by {killer.name}");
+        DeathEvent?.Invoke(victim, killer, dmg, kbForce, contactPoint); //Debug.Log($"{victim.name} was killed by {killer.name}");
     }
     public void OnBlock(GameObject defender, GameObject attacker, Vector3 contactPoint, bool parry, bool broke)
     {
