@@ -5,12 +5,17 @@ using UnityEngine;
 public class ScoringSystem : MonoBehaviour
 {
     public int score;
-    int multiplier;
+    public int multiplier, multiplierMax;
 
     public int AttacksLanded, AttacksParried, AttacksReceived, AbilitiesUsed;
 
+    [Header("Score Values")]
     //==Score Values==//
-    [SerializeField] private int parryIncrement, hitIncrement, hurtDecrement, multiplierIncrement, enemyKillIncrement;
+    [SerializeField] private int parryIncrement;
+    [SerializeField] private int hitIncrement;
+    [SerializeField] private int hurtDecrement;
+    [SerializeField] private int multiplierIncrement;
+    [SerializeField] private int enemyKillIncrement;
     private GameObject scoreRankPopupPrefab;
 
     void Start()
@@ -73,26 +78,52 @@ public class ScoringSystem : MonoBehaviour
         if(killer.tag!="Player") return;
 
         score += enemyKillIncrement * multiplier;
+        
     }
 
     private void DecreaseScore(GameObject victim, GameObject attacker, float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult, float stunTime)
     {
         if(victim.tag!="Player") return;
 
-        score -= hurtDecrement;
+        int temp = score - hurtDecrement;
+        if(temp <= 0)
+        {
+            score = 0;
+        }
+        else
+        {
+            score = temp;
+        }
+        
     }
 
     private void IncreaseMultiplier(GameObject victim, GameObject killer)
     {
         if(killer.tag!="Player") return;
         
-        multiplier += multiplierIncrement;
+        int temp = multiplier + multiplierIncrement;
+        if(temp >= multiplierMax)
+        {
+            multiplier = multiplierMax;
+        }
+        else
+        {
+            multiplier = temp;
+        }
     }
 
     private void DecreaseMultiplier(GameObject victim, GameObject attacker, float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult, float stunTime)
     {
         if(victim.tag!="Player") return;
 
-        multiplier -= multiplierIncrement;
+        int temp = multiplier - multiplierIncrement;
+        if (temp <= 1)
+        {
+            multiplier = 1;
+        }
+        else
+        {
+            multiplier = temp;
+        }
     }
 }
