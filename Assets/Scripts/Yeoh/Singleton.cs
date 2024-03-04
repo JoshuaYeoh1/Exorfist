@@ -33,13 +33,13 @@ public class Singleton : MonoBehaviour
 
     void Update()
     {
-        UpdateFixedDeltaTime();
+        //UpdateFixedDeltaTime();
         UpdateReloadButton();
         //UpdateShuffleMusic();
         //UpdateShuffleAmbient();
     }
 
-    void UpdateFixedDeltaTime() // to fix physics stuttering
+    void UpdateFixedDeltaTime() // to fix physics stuttering // CAUSES RAGDOLLS TO FLY UP WHEN TWEENING TIME FAST
     {
         if(Time.timeScale==1)
         {
