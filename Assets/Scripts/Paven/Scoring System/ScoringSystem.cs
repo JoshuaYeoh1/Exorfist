@@ -5,7 +5,7 @@ using UnityEngine;
 public class ScoringSystem : MonoBehaviour
 {
     public int score;
-    int multiplier, multiplierMax;
+    public int multiplier, multiplierMax;
 
     public int AttacksLanded, AttacksParried, AttacksReceived, AbilitiesUsed;
 
