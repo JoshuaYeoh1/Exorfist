@@ -44,14 +44,11 @@ public class Ragdoller : MonoBehaviour
         }
 
         isRagdoll=toggle;
+
+        if(!toggle) AlignToRagdoll();
     }
 
     bool isRagdoll;
-
-    void LateUpdate()
-    {
-        if(isRagdoll) AlignToRagdoll();
-    }
 
     void AlignToRagdoll()
     {

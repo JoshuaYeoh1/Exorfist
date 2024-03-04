@@ -22,6 +22,7 @@ public class PlayerAttackState : BaseState<PlayerStateMachine.PlayerStates>
         stateMachine.player.canCast=false;
         stateMachine.player.canHurt=true;
         stateMachine.player.canStun=false; 
+        stateMachine.player.canTarget=false;
     }
 
     public override void UpdateState()

@@ -118,6 +118,8 @@ public class PlayerHurt : MonoBehaviour
 
     void Die(GameObject killer, float dmg, float kbForce, Vector3 contactPoint)
     {
+        color.OffsetColor();
+        
         player.CancelActions();
         
         player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Death);

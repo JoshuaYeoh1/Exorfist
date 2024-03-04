@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 
 public class ManualTarget : MonoBehaviour
 {
+    Player player;
     public GameObject target;
 
     public float maxRange=10;
@@ -17,9 +18,14 @@ public class ManualTarget : MonoBehaviour
     public float minSwipeDistance = 100; // distance for a tap to be considered a swipe
     public float minSwipeTime = 0.25f; // time for a tap to be considered a swipe
 
+    void Awake()
+    {
+        player=GetComponent<Player>();
+    }
+
     void Update()
     {
-        CheckInput();
+        if(player.canTarget) CheckInput();
         CheckOutOfRange();
     }
 
