@@ -108,13 +108,12 @@ public class PlayerAnim : MonoBehaviour
 
     public GameObject footstepLVfx, footstepRVfx;
     public Transform footstepLTr, footstepRTr;
-    // Time interval between footsteps
-    float footstepInterval=.1f;
-    float lastFootstepTime;
+    
+    float lastFootstepTime, footstepCooldown=.15f;
 
     public void AnimFootstep(string type="left")
     {
-        if(Time.time-lastFootstepTime > footstepInterval)
+        if(Time.time-lastFootstepTime > footstepCooldown)
         {
             lastFootstepTime = Time.time;
 
