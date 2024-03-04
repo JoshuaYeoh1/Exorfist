@@ -33,7 +33,7 @@ public class Cinetouch : MonoBehaviour
 
     void CheckRecenter()
     {
-        if(touchField.Pressed || player.target)
+        if(touchField.Pressed || player.target || player.move.dir!=Vector3.zero)
         {
             if(cineFreeLook.m_RecenterToTargetHeading.m_enabled)
             cineFreeLook.m_RecenterToTargetHeading.m_enabled=false;

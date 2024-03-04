@@ -11,7 +11,7 @@ public class Ragdoller : MonoBehaviour
     [Header("Skeleton")]
     public GameObject rigParent;
     public Transform rigHips;
-    public float ragdollMass=.1f;
+    public float ragdollMass=1;
     public bool ragdollOnAwake;
 
     Collider[] rigColls;
