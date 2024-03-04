@@ -391,7 +391,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: ade931e7daa81324fbd71da63bee5eba,
         type: 3}
       propertyPath: m_Name
-      value: Enemy Ragdoll
+      value: Enemy1 Ragdoll
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ade931e7daa81324fbd71da63bee5eba,
         type: 3}
@@ -726,6 +726,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: -7983204403028912013}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ade931e7daa81324fbd71da63bee5eba,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1394183794334858968}
     - targetCorrespondingSourceObject: {fileID: 6866880679909356167, guid: ade931e7daa81324fbd71da63bee5eba,
         type: 3}
       insertIndex: -1
@@ -1348,8 +1352,26 @@ MonoBehaviour:
   mainRb: {fileID: 0}
   rigParent: {fileID: 5486493928632695043}
   rigHips: {fileID: 746978173225422774}
-  ragdollMass: 0.1
+  ragdollMass: 1
   ragdollOnAwake: 1
+--- !u!114 &1394183794334858968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5486493928632695043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0511ce3607918149b2c28e2fbc804c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyOnStart: 1
+  minTime: 30
+  maxTime: 60
+  shrinkObjects:
+  - {fileID: 2282928506986657493}
+  shrinkTime: 0.5
 --- !u!1 &5703119986514719762 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1136901140795093056, guid: ade931e7daa81324fbd71da63bee5eba,

@@ -44,7 +44,7 @@ public class PlayerHurt : MonoBehaviour
                 
                 // flash screen red
             }
-            else Die(attacker);
+            else Die(attacker, dmg, kbForce, contactPoint);
 
 
 
@@ -116,10 +116,14 @@ public class PlayerHurt : MonoBehaviour
         }
     }
 
-    void Die(GameObject killer)
+    void Die(GameObject killer, float dmg, float kbForce, Vector3 contactPoint)
     {
+        color.OffsetColor();
+        
+        player.CancelActions();
+        
         player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Death);
 
-        GameEventSystem.current.OnDeath(gameObject, killer);
+        GameEventSystem.current.OnDeath(gameObject, killer, dmg, kbForce, contactPoint);
     }
 }

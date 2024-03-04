@@ -22,6 +22,7 @@ public class PlayerDeathState : BaseState<PlayerStateMachine.PlayerStates>
         stateMachine.player.canCast=false;
         stateMachine.player.canHurt=false;
         stateMachine.player.canStun=false;
+        stateMachine.player.canTarget=false;
 
         RandDeathAnim();
 

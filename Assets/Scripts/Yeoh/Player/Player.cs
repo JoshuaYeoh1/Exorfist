@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     public List<PlayerHitbox> hitboxes;
     public GameObject target;
 
-    public bool isAlive=true, isGrounded, canMove, canTurn, canAttack, canBlock, canCast, canHurt, canStun;
+    public bool isAlive=true, isGrounded, canMove, canTurn, canAttack, canBlock, canCast, canHurt, canStun, canTarget;
 
     void Awake()
     {
@@ -45,9 +45,16 @@ public class Player : MonoBehaviour
 
     void CheckTargetPriority()
     {
-        if(manual.target) target=manual.target;
-        else if(finder.target) target=finder.target;
-        else target=null;
+        if(canTarget)
+        {
+            if(manual.target) target=manual.target;
+            else if(finder.target) target=finder.target;
+            else target=null;
+        }
+        else
+        {
+            if(target) target=null;
+        }
     }
 
     public void CancelActions()

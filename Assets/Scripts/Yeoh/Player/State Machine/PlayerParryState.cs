@@ -17,10 +17,14 @@ public class PlayerParryState : BaseState<PlayerStateMachine.PlayerStates>
 
         stateMachine.player.canMove=true;
         stateMachine.player.canTurn=true;
+        stateMachine.player.canAttack=false;
         stateMachine.player.canBlock=true;
         stateMachine.player.canCast=false;
         stateMachine.player.canHurt=true;
         stateMachine.player.canStun=true; 
+        stateMachine.player.canTarget=true;
+
+        stateMachine.player.anim.SetBool("isBlocking", true);
     }
 
     public override void UpdateState()
@@ -35,7 +39,7 @@ public class PlayerParryState : BaseState<PlayerStateMachine.PlayerStates>
 
     public override void ExitState()
     {
-
+        stateMachine.player.anim.SetBool("isBlocking", false);
     }
 
     public override PlayerStateMachine.PlayerStates GetNextState() // Implement the logic to determine the next state from the this state

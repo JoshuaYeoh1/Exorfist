@@ -28,7 +28,7 @@ public class PlayerStun : MonoBehaviour
 
             player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Stun);
 
-            move.TweenSpeed(move.defMoveSpeed*speedDebuffMult);
+            move.TweenSpeedClamp(speedDebuffMult);
 
             StartCoroutine(RandStunAnim(stunTime));
 
@@ -42,12 +42,11 @@ public class PlayerStun : MonoBehaviour
         player.anim.SetFloat("stunSpeed", 1);
 
         int i = Random.Range(1, 16);
-
-        player.anim.Play("stun"+i, 4, 0);
+        player.anim.Play("stun"+i, 3, 0);
 
         yield return null; // Wait a frame to ensure the animation state is updated
 
-        float animLength = player.anim.GetCurrentAnimatorStateInfo(4).length;
+        float animLength = player.anim.GetCurrentAnimatorStateInfo(3).length;
 
         player.anim.SetFloat("stunSpeed", animLength/time);
     }
@@ -75,11 +74,11 @@ public class PlayerStun : MonoBehaviour
 
             stunned=false;
 
-            player.anim.CrossFade("cancel", .25f, 4, 0);
+            player.anim.CrossFade("cancel", .25f, 3, 0);
 
             CancelRecovering();
 
-            move.TweenSpeed(move.defMoveSpeed);
+            move.TweenSpeedClamp(1);
 
             player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Idle);
         }

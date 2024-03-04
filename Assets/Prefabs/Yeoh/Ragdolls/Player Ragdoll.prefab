@@ -306,6 +306,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 4919182659942961722}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 62df325f1989a60418bba676ae0927af,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -6250555913150914744}
     - targetCorrespondingSourceObject: {fileID: 1082271958561512970, guid: 62df325f1989a60418bba676ae0927af,
         type: 3}
       insertIndex: -1
@@ -562,8 +566,26 @@ MonoBehaviour:
   mainRb: {fileID: 0}
   rigParent: {fileID: 526825168870957034}
   rigHips: {fileID: 4635377002335430084}
-  ragdollMass: 0.1
+  ragdollMass: 1
   ragdollOnAwake: 1
+--- !u!114 &-6250555913150914744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526825168870957034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0511ce3607918149b2c28e2fbc804c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyOnStart: 1
+  minTime: 30
+  maxTime: 60
+  shrinkObjects:
+  - {fileID: 327568696545918129}
+  shrinkTime: 0.5
 --- !u!1 &689581916321325309 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -9070493210130169274, guid: 62df325f1989a60418bba676ae0927af,

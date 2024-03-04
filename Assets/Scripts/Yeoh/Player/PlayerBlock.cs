@@ -15,8 +15,8 @@ public class PlayerBlock : MonoBehaviour
     InputBuffer buffer;
     public GameObject sparksVFXPrefab;
 
-    public float blockCooldown=.5f, parryWindowTime=.2f, blockMoveSpeedMult=.3f, blockKnockbackResistMult=.3f;
-    public float parryRefillPercent=33;
+    public float blockCooldown=.5f, parryWindowTime=.2f, blockMoveSpeedMult=.5f, blockKnockbackResistMult=.5f;
+    public float parryRefillPercent=25;
     
     public bool isParrying, isBlocking;
 
@@ -57,20 +57,12 @@ public class PlayerBlock : MonoBehaviour
 
             StartCoroutine(Parrying());
 
-            RandParryAnim();
-
-            move.TweenSpeed(move.defMoveSpeed*blockMoveSpeedMult);
+            move.TweenSpeedClamp(blockMoveSpeedMult);
 
             player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Parry);
 
             buffer.lastPressedBlock=-1;
         }
-    }
-
-    void RandParryAnim()
-    {
-        int i = Random.Range(1, 3);
-        player.anim.CrossFade("parry"+i, .1f, 3, 0);
     }
 
     IEnumerator Parrying()
@@ -96,7 +88,7 @@ public class PlayerBlock : MonoBehaviour
     {
         isBlocking=false;
 
-        move.TweenSpeed(move.defMoveSpeed);
+        move.TweenSpeedClamp(1);
 
         if(!canBlock) StartCoroutine(BlockCoolingDown());
 
@@ -114,7 +106,8 @@ public class PlayerBlock : MonoBehaviour
     public void CheckBlock(GameObject attacker, GameObject victim, float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult, float stunTime)
     {
         if(victim!=gameObject) return;
-        
+        if(!player.isAlive) return;
+
         if(isParrying)
         {
             ParrySuccess(attacker, contactPoint);
@@ -136,6 +129,9 @@ public class PlayerBlock : MonoBehaviour
     public void ParrySuccess(GameObject attacker, Vector3 contactPoint)
     {
         canBlock=true;
+
+        int i = Random.Range(1,3);
+        player.anim.CrossFade("parry"+i, .1f, 3, 0);
 
         meter.Refill(parryRefillPercent);
 

@@ -36,7 +36,7 @@ public class EnemyHurt : MonoBehaviour
 
                 Singleton.instance.SpawnPopUpText(contactPoint, dmg.ToString(), Color.white);
             }
-            else Die(attacker);
+            else Die(attacker, dmg, kbForce, contactPoint);
 
 
 
@@ -97,8 +97,8 @@ public class EnemyHurt : MonoBehaviour
         }
     }
 
-    void Die(GameObject killer)
+    void Die(GameObject killer, float dmg, float kbForce, Vector3 contactPoint)
     {
-        GameEventSystem.current.OnDeath(gameObject, killer);
+        GameEventSystem.current.OnDeath(gameObject, killer, dmg, kbForce, contactPoint);
     }
 }

@@ -11,7 +11,7 @@ public class Ragdoller : MonoBehaviour
     [Header("Skeleton")]
     public GameObject rigParent;
     public Transform rigHips;
-    public float ragdollMass=.1f;
+    public float ragdollMass=1;
     public bool ragdollOnAwake;
 
     Collider[] rigColls;
@@ -22,8 +22,7 @@ public class Ragdoller : MonoBehaviour
         rigColls = rigParent.GetComponentsInChildren<Collider>();
         rigRbs = rigParent.GetComponentsInChildren<Rigidbody>();
 
-        if(ragdollOnAwake) ToggleRagdoll(true);
-        else ToggleRagdoll(false);
+        ToggleRagdoll(ragdollOnAwake);
     }
 
     public void ToggleRagdoll(bool toggle=true)
@@ -44,8 +43,12 @@ public class Ragdoller : MonoBehaviour
             else rb.useGravity=false;
         }
 
+        isRagdoll=toggle;
+
         if(!toggle) AlignToRagdoll();
     }
+
+    bool isRagdoll;
 
     void AlignToRagdoll()
     {
@@ -59,6 +62,17 @@ public class Ragdoller : MonoBehaviour
         if(Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit))
         {
             transform.position = new Vector3(transform.position.x, hit.point.y, transform.position.z);
+        }
+    }
+
+    public void PushRagdoll(float force, Vector3 contactPoint, float radiusMult=.5f)
+    {
+        if(isRagdoll)
+        {
+            foreach(Rigidbody rb in rigRbs)
+            {
+                rb.AddExplosionForce(force, contactPoint, force*radiusMult, 0, ForceMode.Impulse);
+            }
         }
     }
 }

@@ -22,6 +22,7 @@ public class PlayerBlockState : BaseState<PlayerStateMachine.PlayerStates>
         stateMachine.player.canCast=false;
         stateMachine.player.canHurt=true;
         stateMachine.player.canStun=true;
+        stateMachine.player.canTarget=true;
 
         stateMachine.player.anim.SetBool("isBlocking", true);
     }
