@@ -53,7 +53,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            target=null;
+            if(target) target=null;
         }
     }
 

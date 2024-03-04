@@ -13,6 +13,8 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed=10, acceleration=10, deceleration=10, velocity;
     [HideInInspector] public float defMoveSpeed;
 
+    [HideInInspector] public float speedClamp=1; // for modifiying move speed
+
     void Awake()
     {
         player=GetComponent<Player>();
@@ -27,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
         else NoInput();
     }
 
-    public void CheckInput()
+    void CheckInput()
     {
         if(joystick.Horizontal==0 && joystick.Vertical==0) // use keyboard wasd if joystick not touched
         {
@@ -39,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void NoInput()
+    void NoInput()
     {
         dir = Vector3.zero;
     }
@@ -52,15 +54,24 @@ public class PlayerMovement : MonoBehaviour
         camForward.y=0;
         camRight.y=0;
 
-        Move(dir.z, camForward.normalized);
-        Move(dir.x, camRight.normalized);
+        dir = new Vector3
+        (
+            Mathf.Clamp(dir.x*1.5f, -speedClamp, speedClamp),
+            0,
+            Mathf.Clamp(dir.z*1.5f, -speedClamp, speedClamp)
+        );
 
-        velocity = Mathf.Round(rb.velocity.magnitude*100)/100;
+        Move(dir.z, moveSpeed, camForward.normalized);
+        Move(dir.x, moveSpeed, camRight.normalized);
+
+        velocity = Round(rb.velocity.magnitude, 2);
     }
 
-    void Move(float magnitude, Vector3 direction)
+    void Move(float mult, float magnitude, Vector3 direction)
     {
-        float targetSpeed = magnitude * moveSpeed;
+        float _mult = Mathf.Clamp(mult, -1, 1);
+        
+        float targetSpeed = _mult * magnitude;
 
         float accelRate = Mathf.Abs(targetSpeed)>0 ? acceleration:deceleration; // use decelerate value if no input, and vice versa
     
@@ -71,13 +82,18 @@ public class PlayerMovement : MonoBehaviour
         rb.AddForce(direction * movement);
     }
 
-    int tweenSpeedLt=0;
-    public void TweenSpeed(float to, float time=.2f)
+    float Round(float num, int decimalPlaces)
     {
-        LeanTween.cancel(tweenSpeedLt);
-        tweenSpeedLt = LeanTween.value(moveSpeed, to, time)
+        return Mathf.Round(num * (10*decimalPlaces) ) / (10*decimalPlaces);
+    }
+
+    int tweenSpeedClampLt=0;
+    public void TweenSpeedClamp(float to, float time=.25f)
+    {
+        LeanTween.cancel(tweenSpeedClampLt);
+        tweenSpeedClampLt = LeanTween.value(speedClamp, to, time)
             .setEaseInOutSine()
-            .setOnUpdate( (float value)=>{moveSpeed=value;} )
+            .setOnUpdate( (float value)=>{speedClamp=value;} )
             .id;
     }
 

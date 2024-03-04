@@ -15,8 +15,8 @@ public class PlayerBlock : MonoBehaviour
     InputBuffer buffer;
     public GameObject sparksVFXPrefab;
 
-    public float blockCooldown=.5f, parryWindowTime=.2f, blockMoveSpeedMult=.3f, blockKnockbackResistMult=.3f;
-    public float parryRefillPercent=33;
+    public float blockCooldown=.5f, parryWindowTime=.2f, blockMoveSpeedMult=.5f, blockKnockbackResistMult=.5f;
+    public float parryRefillPercent=25;
     
     public bool isParrying, isBlocking;
 
@@ -59,7 +59,7 @@ public class PlayerBlock : MonoBehaviour
 
             RandParryAnim();
 
-            move.TweenSpeed(move.defMoveSpeed*blockMoveSpeedMult);
+            move.TweenSpeedClamp(blockMoveSpeedMult);
 
             player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Parry);
 
@@ -96,7 +96,7 @@ public class PlayerBlock : MonoBehaviour
     {
         isBlocking=false;
 
-        move.TweenSpeed(move.defMoveSpeed);
+        move.TweenSpeedClamp(1);
 
         if(!canBlock) StartCoroutine(BlockCoolingDown());
 

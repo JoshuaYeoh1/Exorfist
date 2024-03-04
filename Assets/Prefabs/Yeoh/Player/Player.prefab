@@ -1396,6 +1396,7 @@ MonoBehaviour:
   canCast: 0
   canHurt: 0
   canStun: 1
+  canTarget: 0
 --- !u!114 &5512939117858167407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1428,6 +1429,7 @@ MonoBehaviour:
   deceleration: 10
   velocity: 0
   defMoveSpeed: 0
+  speedClamp: 1
 --- !u!114 &2244908087550340203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1506,9 +1508,9 @@ MonoBehaviour:
     type: 3}
   blockCooldown: 0.5
   parryWindowTime: 0.2
-  blockMoveSpeedMult: 0.3
-  blockKnockbackResistMult: 0.3
-  parryRefillPercent: 33
+  blockMoveSpeedMult: 0.5
+  blockKnockbackResistMult: 0.5
+  parryRefillPercent: 25
   isParrying: 0
   isBlocking: 0
   pressingBtn: 0
@@ -9053,6 +9055,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Fixed Joystick
+      objectReference: {fileID: 0}
+    - target: {fileID: 2929252283123773951, guid: aaa2c939c0359ac4dbce3f49e8b90252,
+        type: 3}
+      propertyPath: handleRange
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2929252285020698103, guid: aaa2c939c0359ac4dbce3f49e8b90252,
         type: 3}
