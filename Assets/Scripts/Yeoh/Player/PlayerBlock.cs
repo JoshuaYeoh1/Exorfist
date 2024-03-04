@@ -57,20 +57,12 @@ public class PlayerBlock : MonoBehaviour
 
             StartCoroutine(Parrying());
 
-            RandParryAnim();
-
             move.TweenSpeedClamp(blockMoveSpeedMult);
 
             player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Parry);
 
             buffer.lastPressedBlock=-1;
         }
-    }
-
-    void RandParryAnim()
-    {
-        int i = Random.Range(1, 3);
-        player.anim.CrossFade("parry"+i, .1f, 3, 0);
     }
 
     IEnumerator Parrying()
@@ -137,6 +129,9 @@ public class PlayerBlock : MonoBehaviour
     public void ParrySuccess(GameObject attacker, Vector3 contactPoint)
     {
         canBlock=true;
+
+        int i = Random.Range(1,3);
+        player.anim.CrossFade("parry"+i, .1f, 3, 0);
 
         meter.Refill(parryRefillPercent);
 

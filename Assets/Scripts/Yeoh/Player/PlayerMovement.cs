@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -9,11 +10,12 @@ public class PlayerMovement : MonoBehaviour
 
     public FixedJoystick joystick;
     [HideInInspector] public Vector3 dir;
+    public float sensitivityFactor = 1.5f;
 
     public float moveSpeed=10, acceleration=10, deceleration=10, velocity;
-    [HideInInspector] public float defMoveSpeed;
 
-    [HideInInspector] public float speedClamp=1; // for modifiying move speed
+    [HideInInspector] public float defMoveSpeed;
+    [HideInInspector] public float speedClamp=1; // for speed debuffs
 
     void Awake()
     {
@@ -33,12 +35,21 @@ public class PlayerMovement : MonoBehaviour
     {
         if(joystick.Horizontal==0 && joystick.Vertical==0) // use keyboard wasd if joystick not touched
         {
-            dir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
+            dir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")) * sensitivityFactor;
         }
         else // use joystick
         {
-            dir = new Vector3(Mathf.Clamp(joystick.Horizontal, -1, 1), 0, Mathf.Clamp(joystick.Vertical, -1, 1));
+            dir = new Vector3(joystick.Horizontal, 0, joystick.Vertical) * sensitivityFactor;
         }
+
+        dir = new Vector3
+        (
+            Mathf.Clamp(dir.x, -speedClamp, speedClamp),
+            0,
+            Mathf.Clamp(dir.z, -speedClamp, speedClamp)
+        );
+
+        if(dir.magnitude>1) dir.Normalize(); // never go past 1 nor -1
     }
 
     void NoInput()
@@ -54,13 +65,6 @@ public class PlayerMovement : MonoBehaviour
         camForward.y=0;
         camRight.y=0;
 
-        dir = new Vector3
-        (
-            Mathf.Clamp(dir.x*1.5f, -speedClamp, speedClamp),
-            0,
-            Mathf.Clamp(dir.z*1.5f, -speedClamp, speedClamp)
-        );
-
         Move(dir.z, moveSpeed, camForward.normalized);
         Move(dir.x, moveSpeed, camRight.normalized);
 
@@ -69,9 +73,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Move(float mult, float magnitude, Vector3 direction)
     {
-        float _mult = Mathf.Clamp(mult, -1, 1);
-        
-        float targetSpeed = _mult * magnitude;
+        float targetSpeed = mult * magnitude;
 
         float accelRate = Mathf.Abs(targetSpeed)>0 ? acceleration:deceleration; // use decelerate value if no input, and vice versa
     
@@ -94,6 +96,16 @@ public class PlayerMovement : MonoBehaviour
         tweenSpeedClampLt = LeanTween.value(speedClamp, to, time)
             .setEaseInOutSine()
             .setOnUpdate( (float value)=>{speedClamp=value;} )
+            .id;
+    }
+
+    int tweenSpeedLt=0;
+    public void TweenSpeed(float to, float time=.25f)
+    {
+        LeanTween.cancel(tweenSpeedLt);
+        tweenSpeedLt = LeanTween.value(moveSpeed, to, time)
+            .setEaseInOutSine()
+            .setOnUpdate( (float value)=>{moveSpeed=value;} )
             .id;
     }
 

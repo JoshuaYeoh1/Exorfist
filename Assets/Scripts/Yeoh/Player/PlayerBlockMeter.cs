@@ -73,7 +73,7 @@ public class PlayerBlockMeter : MonoBehaviour
     {
         block.canBlock=true;
 
-        block.player.anim.CrossFade("block hit", .1f, 4, 0);
+        block.player.anim.CrossFade("block hit", .1f, 3, 0);
 
         hurt.Knockback(kbForce*block.blockKnockbackResistMult, contactPoint);
 
