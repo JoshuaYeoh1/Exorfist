@@ -433,7 +433,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1706477323322615841}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 27e7d5f616b93374eb4d90b373a11c6b, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1424,6 +1424,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   joystick: {fileID: 9181896772806400906}
   dir: {x: 0, y: 0, z: 0}
+  sensitivityFactor: 1.5
   moveSpeed: 5
   acceleration: 10
   deceleration: 10

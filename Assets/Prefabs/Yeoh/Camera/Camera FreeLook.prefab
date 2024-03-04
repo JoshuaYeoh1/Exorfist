@@ -139,7 +139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: 1, z: -4}
+  m_FollowOffset: {x: 0, y: 1.889143, z: -3.7388568}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -199,11 +199,11 @@ MonoBehaviour:
   m_HorizontalDamping: 0
   m_VerticalDamping: 0
   m_ScreenX: 0.5
-  m_ScreenY: 0.55
+  m_ScreenY: 0.5
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
-  m_SoftZoneWidth: 0.8
-  m_SoftZoneHeight: 0.8
+  m_SoftZoneWidth: 0
+  m_SoftZoneHeight: 0
   m_BiasX: 0
   m_BiasY: 0
   m_CenterOnActivate: 1
@@ -363,7 +363,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: 1, z: -4}
+  m_FollowOffset: {x: 0, y: 1.889143, z: -3.7388568}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -423,11 +423,11 @@ MonoBehaviour:
   m_HorizontalDamping: 0
   m_VerticalDamping: 0
   m_ScreenX: 0.5
-  m_ScreenY: 0.6
+  m_ScreenY: 0.5
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
-  m_SoftZoneWidth: 0.8
-  m_SoftZoneHeight: 0.8
+  m_SoftZoneWidth: 0
+  m_SoftZoneHeight: 0
   m_BiasX: 0
   m_BiasY: 0
   m_CenterOnActivate: 1
@@ -476,8 +476,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4316802121710213520}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.028831514, y: 1e-45, z: -0, w: 0.9995843}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.11647233, y: -0.0000000068357098, z: 8.016269e-10, w: 0.993194}
+  m_LocalPosition: {x: 0, y: -0.11085701, z: -0.7388568}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -680,7 +680,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: 1, z: -4}
+  m_FollowOffset: {x: 0, y: 1.889143, z: -3.7388568}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -743,8 +743,8 @@ MonoBehaviour:
   m_ScreenY: 0.5
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
-  m_SoftZoneWidth: 0.8
-  m_SoftZoneHeight: 0.8
+  m_SoftZoneWidth: 0
+  m_SoftZoneHeight: 0
   m_BiasX: 0
   m_BiasY: 0
   m_CenterOnActivate: 1
@@ -971,7 +971,7 @@ MonoBehaviour:
     m_Bias: 0
   m_RecenterToTargetHeading:
     m_enabled: 1
-    m_WaitTime: 5
+    m_WaitTime: 10
     m_RecenteringTime: 1
     m_LegacyHeadingDefinition: -1
     m_LegacyVelocityFilterStrength: -1
