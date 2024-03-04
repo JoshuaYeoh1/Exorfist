@@ -114,7 +114,8 @@ public class PlayerBlock : MonoBehaviour
     public void CheckBlock(GameObject attacker, GameObject victim, float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult, float stunTime)
     {
         if(victim!=gameObject) return;
-        
+        if(!player.isAlive) return;
+
         if(isParrying)
         {
             ParrySuccess(attacker, contactPoint);

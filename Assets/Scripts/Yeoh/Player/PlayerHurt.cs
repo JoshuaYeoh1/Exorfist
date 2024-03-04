@@ -118,6 +118,8 @@ public class PlayerHurt : MonoBehaviour
 
     void Die(GameObject killer)
     {
+        player.CancelActions();
+        
         player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Death);
 
         GameEventSystem.current.OnDeath(gameObject, killer);
