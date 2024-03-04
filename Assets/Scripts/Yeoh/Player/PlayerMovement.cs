@@ -42,14 +42,17 @@ public class PlayerMovement : MonoBehaviour
             dir = new Vector3(joystick.Horizontal, 0, joystick.Vertical) * sensitivityFactor;
         }
 
-        dir = new Vector3
-        (
-            Mathf.Clamp(dir.x, -speedClamp, speedClamp),
-            0,
-            Mathf.Clamp(dir.z, -speedClamp, speedClamp)
-        );
-
-        if(dir.magnitude>1) dir.Normalize(); // never go past 1 nor -1
+        if(dir.magnitude>1)
+        {
+            if(dir.magnitude>speedClamp)
+            {
+                dir = dir.normalized * speedClamp; // never go past the speed clamp
+            }
+            else
+            {
+                dir.Normalize(); // never go past 1
+            }
+        }
     }
 
     void NoInput()

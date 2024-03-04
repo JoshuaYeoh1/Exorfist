@@ -17,6 +17,7 @@ public class PlayerParryState : BaseState<PlayerStateMachine.PlayerStates>
 
         stateMachine.player.canMove=true;
         stateMachine.player.canTurn=true;
+        stateMachine.player.canAttack=false;
         stateMachine.player.canBlock=true;
         stateMachine.player.canCast=false;
         stateMachine.player.canHurt=true;
