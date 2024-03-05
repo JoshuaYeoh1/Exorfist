@@ -145,7 +145,7 @@ public class PlayerBlock : MonoBehaviour
 
         // move to vfx manager later
 
-        Singleton.instance.SpawnPopUpText(player.popUpTextPos.position, "PARRY!", Color.green);
+        VFXManager.current.SpawnPopUpText(ModelManager.current.GetTopVertex(gameObject), "PARRY!", Color.green);
 
         shock.SpawnShockwave(contactPoint, Color.green);
 

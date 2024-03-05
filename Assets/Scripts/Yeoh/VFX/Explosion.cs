@@ -8,9 +8,10 @@ public class Explosion : MonoBehaviour
     public float vfxScaleMult=5, blastRadius=10, blastForce=1000;
     public LayerMask blastLayerMask;
 
-    public void explode(Vector3 pos, float dmg=0)
+    public void Explode(Vector3 pos, float dmg=0)
     {
-        Singleton.instance.CamShake();
+        // move to vfx manager later
+        VFXManager.current.CamShake();
 
         //Singleton.instance.playSFX(Singleton.instance.sfxExplode, pos, false);
 

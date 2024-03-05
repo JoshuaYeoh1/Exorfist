@@ -8,7 +8,6 @@ public class PlayerHeal : MonoBehaviour
     Player player;
     InputBuffer buffer;
     HPManager hp;
-    MaterialManager matManager;
 
     [Header("Casting")]
     public GameObject castingBarPrefab;
@@ -36,7 +35,6 @@ public class PlayerHeal : MonoBehaviour
         player=GetComponent<Player>();
         buffer=GetComponent<InputBuffer>();
         hp=GetComponent<HPManager>();
-        matManager=GetComponent<MaterialManager>();
 
         defaultRegenHp = hp.regenHp;
     }
@@ -86,11 +84,11 @@ public class PlayerHeal : MonoBehaviour
 
     public void Release()
     {
+        DisableCastTrails();
+
         Heal();
 
         StartCoroutine(Cooling());
-
-        DisableCastTrails();
     }
 
     void Heal()
@@ -100,6 +98,7 @@ public class PlayerHeal : MonoBehaviour
 
     IEnumerator Healing()
     {
+        //move to vfx manager later
         GameObject shineVFX = Instantiate(shineVFXPrefab, transform.position, Quaternion.identity);
         shineVFX.hideFlags = HideFlags.HideInHierarchy;
         shineVFX.GetComponent<TransformConstraint>().constrainTo = transform;
@@ -108,13 +107,13 @@ public class PlayerHeal : MonoBehaviour
         healVfx.hideFlags = HideFlags.HideInHierarchy;
         healVfx.GetComponent<TransformConstraint>().constrainTo = transform;
 
-        matManager.AddMaterial(gameObject, healMeshEffectMaterial);
+        ModelManager.current.AddMaterial(player.playerModel, healMeshEffectMaterial);
 
         hp.regenHp = regenHp;
         yield return new WaitForSeconds(regenTime);
         hp.regenHp = defaultRegenHp;
         
-        matManager.RemoveMaterial(gameObject, healMeshEffectMaterial);
+        ModelManager.current.RemoveMaterial(player.playerModel, healMeshEffectMaterial);
     }
 
     public void Finish()

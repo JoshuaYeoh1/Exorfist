@@ -91,8 +91,9 @@ public class PlayerAOE : MonoBehaviour
         GameObject vfx = Instantiate(explodeVFXPrefab, new Vector3(transform.position.x, transform.position.y+.5f, transform.position.z), Quaternion.identity);
         vfx.hideFlags = HideFlags.HideInHierarchy;
 
-        Singleton.instance.CamShake(.5f, 3);
-        Singleton.instance.HitStop(.05f, .1f);
+        // move to vfx manager later
+        VFXManager.current.CamShake(.5f, 3);
+        VFXManager.current.HitStop(.05f, .1f);
     }
 
     public void Finish()

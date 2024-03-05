@@ -46,7 +46,6 @@ GameObject:
   - component: {fileID: 8253005447125524922}
   - component: {fileID: 3753510461481106077}
   - component: {fileID: 281896244590927958}
-  - component: {fileID: 971549034025179150}
   m_Layer: 6
   m_Name: Dummy
   m_TagString: Enemy
@@ -141,14 +140,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b325f17a717fac747a5bb520206579cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  regen: 1
-  regenWhenEmpty: 0
   hp: 100
   hpMax: 100
+  regen: 1
+  regenWhenEmpty: 0
   regenHp: 0.2
-  regenTime: 0.1
+  regenInterval: 0.1
   hpBarFill: {fileID: 0}
   hpBar: {fileID: 0}
+  hideWhenFull: 1
+  hideWhenEmpty: 0
+  animTime: 0.5
 --- !u!114 &3753510461481106077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,6 +166,7 @@ MonoBehaviour:
   hpBarPrefab: {fileID: 5717642537870264288, guid: 8b2d4d8157fbe7c4f99f028d046ea5a9,
     type: 3}
   hpBarPos: {fileID: 7270229012680952599}
+  floatingHpBar: {fileID: 0}
 --- !u!114 &281896244590927958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,26 +180,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iframeTime: 0.1
---- !u!114 &971549034025179150
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3060017891256492671}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c096602a1f9cb8241b6c9d9b422bd5cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skinsGroup: {fileID: 7454592635168668414}
-  rOffset: 0.5
-  gOffset: -0.5
-  bOffset: -0.5
-  ignoreEmission: 1
-  renderers: []
-  defaultColors: []
-  defaultEmissionColors: []
 --- !u!1 &7454592635168668414
 GameObject:
   m_ObjectHideFlags: 0

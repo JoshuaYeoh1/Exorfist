@@ -12,9 +12,11 @@ public class AbilityButtonToggle : MonoBehaviour
         group1.SetActive(false);
         group2.SetActive(true);
 
-        Singleton.instance.canHitStop=false;
+        // move to vfx manager later
+        VFXManager.current.canHitStop=false;
 
-        Singleton.instance.TweenTime(slowMoMult, .5f);
+        // move to vfx manager later
+        VFXManager.current.TweenTime(slowMoMult, .5f);
 
         slowMoCountdownRt = StartCoroutine(SlowMoCountdown());
     }
@@ -33,8 +35,8 @@ public class AbilityButtonToggle : MonoBehaviour
         group1.SetActive(true);
         group2.SetActive(false);
 
-        Singleton.instance.TweenTime(1, .5f);
-
-        Singleton.instance.canHitStop=true;
+        // move to vfx manager later
+        VFXManager.current.TweenTime(1, .5f);
+        VFXManager.current.canHitStop=true;
     }
 }

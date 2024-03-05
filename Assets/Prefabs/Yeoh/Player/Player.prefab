@@ -1290,7 +1290,6 @@ GameObject:
   - component: {fileID: 7906082315384302669}
   - component: {fileID: 7695876588906252273}
   - component: {fileID: 57049741627908832}
-  - component: {fileID: 1403923472445181540}
   - component: {fileID: 8034719047576138773}
   - component: {fileID: 2487589457156216308}
   - component: {fileID: 1393968799312164574}
@@ -1298,7 +1297,6 @@ GameObject:
   - component: {fileID: 4523561028378964419}
   - component: {fileID: 2603858391970205903}
   - component: {fileID: 1753989633400527595}
-  - component: {fileID: 7175919161133666863}
   - component: {fileID: 8706064815427648548}
   - component: {fileID: 7434681468493391431}
   - component: {fileID: 4809607273973910138}
@@ -1380,7 +1378,7 @@ MonoBehaviour:
   laser: {fileID: 0}
   heal: {fileID: 0}
   anim: {fileID: 6485826411355900930}
-  popUpTextPos: {fileID: 7365643284256535233}
+  playerModel: {fileID: 552171139824782530}
   hitboxes:
   - {fileID: 512069619029571770}
   - {fileID: 9988966597485364}
@@ -1556,26 +1554,6 @@ MonoBehaviour:
   iframeTime: 0.5
   bloodVFXPrefab: {fileID: 8143432443608686193, guid: e28eceefa8801bf42ba0b1d5f6ec5610,
     type: 3}
---- !u!114 &1403923472445181540
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4341965082236069434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c096602a1f9cb8241b6c9d9b422bd5cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skinsGroup: {fileID: 8553423591553744007}
-  rOffset: 0.5
-  gOffset: -0.5
-  bOffset: -0.5
-  ignoreEmission: 1
-  renderers: []
-  defaultColors: []
-  defaultEmissionColors: []
 --- !u!114 &8034719047576138773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1723,18 +1701,6 @@ MonoBehaviour:
     type: 2}
   radialBar: {fileID: 2577299336798274522}
   cooldown: 30
---- !u!114 &7175919161133666863
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4341965082236069434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ce21bb9cacba2345ab6755986d6c4e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8706064815427648548
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -7,7 +7,6 @@ public class RestartButton : MonoBehaviour
 {
     public void ReloadScene()
     {
-        if(!Singleton.instance.IsSceneMainMenu())
-        Singleton.instance.TransitionTo(SceneManager.GetActiveScene().name);
+        ScenesManager.current.ReloadScene();
     }
 }

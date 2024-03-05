@@ -8,7 +8,7 @@ public class GameEventSystem : MonoBehaviour
 
     void Awake()
     {
-        if(!current) GameEventSystem.current = this;
+        if(!current) current=this;
         else Destroy(gameObject);
     }
 

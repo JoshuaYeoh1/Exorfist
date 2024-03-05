@@ -6,7 +6,6 @@ public class PlayerHurt : MonoBehaviour
 {
     Player player;
     HPManager hp;
-    OffsetMeshColor color;
     Rigidbody rb;
     PlayerStun stun;
 
@@ -19,7 +18,6 @@ public class PlayerHurt : MonoBehaviour
     {
         player=GetComponent<Player>();
         hp=GetComponent<HPManager>();
-        color=GetComponent<OffsetMeshColor>();
         rb=GetComponent<Rigidbody>();
         stun=GetComponent<PlayerStun>();
     }
@@ -39,9 +37,8 @@ public class PlayerHurt : MonoBehaviour
             if(hp.hp>0) // if still alive
             {
                 stun.Stun(speedDebuffMult, stunTime);
-                
-                Singleton.instance.SpawnPopUpText(contactPoint, dmg.ToString(), Color.red);
-                
+
+                // move to vfx manager later   
                 // flash screen red
             }
             else Die(attacker, dmg, kbForce, contactPoint);
@@ -51,13 +48,14 @@ public class PlayerHurt : MonoBehaviour
 
 
             // move to vfx manager later
-            Singleton.instance.SpawnPopUpText(contactPoint, dmg.ToString(), Color.red);
-            Singleton.instance.CamShake();
-            Singleton.instance.HitStop();
+            VFXManager.current.SpawnPopUpText(contactPoint, dmg.ToString(), Color.red);
+            VFXManager.current.CamShake();
+            VFXManager.current.HitStop();
 
             GameObject blood = Instantiate(bloodVFXPrefab, contactPoint, Quaternion.identity);
             blood.hideFlags = HideFlags.HideInHierarchy;
 
+            // stay red screen
             //Singleton.instance.PlaySFX(Singleton.instance.sfxSubwoofer, transform.position, false);
         }
     }
@@ -91,9 +89,9 @@ public class PlayerHurt : MonoBehaviour
     {
         while(true)
         {
-            color.OffsetColor(r, g, b);
+            ModelManager.current.OffsetColor(gameObject, r, g, b);
             yield return new WaitForSecondsRealtime(.05f);
-            color.OffsetColor();
+            ModelManager.current.RevertColor(gameObject);
             yield return new WaitForSecondsRealtime(.05f);
         }
     }
@@ -101,7 +99,7 @@ public class PlayerHurt : MonoBehaviour
     void StopIFrameFlicker()
     {
         if(iFrameFlickeringRt!=null) StopCoroutine(iFrameFlickeringRt);
-        color.OffsetColor();
+        ModelManager.current.RevertColor(gameObject);
     }
 
     public void Knockback(float force, Vector3 contactPoint)
@@ -118,12 +116,12 @@ public class PlayerHurt : MonoBehaviour
 
     void Die(GameObject killer, float dmg, float kbForce, Vector3 contactPoint)
     {
-        color.OffsetColor();
+        ModelManager.current.RevertColor(gameObject);
         
         player.CancelActions();
-        
-        player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Death);
 
         GameEventSystem.current.OnDeath(gameObject, killer, dmg, kbForce, contactPoint);
+
+        player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Death);
     }
 }
