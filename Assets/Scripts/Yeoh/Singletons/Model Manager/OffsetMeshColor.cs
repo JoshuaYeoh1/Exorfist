@@ -32,7 +32,7 @@ public class OffsetMeshColor : MonoBehaviour
         }
     }
 
-    public void OffsetColor(float rOffset=0, float gOffset=0, float bOffset=0, bool eOffset=true)
+    public void OffsetColor(float rOffset=0, float gOffset=0, float bOffset=0, bool eOffset=false)
     {
         for(int j=0; j<renderers.Length; j++)
         {
@@ -60,26 +60,13 @@ public class OffsetMeshColor : MonoBehaviour
             }
         }
     }
-
-    Coroutine flashRt;
     
-    public void FlashColor(float time=.1f, bool eOffset=true)
-    {
-        if(flashRt!=null) StopCoroutine(flashRt);
-        flashRt = StartCoroutine(FlashingColor(time, eOffset));
-    }
-    IEnumerator FlashingColor(float t, bool e)
-    {
-        OffsetColor(rOffset, gOffset, bOffset, e);
-        yield return new WaitForSeconds(t);
-        OffsetColor();
-    }
-
     public void FlashColor(float time=.1f, float rOffset=0, float gOffset=0, float bOffset=0, bool eOffset=true)
     {
         if(flashRt!=null) StopCoroutine(flashRt);
         flashRt = StartCoroutine(FlashingColor(time, rOffset, gOffset, bOffset, eOffset));
     }
+    Coroutine flashRt;
     IEnumerator FlashingColor(float t, float r, float g, float b, bool e)
     {
         OffsetColor(r, g, b, e);

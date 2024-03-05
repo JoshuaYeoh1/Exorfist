@@ -5,7 +5,7 @@ using UnityEngine;
 public class SFXObject : MonoBehaviour
 {
     AudioSource source;
-    //float camRadiusX;
+    
     public bool randPitch=true, dynamics=true;
 
     void Awake()
@@ -21,6 +21,8 @@ public class SFXObject : MonoBehaviour
         if(dynamics) source.spatialBlend = 1;
         else source.spatialBlend = 0;
     }
+
+    //float camRadiusX;
 
     // void Update()
     // {

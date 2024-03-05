@@ -9,6 +9,7 @@ public class TestPopUpText : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.P)) Singleton.instance.SpawnPopUpText(tf.position, "YOOOO!", Color.red);
+        if(Input.GetKeyDown(KeyCode.P)) // move to vfx manager later
+        VFXManager.current.SpawnPopUpText(tf.position, "YOOOO!", Color.red);
     }
 }

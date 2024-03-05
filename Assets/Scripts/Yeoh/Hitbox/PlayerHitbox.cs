@@ -20,8 +20,8 @@ public class PlayerHitbox : BaseHitbox
 
 
         // move to vfx manager later
-        if(shake) Singleton.instance.CamShake();
-        if(hitstop) Singleton.instance.HitStop();
+        if(shake) VFXManager.current.CamShake();
+        if(hitstop) VFXManager.current.HitStop();
         if(shockwave) shock.SpawnShockwave(contactPoint, Color.white);
         hitmarker.SpawnHitmarker(contactPoint, Color.white);
         GameObject impact = Instantiate(impactVFXPrefab, contactPoint, Quaternion.identity);

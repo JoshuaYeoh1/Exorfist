@@ -312,6 +312,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onlyY: 0
+  fixedUpdate: 1
 --- !u!114 &5821905264687698104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -327,3 +328,4 @@ MonoBehaviour:
   animIn: 0.5
   animWait: 0.1
   animOut: 0.3
+  pushForce: {x: 2, y: 0, z: 2}

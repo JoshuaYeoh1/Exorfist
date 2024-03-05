@@ -6,8 +6,6 @@ using UnityEngine;
 public class TargetHighlighter : MonoBehaviour
 {
     Player player;
-    MaterialManager matManager;
-    TopVertexFinder topFinder;
 
     public Material outlineMaterial;
     public GameObject indicatorPrefab;
@@ -15,8 +13,6 @@ public class TargetHighlighter : MonoBehaviour
     void Awake()
     {
         player=GetComponent<Player>();
-        matManager=GetComponent<MaterialManager>();
-        topFinder=GetComponent<TopVertexFinder>();
     }
 
     GameObject target;
@@ -54,7 +50,7 @@ public class TargetHighlighter : MonoBehaviour
     {
         if(_target)
         {
-            matManager.AddMaterial(_target, outlineMaterial);
+            ModelManager.current.AddMaterial(_target, outlineMaterial);
 
             indicator=Instantiate(indicatorPrefab, _target.transform.position, Quaternion.identity);
             indicator.hideFlags = HideFlags.HideInHierarchy;
@@ -62,7 +58,7 @@ public class TargetHighlighter : MonoBehaviour
             indicatorTC = indicator.GetComponent<TransformConstraint>();
             indicatorTC.constrainTo = _target.transform;
 
-            topY = topFinder.GetTopVertex(_target).y - _target.transform.position.y;
+            topY = ModelManager.current.GetTopVertex(_target).y - _target.transform.position.y;
 
             indicatorSR = indicator.GetComponent<SpriteRenderer>();
         }
@@ -72,7 +68,7 @@ public class TargetHighlighter : MonoBehaviour
     {
         if(_target)
         {
-            matManager.RemoveMaterial(_target, outlineMaterial);
+            ModelManager.current.RemoveMaterial(_target, outlineMaterial);
         }
     }
 
@@ -104,7 +100,7 @@ public class TargetHighlighter : MonoBehaviour
 
         if(target)
         {
-            foreach(Material outlineMat in matManager.GetMaterials(target, outlineMaterial))
+            foreach(Material outlineMat in ModelManager.current.GetMaterials(target, outlineMaterial))
             {
                 if(outlineMat.color != newColor) outlineMat.color = newColor;
             }

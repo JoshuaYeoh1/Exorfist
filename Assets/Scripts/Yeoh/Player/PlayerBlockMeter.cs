@@ -88,7 +88,7 @@ public class PlayerBlockMeter : MonoBehaviour
 
         block.PlaySparkVFX(contactPoint, Color.white);
 
-        Singleton.instance.SpawnPopUpText(contactPoint, dmg.ToString(), Color.cyan);
+        VFXManager.current.SpawnPopUpText(contactPoint, dmg.ToString(), Color.cyan);
 
         //Singleton.instance.PlaySFX(Singleton.instance.sfxSubwoofer, transform.position, false);
     }
@@ -108,7 +108,7 @@ public class PlayerBlockMeter : MonoBehaviour
 
         block.PlaySparkVFX(contactPoint, Color.red);
 
-        Singleton.instance.SpawnPopUpText(block.player.popUpTextPos.position, "bREAK!", Color.red);
+        VFXManager.current.SpawnPopUpText(ModelManager.current.GetTopVertex(block.gameObject), "bREAK!", Color.red);
 
         block.shock.SpawnShockwave(contactPoint, Color.red);
 

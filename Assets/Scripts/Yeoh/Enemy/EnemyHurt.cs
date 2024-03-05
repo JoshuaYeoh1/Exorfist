@@ -5,7 +5,6 @@ using UnityEngine;
 public class EnemyHurt : MonoBehaviour
 {
     HPManager hp;
-    OffsetMeshColor color;
     Rigidbody rb;
 
     bool iframe;
@@ -14,7 +13,6 @@ public class EnemyHurt : MonoBehaviour
     void Awake()
     {
         hp=GetComponent<HPManager>();
-        color=GetComponent<OffsetMeshColor>();
         rb=GetComponent<Rigidbody>();
     }
 
@@ -22,7 +20,7 @@ public class EnemyHurt : MonoBehaviour
     {
         if(!iframe)
         {
-            DoIFraming(iframeTime);
+            DoIFraming(iframeTime, .5f, -.5f, -.5f); // flicker red
 
             Knockback(kbForce, contactPoint);
 
@@ -33,56 +31,56 @@ public class EnemyHurt : MonoBehaviour
             if(hp.hp>0) // if still alive
             {
                 //stun.Stun(speedDebuffMult, stunTime);
-
-                Singleton.instance.SpawnPopUpText(contactPoint, dmg.ToString(), Color.white);
             }
             else Die(attacker, dmg, kbForce, contactPoint);
 
 
 
             // move to vfx manager later
-            Singleton.instance.SpawnPopUpText(contactPoint, dmg.ToString(), Color.white);
+            VFXManager.current.SpawnPopUpText(contactPoint, dmg.ToString(), Color.white);
         }
     }
 
-    public void DoIFraming(float t)
+    public void DoIFraming(float t, float r, float g, float b)
     {
-        StartCoroutine(IFraming(t));
+        if(iFramingRt!=null) StopCoroutine(iFramingRt);
+        iFramingRt = StartCoroutine(IFraming(t, r, g, b));
     }
-    IEnumerator IFraming(float t)
+
+    Coroutine iFramingRt;
+    IEnumerator IFraming(float t, float r, float g, float b)
     {
         iframe=true;
-
-        StartIFrameFlicker();
+        StartIFrameFlicker(r, g, b);
 
         yield return new WaitForSeconds(t);
 
         iframe=false;
-
         StopIFrameFlicker();
     }
 
-    void StartIFrameFlicker()
+    void StartIFrameFlicker(float r, float g, float b)
     {
         if(iFrameFlickeringRt!=null) StopCoroutine(iFrameFlickeringRt);
-        iFrameFlickeringRt = StartCoroutine(IFrameFlickering());
-    }
-    void StopIFrameFlicker()
-    {
-        if(iFrameFlickeringRt!=null) StopCoroutine(iFrameFlickeringRt);
-        color.OffsetColor();
+        iFrameFlickeringRt = StartCoroutine(IFrameFlickering(r, g, b));
     }
 
     Coroutine iFrameFlickeringRt;
-    IEnumerator IFrameFlickering()
+    IEnumerator IFrameFlickering(float r, float g, float b)
     {
         while(true)
         {
-            color.OffsetColor(.5f, -.5f, -.5f);
+            ModelManager.current.OffsetColor(gameObject, r, g, b);
             yield return new WaitForSecondsRealtime(.05f);
-            color.OffsetColor();
+            ModelManager.current.RevertColor(gameObject);
             yield return new WaitForSecondsRealtime(.05f);
         }
+    }
+
+    void StopIFrameFlicker()
+    {
+        if(iFrameFlickeringRt!=null) StopCoroutine(iFrameFlickeringRt);
+        ModelManager.current.RevertColor(gameObject);
     }
 
     public void Knockback(float force, Vector3 contactPoint)
@@ -99,6 +97,8 @@ public class EnemyHurt : MonoBehaviour
 
     void Die(GameObject killer, float dmg, float kbForce, Vector3 contactPoint)
     {
+        ModelManager.current.RevertColor(gameObject);
+
         GameEventSystem.current.OnDeath(gameObject, killer, dmg, kbForce, contactPoint);
     }
 }

@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     [HideInInspector] public PlayerHeal heal;
     
     public Animator anim;
-    public Transform popUpTextPos;
+    public GameObject playerModel;
     public List<PlayerHitbox> hitboxes;
     public GameObject target;
 

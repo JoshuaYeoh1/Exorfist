@@ -33,12 +33,6 @@ public class ScoringSystem : MonoBehaviour
             GameEventSystem.current.HitEvent += IncreaseScoreHit;
             GameEventSystem.current.HurtEvent += DecreaseMultiplier;
             GameEventSystem.current.HurtEvent += DecreaseScore;
-            // GameEventSystem.current.OnPlayerParry += IncreaseScoreParry;
-            // GameEventSystem.current.OnEnemyDeath += IncreaseScoreKill;
-            // GameEventSystem.current.OnEnemyDeath += IncreaseMultiplier;
-            // GameEventSystem.current.OnPlayerHit += IncreaseScoreHit;
-            // GameEventSystem.current.OnPlayerHurt += DecreaseMultiplier;
-            // GameEventSystem.current.OnPlayerHurt += DecreaseScore;
         }
     }
     void OnDisable()
@@ -51,12 +45,6 @@ public class ScoringSystem : MonoBehaviour
             GameEventSystem.current.HitEvent -= IncreaseScoreHit;
             GameEventSystem.current.HurtEvent -= DecreaseMultiplier;
             GameEventSystem.current.HurtEvent -= DecreaseScore;
-            // GameEventSystem.current.OnPlayerParry -= IncreaseScoreParry;
-            // GameEventSystem.current.OnEnemyDeath -= IncreaseScoreKill;
-            // GameEventSystem.current.OnEnemyDeath -= IncreaseMultiplier;
-            // GameEventSystem.current.OnPlayerHit -= IncreaseScoreHit;
-            // GameEventSystem.current.OnPlayerHurt -= DecreaseMultiplier;
-            // GameEventSystem.current.OnPlayerHurt -= DecreaseScore;
         }
     }
     private void IncreaseScoreParry(GameObject defender, GameObject attacker, Vector3 contactPoint, bool parry, bool broke)
