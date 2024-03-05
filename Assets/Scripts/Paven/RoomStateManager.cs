@@ -30,13 +30,13 @@ public class RoomStateManager : MonoBehaviour
 
     void OnEnable()
     {
-        if(GameEventSystem.current != null)
+        if(GameEventSystem.Current != null)
         {
             Debug.Log("RoomStateManager event subscriptions initialized");
-            GameEventSystem.current.DeathEvent += OnEnemyDeath;
-            GameEventSystem.current.NotifyRoomStateManagerEvent += notifyRoomStateManager;
-            GameEventSystem.current.DoorTriggerEnterEvent += SetCurrentDoorTransform;
-            GameEventSystem.current.RoomEnterEvent += OnRoomEntered;
+            GameEventSystem.Current.DeathEvent += OnEnemyDeath;
+            GameEventSystem.Current.NotifyRoomStateManagerEvent += notifyRoomStateManager;
+            GameEventSystem.Current.DoorTriggerEnterEvent += SetCurrentDoorTransform;
+            GameEventSystem.Current.RoomEnterEvent += OnRoomEntered;
             
         }
         else
@@ -47,13 +47,13 @@ public class RoomStateManager : MonoBehaviour
     }
     void OnDisable()
     {
-        if (GameEventSystem.current != null)
+        if (GameEventSystem.Current != null)
         {
             Debug.Log("RoomStateManager event subscriptions initialized");
-            GameEventSystem.current.DeathEvent -= OnEnemyDeath;
-            GameEventSystem.current.NotifyRoomStateManagerEvent -= notifyRoomStateManager;
-            GameEventSystem.current.DoorTriggerEnterEvent -= SetCurrentDoorTransform;
-            GameEventSystem.current.RoomEnterEvent -= OnRoomEntered;
+            GameEventSystem.Current.DeathEvent -= OnEnemyDeath;
+            GameEventSystem.Current.NotifyRoomStateManagerEvent -= notifyRoomStateManager;
+            GameEventSystem.Current.DoorTriggerEnterEvent -= SetCurrentDoorTransform;
+            GameEventSystem.Current.RoomEnterEvent -= OnRoomEntered;
         }
     }
 
@@ -84,7 +84,7 @@ public class RoomStateManager : MonoBehaviour
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
         }
 
-        GameEventSystem.current?.OnRoomStateChange(newState);
+        GameEventSystem.Current?.OnRoomStateChange(newState);
     }
 
     private IEnumerator HandleStart()

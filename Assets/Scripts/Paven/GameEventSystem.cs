@@ -1,17 +1,9 @@
 using UnityEngine;
 using System;
 
-public class GameEventSystem : MonoBehaviour
+public class GameEventSystem : Monostate<GameEventSystem>
 {
-    //Static reference of the current game event system so that it can be accessed from anywhere in the game / project file.
-    public static GameEventSystem current;
-
-    void Awake()
-    {
-        if(!current) current=this;
-        else Destroy(gameObject);
-    }
-
+    //==Actor Related actions==//
     public event Action<GameObject> SpawnEvent;
     public event Action<GameObject, GameObject, float, float, Vector3, float, float> HitEvent;
     public event Action<GameObject, GameObject, float, float, Vector3, float, float> HurtEvent;

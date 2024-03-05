@@ -6,11 +6,11 @@ public class LoseStateButtons : MonoBehaviour
 {
     public void SingletonRestart()
     {
-        ScenesManager.current.ReloadScene();
+        ScenesManager.Current.ReloadScene();
     }
 
     public void QuitGame()
     {
-        ScenesManager.current.Quit();
+        ScenesManager.Current.Quit();
     }
 }

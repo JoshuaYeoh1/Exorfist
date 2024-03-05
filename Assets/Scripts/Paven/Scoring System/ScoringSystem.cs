@@ -25,26 +25,26 @@ public class ScoringSystem : MonoBehaviour
 
     void OnEnable()
     {
-        if(GameEventSystem.current)
+        if(GameEventSystem.Current)
         {
-            GameEventSystem.current.BlockEvent += IncreaseScoreParry;
-            GameEventSystem.current.DeathEvent += IncreaseScoreKill;
-            GameEventSystem.current.DeathEvent += IncreaseMultiplier;
-            GameEventSystem.current.HitEvent += IncreaseScoreHit;
-            GameEventSystem.current.HurtEvent += DecreaseMultiplier;
-            GameEventSystem.current.HurtEvent += DecreaseScore;
+            GameEventSystem.Current.BlockEvent += IncreaseScoreParry;
+            GameEventSystem.Current.DeathEvent += IncreaseScoreKill;
+            GameEventSystem.Current.DeathEvent += IncreaseMultiplier;
+            GameEventSystem.Current.HitEvent += IncreaseScoreHit;
+            GameEventSystem.Current.HurtEvent += DecreaseMultiplier;
+            GameEventSystem.Current.HurtEvent += DecreaseScore;
         }
     }
     void OnDisable()
     {
-        if(GameEventSystem.current)
+        if(GameEventSystem.Current)
         {
-            GameEventSystem.current.BlockEvent -= IncreaseScoreParry;
-            GameEventSystem.current.DeathEvent -= IncreaseScoreKill;
-            GameEventSystem.current.DeathEvent -= IncreaseMultiplier;
-            GameEventSystem.current.HitEvent -= IncreaseScoreHit;
-            GameEventSystem.current.HurtEvent -= DecreaseMultiplier;
-            GameEventSystem.current.HurtEvent -= DecreaseScore;
+            GameEventSystem.Current.BlockEvent -= IncreaseScoreParry;
+            GameEventSystem.Current.DeathEvent -= IncreaseScoreKill;
+            GameEventSystem.Current.DeathEvent -= IncreaseMultiplier;
+            GameEventSystem.Current.HitEvent -= IncreaseScoreHit;
+            GameEventSystem.Current.HurtEvent -= DecreaseMultiplier;
+            GameEventSystem.Current.HurtEvent -= DecreaseScore;
         }
     }
     private void IncreaseScoreParry(GameObject defender, GameObject attacker, Vector3 contactPoint, bool parry, bool broke)

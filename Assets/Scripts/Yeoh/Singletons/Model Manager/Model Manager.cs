@@ -2,16 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ModelManager : MonoBehaviour
+public class ModelManager : Monostate<ModelManager>
 {
-    public static ModelManager current;
-
-    void Awake()
-    {
-        if(!current) current=this;
-        else Destroy(gameObject);
-    }
-
     // GETTERS
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

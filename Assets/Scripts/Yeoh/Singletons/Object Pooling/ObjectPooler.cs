@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPooler : MonoBehaviour
+public class ObjectPooler : Monostate<ObjectPooler>
 {
     [System.Serializable]
     public class Pool
@@ -14,8 +14,6 @@ public class ObjectPooler : MonoBehaviour
         public IPooledObject pooledObject; // if it uses OnSpawnFromPool method from the interface
     }
 
-    public static ObjectPooler current;
-
     public bool hideObjectsInHierarchy=true;
 
     public List<Pool> poolList;
@@ -23,9 +21,6 @@ public class ObjectPooler : MonoBehaviour
 
     void Awake()
     {
-        if(!current) current=this;
-        else Destroy(gameObject);
-
         PreparePools();
     }
 

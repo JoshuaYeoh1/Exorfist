@@ -13,10 +13,8 @@ public enum Scenes // must be in the same order as in the build settings, and ca
     PoCScene,
 }
 
-public class ScenesManager : MonoBehaviour
+public class ScenesManager : Monostate<ScenesManager>
 {
-    public static ScenesManager current;
-
     public Animator transitionAnimator;
     public GameObject transitionCanvas;
     public CanvasGroup transitionCanvasGroup;
@@ -26,9 +24,6 @@ public class ScenesManager : MonoBehaviour
 
     void Awake()
     {
-        if(!current) current=this;
-        else Destroy(gameObject);
-
         AwakeTransition();
     }
 

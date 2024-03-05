@@ -92,8 +92,8 @@ public class PlayerAOE : MonoBehaviour
         vfx.hideFlags = HideFlags.HideInHierarchy;
 
         // move to vfx manager later
-        VFXManager.current.CamShake(.5f, 3);
-        VFXManager.current.HitStop(.05f, .1f);
+        VFXManager.Current.CamShake(.5f, 3);
+        VFXManager.Current.HitStop(.05f, .1f);
     }
 
     public void Finish()

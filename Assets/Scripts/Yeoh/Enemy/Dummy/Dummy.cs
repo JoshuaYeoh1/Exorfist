@@ -11,18 +11,18 @@ public class Dummy : MonoBehaviour
     {
         hurt=GetComponent<EnemyHurt>();
 
-        GameEventSystem.current.OnSpawn(gameObject);
+        GameEventSystem.Current.OnSpawn(gameObject);
     }
 
     void OnEnable()
     {
-        GameEventSystem.current.HitEvent += OnHit;
-        GameEventSystem.current.DeathEvent += OnDeath;
+        GameEventSystem.Current.HitEvent += OnHit;
+        GameEventSystem.Current.DeathEvent += OnDeath;
     }
     void OnDisable()
     {
-        GameEventSystem.current.HitEvent -= OnHit;
-        GameEventSystem.current.DeathEvent -= OnDeath;
+        GameEventSystem.Current.HitEvent -= OnHit;
+        GameEventSystem.Current.DeathEvent -= OnDeath;
     }
 
     void OnHit(GameObject attacker, GameObject victim, float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult=.3f, float stunTime=.5f)

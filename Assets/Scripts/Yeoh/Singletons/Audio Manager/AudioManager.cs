@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public class AudioManager : MonoBehaviour
+public class AudioManager : Monostate<AudioManager>
 {
-    public static AudioManager current;
-
     public AudioMixer mixer;
     public const string MASTER_KEY = "masterVolume";
     public const string MUSIC_KEY = "musicVolume";
@@ -22,9 +20,6 @@ public class AudioManager : MonoBehaviour
 
     void Awake()
     {
-        if(!current) current=this;
-        else Destroy(gameObject);
-
         LoadVolume();
         //AwakeAudio();
     }

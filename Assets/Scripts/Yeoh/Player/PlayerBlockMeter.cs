@@ -79,7 +79,7 @@ public class PlayerBlockMeter : MonoBehaviour
 
         hurt.DoIFraming(hurt.iframeTime, -.5f, .5f, .5f); // flicker cyan
 
-        GameEventSystem.current.OnBlock(block.gameObject, attacker, contactPoint, false, false);
+        GameEventSystem.Current.OnBlock(block.gameObject, attacker, contactPoint, false, false);
 
 
 
@@ -88,7 +88,7 @@ public class PlayerBlockMeter : MonoBehaviour
 
         block.PlaySparkVFX(contactPoint, Color.white);
 
-        VFXManager.current.SpawnPopUpText(contactPoint, dmg.ToString(), Color.cyan);
+        VFXManager.Current.SpawnPopUpText(contactPoint, dmg.ToString(), Color.cyan);
 
         //Singleton.instance.PlaySFX(Singleton.instance.sfxSubwoofer, transform.position, false);
     }
@@ -99,7 +99,7 @@ public class PlayerBlockMeter : MonoBehaviour
         
         hurt.Hurt(attacker, dmg*.5f, kbForce, contactPoint, blockBreakSpeedDebuffMult, blockBreakPenaltyStunTime);
 
-        GameEventSystem.current.OnBlock(block.gameObject, attacker, contactPoint, false, true);
+        GameEventSystem.Current.OnBlock(block.gameObject, attacker, contactPoint, false, true);
 
 
 
@@ -108,7 +108,7 @@ public class PlayerBlockMeter : MonoBehaviour
 
         block.PlaySparkVFX(contactPoint, Color.red);
 
-        VFXManager.current.SpawnPopUpText(ModelManager.current.GetTopVertex(block.gameObject), "bREAK!", Color.red);
+        VFXManager.Current.SpawnPopUpText(ModelManager.Current.GetTopVertex(block.gameObject), "bREAK!", Color.red);
 
         block.shock.SpawnShockwave(contactPoint, Color.red);
 

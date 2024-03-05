@@ -13,15 +13,15 @@ public class PlayerHitbox : BaseHitbox
 
     protected override void HandleTargetHit(Rigidbody otherRb)
     {
-        GameEventSystem.current.OnHit(owner, otherRb.gameObject, damage, knockback, contactPoint, speedDebuffMult, stunTime);
+        GameEventSystem.Current.OnHit(owner, otherRb.gameObject, damage, knockback, contactPoint, speedDebuffMult, stunTime);
 
         ToggleActive(hasSweepingEdge); // if can swipe through multiple
 
 
 
         // move to vfx manager later
-        if(shake) VFXManager.current.CamShake();
-        if(hitstop) VFXManager.current.HitStop();
+        if(shake) VFXManager.Current.CamShake();
+        if(hitstop) VFXManager.Current.HitStop();
         if(shockwave) shock.SpawnShockwave(contactPoint, Color.white);
         hitmarker.SpawnHitmarker(contactPoint, Color.white);
         GameObject impact = Instantiate(impactVFXPrefab, contactPoint, Quaternion.identity);
