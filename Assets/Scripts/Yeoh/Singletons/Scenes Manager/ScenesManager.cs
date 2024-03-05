@@ -5,15 +5,13 @@ using UnityEngine.SceneManagement;
 
 public enum Scenes // must be in the same order as in the build settings, and case sensitive
 {
-    MainMenu,
-    Level01,
-    Level02,
-    Level03,
     Yeoh3,
+    Yeoh2,
     PoCScene,
+    MainMenu,
 }
 
-public class ScenesManager : Monostate<ScenesManager>
+public class ScenesManager : MonoBehaviour
 {
     public Animator transitionAnimator;
     public GameObject transitionCanvas;
@@ -22,14 +20,20 @@ public class ScenesManager : Monostate<ScenesManager>
     public bool isTransitioning;
     int transitionTypes=1;
 
+    public static ScenesManager Current;
+
     void Awake()
     {
+        if(!Current) Current=this;
+
         AwakeTransition();
     }
 
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.R)) ReloadScene();
+        if(Input.GetKeyDown(KeyCode.KeypadPlus)) LoadNextScene();
+        if(Input.GetKeyDown(KeyCode.KeypadMinus)) LoadPrevScene();
     }
 
     void AwakeTransition()
@@ -67,11 +71,18 @@ public class ScenesManager : Monostate<ScenesManager>
         }
     }
 
-    public void TransitionTo(Scenes scene, bool anim=true)
+    public void TransitionTo(Scenes scene, bool anim = true)
     {
-        if(!isTransitioning) playingTransitionRt = StartCoroutine(TransitioningTo(scene, anim));
+        int sceneIndex = (int)scene;
+        TransitionTo(sceneIndex, anim);
     }
-    IEnumerator TransitioningTo(Scenes scene, bool anim)
+
+    public void TransitionTo(int sceneIndex, bool anim=true)
+    {
+        if(!isTransitioning) playingTransitionRt = StartCoroutine(TransitioningTo(sceneIndex, anim));
+    }
+
+    IEnumerator TransitioningTo(int sceneIndex, bool anim)
     {
         if(anim)
         {
@@ -81,7 +92,7 @@ public class ScenesManager : Monostate<ScenesManager>
             yield return new WaitForSecondsRealtime(GetTransitionLength());
         }
 
-        SceneManager.LoadScene(scene.ToString());
+        SceneManager.LoadScene(sceneIndex);
 
         if(anim) PlayTransition("in", Random.Range(1, transitionTypes+1));
 
@@ -111,25 +122,21 @@ public class ScenesManager : Monostate<ScenesManager>
 
     public void LoadNextScene()
     {
-        int nextSceneBuildIndex = SceneManager.GetActiveScene().buildIndex + 1;
+        int nextIndex = SceneManager.GetActiveScene().buildIndex + 1;
 
-        if(nextSceneBuildIndex < SceneManager.sceneCountInBuildSettings)
+        if(nextIndex < SceneManager.sceneCountInBuildSettings)
         {
-            string nextSceneName = SceneManager.GetSceneByBuildIndex(nextSceneBuildIndex).name;
-
-            TransitionTo(StringToEnum(nextSceneName));
+            TransitionTo(nextIndex);
         }
     }
 
-    public void LoadPreviousScene()
+    public void LoadPrevScene()
     {
-        int nextSceneBuildIndex = SceneManager.GetActiveScene().buildIndex - 1;
+        int prevIndex = SceneManager.GetActiveScene().buildIndex - 1;
 
-        if(nextSceneBuildIndex>=0)
+        if(prevIndex>=0)
         {
-            string nextSceneName = SceneManager.GetSceneByBuildIndex(nextSceneBuildIndex).name;
-
-            TransitionTo(StringToEnum(nextSceneName));
+            TransitionTo(prevIndex);
         }
     }
 

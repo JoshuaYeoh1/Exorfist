@@ -3,8 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class VFXManager : Monostate<VFXManager>
+public class VFXManager : MonoBehaviour
 {
+    public static VFXManager Current;
+
+    void Awake()
+    {
+        if(!Current) Current=this;
+    }
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public void CamShake(float time=.1f, float amp=1.5f, float freq=2)

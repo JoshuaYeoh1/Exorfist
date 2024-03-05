@@ -2,10 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Singleton : Monostate<Singleton>
+public class Singleton : MonoBehaviour
 {
+    public static Singleton Current;
+
     void Awake()
     {
+        if(!Current)
+        {
+            Current=this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else Destroy(gameObject);
+        
         Invoke("UnlockFPS", .1f);
     }
 

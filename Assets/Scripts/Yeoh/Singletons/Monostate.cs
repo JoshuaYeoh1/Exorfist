@@ -4,22 +4,15 @@ public class Monostate<T> : MonoBehaviour where T : MonoBehaviour
 {
     static T instance;
 
+    static bool isInitialized = false;
+
     public static T Current
     {
         get
         {
-            if(!instance)
+            if(!isInitialized)
             {
-                instance = FindObjectOfType<T>(); // Try to find an existing instance in the scene
-
-                if(!instance)
-                {
-                    GameObject singletonObject = new GameObject(typeof(T).Name); // Create a new GameObject to host the singleton instance
-
-                    instance = singletonObject.AddComponent<T>();
-
-                    //DontDestroyOnLoad(singletonObject);
-                }
+                InitializeSingleton();
             }
             return instance;
         }
@@ -27,21 +20,27 @@ public class Monostate<T> : MonoBehaviour where T : MonoBehaviour
 
     void Awake()
     {
+        if(!isInitialized)
+        {
+            InitializeSingleton();
+        }
+        else if(instance!=this)
+        {
+            Destroy(gameObject); // Destroy duplicate instances
+        }
+    }
+
+    static void InitializeSingleton()
+    {
+        instance = FindObjectOfType<T>();
+
         if(!instance)
         {
-            instance=this as T;
-            DontDestroyOnLoad(gameObject);
+            GameObject singletonObject = new GameObject(typeof(T).Name);
+            instance = singletonObject.AddComponent<T>();
+            DontDestroyOnLoad(singletonObject);
         }
-        else Destroy(gameObject);
 
-        // if(!instance)
-        // {
-        //     instance = this as T;
-        // }
-        // else
-        // {
-        //     if(instance!=this)
-        //         Destroy(gameObject);
-        // }
+        isInitialized = true;
     }
 }

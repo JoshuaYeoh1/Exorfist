@@ -2,8 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ModelManager : Monostate<ModelManager>
+public class ModelManager : MonoBehaviour
 {
+    public static ModelManager Current;
+
+    void Awake()
+    {
+        if(!Current) Current=this;
+    }
+
     // GETTERS
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

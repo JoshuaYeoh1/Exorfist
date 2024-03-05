@@ -1,8 +1,41 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System;
 
-public class GameEventSystem : Monostate<GameEventSystem>
+public class GameEventSystem : MonoBehaviour
 {
+    public static GameEventSystem Current;
+
+    void Awake()
+    {
+        if(Current != null && Current != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Current = this;
+        DontDestroyOnLoad(gameObject); // Persist across scene changes
+    }
+
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if(Current != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
+
     //==Actor Related actions==//
     public event Action<GameObject> SpawnEvent;
     public event Action<GameObject, GameObject, float, float, Vector3, float, float> HitEvent;

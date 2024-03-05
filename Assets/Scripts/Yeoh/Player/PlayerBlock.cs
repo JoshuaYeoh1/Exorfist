@@ -36,7 +36,7 @@ public class PlayerBlock : MonoBehaviour
     {
         GameEventSystem.Current.HitEvent += CheckBlock;
     }
-    void OnDisble()
+    void OnDisable()
     {
         GameEventSystem.Current.HitEvent -= CheckBlock;
     }

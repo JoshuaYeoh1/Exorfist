@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPooler : Monostate<ObjectPooler>
+public class ObjectPooler : MonoBehaviour
 {
     [System.Serializable]
     public class Pool
@@ -19,8 +19,12 @@ public class ObjectPooler : Monostate<ObjectPooler>
     public List<Pool> poolList;
     public Dictionary<string, Queue<GameObject>> poolDict;
 
+    public static ObjectPooler Current;
+
     void Awake()
     {
+        if(!Current) Current=this;
+
         PreparePools();
     }
 
