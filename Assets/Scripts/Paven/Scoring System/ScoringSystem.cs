@@ -25,28 +25,23 @@ public class ScoringSystem : MonoBehaviour
 
     void OnEnable()
     {
-        if(GameEventSystem.Current)
-        {
-            GameEventSystem.Current.BlockEvent += IncreaseScoreParry;
-            GameEventSystem.Current.DeathEvent += IncreaseScoreKill;
-            GameEventSystem.Current.DeathEvent += IncreaseMultiplier;
-            GameEventSystem.Current.HitEvent += IncreaseScoreHit;
-            GameEventSystem.Current.HurtEvent += DecreaseMultiplier;
-            GameEventSystem.Current.HurtEvent += DecreaseScore;
-        }
+        GameEventSystem.Current.BlockEvent += IncreaseScoreParry;
+        GameEventSystem.Current.DeathEvent += IncreaseScoreKill;
+        GameEventSystem.Current.DeathEvent += IncreaseMultiplier;
+        GameEventSystem.Current.HitEvent += IncreaseScoreHit;
+        GameEventSystem.Current.HurtEvent += DecreaseMultiplier;
+        GameEventSystem.Current.HurtEvent += DecreaseScore;
     }
     void OnDisable()
     {
-        if(GameEventSystem.Current)
-        {
-            GameEventSystem.Current.BlockEvent -= IncreaseScoreParry;
-            GameEventSystem.Current.DeathEvent -= IncreaseScoreKill;
-            GameEventSystem.Current.DeathEvent -= IncreaseMultiplier;
-            GameEventSystem.Current.HitEvent -= IncreaseScoreHit;
-            GameEventSystem.Current.HurtEvent -= DecreaseMultiplier;
-            GameEventSystem.Current.HurtEvent -= DecreaseScore;
-        }
+        GameEventSystem.Current.BlockEvent -= IncreaseScoreParry;
+        GameEventSystem.Current.DeathEvent -= IncreaseScoreKill;
+        GameEventSystem.Current.DeathEvent -= IncreaseMultiplier;
+        GameEventSystem.Current.HitEvent -= IncreaseScoreHit;
+        GameEventSystem.Current.HurtEvent -= DecreaseMultiplier;
+        GameEventSystem.Current.HurtEvent -= DecreaseScore;
     }
+    
     private void IncreaseScoreParry(GameObject defender, GameObject attacker, Vector3 contactPoint, bool parry, bool broke)
     {
         if(defender.tag!="Player" || !parry) return;

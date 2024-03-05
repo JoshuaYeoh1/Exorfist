@@ -4,20 +4,13 @@ using UnityEngine;
 
 public class EnterRoomPopup : MonoBehaviour
 {
-    private void Start()
+    void OnEnable()
     {
-        if(GameEventSystem.Current != null)
-        {
-            GameEventSystem.Current.RoomEnterEvent += ClosePopUp;
-        }
+        GameEventSystem.Current.RoomEnterEvent += ClosePopUp;
     }
-
-    private void OnDestroy()
+    void OnDisable()
     {
-        if (GameEventSystem.Current != null)
-        {
-            GameEventSystem.Current.RoomEnterEvent -= ClosePopUp;
-        }
+        GameEventSystem.Current.RoomEnterEvent -= ClosePopUp;
     }
 
     public void ClosePopUp()

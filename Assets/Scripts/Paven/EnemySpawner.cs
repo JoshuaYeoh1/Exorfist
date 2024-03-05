@@ -6,16 +6,18 @@ public class EnemySpawner : MonoBehaviour
     private Vector3 spawnPos;
     private Quaternion rotation;
 
-    private void Start()
+    void Start()
     {
         spawnPos = transform.position;
         rotation = transform.rotation;
+    }
 
+    void OnEnable()
+    {
         //GameEventSystem.Current.OnRoomEntered += SpawnEnemy;
         GameEventSystem.Current.RoomStateChangedEvent += OnRoomStateChanged;
     }
-
-    private void OnDestroy()
+    void OnDestroy()
     {
         GameEventSystem.Current.RoomStateChangedEvent -= OnRoomStateChanged;
     }

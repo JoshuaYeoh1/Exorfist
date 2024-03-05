@@ -30,31 +30,18 @@ public class RoomStateManager : MonoBehaviour
 
     void OnEnable()
     {
-        if(GameEventSystem.Current != null)
-        {
-            Debug.Log("RoomStateManager event subscriptions initialized");
-            GameEventSystem.Current.DeathEvent += OnEnemyDeath;
-            GameEventSystem.Current.NotifyRoomStateManagerEvent += notifyRoomStateManager;
-            GameEventSystem.Current.DoorTriggerEnterEvent += SetCurrentDoorTransform;
-            GameEventSystem.Current.RoomEnterEvent += OnRoomEntered;
-            
-        }
-        else
-        {
-            Debug.LogError("GameEventSystem not found in scene. Please add one in for the RoomStateManager to function properly.");
-        }
-        
+        Debug.Log("RoomStateManager event subscriptions initialized");
+        GameEventSystem.Current.DeathEvent += OnEnemyDeath;
+        GameEventSystem.Current.NotifyRoomStateManagerEvent += notifyRoomStateManager;
+        GameEventSystem.Current.DoorTriggerEnterEvent += SetCurrentDoorTransform;
+        GameEventSystem.Current.RoomEnterEvent += OnRoomEntered;
     }
     void OnDisable()
     {
-        if (GameEventSystem.Current != null)
-        {
-            Debug.Log("RoomStateManager event subscriptions initialized");
-            GameEventSystem.Current.DeathEvent -= OnEnemyDeath;
-            GameEventSystem.Current.NotifyRoomStateManagerEvent -= notifyRoomStateManager;
-            GameEventSystem.Current.DoorTriggerEnterEvent -= SetCurrentDoorTransform;
-            GameEventSystem.Current.RoomEnterEvent -= OnRoomEntered;
-        }
+        GameEventSystem.Current.DeathEvent -= OnEnemyDeath;
+        GameEventSystem.Current.NotifyRoomStateManagerEvent -= notifyRoomStateManager;
+        GameEventSystem.Current.DoorTriggerEnterEvent -= SetCurrentDoorTransform;
+        GameEventSystem.Current.RoomEnterEvent -= OnRoomEntered;
     }
 
     public void UpdateRoomState(RoomState newState)

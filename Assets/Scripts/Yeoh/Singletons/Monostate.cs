@@ -18,10 +18,30 @@ public class Monostate<T> : MonoBehaviour where T : MonoBehaviour
 
                     instance = singletonObject.AddComponent<T>();
 
-                    DontDestroyOnLoad(singletonObject);
+                    //DontDestroyOnLoad(singletonObject);
                 }
             }
             return instance;
         }
+    }
+
+    void Awake()
+    {
+        if(!instance)
+        {
+            instance=this as T;
+            DontDestroyOnLoad(gameObject);
+        }
+        else Destroy(gameObject);
+
+        // if(!instance)
+        // {
+        //     instance = this as T;
+        // }
+        // else
+        // {
+        //     if(instance!=this)
+        //         Destroy(gameObject);
+        // }
     }
 }
