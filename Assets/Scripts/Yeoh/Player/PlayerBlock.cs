@@ -34,11 +34,11 @@ public class PlayerBlock : MonoBehaviour
 
     void OnEnable()
     {
-        GameEventSystem.current.HitEvent += CheckBlock;
+        GameEventSystem.Current.HitEvent += CheckBlock;
     }
-    void OnDisble()
+    void OnDisable()
     {
-        GameEventSystem.current.HitEvent -= CheckBlock;
+        GameEventSystem.Current.HitEvent -= CheckBlock;
     }
 
     public bool pressingBtn;
@@ -139,13 +139,13 @@ public class PlayerBlock : MonoBehaviour
 
         hurt.DoIFraming(hurt.iframeTime, -.5f, .5f, -.5f); // flicker green
 
-        GameEventSystem.current.OnBlock(gameObject, attacker, contactPoint, true, false);
+        GameEventSystem.Current.OnBlock(gameObject, attacker, contactPoint, true, false);
 
 
 
         // move to vfx manager later
 
-        VFXManager.current.SpawnPopUpText(ModelManager.current.GetTopVertex(gameObject), "PARRY!", Color.green);
+        VFXManager.Current.SpawnPopUpText(ModelManager.Current.GetTopVertex(gameObject), "PARRY!", Color.green);
 
         shock.SpawnShockwave(contactPoint, Color.green);
 

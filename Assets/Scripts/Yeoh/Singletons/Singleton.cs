@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class Singleton : MonoBehaviour
 {
-    public static Singleton current;
+    public static Singleton Current;
 
     void Awake()
     {
-        if(!current)
+        if(!Current)
         {
-            current=this;
+            Current=this;
             DontDestroyOnLoad(gameObject);
         }
         else Destroy(gameObject);
-
+        
         Invoke("UnlockFPS", .1f);
     }
 

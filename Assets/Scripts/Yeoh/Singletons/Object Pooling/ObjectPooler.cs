@@ -14,17 +14,16 @@ public class ObjectPooler : MonoBehaviour
         public IPooledObject pooledObject; // if it uses OnSpawnFromPool method from the interface
     }
 
-    public static ObjectPooler current;
-
     public bool hideObjectsInHierarchy=true;
 
     public List<Pool> poolList;
     public Dictionary<string, Queue<GameObject>> poolDict;
 
+    public static ObjectPooler Current;
+
     void Awake()
     {
-        if(!current) current=this;
-        else Destroy(gameObject);
+        if(!Current) Current=this;
 
         PreparePools();
     }

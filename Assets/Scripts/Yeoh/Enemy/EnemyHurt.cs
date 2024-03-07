@@ -24,7 +24,7 @@ public class EnemyHurt : MonoBehaviour
 
             Knockback(kbForce, contactPoint);
 
-            GameEventSystem.current.OnHurt(gameObject, attacker, dmg, kbForce, contactPoint, speedDebuffMult, stunTime);
+            GameEventSystem.Current.OnHurt(gameObject, attacker, dmg, kbForce, contactPoint, speedDebuffMult, stunTime);
 
             hp.Hit(dmg);
 
@@ -37,7 +37,7 @@ public class EnemyHurt : MonoBehaviour
 
 
             // move to vfx manager later
-            VFXManager.current.SpawnPopUpText(contactPoint, dmg.ToString(), Color.white);
+            VFXManager.Current.SpawnPopUpText(contactPoint, dmg.ToString(), Color.white);
         }
     }
 
@@ -70,9 +70,9 @@ public class EnemyHurt : MonoBehaviour
     {
         while(true)
         {
-            ModelManager.current.OffsetColor(gameObject, r, g, b);
+            ModelManager.Current.OffsetColor(gameObject, r, g, b);
             yield return new WaitForSecondsRealtime(.05f);
-            ModelManager.current.RevertColor(gameObject);
+            ModelManager.Current.RevertColor(gameObject);
             yield return new WaitForSecondsRealtime(.05f);
         }
     }
@@ -80,7 +80,7 @@ public class EnemyHurt : MonoBehaviour
     void StopIFrameFlicker()
     {
         if(iFrameFlickeringRt!=null) StopCoroutine(iFrameFlickeringRt);
-        ModelManager.current.RevertColor(gameObject);
+        ModelManager.Current.RevertColor(gameObject);
     }
 
     public void Knockback(float force, Vector3 contactPoint)
@@ -97,8 +97,8 @@ public class EnemyHurt : MonoBehaviour
 
     void Die(GameObject killer, float dmg, float kbForce, Vector3 contactPoint)
     {
-        ModelManager.current.RevertColor(gameObject);
+        ModelManager.Current.RevertColor(gameObject);
 
-        GameEventSystem.current.OnDeath(gameObject, killer, dmg, kbForce, contactPoint);
+        GameEventSystem.Current.OnDeath(gameObject, killer, dmg, kbForce, contactPoint);
     }
 }

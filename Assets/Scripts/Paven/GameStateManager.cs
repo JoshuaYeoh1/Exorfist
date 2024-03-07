@@ -16,11 +16,11 @@ public class GameStateManager : MonoBehaviour
 
     void OnEnable()
     {
-        GameEventSystem.current.DeathEvent += OnPlayerDeath;
+        GameEventSystem.Current.DeathEvent += OnPlayerDeath;
     }
     void OnDisable()
     {
-        GameEventSystem.current.DeathEvent -= OnPlayerDeath;
+        GameEventSystem.Current.DeathEvent -= OnPlayerDeath;
     }
 
     public void UpdateGameState(GameState newState)
@@ -46,7 +46,7 @@ public class GameStateManager : MonoBehaviour
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
         }
         //Invoke and notify observers 
-        GameEventSystem.current?.OnGameStateChange(newState);
+        GameEventSystem.Current?.OnGameStateChange(newState);
     }
 
     private void HandleLose()

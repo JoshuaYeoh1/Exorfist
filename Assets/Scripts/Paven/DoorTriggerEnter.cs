@@ -6,15 +6,15 @@ public class DoorTriggerEnter : MonoBehaviour
     private GameObject popUpPrefabRef;
     public Transform currentRoomTransform;
 
-    private void Start()
+    void OnEnable()
     {
-        GameEventSystem.current.RoomEnterEvent += OnRoomEnter;
+        GameEventSystem.Current.RoomEnterEvent += OnRoomEnter;
+    }
+    void OnDisable()
+    {
+        GameEventSystem.Current.RoomEnterEvent -= OnRoomEnter;
     }
 
-    private void OnDestroy()
-    {
-        GameEventSystem.current.RoomEnterEvent -= OnRoomEnter;
-    }
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("Trigger enter");
@@ -49,6 +49,6 @@ public class DoorTriggerEnter : MonoBehaviour
 
     private void OnDoorTriggerEnter()
     {
-        GameEventSystem.current.OnDoorTriggerEnter(currentRoomTransform);
+        GameEventSystem.Current.OnDoorTriggerEnter(currentRoomTransform);
     }
 }

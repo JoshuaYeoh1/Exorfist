@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class ModelManager : MonoBehaviour
 {
-    public static ModelManager current;
+    public static ModelManager Current;
 
     void Awake()
     {
-        if(!current) current=this;
-        else Destroy(gameObject);
+        if(!Current) Current=this;
     }
 
     // GETTERS
@@ -165,7 +164,7 @@ public class ModelManager : MonoBehaviour
     {
         foreach(Material material in GetMaterials(target))
         {
-            if(!originalColors.ContainsKey(material))
+            if(material.HasProperty("_Color") && !originalColors.ContainsKey(material))
             {
                 originalColors[material] = material.color;
             }
@@ -185,7 +184,10 @@ public class ModelManager : MonoBehaviour
 
         foreach(Material material in GetMaterials(target))
         {
-            material.color += colorOffset;
+            if(material.HasProperty("_Color"))
+            {
+                material.color += colorOffset;
+            }
 
             if(material.HasProperty("_EmissionColor"))
             {
@@ -196,20 +198,30 @@ public class ModelManager : MonoBehaviour
 
     public void RevertColor(GameObject target)
     {
+        List<Material> materialsToRevert = new List<Material>(); // new list
+
         foreach(Material material in GetMaterials(target))
         {
-            if(originalColors.ContainsKey(material))
+            if(originalColors.ContainsKey(material) || originalEmissionColors.ContainsKey(material))
+            {
+                materialsToRevert.Add(material); // Add materials to the list for reverting
+            }
+        }
+
+        foreach(Material material in materialsToRevert)
+        {
+            if(material.HasProperty("_Color") && originalColors.ContainsKey(material))
             {
                 material.color = originalColors[material];
 
                 originalColors.Remove(material); // clean up
+            }
+            
+            if(material.HasProperty("_EmissionColor") && originalEmissionColors.ContainsKey(material))
+            {
+                material.SetColor("_EmissionColor", originalEmissionColors[material]);
 
-                if(material.HasProperty("_EmissionColor") && originalEmissionColors.ContainsKey(material))
-                {
-                    material.SetColor("_EmissionColor", originalEmissionColors[material]);
-
-                    originalEmissionColors.Remove(material); //clean up
-                }
+                originalEmissionColors.Remove(material); //clean up
             }
         }
     }

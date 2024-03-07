@@ -5,8 +5,6 @@ using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager current;
-
     public AudioMixer mixer;
     public const string MASTER_KEY = "masterVolume";
     public const string MUSIC_KEY = "musicVolume";
@@ -18,12 +16,13 @@ public class AudioManager : MonoBehaviour
     public AudioClip[] defaultAmbients;
 
     AudioClip[] currentMusics;
-    AudioClip[] currentAmbients; 
+    AudioClip[] currentAmbients;
+
+    public static AudioManager Current;
 
     void Awake()
     {
-        if(!current) current=this;
-        else Destroy(gameObject);
+        if(!Current) Current=this;
 
         LoadVolume();
         //AwakeAudio();

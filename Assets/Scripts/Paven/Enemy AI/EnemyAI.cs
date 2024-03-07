@@ -78,7 +78,7 @@ public class EnemyAI : MonoBehaviour
         sm = GetComponent<EnemyAIStateMachine>();
         hurt = GetComponent<EnemyHurt>();
 
-        GameEventSystem.current.OnSpawn(gameObject);
+        GameEventSystem.Current.OnSpawn(gameObject);
     }
 
     void Start()
@@ -91,17 +91,17 @@ public class EnemyAI : MonoBehaviour
 
     void OnEnable()
     {
-        GameEventSystem.current.HitEvent += OnHit;
-        GameEventSystem.current.HurtEvent += OnHurt;
-        GameEventSystem.current.BlockEvent += OnParried;
-        GameEventSystem.current.DeathEvent += OnDeath;
+        GameEventSystem.Current.HitEvent += OnHit;
+        GameEventSystem.Current.HurtEvent += OnHurt;
+        GameEventSystem.Current.BlockEvent += OnParried;
+        GameEventSystem.Current.DeathEvent += OnDeath;
     }
     void OnDisable()
     {
-        GameEventSystem.current.HitEvent -= OnHit;
-        GameEventSystem.current.HurtEvent -= OnHurt;
-        GameEventSystem.current.BlockEvent -= OnParried;
-        GameEventSystem.current.DeathEvent -= OnDeath;
+        GameEventSystem.Current.HitEvent -= OnHit;
+        GameEventSystem.Current.HurtEvent -= OnHurt;
+        GameEventSystem.Current.BlockEvent -= OnParried;
+        GameEventSystem.Current.DeathEvent -= OnDeath;
     }
 
     void Update()

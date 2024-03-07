@@ -11,7 +11,7 @@ public class EnemyHitbox : BaseHitbox
 
     protected override void HandleTargetHit(Rigidbody otherRb)
     {
-        GameEventSystem.current.OnHit(owner, otherRb.gameObject, damage, knockback, contactPoint, speedDebuffMult, stunTime);
+        GameEventSystem.Current.OnHit(owner, otherRb.gameObject, damage, knockback, contactPoint, speedDebuffMult, stunTime);
 
 
 

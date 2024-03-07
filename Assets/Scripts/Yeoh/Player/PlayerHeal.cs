@@ -107,13 +107,13 @@ public class PlayerHeal : MonoBehaviour
         healVfx.hideFlags = HideFlags.HideInHierarchy;
         healVfx.GetComponent<TransformConstraint>().constrainTo = transform;
 
-        ModelManager.current.AddMaterial(player.playerModel, healMeshEffectMaterial);
+        ModelManager.Current.AddMaterial(player.playerModel, healMeshEffectMaterial);
 
         hp.regenHp = regenHp;
         yield return new WaitForSeconds(regenTime);
         hp.regenHp = defaultRegenHp;
         
-        ModelManager.current.RemoveMaterial(player.playerModel, healMeshEffectMaterial);
+        ModelManager.Current.RemoveMaterial(player.playerModel, healMeshEffectMaterial);
     }
 
     public void Finish()

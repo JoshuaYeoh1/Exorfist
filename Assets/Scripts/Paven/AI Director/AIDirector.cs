@@ -197,9 +197,9 @@ public class AIDirector : MonoBehaviour
 
         if(enemies.Count == 0)
         {
-            if(GameEventSystem.current != null)
+            if(GameEventSystem.Current != null)
             {
-                GameEventSystem.current.OnNotifyRoomStateManager();
+                GameEventSystem.Current.OnNotifyRoomStateManager();
             }
         }
     }

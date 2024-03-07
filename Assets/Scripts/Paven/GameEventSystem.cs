@@ -1,17 +1,42 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System;
 
 public class GameEventSystem : MonoBehaviour
 {
-    //Static reference of the current game event system so that it can be accessed from anywhere in the game / project file.
-    public static GameEventSystem current;
+    public static GameEventSystem Current;
 
     void Awake()
     {
-        if(!current) current=this;
-        else Destroy(gameObject);
+        if(Current != null && Current != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Current = this;
+        DontDestroyOnLoad(gameObject); // Persist across scene changes
     }
 
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if(Current != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
+
+    //==Actor Related actions==//
     public event Action<GameObject> SpawnEvent;
     public event Action<GameObject, GameObject, float, float, Vector3, float, float> HitEvent;
     public event Action<GameObject, GameObject, float, float, Vector3, float, float> HurtEvent;

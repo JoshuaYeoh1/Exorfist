@@ -7,6 +7,6 @@ public class RestartButton : MonoBehaviour
 {
     public void ReloadScene()
     {
-        ScenesManager.current.ReloadScene();
+        ScenesManager.Current.ReloadScene();
     }
 }

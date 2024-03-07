@@ -81,7 +81,7 @@ public class PlayerLaser : MonoBehaviour
     public void Release()
     {
         // move to vfx manager later
-        VFXManager.current.HitStop(.05f, .1f);
+        VFXManager.Current.HitStop(.05f, .1f);
 
         StartCoroutine(Sustaining());
     }
@@ -125,7 +125,7 @@ public class PlayerLaser : MonoBehaviour
         while(true)
         {
             // move to vfx manager later
-            VFXManager.current.CamShake(damageInterval, 1);
+            VFXManager.Current.CamShake(damageInterval, 1);
 
             foreach(Collider coll in laserColl)
             {
