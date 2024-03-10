@@ -8,7 +8,7 @@ public class GameEventSystem : MonoBehaviour
 
     void Awake()
     {
-        if(Current != null && Current != this)
+        if(Current!=null && Current!=this)
         {
             Destroy(gameObject);
             return;
@@ -29,11 +29,7 @@ public class GameEventSystem : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if(Current != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
+        if(Current!=this) Destroy(gameObject);
     }
 
     //==Actor Related actions==//

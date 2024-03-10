@@ -28,13 +28,13 @@ public class ClosestObjectFinder : MonoBehaviour
         {
             ScanInnerRange();
             ScanOuterRange();
-            CheckWhichTarget();
+            CheckTargetPriority();
 
             yield return new WaitForSeconds(.1f);
         }
     }
 
-    void CheckWhichTarget()
+    void CheckTargetPriority()
     {
         // prioritize the inner target
         if(innerTarget) target = innerTarget;
@@ -44,7 +44,7 @@ public class ClosestObjectFinder : MonoBehaviour
 
     void ScanInnerRange()
     {
-        Collider[] targets =  Physics.OverlapSphere(transform.position, innerRange, layers);
+        Collider[] targets = Physics.OverlapSphere(transform.position, innerRange, layers);
 
         if(targets.Length>0)
         {
@@ -65,7 +65,7 @@ public class ClosestObjectFinder : MonoBehaviour
 
     void ScanOuterRange()
     {
-        Collider[] targets =  Physics.OverlapSphere(transform.position, outerRange, layers);
+        Collider[] targets = Physics.OverlapSphere(transform.position, outerRange, layers);
         
         if(targets.Length>0)
         {
@@ -103,6 +103,15 @@ public class ClosestObjectFinder : MonoBehaviour
         }
 
         return closestObject;
+    }
+
+    public void ChangeInnerTarget(GameObject target)
+    {
+        float distance = Vector3.Distance(target.transform.position, transform.position);
+
+        if(distance>innerRange) return;
+
+        innerTarget = target;
     }
 
     void OnDrawGizmosSelected()

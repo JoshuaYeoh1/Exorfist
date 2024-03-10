@@ -13,6 +13,8 @@ public class PlayerBlock : MonoBehaviour
     [HideInInspector] public ShockwaveVFX shock;
     public PlayerBlockMeter meter;
     InputBuffer buffer;
+    ClosestObjectFinder finder;
+
     public GameObject sparksVFXPrefab;
 
     public float blockCooldown=.5f, parryWindowTime=.2f, blockMoveSpeedMult=.5f, blockKnockbackResistMult=.5f;
@@ -30,6 +32,7 @@ public class PlayerBlock : MonoBehaviour
         flash=GetComponent<FlashSpriteVFX>();
         shock=GetComponent<ShockwaveVFX>();
         buffer=GetComponent<InputBuffer>();
+        finder=GetComponent<ClosestObjectFinder>();
     }
 
     void OnEnable()
@@ -113,12 +116,16 @@ public class PlayerBlock : MonoBehaviour
             ParrySuccess(attacker, contactPoint);
 
             SetBlockedPoint(contactPoint);
+
+            finder.ChangeInnerTarget(attacker);
         }
         else if(isBlocking)
         {
             meter.Hurt(attacker, dmg, kbForce, contactPoint);
 
             SetBlockedPoint(contactPoint);
+
+            finder.ChangeInnerTarget(attacker);
         }
         else
         {
