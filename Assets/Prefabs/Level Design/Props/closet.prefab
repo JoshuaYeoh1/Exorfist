@@ -12,11 +12,11 @@ GameObject:
   - component: {fileID: 6575348759183657326}
   - component: {fileID: 390330727875971522}
   m_Layer: 9
-  m_Name: Closet
+  m_Name: closet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1939034485685748084
 Transform:
@@ -175,6 +175,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0fedc5282f7bcee4684a68db40c7b51e,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
