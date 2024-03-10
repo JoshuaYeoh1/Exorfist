@@ -34,7 +34,7 @@ public class PlayerLook : MonoBehaviour
         {
             TurnTowards(GetDir(player.target.transform.position, transform.position), turnSpeed); // face at target
         }
-        else if(move.dir.sqrMagnitude>0) // if joystick is moved
+        else if(move.moveInput.sqrMagnitude>0) // if joystick is moved
         {
             TurnTowards(rb.velocity.normalized, turnSpeed); // face move direction
         }

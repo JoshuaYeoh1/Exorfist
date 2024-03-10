@@ -48,7 +48,7 @@ public class PlayerMoveState : BaseState<PlayerStateMachine.PlayerStates>
 
     void CheckIdle()
     {
-        if(stateMachine.player.move.dir.magnitude==0)
+        if(stateMachine.player.move.moveInput.magnitude==0)
         {
             stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Idle);
         }

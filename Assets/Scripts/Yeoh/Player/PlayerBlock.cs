@@ -60,7 +60,7 @@ public class PlayerBlock : MonoBehaviour
 
             StartCoroutine(Parrying());
 
-            move.TweenSpeedClamp(blockMoveSpeedMult);
+            move.TweenMoveInputClamp(blockMoveSpeedMult);
 
             player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Parry);
 
@@ -91,7 +91,7 @@ public class PlayerBlock : MonoBehaviour
     {
         isBlocking=false;
 
-        move.TweenSpeedClamp(1);
+        move.TweenMoveInputClamp(1);
 
         if(!canBlock) StartCoroutine(BlockCoolingDown());
 
