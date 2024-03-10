@@ -28,7 +28,7 @@ public class PlayerStun : MonoBehaviour
 
             player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Stun);
 
-            move.TweenMoveInputClamp(speedDebuffMult);
+            move.TweenInputClamp(speedDebuffMult);
 
             StartCoroutine(RandStunAnim(stunTime));
 
@@ -78,7 +78,7 @@ public class PlayerStun : MonoBehaviour
 
             CancelRecovering();
 
-            move.TweenMoveInputClamp(1);
+            move.TweenInputClamp(1);
 
             player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Idle);
         }

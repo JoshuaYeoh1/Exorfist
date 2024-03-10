@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -9,13 +8,13 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody rb;
 
     public FixedJoystick joystick;
-    [HideInInspector] public Vector3 moveInput;
+    [HideInInspector] public Vector3 input;
     public float sensitivityFactor = 1.5f;
 
     public float moveSpeed=10, acceleration=10, deceleration=10, velocity;
 
     [HideInInspector] public float defMoveSpeed;
-    [HideInInspector] public float moveInputClamp=1; // for speed debuffs
+    [HideInInspector] public float inputClamp=1; // for speed debuffs
 
     void Awake()
     {
@@ -35,21 +34,21 @@ public class PlayerMovement : MonoBehaviour
     {
         if(joystick.Horizontal==0 && joystick.Vertical==0) // use keyboard wasd if joystick not touched
         {
-            moveInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")) * sensitivityFactor;
+            input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")) * sensitivityFactor;
         }
         else // use joystick
         {
-            moveInput = new Vector3(joystick.Horizontal, 0, joystick.Vertical) * sensitivityFactor;
+            input = new Vector3(joystick.Horizontal, 0, joystick.Vertical) * sensitivityFactor;
         }
 
-        if(moveInput.magnitude>1) moveInput.Normalize(); // never go past 1
+        if(input.magnitude>1) input.Normalize(); // never go past 1
 
-        if(moveInput.magnitude>moveInputClamp) moveInput = moveInput.normalized * moveInputClamp; // never go past the speed clamp
+        if(input.magnitude>inputClamp) input = input.normalized * inputClamp; // never go past the speed clamp
     }
 
     void NoInput()
     {
-        moveInput = Vector3.zero;
+        input = Vector3.zero;
     }
 
     void FixedUpdate()
@@ -60,8 +59,8 @@ public class PlayerMovement : MonoBehaviour
         camForward.y=0;
         camRight.y=0;
 
-        Move(moveInput.z, moveSpeed, camForward.normalized);
-        Move(moveInput.x, moveSpeed, camRight.normalized);
+        Move(input.z, moveSpeed, camForward.normalized);
+        Move(input.x, moveSpeed, camRight.normalized);
 
         velocity = Round(rb.velocity.magnitude, 2);
     }
@@ -84,13 +83,13 @@ public class PlayerMovement : MonoBehaviour
         return Mathf.Round(num * (10*decimalPlaces) ) / (10*decimalPlaces);
     }
 
-    int tweenMoveInputClampLt=0;
-    public void TweenMoveInputClamp(float to, float time=.25f)
+    int tweenInputClampLt=0;
+    public void TweenInputClamp(float to, float time=.25f)
     {
-        LeanTween.cancel(tweenMoveInputClampLt);
-        tweenMoveInputClampLt = LeanTween.value(moveInputClamp, to, time)
+        LeanTween.cancel(tweenInputClampLt);
+        tweenInputClampLt = LeanTween.value(inputClamp, to, time)
             .setEaseInOutSine()
-            .setOnUpdate( (float value)=>{moveInputClamp=value;} )
+            .setOnUpdate( (float value)=>{inputClamp=value;} )
             .id;
     }
 
