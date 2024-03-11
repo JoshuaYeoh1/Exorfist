@@ -213,7 +213,6 @@ GameObject:
   - component: {fileID: 4348233128418930465}
   - component: {fileID: 7963184181801172876}
   - component: {fileID: 1112656922746496593}
-  - component: {fileID: 6115371041162862405}
   m_Layer: 6
   m_Name: Enemy2New
   m_TagString: Enemy
@@ -493,22 +492,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cad44f545e9cbdd4b896ff4d2427f7a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  warningVFXPrefab: {fileID: 0}
   slamRadius: 0
+  leapOffset: 0
   stopRadius: 0
---- !u!114 &6115371041162862405
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1649796389774806618}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cad44f545e9cbdd4b896ff4d2427f7a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slamRadius: 5
-  stopRadius: 0.5
 --- !u!1 &2071822400053130105
 GameObject:
   m_ObjectHideFlags: 0

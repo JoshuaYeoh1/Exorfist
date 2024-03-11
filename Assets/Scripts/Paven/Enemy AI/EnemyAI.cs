@@ -238,6 +238,10 @@ public class EnemyAI : MonoBehaviour
     {
         return defaultMovementSpeed;
     }
+    public void SetNavMeshAgentSpeedToDefault()
+    {
+        agent.speed = defaultMovementSpeed;
+    }
     public void SetNavMeshSpeed(float speed)
     {
         agent.speed = speed;

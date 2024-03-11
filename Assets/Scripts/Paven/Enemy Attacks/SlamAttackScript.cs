@@ -5,14 +5,18 @@ using UnityEngine;
 public class SlamAttackScript : MonoBehaviour
 {
     private EnemyAI thisEnemy;
-    private GameObject warningVFX;
+
+
+    [SerializeField] private GameObject warningVFXPrefab;
+
+    private GameObject warningVFXInstance;
 
     [SerializeField] float slamRadius;
 
+    //this is to offset the final destination of the leap, relative to the orientation of the enemy
+    [SerializeField] float leapOffset;
     //stopRadius dictates how close the enemy has to be to the slam point in order to stop moving
     [SerializeField] float stopRadius;
-
-    private bool destinationReached;
 
     // Start is called before the first frame update
     void Start()
@@ -23,33 +27,29 @@ public class SlamAttackScript : MonoBehaviour
     //navmeshAgent needs to move in this script
     private void LeapToPlayer()
     {
-        destinationReached = false;
-
-        thisEnemy.agent.SetDestination(thisEnemy.playerTransform.position);
-        StartCoroutine(LeapAccelerate());
-        StartCoroutine(PosCheck());
-        //Instantiate(warningVFX, thisEnemy.playerTransform.position, thisEnemy.transform.rotation);
+        LeapTween();
     }
 
-    //
-    private IEnumerator LeapAccelerate()
+
+    private void LeapTween()
     {
-        while( destinationReached == false)
-        {
-            thisEnemy.agent.speed *= 1.1f;
-            yield return new WaitForSeconds(0.1f);
-        }
-        //broke out of while loop, set speed back to normal
-        thisEnemy.agent.speed = thisEnemy.GetDefaultSpeed();
+        Vector3 playerPos = thisEnemy.playerTransform.position;
+        float defaultAccel = thisEnemy.agent.acceleration;
+        thisEnemy.agent.speed = 0;
+
+        //calculating direction from player to enemy
+        Vector3 directionToPlayer = (thisEnemy.transform.position - playerPos).normalized;
+
+        Vector3 offsetPos = playerPos + directionToPlayer * leapOffset;
+        //Instantiate(warningVFX, offsetPos, thisEnemy.transform.rotation);
+        LeanTween.move(thisEnemy.gameObject, offsetPos, 0.3f);
     }
 
-    private IEnumerator PosCheck()
+    private void OnHitStun(ControllerColliderHit hit)
     {
-        while (Vector3.Distance(thisEnemy.playerTransform.position, thisEnemy.transform.position) >= stopRadius)
+        if(warningVFXInstance != null)
         {
-            yield return null;
+            Destroy(warningVFXInstance);
         }
-        //broke out of while loop, destination reached;
-        destinationReached = true;
     }
 }
