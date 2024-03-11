@@ -19,10 +19,11 @@ public class BaseHitbox : MonoBehaviour
 
     void Awake()
     {
-        owner=transform.root.gameObject;
-        hitmarker=GetComponent<Hitmarker>();
-        shock=GetComponent<ShockwaveVFX>();
-        coll=GetComponent<Collider>();
+        if(!owner) owner = gameObject;
+        
+        hitmarker = GetComponent<Hitmarker>();
+        shock = GetComponent<ShockwaveVFX>();
+        coll = GetComponent<Collider>();
 
         ToggleActive(enabledOnAwake);
     }

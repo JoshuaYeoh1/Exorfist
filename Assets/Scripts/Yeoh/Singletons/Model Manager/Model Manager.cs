@@ -121,6 +121,18 @@ public class ModelManager : MonoBehaviour
         return emissionColors;
     }
 
+    Bounds GetBounds(GameObject target)
+    {
+        Bounds combinedBounds = new Bounds(Vector3.zero, Vector3.zero);
+
+        foreach(Renderer renderer in GetRenderers(target))
+        {
+            combinedBounds.Encapsulate(renderer.bounds);
+        }
+
+        return combinedBounds;
+    }
+
     // MATERIAL ADD/REMOVE
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -237,7 +249,7 @@ public class ModelManager : MonoBehaviour
         RevertColor(target);
     }
 
-    // TOP VERTEX FINDER
+    // TOP FINDER
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public Vector3 GetTopVertex(GameObject target)
@@ -279,5 +291,29 @@ public class ModelManager : MonoBehaviour
         Debug.LogError($"GetTopVertex: Can't find vertices on {target.name}");
 
         return target.transform.position;
+    }
+
+    public Vector3 GetTopBoundingBox(GameObject target)
+    {
+        Bounds bounds = GetBounds(target);
+
+        gizmosTarget = target;
+        gizmosBounds = bounds;
+
+        Vector3 topPoint = target.transform.TransformPoint(bounds.max);
+
+        return topPoint;
+    }
+
+    GameObject gizmosTarget;
+    Bounds gizmosBounds;
+
+    void OnDrawGizmos()
+    {
+        if(gizmosTarget && gizmosBounds!=null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireCube(gizmosTarget.transform.position, gizmosBounds.size);
+        }
     }
 }

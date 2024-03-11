@@ -4,8 +4,9 @@ using Cinemachine;
 public class Cinetouch : MonoBehaviour
 {
     CinemachineFreeLook cineFreeLook;
-    TouchField touchField;
-    Player player;
+    
+    public TouchField touchField;
+    public Player player;
 
     public float senstivityX=.1f, senstivityY=-.1f;
 
@@ -15,8 +16,6 @@ public class Cinetouch : MonoBehaviour
     void Awake()
     {
         cineFreeLook=GetComponent<CinemachineFreeLook>();
-        touchField = GameObject.FindGameObjectWithTag("TouchField").GetComponent<TouchField>();
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
     void Update()
