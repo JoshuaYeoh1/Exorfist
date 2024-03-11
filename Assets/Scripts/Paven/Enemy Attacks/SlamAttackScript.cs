@@ -5,51 +5,69 @@ using UnityEngine;
 public class SlamAttackScript : MonoBehaviour
 {
     private EnemyAI thisEnemy;
-    private GameObject warningVFX;
+    private float initialY;
 
+    [SerializeField] private GameObject warningVFXPrefab;
+
+    private GameObject warningVFXInstance;
+    private Vector3 warningVFXScale;
     [SerializeField] float slamRadius;
 
+    //this is to offset the final destination of the leap, relative to the orientation of the enemy
+    [SerializeField] float leapOffset;
     //stopRadius dictates how close the enemy has to be to the slam point in order to stop moving
     [SerializeField] float stopRadius;
 
-    private bool destinationReached;
-
+    Vector3 offsetPos;
     // Start is called before the first frame update
     void Start()
     {
         thisEnemy = GetComponent<EnemyAI>();
+        warningVFXScale = warningVFXPrefab.transform.localScale;
+        initialY = thisEnemy.transform.localPosition.y;
     }
 
-    //navmeshAgent needs to move in this script
-    private void LeapToPlayer()
+    private void OnDestroy()
     {
-        destinationReached = false;
-
-        thisEnemy.agent.SetDestination(thisEnemy.playerTransform.position);
-        StartCoroutine(LeapAccelerate());
-        StartCoroutine(PosCheck());
-        //Instantiate(warningVFX, thisEnemy.playerTransform.position, thisEnemy.transform.rotation);
+        DestroyVFXInstance();
     }
 
-    //
-    private IEnumerator LeapAccelerate()
+    private void LeapTween()
     {
-        while( destinationReached == false)
+        //set navmesh agent speed to 0 to allow LeanTween to move the gameObject instead
+        thisEnemy.agent.speed = 0;
+        LeanTween.move(thisEnemy.gameObject, offsetPos, 0.3f);
+        thisEnemy.agent.SetDestination(offsetPos);
+    }
+
+    private void CalculateOffsetPos()
+    {
+        Vector3 playerPos = thisEnemy.playerTransform.position;
+        warningVFXPrefab.transform.localScale = Vector3.zero;
+
+        //calculating direction from player to enemy
+        Vector3 directionToPlayer = (thisEnemy.transform.position - playerPos).normalized;
+
+        offsetPos = playerPos + directionToPlayer * leapOffset;
+        Vector3 offsetPosVFX = new Vector3(offsetPos.x, offsetPos.y + 0.25f, offsetPos.z);
+        warningVFXInstance = Instantiate(warningVFXPrefab, offsetPosVFX, thisEnemy.transform.rotation);
+        offsetPos.y = initialY;
+        LeanTween.scale(warningVFXInstance, warningVFXScale, 0.2f);
+        warningVFXPrefab.transform.localScale = warningVFXScale;
+
+        offsetPos = playerPos + directionToPlayer * leapOffset;
+
+    }
+    private void OnHitStun(ControllerColliderHit hit)
+    {
+        Destroy(warningVFXInstance);
+    }
+
+    private void DestroyVFXInstance()
+    {
+        if(warningVFXInstance != null)
         {
-            thisEnemy.agent.speed *= 1.1f;
-            yield return new WaitForSeconds(0.1f);
+            Destroy(warningVFXInstance);
         }
-        //broke out of while loop, set speed back to normal
-        thisEnemy.agent.speed = thisEnemy.GetDefaultSpeed();
-    }
-
-    private IEnumerator PosCheck()
-    {
-        while (Vector3.Distance(thisEnemy.playerTransform.position, thisEnemy.transform.position) >= stopRadius)
-        {
-            yield return null;
-        }
-        //broke out of while loop, destination reached;
-        destinationReached = true;
     }
 }

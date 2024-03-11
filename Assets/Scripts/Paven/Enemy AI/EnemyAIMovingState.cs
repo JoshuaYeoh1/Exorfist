@@ -101,7 +101,7 @@ public class EnemyAIMovingState : EnemyAIBaseState
     {
         
         movementIndex = 2;
-        
+        enemy.thisEnemy.animator.SetBool("MovingAwayFromPlayer", true);
         if (enemy.thisEnemy.GetIsMoving() == true)
         {
             //enemy.thisEnemy.SetIsMoving(true);
