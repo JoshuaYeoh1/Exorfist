@@ -13,12 +13,15 @@ MonoBehaviour:
   m_Name: jab
   m_EditorClassIdentifier: 
   dash: 10
-  damage: 10
-  knockback: 8
   hitboxActiveDuration: 0.2
   animName: jab
   hitboxIndex: 0
+  dmg: 10
+  kbForce: 8
+  speedDebuffMult: 0.3
+  stunTime: 0.5
   hasSweepingEdge: 0
-  shake: 1
-  hitstop: 0
-  shockwave: 0
+  doImpact: 1
+  doShake: 1
+  doHitstop: 0
+  doShockwave: 0

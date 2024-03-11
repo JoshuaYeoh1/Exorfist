@@ -65,13 +65,13 @@ public class Ragdoller : MonoBehaviour
         }
     }
 
-    public void PushRagdoll(float force, Vector3 contactPoint, float radiusMult=.5f)
+    public void PushRagdoll(float force, Vector3 contactPoint, float radius=1)
     {
         if(isRagdoll)
         {
             foreach(Rigidbody rb in rigRbs)
             {
-                rb.AddExplosionForce(force, contactPoint, force*radiusMult, 0, ForceMode.Impulse);
+                rb.AddExplosionForce(force, contactPoint, radius, 0, ForceMode.Impulse);
             }
         }
     }

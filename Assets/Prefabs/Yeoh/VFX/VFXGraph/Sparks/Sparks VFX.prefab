@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 7407231114617313513}
   - component: {fileID: 4050009641387039387}
   - component: {fileID: 9101574318197564164}
-  - component: {fileID: 394998300623565125}
   m_Layer: 0
   m_Name: Sparks VFX
   m_TagString: Untagged
@@ -127,19 +126,3 @@ VFXRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &394998300623565125
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1438827781765713555}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0511ce3607918149b2c28e2fbc804c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  destroyOnStart: 1
-  minTime: 1
-  maxTime: 1
-  shrinkTime: 0.1

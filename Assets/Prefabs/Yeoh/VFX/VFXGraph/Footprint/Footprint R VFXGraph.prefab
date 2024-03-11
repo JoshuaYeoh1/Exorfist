@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 121295657288844579}
   - component: {fileID: 1025460161966855252}
   - component: {fileID: 8930463083851347032}
-  - component: {fileID: -8307734558006016222}
   m_Layer: 0
   m_Name: Footprint R VFXGraph
   m_TagString: Untagged
@@ -119,22 +118,6 @@ VFXRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &-8307734558006016222
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1445081909667651224}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0511ce3607918149b2c28e2fbc804c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  destroyOnStart: 1
-  minTime: 3
-  maxTime: 3
-  shrinkTime: 0.1
 --- !u!1001 &1999052962558049711
 PrefabInstance:
   m_ObjectHideFlags: 0

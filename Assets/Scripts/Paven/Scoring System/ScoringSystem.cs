@@ -11,12 +11,12 @@ public class ScoringSystem : MonoBehaviour
 
     [Header("Score Values")]
     //==Score Values==//
-    [SerializeField] private int parryIncrement;
-    [SerializeField] private int hitIncrement;
-    [SerializeField] private int hurtDecrement;
-    [SerializeField] private int multiplierIncrement;
-    [SerializeField] private int enemyKillIncrement;
-    private GameObject scoreRankPopupPrefab;
+    [SerializeField] int parryIncrement;
+    [SerializeField] int hitIncrement;
+    [SerializeField] int hurtDecrement;
+    [SerializeField] int multiplierIncrement;
+    [SerializeField] int enemyKillIncrement;
+    GameObject scoreRankPopupPrefab;
 
     void Start()
     {
@@ -25,50 +25,60 @@ public class ScoringSystem : MonoBehaviour
 
     void OnEnable()
     {
-        GameEventSystem.Current.BlockEvent += IncreaseScoreParry;
-        GameEventSystem.Current.DeathEvent += IncreaseScoreKill;
-        GameEventSystem.Current.DeathEvent += IncreaseMultiplier;
-        GameEventSystem.Current.HitEvent += IncreaseScoreHit;
-        GameEventSystem.Current.HurtEvent += DecreaseMultiplier;
-        GameEventSystem.Current.HurtEvent += DecreaseScore;
+        GameEventSystem.Current.HitEvent += OnHit;
+        GameEventSystem.Current.HurtEvent += OnHurt;
+        GameEventSystem.Current.DeathEvent += OnDeath;
     }
     void OnDisable()
     {
-        GameEventSystem.Current.BlockEvent -= IncreaseScoreParry;
-        GameEventSystem.Current.DeathEvent -= IncreaseScoreKill;
-        GameEventSystem.Current.DeathEvent -= IncreaseMultiplier;
-        GameEventSystem.Current.HitEvent -= IncreaseScoreHit;
-        GameEventSystem.Current.HurtEvent -= DecreaseMultiplier;
-        GameEventSystem.Current.HurtEvent -= DecreaseScore;
-    }
-    
-    private void IncreaseScoreParry(GameObject defender, GameObject attacker, Vector3 contactPoint, bool parry, bool broke)
-    {
-        if(defender.tag!="Player" || !parry) return;
-
-        score += parryIncrement * multiplier;
+        GameEventSystem.Current.HitEvent -= OnHit;
+        GameEventSystem.Current.HurtEvent -= OnHurt;
+        GameEventSystem.Current.DeathEvent -= OnDeath;
     }
 
-    private void IncreaseScoreHit(GameObject attacker, GameObject victim, float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult, float stunTime)
+    public void OnHit(GameObject attacker, GameObject victim, HurtInfo hurtInfo)
     {
-        if(attacker.tag!="Player") return;
-
-        score += hitIncrement * multiplier;
+        if(attacker.tag=="Player")
+        {
+            IncreaseScore(hitIncrement);
+        }
     }
 
-    private void IncreaseScoreKill(GameObject victim, GameObject killer, float dmg, float kbForce, Vector3 contactPoint)
+    public void OnHurt(GameObject victim, GameObject attacker, HurtInfo hurtInfo)
     {
-        if(killer.tag!="Player") return;
+        if(victim.tag=="Player")
+        {
+            if(hurtInfo.parry)
+            {
+                IncreaseScore(parryIncrement);
+            }
+            else if(!hurtInfo.block)
+            {
+                DecreaseScore(hurtDecrement);
 
-        score += enemyKillIncrement * multiplier;
-        
+                DecreaseMultiplier();
+            }
+        }
     }
 
-    private void DecreaseScore(GameObject victim, GameObject attacker, float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult, float stunTime)
+    public void OnDeath(GameObject victim, GameObject killer, HurtInfo hurtInfo)
     {
-        if(victim.tag!="Player") return;
+        if(killer.tag=="Player")
+        {
+            IncreaseScore(enemyKillIncrement);
 
-        int temp = score - hurtDecrement;
+            IncreaseMultiplier();
+        }
+    }
+
+    void IncreaseScore(int increment)
+    {
+        score += increment * multiplier;
+    }
+
+    void DecreaseScore(int increment)
+    {
+        int temp = score - increment;
         if(temp <= 0)
         {
             score = 0;
@@ -77,13 +87,10 @@ public class ScoringSystem : MonoBehaviour
         {
             score = temp;
         }
-        
     }
 
-    private void IncreaseMultiplier(GameObject victim, GameObject killer, float dmg, float kbForce, Vector3 contactPoint)
+    void IncreaseMultiplier()
     {
-        if(killer.tag!="Player") return;
-        
         int temp = multiplier + multiplierIncrement;
         if(temp >= multiplierMax)
         {
@@ -95,10 +102,8 @@ public class ScoringSystem : MonoBehaviour
         }
     }
 
-    private void DecreaseMultiplier(GameObject victim, GameObject attacker, float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult, float stunTime)
+    void DecreaseMultiplier()
     {
-        if(victim.tag!="Player") return;
-
         int temp = multiplier - multiplierIncrement;
         if (temp <= 1)
         {

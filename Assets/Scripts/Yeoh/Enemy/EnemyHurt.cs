@@ -16,28 +16,23 @@ public class EnemyHurt : MonoBehaviour
         rb=GetComponent<Rigidbody>();
     }
 
-    public void Hurt(GameObject attacker, float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult=.3f, float stunTime=.5f)
+    public void Hurt(GameObject attacker, HurtInfo hurtInfo)
     {
         if(!iframe)
         {
             DoIFraming(iframeTime, .5f, -.5f, -.5f); // flicker red
 
-            Knockback(kbForce, contactPoint);
+            Knockback(hurtInfo.kbForce, hurtInfo.contactPoint);
 
-            GameEventSystem.Current.OnHurt(gameObject, attacker, dmg, kbForce, contactPoint, speedDebuffMult, stunTime);
+            GameEventSystem.Current.OnHurt(gameObject, attacker, hurtInfo);
 
-            hp.Hit(dmg);
+            hp.Hit(hurtInfo.dmg);
 
             if(hp.hp>0) // if still alive
             {
                 //stun.Stun(speedDebuffMult, stunTime);
             }
-            else Die(attacker, dmg, kbForce, contactPoint);
-
-
-
-            // move to vfx manager later
-            VFXManager.Current.SpawnPopUpText(contactPoint, dmg.ToString(), Color.white);
+            else Die(attacker, hurtInfo);
         }
     }
 
@@ -95,10 +90,10 @@ public class EnemyHurt : MonoBehaviour
         }
     }
 
-    void Die(GameObject killer, float dmg, float kbForce, Vector3 contactPoint)
+    void Die(GameObject killer, HurtInfo hurtInfo)
     {
         ModelManager.Current.RevertColor(gameObject);
 
-        GameEventSystem.Current.OnDeath(gameObject, killer, dmg, kbForce, contactPoint);
+        GameEventSystem.Current.OnDeath(gameObject, killer, hurtInfo);
     }
 }

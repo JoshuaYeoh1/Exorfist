@@ -34,30 +34,46 @@ public class GameEventSystem : MonoBehaviour
 
     //==Actor Related actions==//
     public event Action<GameObject> SpawnEvent;
-    public event Action<GameObject, GameObject, float, float, Vector3, float, float> HitEvent;
-    public event Action<GameObject, GameObject, float, float, Vector3, float, float> HurtEvent;
-    public event Action<GameObject, GameObject, float, float, Vector3> DeathEvent;
-    public event Action<GameObject, GameObject, Vector3, bool, bool> BlockEvent;
+    public event Action<GameObject, GameObject, HurtInfo> HitEvent; // ignores iframe
+    public event Action<GameObject, GameObject, HurtInfo> HurtEvent; // respects iframe
+    public event Action<GameObject, GameObject, HurtInfo> DeathEvent;
 
     public void OnSpawn(GameObject subject)
     {
         SpawnEvent?.Invoke(subject); //Debug.Log($"{subject.name} was spawned");
     }
-    public void OnHit(GameObject attacker, GameObject victim, float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult, float stunTime)
+    public void OnHit(GameObject attacker, GameObject victim, HurtInfo hurtInfo)
     {
-        HitEvent?.Invoke(attacker, victim, dmg, kbForce, contactPoint, speedDebuffMult, stunTime); //Debug.Log($"{attacker.name} hit {victim.name} for {dmg}");
+        HitEvent?.Invoke(attacker, victim, hurtInfo); //Debug.Log($"{attacker.name} hit {victim.name} for {dmg}");
     }    
-    public void OnHurt(GameObject victim, GameObject attacker, float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult, float stunTime)
+    public void OnHurt(GameObject victim, GameObject attacker, HurtInfo hurtInfo)
     {
-        HurtEvent?.Invoke(victim, attacker, dmg, kbForce, contactPoint, speedDebuffMult, stunTime); //Debug.Log($"{victim.name} was hurt by {attacker.name} for {dmg}");
+        HurtEvent?.Invoke(victim, attacker, hurtInfo); //Debug.Log($"{victim.name} was hurt by {attacker.name} for {dmg}");
     }
-    public void OnDeath(GameObject victim, GameObject killer, float dmg, float kbForce, Vector3 contactPoint)
+    public void OnDeath(GameObject victim, GameObject killer, HurtInfo hurtInfo)
     {
-        DeathEvent?.Invoke(victim, killer, dmg, kbForce, contactPoint); //Debug.Log($"{victim.name} was killed by {killer.name}");
+        DeathEvent?.Invoke(victim, killer, hurtInfo); //Debug.Log($"{victim.name} was killed by {killer.name}");
     }
-    public void OnBlock(GameObject defender, GameObject attacker, Vector3 contactPoint, bool parry, bool broke)
+
+    //==Ability Related actions==//
+    public event Action<bool> AbilitySlowMoEvent;
+    public event Action<GameObject, string> AbilityCastEvent;
+
+    public void OnAbilitySlowMo(bool toggle)
     {
-        BlockEvent?.Invoke(defender, attacker, contactPoint, parry, broke); //Debug.Log($"{defender.name} blocked {attacker.name}");
+        AbilitySlowMoEvent?.Invoke(toggle);
+    }
+    public void OnAbilityCast(GameObject caster, string abilityName)
+    {
+        AbilityCastEvent?.Invoke(caster, abilityName);
+    }
+
+    //==Small actions==//
+    public event Action<GameObject, string, Transform> FootstepEvent;
+
+    public void OnFootstep(GameObject subject, string type, Transform footstepTr)
+    {
+        FootstepEvent?.Invoke(subject, type, footstepTr);
     }
 
     //==Objective Related actions==//

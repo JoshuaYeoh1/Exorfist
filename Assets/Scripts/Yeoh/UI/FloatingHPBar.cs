@@ -22,7 +22,7 @@ public class FloatingHPBar : MonoBehaviour
         hp.hpBar = floatingHpBar.hpBar;
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if(floatingHpBar) floatingHpBar.transform.position = hpBarPos.position;
     }

@@ -6,13 +6,11 @@ using UnityEngine;
 
 public class AttackSO : ScriptableObject
 {
-    //public AnimatorOverrideController animOV;
-
-    public float dash=2, damage=1, knockback=2, hitboxActiveDuration=.2f;
-
+    public float dash=2, hitboxActiveDuration=.1f;
     public string animName="jab";
-
     public int hitboxIndex=0;
 
-    public bool hasSweepingEdge, shake, hitstop, shockwave;
+    public float dmg=1, kbForce=2, speedDebuffMult=.3f, stunTime=.5f;
+    public bool hasSweepingEdge=true;
+    public bool doImpact=true, doShake=true, doHitstop=true, doShockwave=true;
 }

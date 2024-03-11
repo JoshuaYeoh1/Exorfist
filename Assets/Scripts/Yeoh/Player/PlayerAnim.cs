@@ -105,32 +105,16 @@ public class PlayerAnim : MonoBehaviour
         heal.Finish();
     }
 
-    public GameObject footstepLVfx, footstepRVfx;
     public Transform footstepLTr, footstepRTr;
     
-    float lastFootstepTime, footstepCooldown=.15f;
-
     public void AnimFootstep(string type="left")
     {
-        if(Time.time-lastFootstepTime > footstepCooldown)
-        {
-            lastFootstepTime = Time.time;
+        Transform footstepTr = type=="left" ? footstepLTr : footstepRTr;
 
-            GameObject step=null;
-
-            if(type=="left")
-            {
-                step=Instantiate(footstepLVfx, footstepLTr.position, footstepLTr.rotation);
-            }
-            if(type=="right")
-            {
-                step=Instantiate(footstepRVfx, footstepRTr.position, footstepLTr.rotation);
-            }
-
-            if(step) step.hideFlags = HideFlags.HideInHierarchy;
-        }
+        GameEventSystem.Current.OnFootstep(player.gameObject, type, footstepTr);
     }
 
+    //move to sfx manager later
     // public void PlaySfxFootstep()
     // {
     //     Singleton.instance.playSFX(sfxPlayerFst,transform);

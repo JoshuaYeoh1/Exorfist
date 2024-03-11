@@ -19,9 +19,8 @@ public class PlayerHeal : MonoBehaviour
     public Transform[] castTrailTr;
 
     [Header("Cast")]
-    public GameObject healVFXPrefab;
-    public GameObject shineVFXPrefab;
-    public float regenTime=3, regenHp=3;
+    public float regenTime=3;
+    public float regenHp=3;
     public Material healMeshEffectMaterial;
     float defaultRegenHp;
 
@@ -86,27 +85,15 @@ public class PlayerHeal : MonoBehaviour
     {
         DisableCastTrails();
 
-        Heal();
+        GameEventSystem.Current.OnAbilityCast(gameObject, "Heal");
+
+        StartCoroutine(Healing());
 
         StartCoroutine(Cooling());
     }
 
-    void Heal()
-    {
-        StartCoroutine(Healing());
-    }
-
     IEnumerator Healing()
     {
-        //move to vfx manager later
-        GameObject shineVFX = Instantiate(shineVFXPrefab, transform.position, Quaternion.identity);
-        shineVFX.hideFlags = HideFlags.HideInHierarchy;
-        shineVFX.GetComponent<TransformConstraint>().constrainTo = transform;
-
-        GameObject healVfx = Instantiate(healVFXPrefab, transform.position, Quaternion.identity);
-        healVfx.hideFlags = HideFlags.HideInHierarchy;
-        healVfx.GetComponent<TransformConstraint>().constrainTo = transform;
-
         ModelManager.Current.AddMaterial(player.playerModel, healMeshEffectMaterial);
 
         hp.regenHp = regenHp;

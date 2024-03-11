@@ -80,8 +80,7 @@ public class PlayerLaser : MonoBehaviour
 
     public void Release()
     {
-        // move to vfx manager later
-        VFXManager.Current.HitStop(.05f, .1f);
+        GameEventSystem.Current.OnAbilityCast(gameObject, "Laser");
 
         StartCoroutine(Sustaining());
     }
@@ -116,6 +115,13 @@ public class PlayerLaser : MonoBehaviour
         laser.transform.parent = firepointTr;
         laserColl = laser.GetComponentsInChildren<Collider>();
 
+        Hurtbox[] hurtboxes = laser.GetComponentsInChildren<Hurtbox>();
+
+        foreach(Hurtbox hurtbox in hurtboxes)
+        {
+            hurtbox.owner = gameObject;
+        }
+
         flashingHitboxRt = StartCoroutine(FlashingHitbox());
     }
 
@@ -124,7 +130,6 @@ public class PlayerLaser : MonoBehaviour
     {
         while(true)
         {
-            // move to vfx manager later
             VFXManager.Current.CamShake(damageInterval, 1);
 
             foreach(Collider coll in laserColl)
@@ -222,7 +227,7 @@ public class PlayerLaser : MonoBehaviour
 
     void DisableCastTrails()
     {
-        foreach (GameObject trail in trails)
+        foreach(GameObject trail in trails)
         {
             if(trail) Destroy(trail);
         }

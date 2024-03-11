@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
     
     public Animator anim;
     public GameObject playerModel;
-    public List<PlayerHitbox> hitboxes;
+    public List<Hurtbox> hurtboxes;
     public GameObject target;
 
     public bool isAlive=true, isGrounded, canMove, canTurn, canAttack, canBlock, canCast, canHurt, canStun, canTarget;

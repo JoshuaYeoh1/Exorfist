@@ -18,8 +18,7 @@ public class PlayerAOE : MonoBehaviour
     public Transform[] castTrailTr;
 
     [Header("Cast")]
-    public GameObject hitboxPrefab;
-    public GameObject explodeVFXPrefab;
+    public GameObject hurtboxPrefab;
 
     [Header("Cooldown")]
     public Image radialBar;
@@ -77,23 +76,15 @@ public class PlayerAOE : MonoBehaviour
 
     public void Release()
     {
-        SpawnExplosion();
+        Hurtbox hurtbox = Instantiate(hurtboxPrefab, transform.position, Quaternion.identity).GetComponent<Hurtbox>();
+
+        hurtbox.owner = gameObject;
+
+        GameEventSystem.Current.OnAbilityCast(gameObject, "AOE");
 
         StartCoroutine(Cooling());
 
         DisableCastTrails();
-    }
-
-    void SpawnExplosion()
-    {
-        Instantiate(hitboxPrefab, transform.position, Quaternion.identity);
-
-        GameObject vfx = Instantiate(explodeVFXPrefab, new Vector3(transform.position.x, transform.position.y+.5f, transform.position.z), Quaternion.identity);
-        vfx.hideFlags = HideFlags.HideInHierarchy;
-
-        // move to vfx manager later
-        VFXManager.Current.CamShake(.5f, 3);
-        VFXManager.Current.HitStop(.05f, .1f);
     }
 
     public void Finish()
@@ -178,7 +169,7 @@ public class PlayerAOE : MonoBehaviour
 
     void DisableCastTrails()
     {
-        foreach (GameObject trail in trails)
+        foreach(GameObject trail in trails)
         {
             if(trail) Destroy(trail);
         }

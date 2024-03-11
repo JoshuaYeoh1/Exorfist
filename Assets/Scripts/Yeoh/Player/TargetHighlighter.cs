@@ -16,14 +16,14 @@ public class TargetHighlighter : MonoBehaviour
     }
 
     GameObject target;
-    float topY;
+    float localTopY;
 
     void Update()
     {
         CheckSwitchTarget();
         CheckManualColor();
 
-        if(indicatorTC) indicatorTC.positionOffset.y = topY + offsetY; // animated float
+        if(indicatorTC) indicatorTC.positionOffset.y = localTopY + offsetYAnim; // animated float
     }
 
     void CheckSwitchTarget()
@@ -58,7 +58,7 @@ public class TargetHighlighter : MonoBehaviour
             indicatorTC = indicator.GetComponent<TransformConstraint>();
             indicatorTC.constrainTo = _target.transform;
 
-            topY = ModelManager.Current.GetTopBoundingBox(_target).y - _target.transform.position.y;
+            localTopY = ModelManager.Current.GetColliderTop(_target).y - _target.transform.position.y;
 
             indicatorSR = indicator.GetComponent<SpriteRenderer>();
         }
@@ -72,7 +72,7 @@ public class TargetHighlighter : MonoBehaviour
         }
     }
 
-    float offsetY;
+    float offsetYAnim;
 
     void PlayOffsetAnim()
     {
@@ -80,7 +80,7 @@ public class TargetHighlighter : MonoBehaviour
             .setEaseInOutSine()
             .setIgnoreTimeScale(true)
             .setLoopPingPong()
-            .setOnUpdate( (float value)=>{offsetY=value;} );
+            .setOnUpdate( (float value)=>{offsetYAnim=value;} );
     }
 
     void OnEnable()
