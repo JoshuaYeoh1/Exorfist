@@ -2,19 +2,10 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject enemyPrefab;
-    private Vector3 spawnPos;
-    private Quaternion rotation;
-
-    void Start()
-    {
-        spawnPos = transform.position;
-        rotation = transform.rotation;
-    }
+    public GameObject[] enemyPrefabs;
 
     void OnEnable()
     {
-        //GameEventSystem.Current.OnRoomEntered += SpawnEnemy;
         GameEventSystem.Current.RoomStateChangedEvent += OnRoomStateChanged;
     }
     void OnDestroy()
@@ -22,13 +13,13 @@ public class EnemySpawner : MonoBehaviour
         GameEventSystem.Current.RoomStateChangedEvent -= OnRoomStateChanged;
     }
 
-    private void SpawnEnemy()
+    void SpawnEnemy()
     {
-        Instantiate(enemyPrefab, spawnPos, rotation);
+        Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], transform.position, transform.rotation);
     }
 
     //SpawnEnemy if the room state changes to "RoomState.Active"
-    private void OnRoomStateChanged(RoomState state)
+    void OnRoomStateChanged(RoomState state)
     {
         if(state == RoomState.Active)
         {
@@ -36,7 +27,7 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmosSelected()
+    void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawSphere(transform.position, 1);

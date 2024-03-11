@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Dummy : MonoBehaviour
 {
-    public GameObject enemyPrefab;
+    public GameObject[] enemyPrefabs;
     EnemyHurt hurt;
 
     void Awake()
@@ -36,7 +36,7 @@ public class Dummy : MonoBehaviour
     {
         if(victim!=gameObject) return;
         
-        Instantiate(enemyPrefab, transform.position, Quaternion.identity);
+        Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], transform.position, Quaternion.identity);
 
         Destroy(gameObject);
     }    

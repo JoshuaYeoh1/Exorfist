@@ -15,7 +15,6 @@ public class Hurtbox : MonoBehaviour
     void Awake()
     {
         coll = GetComponent<Collider>();
-        if(!owner) owner = gameObject;
 
         ToggleActive(enabledOnAwake);
     }

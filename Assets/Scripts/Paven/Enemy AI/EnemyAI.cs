@@ -138,8 +138,6 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    public GameObject bloodVFXPrefab;
-
     void OnHurt(GameObject victim, GameObject attacker, HurtInfo hurtInfo)
     {
         if(victim!=gameObject) return;

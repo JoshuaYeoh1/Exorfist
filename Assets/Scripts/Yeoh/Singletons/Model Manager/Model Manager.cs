@@ -361,4 +361,48 @@ public class ModelManager : MonoBehaviour
 
         return new Vector3(target.transform.position.x, center.y+halfHeight, target.transform.position.z);
     }
+
+    // BOUNDING BOX
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public List<Collider> GetColliders(GameObject target)
+    {
+        List<Collider> colliders = new List<Collider>();
+
+        Collider[] colls = target.GetComponents<Collider>();
+        Collider[] childColls = target.GetComponentsInChildren<Collider>();
+
+        foreach(Collider coll in colls)
+        {
+            if(!coll.isTrigger) colliders.Add(coll);
+        }
+        foreach(Collider coll in childColls)
+        {
+            if(!coll.isTrigger) colliders.Add(coll);
+        }
+
+        return colliders;
+    }
+
+    public Vector3 GetColliderTop(GameObject target)
+    {
+        List<Collider> colliders = GetColliders(target);
+        
+        if(colliders.Count==0)
+        {
+            Debug.LogError($"{name}: Couldn't find any Collider on {target.name}");
+            return Vector3.zero;
+        }
+
+        float highestPoint = float.MinValue;
+
+        foreach(Collider coll in colliders)
+        {
+            Vector3 topPoint = coll.bounds.max;
+
+            if(highestPoint < topPoint.y) highestPoint = topPoint.y;
+        }
+
+        return new Vector3(target.transform.position.x, highestPoint, target.transform.position.z);
+    }
 }

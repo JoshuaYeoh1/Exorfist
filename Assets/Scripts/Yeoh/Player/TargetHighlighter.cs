@@ -58,7 +58,7 @@ public class TargetHighlighter : MonoBehaviour
             indicatorTC = indicator.GetComponent<TransformConstraint>();
             indicatorTC.constrainTo = _target.transform;
 
-            localTopY = ModelManager.Current.GetBoundingBoxTop(_target).y - _target.transform.position.y;
+            localTopY = ModelManager.Current.GetColliderTop(_target).y - _target.transform.position.y;
 
             indicatorSR = indicator.GetComponent<SpriteRenderer>();
         }

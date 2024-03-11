@@ -110,21 +110,19 @@ public class PlayerBlock : MonoBehaviour
             ParrySuccess(attacker, hurtInfo);
 
             SetBlockedPoint(hurtInfo.contactPoint);
-
-            finder.ChangeInnerTarget(attacker);
         }
         else if(isBlocking)
         {
             meter.Hurt(attacker, hurtInfo);
 
             SetBlockedPoint(hurtInfo.contactPoint);
-
-            finder.ChangeInnerTarget(attacker);
         }
         else
         {
             hurt.Hurt(attacker, hurtInfo);
-        }   
+        }
+
+        if(attacker) finder.ChangeInnerTarget(attacker);
     }
 
     public void ParrySuccess(GameObject attacker, HurtInfo hurtInfo)
@@ -167,7 +165,7 @@ public class PlayerBlock : MonoBehaviour
 
             hurtInfo.dmg=10;
             hurtInfo.kbForce=1;
-            hurtInfo.contactPoint=ModelManager.Current.GetBoundingBoxTop(gameObject);
+            hurtInfo.contactPoint=ModelManager.Current.GetColliderTop(gameObject);
             hurtInfo.speedDebuffMult=.3f;
             hurtInfo.stunTime=1;
 

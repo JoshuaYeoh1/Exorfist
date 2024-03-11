@@ -76,9 +76,11 @@ public class VFXManager : MonoBehaviour
                 SpawnPopUpText(ModelManager.Current.GetBoundingBoxTop(victim), hurtInfo.dmg.ToString(), Color.red);
 
                 SpawnHitmarker(hurtInfo.contactPoint, Color.red);
+
+                SpawnBlood(hurtInfo.contactPoint);
             }
 
-            if(hurtInfo.doShake) CamShake();
+            CamShake();
 
             if(hurtInfo.doImpact) SpawnImpact(hurtInfo.contactPoint);
         }
@@ -111,9 +113,9 @@ public class VFXManager : MonoBehaviour
             SpawnPopUpText(ModelManager.Current.GetBoundingBoxTop(victim), hurtInfo.dmg.ToString(), Color.white);
 
             SpawnHitmarker(hurtInfo.contactPoint, Color.white);
-        }
 
-        SpawnBlood(hurtInfo.contactPoint);
+            SpawnBlood(hurtInfo.contactPoint);
+        }
     }
 
     void OnDeath(GameObject victim, GameObject killer, HurtInfo hurtInfo)
@@ -155,8 +157,6 @@ public class VFXManager : MonoBehaviour
             }
             else if(abilityName=="Heal")
             {
-                HitStop();
-
                 SpawnPopUpText(ModelManager.Current.GetBoundingBoxTop(caster), "HEAL!", Color.yellow);
 
                 SpawnShockwave(ModelManager.Current.GetBoundingBoxCenter(caster), Color.yellow);
@@ -364,7 +364,7 @@ public class VFXManager : MonoBehaviour
 
         heal.GetComponent<TransformConstraint>().constrainTo = caster.transform;
 
-        HideObject(heal.gameObject, 4);
+        HideObject(heal.gameObject, 3);
     }
 
     public void SpawnShine(GameObject caster)
@@ -427,6 +427,6 @@ public class VFXManager : MonoBehaviour
 
     Vector3 PlayerTop()
     {
-        return ModelManager.Current.GetBoundingBoxTop(FindPlayer());
+        return ModelManager.Current.GetColliderTop(FindPlayer());
     }
 }
