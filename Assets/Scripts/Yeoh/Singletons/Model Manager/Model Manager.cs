@@ -82,33 +82,64 @@ public class ModelManager : MonoBehaviour
     // MATERIAL ADD/REMOVE
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    Dictionary<Renderer, List<Material>> originalMaterials = new Dictionary<Renderer, List<Material>>();
+
+    public void RecordMaterials(GameObject target)
+    {
+        foreach(Renderer renderer in GetRenderers(target))
+        {
+            List<Material> materials = new List<Material>(renderer.sharedMaterials);
+
+            if(!originalMaterials.ContainsKey(renderer))
+            {
+                originalMaterials.Add(renderer, materials);
+            }
+        }
+    }
+
+    public void RevertMaterials(GameObject target)
+    {
+        foreach(Renderer renderer in GetRenderers(target))
+        {
+            if(originalMaterials.ContainsKey(renderer))
+            {
+                renderer.materials = originalMaterials[renderer].ToArray();
+
+                originalMaterials.Remove(renderer); // cleanup
+            }
+        }
+    }
+
     public void AddMaterial(GameObject target, Material materialToAdd)
     {
-        List<Material> materials = GetMaterials(target);
-
-        materials.Add(materialToAdd);
+        RecordMaterials(target);
 
         foreach(Renderer renderer in GetRenderers(target))
         {
-            renderer.materials = materials.ToArray();
+            List<Material> copyMaterials = originalMaterials[renderer];
+
+            copyMaterials.Add(materialToAdd);
+
+            renderer.materials = copyMaterials.ToArray();
         }
     }
 
     public void RemoveMaterial(GameObject target, Material materialToRemove)
     {
-        List<Material> newMaterials = new List<Material>();
-
-        foreach(Material material in GetMaterials(target))
-        {
-            if(material.shader != materialToRemove.shader)
-            {
-                newMaterials.Add(material);
-            }
-        }
-
         foreach(Renderer renderer in GetRenderers(target))
         {
-            renderer.materials = newMaterials.ToArray();
+            List<Material> materials = new List<Material>(renderer.sharedMaterials);
+
+            for(int i=0; i<materials.Count; i++)
+            {
+                if(materials[i].shader == materialToRemove.shader)
+                {
+                    materials.RemoveAt(i);
+                    i--;
+                }
+            }
+
+            renderer.materials = materials.ToArray();
         }
     }
 
@@ -138,7 +169,7 @@ public class ModelManager : MonoBehaviour
 
         return emissionColors;
     }
-    
+
     Dictionary<Material, Color> originalColors = new Dictionary<Material, Color>();
     Dictionary<Material, Color> originalEmissionColors = new Dictionary<Material, Color>();
 

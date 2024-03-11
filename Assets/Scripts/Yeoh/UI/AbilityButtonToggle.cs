@@ -12,10 +12,8 @@ public class AbilityButtonToggle : MonoBehaviour
         group1.SetActive(false);
         group2.SetActive(true);
 
-        // move to vfx manager later
-        VFXManager.Current.canHitStop=false;
+        GameEventSystem.Current.OnAbilitySlowMo(true);
 
-        // move to vfx manager later
         VFXManager.Current.TweenTime(slowMoMult, .5f);
 
         slowMoCountdownRt = StartCoroutine(SlowMoCountdown());
@@ -35,8 +33,8 @@ public class AbilityButtonToggle : MonoBehaviour
         group1.SetActive(true);
         group2.SetActive(false);
 
-        // move to vfx manager later
         VFXManager.Current.TweenTime(1, .5f);
-        VFXManager.Current.canHitStop=true;
+
+        GameEventSystem.Current.OnAbilitySlowMo(false);
     }
 }

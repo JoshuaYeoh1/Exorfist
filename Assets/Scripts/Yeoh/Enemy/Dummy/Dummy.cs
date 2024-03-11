@@ -25,14 +25,14 @@ public class Dummy : MonoBehaviour
         GameEventSystem.Current.DeathEvent -= OnDeath;
     }
 
-    void OnHit(GameObject attacker, GameObject victim, float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult=.3f, float stunTime=.5f)
+    void OnHit(GameObject attacker, GameObject victim, HurtInfo hurtInfo)
     {
         if(victim!=gameObject) return;
 
-        hurt.Hurt(attacker, dmg, kbForce, contactPoint, speedDebuffMult, stunTime);
+        hurt.Hurt(attacker, hurtInfo);
     }
 
-    public void OnDeath(GameObject victim, GameObject killer, float dmg, float kbForce, Vector3 contactPoint)
+    public void OnDeath(GameObject victim, GameObject killer, HurtInfo hurtInfo)
     {
         if(victim!=gameObject) return;
         

@@ -65,7 +65,6 @@ public class EyeblinkAnim : MonoBehaviour
     void OnEnable()
     {
         GameEventSystem.Current.HurtEvent += OnHurt;
-        GameEventSystem.Current.BlockEvent += OnBlock;
         GameEventSystem.Current.DeathEvent += OnDeath;
 
         if(!isDead) randomBlinkingRt = StartCoroutine(RandomBlinking());
@@ -74,27 +73,19 @@ public class EyeblinkAnim : MonoBehaviour
     void OnDisable()
     {
         GameEventSystem.Current.HurtEvent -= OnHurt;
-        GameEventSystem.Current.BlockEvent -= OnBlock;
         GameEventSystem.Current.DeathEvent -= OnDeath;
     }
 
-    public void OnHurt(GameObject victim, GameObject attacker, float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult, float stunTime)
+    public void OnHurt(GameObject victim, GameObject attacker, HurtInfo hurtInfo)
     {
         if(victim!=owner) return;
 
         if(!isDead) Blink();
     }
 
-    public void OnBlock(GameObject defender, GameObject attacker, Vector3 contactPoint, bool parry, bool broke)
-    {
-        if(defender!=owner) return;
-
-        if(!isDead) Blink();
-    }
-
     bool isDead;
 
-    public void OnDeath(GameObject victim, GameObject killer, float dmg, float kbForce, Vector3 contactPoint)
+    public void OnDeath(GameObject victim, GameObject killer, HurtInfo hurtInfo)
     {
         if(victim!=owner) return;
 

@@ -97,15 +97,18 @@ public class PlayerCombat : MonoBehaviour
         int i = atkSO.hitboxIndex;
 
         // copy and replace scriptable object's values to hitbox's values
-        player.hitboxes[i].damage = atkSO.damage;
-        player.hitboxes[i].knockback = atkSO.knockback;
-        player.hitboxes[i].hasSweepingEdge = atkSO.hasSweepingEdge;
-        player.hitboxes[i].shake = atkSO.shake;
-        player.hitboxes[i].hitstop = atkSO.hitstop;
-        player.hitboxes[i].shockwave = atkSO.shockwave;
+        player.hurtboxes[i].dmg = atkSO.dmg;
+        player.hurtboxes[i].kbForce = atkSO.kbForce;
+        player.hurtboxes[i].speedDebuffMult = atkSO.speedDebuffMult;
+        player.hurtboxes[i].stunTime = atkSO.stunTime;
+        player.hurtboxes[i].hasSweepingEdge = atkSO.hasSweepingEdge;
+        player.hurtboxes[i].doImpact = atkSO.doImpact;
+        player.hurtboxes[i].doShake = atkSO.doShake;
+        player.hurtboxes[i].doHitstop = atkSO.doHitstop;
+        player.hurtboxes[i].doShockwave = atkSO.doShockwave;
 
         // enable and disable hitbox rapidly
-        player.hitboxes[i].BlinkHitbox(atkSO.hitboxActiveDuration);
+        player.hurtboxes[i].BlinkHitbox(atkSO.hitboxActiveDuration);
     }
 
     public void AttackRecover()

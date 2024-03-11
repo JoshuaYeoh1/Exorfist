@@ -9,12 +9,11 @@ public class ObjectPooler : MonoBehaviour
     {
         public string poolName;
         public GameObject prefab;
-        public int maxSize;
+        public int maxSize=100;
+        public bool hideInHierarchy=true;
         
         public IPooledObject pooledObject; // if it uses OnSpawnFromPool method from the interface
     }
-
-    public bool hideObjectsInHierarchy=true;
 
     public List<Pool> poolList;
     public Dictionary<string, Queue<GameObject>> poolDict;
@@ -40,7 +39,7 @@ public class ObjectPooler : MonoBehaviour
             {
                 GameObject obj = Instantiate(pool.prefab);
 
-                if(hideObjectsInHierarchy) obj.hideFlags = HideFlags.HideInHierarchy;
+                if(pool.hideInHierarchy) obj.hideFlags = HideFlags.HideInHierarchy;
 
                 obj.SetActive(false);
 
@@ -53,7 +52,7 @@ public class ObjectPooler : MonoBehaviour
         }
     }
 
-    public GameObject SpawnFromPool(string poolName, Vector3 position, Quaternion rotation = default, Vector3 scale = default)
+    public GameObject SpawnFromPool(string poolName, Vector3 position, Quaternion rotation=default)
     {
         if(!poolDict.ContainsKey(poolName)) { Debug.LogError($"No pools have the name {poolName}"); return null; }
         
@@ -62,7 +61,6 @@ public class ObjectPooler : MonoBehaviour
         spawnedObj.SetActive(true);
         spawnedObj.transform.position = position;
         spawnedObj.transform.rotation = rotation;
-        spawnedObj.transform.localScale = scale;
 
         Pool pool = poolList.Find(p => p.poolName == poolName);
         if(pool!=null && pool.pooledObject!=null) pool.pooledObject.OnSpawnFromPool();

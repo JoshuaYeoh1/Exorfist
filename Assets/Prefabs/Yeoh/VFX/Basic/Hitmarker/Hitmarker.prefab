@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5056684987301472298}
   - component: {fileID: 5056684987301472309}
   - component: {fileID: -8062005038911967141}
-  - component: {fileID: 4039761550283455375}
   m_Layer: 0
   m_Name: Hitmarker
   m_TagString: Untagged
@@ -99,30 +98,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onlyY: 0
---- !u!114 &4039761550283455375
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5056684987301472311}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f85a858c326856e4990a1ae680d0621f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  randomTranslateX: 0
-  randomTranslateY: 0
-  randomTranslateZ: 0
-  minTranslate: -0.1
-  maxTranslate: 0.1
-  randomRotateX: 0
-  randomRotateY: 0
-  randomRotateZ: 1
-  minRotate: -180
-  maxRotate: 180
-  randomScaleX: 1
-  randomScaleY: 1
-  randomScaleZ: 1
-  minScale: 0.9
-  maxScale: 1.1
+  fixedUpdate: 1

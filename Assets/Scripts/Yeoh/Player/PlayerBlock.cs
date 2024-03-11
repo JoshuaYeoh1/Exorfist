@@ -9,13 +9,9 @@ public class PlayerBlock : MonoBehaviour
     PlayerHurt hurt;
     [HideInInspector] public OffsetMeshColor color;
     PlayerStun stun;
-    [HideInInspector] public FlashSpriteVFX flash;
-    [HideInInspector] public ShockwaveVFX shock;
     public PlayerBlockMeter meter;
     InputBuffer buffer;
     ClosestObjectFinder finder;
-
-    public GameObject sparksVFXPrefab;
 
     public float blockCooldown=.5f, parryWindowTime=.2f, blockMoveSpeedMult=.5f, blockKnockbackResistMult=.5f;
     public float parryRefillPercent=25;
@@ -29,8 +25,6 @@ public class PlayerBlock : MonoBehaviour
         hurt=GetComponent<PlayerHurt>();
         color=GetComponent<OffsetMeshColor>();
         stun=GetComponent<PlayerStun>();
-        flash=GetComponent<FlashSpriteVFX>();
-        shock=GetComponent<ShockwaveVFX>();
         buffer=GetComponent<InputBuffer>();
         finder=GetComponent<ClosestObjectFinder>();
     }
@@ -106,34 +100,34 @@ public class PlayerBlock : MonoBehaviour
         canBlock=true;
     }
 
-    public void CheckBlock(GameObject attacker, GameObject victim, float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult, float stunTime)
+    public void CheckBlock(GameObject attacker, GameObject victim, HurtInfo hurtInfo)
     {
         if(victim!=gameObject) return;
         if(!player.isAlive) return;
 
         if(isParrying)
         {
-            ParrySuccess(attacker, contactPoint);
+            ParrySuccess(attacker, hurtInfo);
 
-            SetBlockedPoint(contactPoint);
+            SetBlockedPoint(hurtInfo.contactPoint);
 
             finder.ChangeInnerTarget(attacker);
         }
         else if(isBlocking)
         {
-            meter.Hurt(attacker, dmg, kbForce, contactPoint);
+            meter.Hurt(attacker, hurtInfo);
 
-            SetBlockedPoint(contactPoint);
+            SetBlockedPoint(hurtInfo.contactPoint);
 
             finder.ChangeInnerTarget(attacker);
         }
         else
         {
-            hurt.Hurt(attacker, dmg, kbForce, contactPoint, speedDebuffMult, stunTime);
+            hurt.Hurt(attacker, hurtInfo);
         }   
     }
 
-    public void ParrySuccess(GameObject attacker, Vector3 contactPoint)
+    public void ParrySuccess(GameObject attacker, HurtInfo hurtInfo)
     {
         canBlock=true;
 
@@ -142,21 +136,11 @@ public class PlayerBlock : MonoBehaviour
 
         meter.Refill(parryRefillPercent);
 
-        PlaySparkVFX(contactPoint, Color.green);
-
         hurt.DoIFraming(hurt.iframeTime, -.5f, .5f, -.5f); // flicker green
 
-        GameEventSystem.Current.OnBlock(gameObject, attacker, contactPoint, true, false);
+        hurtInfo.parry=true;
 
-
-
-        // move to vfx manager later
-
-        VFXManager.Current.SpawnPopUpText(ModelManager.Current.GetBoundingBoxTop(gameObject), "PARRY!", Color.green);
-
-        shock.SpawnShockwave(contactPoint, Color.green);
-
-        //Singleton.instance.HitStop(); // fucks up your timing
+        GameEventSystem.Current.OnHurt(gameObject, attacker, hurtInfo);
     }
 
     [HideInInspector] public Vector3 blockedPoint;
@@ -175,15 +159,19 @@ public class PlayerBlock : MonoBehaviour
         blockedPoint = Vector3.zero;
     }
 
-    public void PlaySparkVFX(Vector3 contactPoint, Color color)
-    {
-        flash.SpawnFlash(contactPoint, color);
-        GameObject spark = Instantiate(sparksVFXPrefab, contactPoint, Quaternion.identity);
-        spark.hideFlags = HideFlags.HideInHierarchy;
-    }
-
     void Update() // testing
     {
-        if(Input.GetKeyDown(KeyCode.Delete)) CheckBlock(null, gameObject, 10, 1, ModelManager.Current.GetBoundingBoxTop(gameObject), .3f, 1);
+        if(Input.GetKeyDown(KeyCode.Delete))
+        {
+            HurtInfo hurtInfo = new HurtInfo();
+
+            hurtInfo.dmg=10;
+            hurtInfo.kbForce=1;
+            hurtInfo.contactPoint=ModelManager.Current.GetBoundingBoxTop(gameObject);
+            hurtInfo.speedDebuffMult=.3f;
+            hurtInfo.stunTime=1;
+
+            CheckBlock(null, gameObject, hurtInfo);
+        }
     }
 }

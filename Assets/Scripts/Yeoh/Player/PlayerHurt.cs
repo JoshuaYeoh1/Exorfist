@@ -12,8 +12,6 @@ public class PlayerHurt : MonoBehaviour
     public bool iframe;
     public float iframeTime=.5f;
 
-    public GameObject bloodVFXPrefab;
-
     void Awake()
     {
         player=GetComponent<Player>();
@@ -22,39 +20,32 @@ public class PlayerHurt : MonoBehaviour
         stun=GetComponent<PlayerStun>();
     }
 
-    public void Hurt(GameObject attacker, float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult=.3f, float stunTime=.5f)
+    public void Hurt(GameObject attacker, HurtInfo hurtInfo)
     {
         if(!iframe && player.isAlive && player.canHurt)
         {
             DoIFraming(iframeTime, .5f, -.5f, -.5f); // flicker red
 
-            Knockback(kbForce, contactPoint);
+            Knockback(hurtInfo.kbForce, hurtInfo.contactPoint);
 
-            GameEventSystem.Current.OnHurt(gameObject, attacker, dmg, kbForce, contactPoint, speedDebuffMult, stunTime);
+            GameEventSystem.Current.OnHurt(gameObject, attacker, hurtInfo);
 
-            hp.Hit(dmg);
+            hp.Hit(hurtInfo.dmg);
 
             if(hp.hp>0) // if still alive
             {
-                stun.Stun(speedDebuffMult, stunTime);
+                stun.Stun(hurtInfo.speedDebuffMult, hurtInfo.stunTime);
 
                 // move to vfx manager later   
                 // flash screen red
             }
-            else Die(attacker, dmg, kbForce, contactPoint);
+            else Die(attacker, hurtInfo);
 
 
 
 
 
             // move to vfx manager later
-            VFXManager.Current.SpawnPopUpText(contactPoint, dmg.ToString(), Color.red);
-            VFXManager.Current.CamShake();
-            VFXManager.Current.HitStop();
-
-            GameObject blood = Instantiate(bloodVFXPrefab, contactPoint, Quaternion.identity);
-            blood.hideFlags = HideFlags.HideInHierarchy;
-
             // stay red screen
             //Singleton.instance.PlaySFX(Singleton.instance.sfxSubwoofer, transform.position, false);
         }
@@ -114,13 +105,13 @@ public class PlayerHurt : MonoBehaviour
         }
     }
 
-    void Die(GameObject killer, float dmg, float kbForce, Vector3 contactPoint)
+    void Die(GameObject killer, HurtInfo hurtInfo)
     {
         ModelManager.Current.RevertColor(gameObject);
         
         player.CancelActions();
 
-        GameEventSystem.Current.OnDeath(gameObject, killer, dmg, kbForce, contactPoint);
+        GameEventSystem.Current.OnDeath(gameObject, killer, hurtInfo);
 
         player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Death);
     }

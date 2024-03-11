@@ -13,12 +13,15 @@ MonoBehaviour:
   m_Name: inside crescent kick
   m_EditorClassIdentifier: 
   dash: 20
-  damage: 22
-  knockback: 15
   hitboxActiveDuration: 0.2
   animName: inside crescent kick
   hitboxIndex: 3
+  dmg: 22
+  kbForce: 15
+  speedDebuffMult: 0.3
+  stunTime: 0.5
   hasSweepingEdge: 1
-  shake: 1
-  hitstop: 1
-  shockwave: 1
+  doImpact: 1
+  doShake: 1
+  doHitstop: 1
+  doShockwave: 1

@@ -93,14 +93,14 @@ public class EnemyAI : MonoBehaviour
     {
         GameEventSystem.Current.HitEvent += OnHit;
         GameEventSystem.Current.HurtEvent += OnHurt;
-        GameEventSystem.Current.BlockEvent += OnParried;
+        GameEventSystem.Current.HitEvent += OnParried;
         GameEventSystem.Current.DeathEvent += OnDeath;
     }
     void OnDisable()
     {
         GameEventSystem.Current.HitEvent -= OnHit;
         GameEventSystem.Current.HurtEvent -= OnHurt;
-        GameEventSystem.Current.BlockEvent -= OnParried;
+        GameEventSystem.Current.HitEvent -= OnParried;
         GameEventSystem.Current.DeathEvent -= OnDeath;
     }
 
@@ -109,52 +109,49 @@ public class EnemyAI : MonoBehaviour
         //Debug.Log(preparingAttack);
     }
 
-    public BaseHitbox hitbox;
+    public Hurtbox hurtbox;
 
     public void BlinkHitbox()
     {
-        hitbox.BlinkHitbox(.1f);
+        hurtbox.BlinkHitbox();
     }
 
-    void OnHit(GameObject attacker, GameObject victim, float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult=.3f, float stunTime=.5f)
+    void OnHit(GameObject attacker, GameObject victim, HurtInfo hurtInfo)
     {
         if(victim!=gameObject) return;
 
         //this is for a future event system implementation
         if(!isBlocking)
         {
-            hurt.Hurt(attacker, dmg, kbForce, contactPoint);
+            hurt.Hurt(attacker, hurtInfo);
             //EnemyHurt script already broadcasts to OnHurt event, no need to broadcast it again here
         }
         else
         {
             //passing half damage into the "balanceDamage" field for now
             //placeholder: receive half damage and 10% of stun time only
-            LoseBalance(dmg*.5f, stunTime*.1f);
+
+            hurtInfo.dmg *= .5f;
+            hurtInfo.stunTime *= .1f;
+
+            LoseBalance(hurtInfo);
         }
     }
 
     public GameObject bloodVFXPrefab;
 
-    void OnHurt(GameObject victim, GameObject attacker, float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult=.3f, float stunTime=.5f)
+    void OnHurt(GameObject victim, GameObject attacker, HurtInfo hurtInfo)
     {
         if(victim!=gameObject) return;
 
-        if(speedDebuffMult<1 && stunTime>0)
-        {
-            Stun(speedDebuffMult, stunTime);
-        }
-
-        //move to vfx manager later
-        GameObject blood = Instantiate(bloodVFXPrefab, contactPoint, Quaternion.identity);
-        blood.hideFlags = HideFlags.HideInHierarchy;
+        Stun(hurtInfo.speedDebuffMult, hurtInfo.stunTime);
     }
 
-    void LoseBalance(float balanceDamage, float blockStun)
+    void LoseBalance(HurtInfo hurtInfo)
     {
         if(currentBalance>0)
         {
-            currentBalance -= balanceDamage;
+            currentBalance -= hurtInfo.dmg;
 
             if(currentBalance<=0)
             {
@@ -163,36 +160,38 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    void OnParried(GameObject defender, GameObject attacker, Vector3 contactPoint, bool parry, bool broke)
+    void OnParried(GameObject attacker, GameObject defender, HurtInfo hurtInfo)
     {
-        if(attacker!=gameObject || !parry) return;
-
-        Stun();
+        if(attacker==gameObject && hurtInfo.parry)
+        {
+            Stun();
+        }
     }
 
     void Stun(float speedDebuffMult=.3f, float stunTime=.5f)
     {
-        //switch EnemyAIStateMachine to "HitStun" state, stop all coroutines and play hurt animation, play sound effect, etc.
-        //we can use an event system to call sfx and hurt animations if we need to :P
-        isHitStun = true;
-        sm.HitStunSwitchState(sm.hitStunState);
+        if(speedDebuffMult<1 && stunTime>0)
+        {
+            //switch EnemyAIStateMachine to "HitStun" state, stop all coroutines and play hurt animation, play sound effect, etc.
+            //we can use an event system to call sfx and hurt animations if we need to :P
+            isHitStun = true;
+            sm.HitStunSwitchState(sm.hitStunState);
+        }
     }
 
     public GameObject ragdollPrefab;
 
-    void OnDeath(GameObject victim, GameObject killer, float dmg, float kbForce, Vector3 contactPoint)
+    void OnDeath(GameObject victim, GameObject killer, HurtInfo hurtInfo)
     {
         if(victim!=gameObject) return;
 
         //switch EnemyAIStateMachine to "dying" state, stop all coroutines as needed (if we're using coroutines that is)
-        
         //EnemyHurt script already broadcasts to OnDeath event, no need to broadcast it again here
         
-        //Debug.Log($"{victim.name}: wtf {killer.name} is hacking!11!1!");
-
+        //use object pooling later
         Ragdoller ragdoll = Instantiate(ragdollPrefab, transform.position, transform.rotation).GetComponent<Ragdoller>();
 
-        ragdoll.PushRagdoll(kbForce, contactPoint);
+        ragdoll.PushRagdoll(hurtInfo.kbForce, hurtInfo.contactPoint);
 
         Destroy(gameObject);
     }

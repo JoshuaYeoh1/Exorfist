@@ -29,7 +29,6 @@ public class PlayerDeathState : BaseState<PlayerStateMachine.PlayerStates>
         RandDeathAnim();
 
         // move to vfx manager later
-        VFXManager.Current.SpawnPopUpText(ModelManager.Current.GetBoundingBoxTop(stateMachine.player.gameObject), "DEAD!", Color.red);
         //feedback.dieAnim(); // screen red
     }
 

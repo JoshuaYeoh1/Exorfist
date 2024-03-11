@@ -13,12 +13,15 @@ MonoBehaviour:
   m_Name: long knee
   m_EditorClassIdentifier: 
   dash: 10
-  damage: 14
-  knockback: 8
   hitboxActiveDuration: 0.2
   animName: long knee
   hitboxIndex: 3
+  dmg: 14
+  kbForce: 8
+  speedDebuffMult: 0.3
+  stunTime: 0.5
   hasSweepingEdge: 0
-  shake: 1
-  hitstop: 0
-  shockwave: 0
+  doImpact: 1
+  doShake: 1
+  doHitstop: 0
+  doShockwave: 0

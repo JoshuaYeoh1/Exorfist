@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.VFX;
 
 public class VFXManager : MonoBehaviour
 {
@@ -11,9 +12,172 @@ public class VFXManager : MonoBehaviour
     {
         if(!Current) Current=this;
     }
+    
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    void OnEnable()
+    {
+        GameEventSystem.Current.HurtEvent += OnHurt;
+        GameEventSystem.Current.DeathEvent += OnDeath;
+        GameEventSystem.Current.AbilitySlowMoEvent += OnAbilitySlowMo;
+        GameEventSystem.Current.AbilityCastEvent += OnAbilityCast;
+        GameEventSystem.Current.FootstepEvent += OnFootstep;
+    }
+    void OnDisable()
+    {
+        GameEventSystem.Current.HurtEvent -= OnHurt;
+        GameEventSystem.Current.DeathEvent -= OnDeath;
+        GameEventSystem.Current.AbilitySlowMoEvent -= OnAbilitySlowMo;
+        GameEventSystem.Current.AbilityCastEvent -= OnAbilityCast;
+        GameEventSystem.Current.FootstepEvent -= OnFootstep;
+    }
+    
+    void OnHurt(GameObject victim, GameObject attacker, HurtInfo hurtInfo)
+    {
+        if(victim.tag=="Player")
+        {
+            if(hurtInfo.parry)
+            {
+                SpawnPopUpText(ModelManager.Current.GetBoundingBoxTop(victim), "PARRY!", Color.green);
+
+                SpawnFlash(hurtInfo.contactPoint, Color.green);
+
+                SpawnShockwave(hurtInfo.contactPoint, Color.green);
+
+                SpawnSparks(hurtInfo.contactPoint);
+            }
+            else if(hurtInfo.block)
+            {
+                SpawnPopUpText(ModelManager.Current.GetBoundingBoxTop(victim), hurtInfo.dmg.ToString(), Color.cyan);
+
+                SpawnFlash(hurtInfo.contactPoint, Color.cyan);
+
+                SpawnShockwave(hurtInfo.contactPoint, Color.cyan);
+
+                SpawnSparks(hurtInfo.contactPoint);
+            }
+            else
+            {
+                if(hurtInfo.blockBreak)
+                {
+                    SpawnPopUpText(ModelManager.Current.GetBoundingBoxTop(victim), "bREAK!", Color.red);
+
+                    SpawnFlash(hurtInfo.contactPoint, Color.red);
+
+                    SpawnShockwave(hurtInfo.contactPoint, Color.red);
+                }
+                else
+                {
+                    if(hurtInfo.doShockwave) SpawnShockwave(hurtInfo.contactPoint, Color.white);
+                }
+
+                if(hurtInfo.doHitstop) HitStop();
+
+                SpawnPopUpText(ModelManager.Current.GetBoundingBoxTop(victim), hurtInfo.dmg.ToString(), Color.red);
+
+                SpawnHitmarker(hurtInfo.contactPoint, Color.red);
+            }
+
+            if(hurtInfo.doShake) CamShake();
+
+            if(hurtInfo.doImpact) SpawnImpact(hurtInfo.contactPoint);
+        }
+        else
+        {
+            if(attacker.tag=="Player")
+            {
+                if(hurtInfo.parry)
+                {
+                }
+                else if(hurtInfo.block)
+                {
+                }
+                else
+                {
+                    if(hurtInfo.blockBreak)
+                    {
+                    }
+
+                    if(hurtInfo.doHitstop) HitStop();
+
+                    if(hurtInfo.doShockwave) SpawnShockwave(hurtInfo.contactPoint, Color.white);
+                }
+
+                if(hurtInfo.doShake) CamShake();
+
+                if(hurtInfo.doImpact) SpawnImpact(hurtInfo.contactPoint);
+            }
+
+            SpawnPopUpText(ModelManager.Current.GetBoundingBoxTop(victim), hurtInfo.dmg.ToString(), Color.white);
+
+            SpawnHitmarker(hurtInfo.contactPoint, Color.white);
+        }
+
+        SpawnBlood(hurtInfo.contactPoint);
+    }
+
+    void OnDeath(GameObject victim, GameObject killer, HurtInfo hurtInfo)
+    {
+        if(victim.tag=="Player")
+        {
+            SpawnPopUpText(ModelManager.Current.GetBoundingBoxTop(victim), "DEAD!", Color.red);
+        }
+        else
+        {
+            SpawnPopUpText(ModelManager.Current.GetBoundingBoxTop(victim), "DEAD!", Color.grey);
+        }
+    }
+    
+    void OnAbilitySlowMo(bool toggle)
+    {
+        canHitStop=!toggle;
+    }
+
+    void OnAbilityCast(GameObject caster, string abilityName)
+    {
+        if(caster.tag=="Player")
+        {
+            if(abilityName=="AOE")
+            {
+                CamShake(.5f, 3);
+
+                HitStop(.05f, .1f);
+
+                SpawnShockwave(ModelManager.Current.GetBoundingBoxCenter(caster), Color.yellow);
+
+                SpawnGroundExplosion(new Vector3(caster.transform.position.x, caster.transform.position.y+.1f, caster.transform.position.z));
+            }
+            else if(abilityName=="Laser")
+            {
+                HitStop(.05f, .1f);
+
+                SpawnShockwave(ModelManager.Current.GetBoundingBoxCenter(caster), Color.white);
+            }
+            else if(abilityName=="Heal")
+            {
+                HitStop();
+
+                SpawnPopUpText(ModelManager.Current.GetBoundingBoxTop(caster), "HEAL!", Color.yellow);
+
+                SpawnShockwave(ModelManager.Current.GetBoundingBoxCenter(caster), Color.yellow);
+
+                SpawnHeal(caster);
+                SpawnShine(caster);
+            }
+        }
+    }
+
+    void OnFootstep(GameObject subject, string type, Transform footstepTr)
+    {
+        if(subject.tag=="Player")
+        {
+            SpawnPlayerFootprint(type, footstepTr);
+        }
+    }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    //move to camera manager later
     public void CamShake(float time=.1f, float amp=1.5f, float freq=2)
     {
         GameObject.FindGameObjectWithTag("Cinemachine").GetComponent<CameraCinemachine>().Shake(time, amp, freq);
@@ -26,12 +190,21 @@ public class VFXManager : MonoBehaviour
     int tweenTimeLt=0;
     public void TweenTime(float to, float time=.01f)
     {
-        LeanTween.cancel(tweenTimeLt);
-        tweenTimeLt = LeanTween.value(Time.timeScale, to, time)
-            .setEaseInOutSine()
-            .setIgnoreTimeScale(true)
-            .setOnUpdate( (float value)=>{Time.timeScale=value;} )
-            .id;
+        if(to<0) Time.timeScale = 0;
+        else
+        {
+            LeanTween.cancel(tweenTimeLt);
+
+            if(time>0)
+            {
+                tweenTimeLt = LeanTween.value(Time.timeScale, to, time)
+                    .setEaseInOutSine()
+                    .setIgnoreTimeScale(true)
+                    .setOnUpdate( (float value)=>{Time.timeScale=value;} )
+                    .id;
+            }
+            else Time.timeScale = to;
+        }
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,23 +223,51 @@ public class VFXManager : MonoBehaviour
     IEnumerator HitStopping(float fadeIn, float wait, float fadeOut)
     {
         TweenTime(0, fadeIn);
-        yield return new WaitForSecondsRealtime(fadeIn + wait);
+
+        if(fadeIn>0) yield return new WaitForSecondsRealtime(fadeIn);
+        if(wait>0) yield return new WaitForSecondsRealtime(wait);
+
         TweenTime(1, fadeOut);
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public GameObject popUpTextPrefab;
-
-    public void SpawnPopUpText(Vector3 pos, string text, Color color, float scaleMult=.35f, float force=2f)
+    GameObject Spawn(string poolName, Vector3 position, Quaternion rotation=default)
     {
-        GameObject popUp = Instantiate(popUpTextPrefab, pos, Quaternion.identity);
-        popUp.hideFlags = HideFlags.HideInHierarchy;
+        return ObjectPooler.Current.SpawnFromPool(poolName, position, rotation);
+    }
 
-        popUp.transform.localScale *= scaleMult;
+    void HideObject(GameObject obj, float wait=0, float shrink=0)
+    {
+        StartCoroutine(HidingObject(obj, wait, shrink));
+    }
+    IEnumerator HidingObject(GameObject obj, float wait, float shrink)
+    {
+        if(wait>0) yield return new WaitForSeconds(wait);
 
-        Rigidbody rb = popUp.GetComponent<Rigidbody>();
-        rb.AddForce(Vector3.up*force, ForceMode.Impulse);
+        if(shrink>0)
+        {
+            LeanTween.scale(obj, Vector3.zero, shrink).setEaseInOutSine();
+            yield return new WaitForSeconds(shrink);
+        }
+
+        CheckNoConstraint(obj);
+
+        obj.SetActive(false);
+    }
+
+    void CheckNoConstraint(GameObject obj)
+    {
+        TransformConstraint tc = obj.GetComponent<TransformConstraint>();
+
+        if(tc) tc.constrainTo=null;
+    }
+    
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void SpawnPopUpText(Vector3 pos, string text, Color color)
+    {
+        PopUpAnim popUp = Spawn("PopUpText", pos).GetComponent<PopUpAnim>();
 
         TextMeshProUGUI[] tmps = popUp.GetComponentsInChildren<TextMeshProUGUI>();
 
@@ -75,5 +276,157 @@ public class VFXManager : MonoBehaviour
             tmp.text = text;
             tmp.color = color;
         }
+    }
+
+    public void SpawnHitmarker(Vector3 pos, Color color, float time=.1f)
+    {
+        SpriteRenderer sr = Spawn("Hitmarker", pos).GetComponent<SpriteRenderer>();
+
+        sr.color = color;
+
+        HideObject(sr.gameObject, time, .2f);
+    }
+
+    public void SpawnFlash(Vector3 pos, Color color)
+    {
+        SpriteRenderer sr = Spawn("Flash", pos).GetComponent<SpriteRenderer>();
+
+        sr.color = color;
+
+        sr.GetComponent<Animator>().Play("flash", 0);
+
+        HideObject(sr.gameObject, .4f);
+    }
+
+    public void SpawnShockwave(Vector3 pos, Color color)
+    {
+        ParticleSystem shock = Spawn("Shockwave", pos).GetComponent<ParticleSystem>();
+
+        ParticleSystem.MainModule main = shock.main;
+        main.startColor = color;
+
+        shock.Play();
+    }
+
+    public void SpawnGroundExplosion(Vector3 pos)
+    {
+        ParticleSystem explode = Spawn("GroundExplosion", pos).GetComponent<ParticleSystem>();
+
+        VisualEffect[] childVFXs = explode.GetComponentsInChildren<VisualEffect>();
+
+        foreach(VisualEffect vfx in childVFXs)
+        {
+            vfx.Play();
+        }
+
+        explode.Play();
+    }
+
+    public void SpawnBlood(Vector3 pos)
+    {
+        VisualEffect blood = Spawn("Blood", pos).GetComponent<VisualEffect>();
+
+        blood.Play();
+
+        HideObject(blood.gameObject, 1);
+    }
+
+    float lastPlayerFootstepTime, playerFootstepCooldown=.15f;
+
+    public void SpawnPlayerFootprint(string type, Transform footstepTr)
+    {
+        if(Time.time-lastPlayerFootstepTime > playerFootstepCooldown)
+        {
+            lastPlayerFootstepTime = Time.time;
+
+            string poolName = type=="left" ? "PlayerFootprintLeft" : "PlayerFootprintRight";
+
+            VisualEffect footprint = Spawn(poolName, footstepTr.position, footstepTr.rotation).GetComponent<VisualEffect>();
+
+            VisualEffect[] childVFXs = footprint.GetComponentsInChildren<VisualEffect>();
+
+            foreach(VisualEffect vfx in childVFXs)
+            {
+                vfx.Play();
+            }
+
+            footprint.Play();
+
+            HideObject(footprint.gameObject, 3);
+        }
+    }
+
+    public void SpawnHeal(GameObject caster)
+    {
+        VisualEffect heal = Spawn("Heal", caster.transform.position).GetComponent<VisualEffect>();
+
+        heal.Play();
+
+        heal.GetComponent<TransformConstraint>().constrainTo = caster.transform;
+
+        HideObject(heal.gameObject, 4);
+    }
+
+    public void SpawnShine(GameObject caster)
+    {
+        TransformConstraint shineTC = Spawn("Shine", caster.transform.position).GetComponent<TransformConstraint>();
+
+        VisualEffect[] childVFXs = shineTC.GetComponentsInChildren<VisualEffect>();
+
+        foreach(VisualEffect vfx in childVFXs)
+        {
+            vfx.Play();
+        }
+
+        shineTC.constrainTo = caster.transform;
+
+        HideObject(shineTC.gameObject, 1);
+    }
+    
+    public void SpawnImpact(Vector3 pos)
+    {
+        VisualEffect impact = Spawn("Impact", pos).GetComponent<VisualEffect>();
+
+        impact.Play();
+
+        HideObject(impact.gameObject, 1);
+    }
+    
+    public void SpawnSparks(Vector3 pos)
+    {
+        VisualEffect sparks = Spawn("Sparks", pos).GetComponent<VisualEffect>();
+
+        sparks.Play();
+
+        HideObject(sparks.gameObject, 1);
+    }
+    
+    void Update()
+    {
+        Testing();
+    }
+    
+    void Testing()
+    {
+        if(Input.GetKeyDown(KeyCode.Keypad0)) CamShake();
+        if(Input.GetKeyDown(KeyCode.Keypad1)) HitStop();
+        if(Input.GetKeyDown(KeyCode.Keypad2)) SpawnHitmarker(PlayerTop(), Color.white);
+        if(Input.GetKeyDown(KeyCode.Keypad3)) SpawnFlash(PlayerTop(), Color.white);
+        if(Input.GetKeyDown(KeyCode.Keypad4)) SpawnShockwave(PlayerTop(), Color.white);
+        if(Input.GetKeyDown(KeyCode.Keypad5)) SpawnGroundExplosion(new Vector3(FindPlayer().transform.position.x, FindPlayer().transform.position.y+.1f, FindPlayer().transform.position.z));
+        if(Input.GetKeyDown(KeyCode.Keypad6)) {SpawnHeal(FindPlayer()); SpawnShine(FindPlayer());}
+        if(Input.GetKeyDown(KeyCode.Keypad7)) SpawnImpact(PlayerTop());
+        if(Input.GetKeyDown(KeyCode.Keypad8)) SpawnSparks(PlayerTop());
+        if(Input.GetKeyDown(KeyCode.Keypad9)) SpawnPopUpText(PlayerTop(), "ABOI", Color.cyan);
+    }
+
+    GameObject FindPlayer()
+    {
+        return GameObject.FindGameObjectWithTag("Player");
+    }
+
+    Vector3 PlayerTop()
+    {
+        return ModelManager.Current.GetBoundingBoxTop(FindPlayer());
     }
 }
