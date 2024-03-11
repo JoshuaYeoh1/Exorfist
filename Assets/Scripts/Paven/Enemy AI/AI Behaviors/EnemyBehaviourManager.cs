@@ -27,7 +27,7 @@ public class EnemyBehaviourManager : MonoBehaviour
         sm.thisEnemy.SetPreparedAttack(true);
         
         float dist = Vector3.Distance(self.transform.position, self.playerTransform.position);
-        
+        Debug.Log(dist);
         //if close enough to player, attack them
         if(dist <= self.GetClosePlayerRadius())
         {

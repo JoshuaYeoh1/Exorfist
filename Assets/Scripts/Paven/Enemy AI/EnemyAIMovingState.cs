@@ -183,7 +183,7 @@ public class EnemyAIMovingState : EnemyAIBaseState
     public void MaintainDistanceWithPlayer(EnemyAIStateMachine enemy)
     {
         movementIndex = 0;
-        float targetDistance = enemy.thisEnemy.GetFarPlayerRadius() / enemy.thisEnemy.GetClosePlayerRadius(); // Get the desired distance from the enemy settings
+        float targetDistance = (enemy.thisEnemy.GetFarPlayerRadius() + enemy.thisEnemy.GetClosePlayerRadius()) / 2; // Get the desired distance from the enemy settings
         float currentDistance = CalcDistanceToPlayer(enemy);
 
         if (currentDistance < targetDistance - 0.5f)
