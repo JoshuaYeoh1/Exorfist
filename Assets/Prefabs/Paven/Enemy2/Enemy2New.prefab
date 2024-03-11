@@ -249,7 +249,7 @@ Animator:
   m_GameObject: {fileID: 1649796389774806618}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 35d62b675efc07e4f8c152afc653a6a6, type: 3}
-  m_Controller: {fileID: 9100000, guid: da279ec5631c4fb49840238ac6464e7b, type: 2}
+  m_Controller: {fileID: 9100000, guid: 3c96e03c4867309429575ea1b09081e6, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -310,6 +310,7 @@ MonoBehaviour:
   moveAwayDistance: 4
   defaultMovementSpeed: 2.1
   circlingMovementSpeed: 1.4
+  hitbox: {fileID: 0}
   bloodVFXPrefab: {fileID: 8143432443608686193, guid: e28eceefa8801bf42ba0b1d5f6ec5610,
     type: 3}
   ragdollPrefab: {fileID: 5486493928632695043, guid: bf9086d29094ecb45aeadbfb9d13b329,
