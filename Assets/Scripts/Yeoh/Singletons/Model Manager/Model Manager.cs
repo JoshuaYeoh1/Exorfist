@@ -13,13 +13,13 @@ public class ModelManager : MonoBehaviour
 
     // GETTERS
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    public List<Renderer> GetRenderers(GameObject target)
+    
+    public List<MeshRenderer> GetMeshRenderers(GameObject target)
     {
-        List<Renderer> renderers = new List<Renderer>();
+        List<MeshRenderer> renderers = new List<MeshRenderer>();
 
-        renderers.AddRange(target.GetComponents<Renderer>());
-        renderers.AddRange(target.GetComponentsInChildren<Renderer>());
+        renderers.AddRange(target.GetComponents<MeshRenderer>());
+        renderers.AddRange(target.GetComponentsInChildren<MeshRenderer>());
 
         return renderers;
     }
@@ -33,6 +33,16 @@ public class ModelManager : MonoBehaviour
 
         return renderers;
     }
+
+    public List<Renderer> GetRenderers(GameObject target)
+    {
+        List<Renderer> renderers = new List<Renderer>();
+
+        renderers.AddRange(GetMeshRenderers(target));
+        renderers.AddRange(GetSkinnedMeshRenderers(target));
+
+        return renderers;
+    }
     
     public List<MeshFilter> GetMeshFilters(GameObject target)
     {
@@ -42,34 +52,6 @@ public class ModelManager : MonoBehaviour
         meshFilters.AddRange(target.GetComponentsInChildren<MeshFilter>());
 
         return meshFilters;
-    }
-
-    public List<Mesh> GetMeshes(GameObject target)
-    {
-        List<Mesh> meshes = new List<Mesh>();
-
-        foreach(SkinnedMeshRenderer smr in GetSkinnedMeshRenderers(target))
-        {
-            meshes.Add(smr.sharedMesh);
-        }
-        foreach(MeshFilter mf in GetMeshFilters(target))
-        {
-            meshes.Add(mf.sharedMesh);
-        }
-        
-        return meshes;
-    }
-
-    public List<Vector3> GetVertices(GameObject target)
-    {
-        List<Vector3> vertices = new List<Vector3>();
-
-        foreach(Mesh mesh in GetMeshes(target))
-        {
-            vertices.AddRange(mesh.vertices);
-        }
-        
-        return vertices;
     }
 
     public List<Material> GetMaterials(GameObject target, Material materialToGet=null)
@@ -95,42 +77,6 @@ public class ModelManager : MonoBehaviour
         }
 
         return materials;
-    }
-
-    public List<Color> GetColors(GameObject target)
-    {
-        List<Color> colors = new List<Color>();
-
-        foreach(Material material in GetMaterials(target))
-        {
-            colors.Add(material.color);
-        }
-
-        return colors;
-    }
-
-    public List<Color> GetEmissionColors(GameObject target)
-    {
-        List<Color> emissionColors = new List<Color>();
-
-        foreach(Material material in GetMaterials(target))
-        {
-            emissionColors.Add(material.GetColor("_EmissionColor"));
-        }
-
-        return emissionColors;
-    }
-
-    Bounds GetBounds(GameObject target)
-    {
-        Bounds combinedBounds = new Bounds(Vector3.zero, Vector3.zero);
-
-        foreach(Renderer renderer in GetRenderers(target))
-        {
-            combinedBounds.Encapsulate(renderer.bounds);
-        }
-
-        return combinedBounds;
     }
 
     // MATERIAL ADD/REMOVE
@@ -169,6 +115,30 @@ public class ModelManager : MonoBehaviour
     // OFFSET MESH COLORS
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    public List<Color> GetColors(GameObject target)
+    {
+        List<Color> colors = new List<Color>();
+
+        foreach(Material material in GetMaterials(target))
+        {
+            colors.Add(material.color);
+        }
+
+        return colors;
+    }
+
+    public List<Color> GetEmissionColors(GameObject target)
+    {
+        List<Color> emissionColors = new List<Color>();
+
+        foreach(Material material in GetMaterials(target))
+        {
+            emissionColors.Add(material.GetColor("_EmissionColor"));
+        }
+
+        return emissionColors;
+    }
+    
     Dictionary<Material, Color> originalColors = new Dictionary<Material, Color>();
     Dictionary<Material, Color> originalEmissionColors = new Dictionary<Material, Color>();
 
@@ -249,8 +219,36 @@ public class ModelManager : MonoBehaviour
         RevertColor(target);
     }
 
-    // TOP FINDER
+    // TOP VERTEX FINDER
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public List<Mesh> GetMeshes(GameObject target)
+    {
+        List<Mesh> meshes = new List<Mesh>();
+
+        foreach(SkinnedMeshRenderer smr in GetSkinnedMeshRenderers(target))
+        {
+            meshes.Add(smr.sharedMesh);
+        }
+        foreach(MeshFilter mf in GetMeshFilters(target))
+        {
+            meshes.Add(mf.sharedMesh);
+        }
+        
+        return meshes;
+    }
+
+    public List<Vector3> GetVertices(GameObject target)
+    {
+        List<Vector3> vertices = new List<Vector3>();
+
+        foreach(Mesh mesh in GetMeshes(target))
+        {
+            vertices.AddRange(mesh.vertices);
+        }
+        
+        return vertices;
+    }
 
     public Vector3 GetTopVertex(GameObject target)
     {
@@ -293,27 +291,43 @@ public class ModelManager : MonoBehaviour
         return target.transform.position;
     }
 
-    public Vector3 GetTopBoundingBox(GameObject target)
+    // BOUNDING BOX
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public Bounds GetCombinedBounds(GameObject target)
     {
-        Bounds bounds = GetBounds(target);
+        Bounds combinedBounds = new Bounds(Vector3.zero, Vector3.zero);
 
-        gizmosTarget = target;
-        gizmosBounds = bounds;
+        foreach(Renderer renderer in GetRenderers(target))
+        {
+            combinedBounds.Encapsulate(renderer.bounds);
+        }
 
-        Vector3 topPoint = target.transform.TransformPoint(bounds.max);
-
-        return topPoint;
+        return combinedBounds;
     }
 
-    GameObject gizmosTarget;
-    Bounds gizmosBounds;
-
-    void OnDrawGizmos()
+    public Vector3 GetBoundingBoxSize(GameObject target)
     {
-        if(gizmosTarget && gizmosBounds!=null)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireCube(gizmosTarget.transform.position, gizmosBounds.size);
-        }
+        Bounds combinedBounds = GetCombinedBounds(target);
+
+        return combinedBounds.size;
+    }
+
+    public Vector3 GetBoundingBoxCenter(GameObject target)
+    {
+        Bounds combinedBounds = GetCombinedBounds(target);
+
+        Vector3 worldCenter = target.transform.TransformPoint(combinedBounds.center);
+
+        return worldCenter;
+    }
+
+    public Vector3 GetBoundingBoxTop(GameObject target)
+    {
+        float halfHeight = GetBoundingBoxSize(target).y * .5f;
+
+        Vector3 center = GetBoundingBoxCenter(target);
+
+        return new Vector3(target.transform.position.x, center.y+halfHeight, target.transform.position.z);
     }
 }

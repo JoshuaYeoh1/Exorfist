@@ -111,7 +111,7 @@ public class PlayerBlockMeter : MonoBehaviour
 
         block.PlaySparkVFX(contactPoint, Color.red);
 
-        VFXManager.Current.SpawnPopUpText(ModelManager.Current.GetTopBoundingBox(block.gameObject), "bREAK!", Color.red);
+        VFXManager.Current.SpawnPopUpText(ModelManager.Current.GetBoundingBoxTop(block.gameObject), "bREAK!", Color.red);
 
         block.shock.SpawnShockwave(contactPoint, Color.red);
 
