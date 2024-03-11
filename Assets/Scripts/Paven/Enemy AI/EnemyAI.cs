@@ -109,6 +109,13 @@ public class EnemyAI : MonoBehaviour
         //Debug.Log(preparingAttack);
     }
 
+    public BaseHitbox hitbox;
+
+    public void BlinkHitbox()
+    {
+        hitbox.BlinkHitbox(.1f);
+    }
+
     void OnHit(GameObject attacker, GameObject victim, float dmg, float kbForce, Vector3 contactPoint, float speedDebuffMult=.3f, float stunTime=.5f)
     {
         if(victim!=gameObject) return;
