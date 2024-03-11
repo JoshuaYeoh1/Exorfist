@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     [HideInInspector] public PlayerAOE aoe;
     [HideInInspector] public PlayerLaser laser;
     [HideInInspector] public PlayerHeal heal;
+    public PlayerGroundbox ground;
     
     public Animator anim;
     public GameObject playerModel;
@@ -56,6 +57,11 @@ public class Player : MonoBehaviour
         {
             if(target) target=null;
         }
+    }
+
+    void FixedUpdate()
+    {
+        isGrounded = ground.isGrounded;
     }
 
     public void CancelActions()

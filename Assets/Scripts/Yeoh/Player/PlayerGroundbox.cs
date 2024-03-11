@@ -4,12 +4,7 @@ using UnityEngine;
 
 public class PlayerGroundbox : MonoBehaviour
 {
-    Player player;
-
-    void Awake()
-    {
-        player=transform.root.GetComponent<Player>();
-    }
+    public bool isGrounded;
 
     int collCount;
 
@@ -21,7 +16,7 @@ public class PlayerGroundbox : MonoBehaviour
 
         if(!other.isTrigger && collCount>0)
         {
-            player.isGrounded=true;
+            isGrounded=true;
         }
     }
 
@@ -33,7 +28,7 @@ public class PlayerGroundbox : MonoBehaviour
 
         if(!other.isTrigger && collCount<1)
         {
-            player.isGrounded=false;
+            isGrounded=false;
         }
     }
 }

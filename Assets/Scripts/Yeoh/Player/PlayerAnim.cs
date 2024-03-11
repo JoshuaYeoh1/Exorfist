@@ -6,27 +6,26 @@ public class PlayerAnim : MonoBehaviour
 {
     [HideInInspector] public Animator anim;
 
+    public Player player;
     PlayerMovement move;
     PlayerCombat combat;
     Rigidbody rb;
     PlayerAOE aoe;
     PlayerLaser laser;
     PlayerHeal heal;
-    Player player;
     Ragdoller ragdoll;
 
     void Start()
     {
         anim = GetComponent<Animator>();
 
-        move=transform.root.GetComponent<PlayerMovement>();
-        combat=transform.root.GetComponent<PlayerCombat>();
-        rb=transform.root.GetComponent<Rigidbody>();
-        aoe=transform.root.GetComponent<PlayerAOE>();
-        laser=transform.root.GetComponent<PlayerLaser>();
-        heal=transform.root.GetComponent<PlayerHeal>();
-        player=transform.root.GetComponent<Player>();
-        ragdoll=transform.root.GetComponent<Ragdoller>();
+        move = player.GetComponent<PlayerMovement>();
+        combat = player.GetComponent<PlayerCombat>();
+        rb = player.GetComponent<Rigidbody>();
+        aoe = player.GetComponent<PlayerAOE>();
+        laser = player.GetComponent<PlayerLaser>();
+        heal = player.GetComponent<PlayerHeal>();
+        ragdoll = player.GetComponent<Ragdoller>();
     }
 
     void Update()

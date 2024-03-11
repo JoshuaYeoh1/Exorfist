@@ -4,16 +4,11 @@ using UnityEngine;
 
 public class ControlHider : MonoBehaviour
 {
-    Player player;
+    public Player player;
 
     public GameObject[] attackBtns;
     public GameObject blockBtn, abilityBtn;
     public AbilityButtonToggle abilityButtonToggle;
-
-    void Awake()
-    {
-        player=transform.root.GetComponent<Player>();
-    }
 
     void Update()
     {

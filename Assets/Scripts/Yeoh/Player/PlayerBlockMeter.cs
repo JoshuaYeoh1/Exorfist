@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerBlockMeter : MonoBehaviour
 {
     HPManager hp;
+
+    public GameObject player;
     PlayerBlock block;
     PlayerHurt hurt;
 
@@ -14,9 +16,10 @@ public class PlayerBlockMeter : MonoBehaviour
 
     void Awake()
     {
-        hp=GetComponent<HPManager>();
-        block=transform.root.GetComponent<PlayerBlock>();
-        hurt=transform.root.GetComponent<PlayerHurt>();
+        hp = GetComponent<HPManager>();
+
+        block = player.GetComponent<PlayerBlock>();
+        hurt = player.GetComponent<PlayerHurt>();
     }
 
     void Update()
@@ -108,7 +111,7 @@ public class PlayerBlockMeter : MonoBehaviour
 
         block.PlaySparkVFX(contactPoint, Color.red);
 
-        VFXManager.Current.SpawnPopUpText(ModelManager.Current.GetTopVertex(block.gameObject), "bREAK!", Color.red);
+        VFXManager.Current.SpawnPopUpText(ModelManager.Current.GetTopBoundingBox(block.gameObject), "bREAK!", Color.red);
 
         block.shock.SpawnShockwave(contactPoint, Color.red);
 

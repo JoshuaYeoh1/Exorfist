@@ -17,25 +17,26 @@ public class DoorTriggerEnter : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Trigger enter");
-        GameObject player = other.transform.root.gameObject;
-        if (player.CompareTag("Player"))
+        GameObject player = other.attachedRigidbody.gameObject;
+
+        if(player.tag=="Player")
         {
             OnDoorTriggerEnter();
-            if(popUpPrefabRef == null)
+
+            if(!popUpPrefabRef)
             {
                 popUpPrefabRef = Instantiate(popUpPrefab);
-
             }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        GameObject player = other.transform.root.gameObject;
-        if (player.CompareTag("Player"))
+        GameObject player = other.attachedRigidbody.gameObject;
+
+        if(player.tag=="Player")
         {
-            if(popUpPrefabRef != null)
+            if(popUpPrefabRef)
             {
                 Destroy(popUpPrefabRef);
             }

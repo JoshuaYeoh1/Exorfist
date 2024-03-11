@@ -152,7 +152,7 @@ public class PlayerBlock : MonoBehaviour
 
         // move to vfx manager later
 
-        VFXManager.Current.SpawnPopUpText(ModelManager.Current.GetTopVertex(gameObject), "PARRY!", Color.green);
+        VFXManager.Current.SpawnPopUpText(ModelManager.Current.GetTopBoundingBox(gameObject), "PARRY!", Color.green);
 
         shock.SpawnShockwave(contactPoint, Color.green);
 
@@ -184,6 +184,6 @@ public class PlayerBlock : MonoBehaviour
 
     void Update() // testing
     {
-        if(Input.GetKeyDown(KeyCode.Delete)) CheckBlock(null, gameObject, 10, 1, GetComponent<TopVertexFinder>().GetTopVertex(gameObject), .3f, 1);
+        if(Input.GetKeyDown(KeyCode.Delete)) CheckBlock(null, gameObject, 10, 1, ModelManager.Current.GetTopBoundingBox(gameObject), .3f, 1);
     }
 }
