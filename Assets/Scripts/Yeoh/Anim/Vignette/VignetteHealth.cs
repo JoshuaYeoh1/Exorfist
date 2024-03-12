@@ -17,7 +17,8 @@ public class VignetteHealth : MonoBehaviour
     
     void Update()
     {
-        vignetteColor.a = 1 - hp.hp/hp.hpMax;
+        vignetteColor.a = (hp.hpMax!=0)? 1-hp.hp/hp.hpMax : 1;
+
         vignette.color = vignetteColor;
     }
 }
