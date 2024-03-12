@@ -35,18 +35,10 @@ public class PlayerHurt : MonoBehaviour
             if(hp.hp>0) // if still alive
             {
                 stun.Stun(hurtInfo.speedDebuffMult, hurtInfo.stunTime);
-
-                // move to vfx manager later   
-                // flash screen red
             }
             else Die(attacker, hurtInfo);
 
-
-
-
-
-            // move to vfx manager later
-            // stay red screen
+            // move to sfx manager later
             //Singleton.instance.PlaySFX(Singleton.instance.sfxSubwoofer, transform.position, false);
         }
     }

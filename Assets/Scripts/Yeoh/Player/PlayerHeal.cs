@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class PlayerHeal : MonoBehaviour
 {
     Player player;
-    InputBuffer buffer;
     HPManager hp;
 
     [Header("Casting")]
@@ -32,7 +31,6 @@ public class PlayerHeal : MonoBehaviour
     void Awake()
     {
         player=GetComponent<Player>();
-        buffer=GetComponent<InputBuffer>();
         hp=GetComponent<HPManager>();
 
         defaultRegenHp = hp.regenHp;
@@ -53,7 +51,7 @@ public class PlayerHeal : MonoBehaviour
 
             castingRt=StartCoroutine(Casting());
 
-            buffer.lastPressedHeal=-1;
+            GameEventSystem.Current.OnAbilityCasting(gameObject, "Heal");
         }
     }
     

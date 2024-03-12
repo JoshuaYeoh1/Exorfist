@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Parallel toon
-  m_Shader: {fileID: -6465566751694194690, guid: 28d678f92815d1141a7523b0b79660a2,
+  m_Shader: {fileID: -6465566751694194690, guid: d54feb482937d6f4299aa1f52e8936f0,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -131,6 +131,8 @@ Material:
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
+    - _Toom_Ramp_Smoothness: 0
+    - _Toon_Ramp_Offset: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
@@ -138,4 +140,5 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _Toon_Ramp_Tinting: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []

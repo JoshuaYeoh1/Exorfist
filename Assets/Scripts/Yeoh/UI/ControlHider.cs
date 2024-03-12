@@ -46,18 +46,21 @@ public class ControlHider : MonoBehaviour
     {
         if(player.canCast) ToggleActive(abilityBtn, true);
 
-        else
-        {
-            if(abilityBtn.activeSelf)
-            {
-                if(abilityButtonToggle.active) abilityButtonToggle.HideAbilities();
-                abilityBtn.SetActive(false);
-            }
-        }
+        else HideAbilityButton();
     }
 
     void ToggleActive(GameObject obj, bool toggle=true)
     {
         if(obj.activeSelf!=toggle) obj.SetActive(toggle);
+    }
+
+    void HideAbilityButton()
+    {
+        if(abilityBtn.activeSelf)
+        {
+            abilityButtonToggle.HideAbilities();
+
+            abilityBtn.SetActive(false);
+        }
     }
 }

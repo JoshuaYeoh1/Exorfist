@@ -9,7 +9,7 @@
 
 //     void Update()
 //     {
-//         if(Input.GetKeyDown(KeyCode.P)) // move to vfx manager later
+//         if(Input.GetKeyDown(KeyCode.P))
 //         VFXManager.Current.SpawnPopUpText(tf.position, "YOOOO!", Color.red);
 //     }
 // }

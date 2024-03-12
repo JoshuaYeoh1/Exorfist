@@ -36,6 +36,9 @@ public class GameEventSystem : MonoBehaviour
     public event Action<GameObject> SpawnEvent;
     public event Action<GameObject, GameObject, HurtInfo> HitEvent; // ignores iframe
     public event Action<GameObject, GameObject, HurtInfo> HurtEvent; // respects iframe
+    public event Action<GameObject, GameObject, HurtInfo> BlockEvent;
+    public event Action<GameObject, GameObject, HurtInfo> ParryEvent;
+    public event Action<GameObject, GameObject, HurtInfo> BlockBreakEvent;
     public event Action<GameObject, GameObject, HurtInfo> DeathEvent;
 
     public void OnSpawn(GameObject subject)
@@ -50,6 +53,18 @@ public class GameEventSystem : MonoBehaviour
     {
         HurtEvent?.Invoke(victim, attacker, hurtInfo); //Debug.Log($"{victim.name} was hurt by {attacker.name} for {dmg}");
     }
+    public void OnBlock(GameObject defender, GameObject attacker, HurtInfo hurtInfo)
+    {
+        BlockEvent?.Invoke(defender, attacker, hurtInfo);
+    }
+    public void OnParry(GameObject defender, GameObject attacker, HurtInfo hurtInfo)
+    {
+        ParryEvent?.Invoke(defender, attacker, hurtInfo);
+    }
+    public void OnBlockBreak(GameObject defender, GameObject attacker, HurtInfo hurtInfo)
+    {
+        BlockBreakEvent?.Invoke(defender, attacker, hurtInfo);
+    }
     public void OnDeath(GameObject victim, GameObject killer, HurtInfo hurtInfo)
     {
         DeathEvent?.Invoke(victim, killer, hurtInfo); //Debug.Log($"{victim.name} was killed by {killer.name}");
@@ -58,6 +73,7 @@ public class GameEventSystem : MonoBehaviour
     //==Ability Related actions==//
     public event Action<bool> AbilitySlowMoEvent;
     public event Action<GameObject, string> AbilityCastEvent;
+    public event Action<GameObject, string> AbilityCastingEvent;
     public event Action<GameObject, string> AbilityEndEvent;
 
     public void OnAbilitySlowMo(bool toggle)
@@ -67,6 +83,10 @@ public class GameEventSystem : MonoBehaviour
     public void OnAbilityCast(GameObject caster, string abilityName)
     {
         AbilityCastEvent?.Invoke(caster, abilityName);
+    }
+    public void OnAbilityCasting(GameObject caster, string abilityName)
+    {
+        AbilityCastingEvent?.Invoke(caster, abilityName);
     }
     public void OnAbilityEnd(GameObject caster, string abilityName)
     {

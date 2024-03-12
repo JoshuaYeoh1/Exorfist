@@ -36,7 +36,7 @@ public class SlamAttackScript : MonoBehaviour
     {
         //set navmesh agent speed to 0 to allow LeanTween to move the gameObject instead
         thisEnemy.agent.speed = 0;
-        LeanTween.move(thisEnemy.gameObject, offsetPos, 0.3f);
+        LeanTween.move(thisEnemy.gameObject, offsetPos, 0.3f).setEaseInOutSine();
         thisEnemy.agent.SetDestination(offsetPos);
     }
 

@@ -104,5 +104,25 @@ public class InputBuffer : MonoBehaviour
         if(Input.GetKeyUp(KeyCode.X)) Laser();
         if(Input.GetKeyUp(KeyCode.C)) Heal();
     }
+
+    void OnEnable()
+    {
+        GameEventSystem.Current.AbilityCastingEvent += OnAbilityCasting;
+    }
+    void OnDisable()
+    {
+        GameEventSystem.Current.AbilityCastingEvent -= OnAbilityCasting;
+    }
     
+    void OnAbilityCasting(GameObject caster, string abilityName)
+    {
+        if(caster==gameObject)
+        {
+            if(abilityName=="AOE") lastPressedAOE=-1;
+
+            if(abilityName=="Laser") lastPressedLaser=-1;
+
+            if(abilityName=="Heal") lastPressedHeal=-1;
+        }
+    }
 }

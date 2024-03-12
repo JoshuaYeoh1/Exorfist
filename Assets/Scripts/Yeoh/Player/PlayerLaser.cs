@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class PlayerLaser : MonoBehaviour
 {
     Player player;
-    InputBuffer buffer;
     ClosestObjectFinder finder;
 
     [Header("Casting")]
@@ -31,7 +30,6 @@ public class PlayerLaser : MonoBehaviour
     void Awake()
     {
         player=GetComponent<Player>();
-        buffer=GetComponent<InputBuffer>();
         finder=GetComponent<ClosestObjectFinder>();
     }
 
@@ -50,7 +48,7 @@ public class PlayerLaser : MonoBehaviour
 
             castingRt=StartCoroutine(Casting());
 
-            buffer.lastPressedLaser=-1;
+            GameEventSystem.Current.OnAbilityCasting(gameObject, "Laser");
         }
     }
 
@@ -107,7 +105,7 @@ public class PlayerLaser : MonoBehaviour
 
         DisableCastTrails();
 
-        GameEventSystem.Current.OnAbilityEnd(gameObject, "Laser"); print("WTFFFF");
+        GameEventSystem.Current.OnAbilityEnd(gameObject, "Laser");
     }
 
     GameObject laser;

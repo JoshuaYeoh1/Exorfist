@@ -405,4 +405,21 @@ public class ModelManager : MonoBehaviour
 
         return new Vector3(target.transform.position.x, highestPoint, target.transform.position.z);
     }
+
+    public Vector3 GetColliderCenter(GameObject target)
+    {
+        List<Collider> colliders = GetColliders(target);
+
+        Vector3 center = Vector3.zero;
+
+        // Calculate the average position of all colliders' centers
+        foreach(Collider col in colliders)
+        {
+            center += col.bounds.center;
+        }
+
+        center /= colliders.Count;
+
+        return center;
+    }
 }

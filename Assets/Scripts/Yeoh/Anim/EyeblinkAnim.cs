@@ -15,22 +15,45 @@ public class EyeblinkAnim : MonoBehaviour
         defScaleY = eyes[0].transform.localScale.y;
     }
 
-    List<int> tweenEyesLts = new List<int>();
+    Dictionary<GameObject, int> eyeTweenIdDict = new Dictionary<GameObject, int>();
 
     public void TweenEyesY(float to, float time)
     {
-        foreach(int id in tweenEyesLts)
-        {
-            LeanTween.cancel(id);
-        }
-
-        tweenEyesLts.Clear();
+        if(to<0) to=0;
 
         foreach(GameObject eye in eyes)
         {
-            int id = LeanTween.scaleY(eye, to, time).setEaseInOutSine().id;
+            if(time>0) 
+            {
+                if(eyeTweenIdDict.ContainsKey(eye))
+                {
+                    LeanTween.cancel(eyeTweenIdDict[eye]);
+                    eyeTweenIdDict.Remove(eye); // cleanup
+                }
 
-            tweenEyesLts.Add(id);
+                int id = LeanTween.scaleY(eye, to, time).setEaseInOutSine().setOnComplete(CheckResetPriority).id;
+
+                eyeTweenIdDict.Add(eye, id);
+            }
+            else
+            {
+                eye.transform.localScale = new Vector3(eye.transform.localScale.x, to, eye.transform.localScale.z);
+
+                CheckResetPriority();
+            }
+        }
+    }
+
+    float currentPriority;
+
+    void CheckResetPriority()
+    {
+        foreach(GameObject eye in eyes)
+        {
+            if(eye.transform.localScale.y==defScaleY)
+            {
+                currentPriority=0;
+            }
         }
     }
 
@@ -42,7 +65,7 @@ public class EyeblinkAnim : MonoBehaviour
         while(true)
         {
             yield return new WaitForSeconds(blinkInterval * Random.Range(.5f, 3));
-            Blink();
+            if(hasPriority(1)) Blink();
         }
     }
 
@@ -50,8 +73,10 @@ public class EyeblinkAnim : MonoBehaviour
 
     public void Blink()
     {
+        if(isDead) return;
+
         if(blinkingRt!=null) StopCoroutine(blinkingRt);
-        StartCoroutine(Blinking());
+        blinkingRt = StartCoroutine(Blinking());
     }
 
     Coroutine blinkingRt;
@@ -76,17 +101,21 @@ public class EyeblinkAnim : MonoBehaviour
         GameEventSystem.Current.DeathEvent -= OnDeath;
     }
 
-    public void OnHurt(GameObject victim, GameObject attacker, HurtInfo hurtInfo)
+    void OnHurt(GameObject victim, GameObject attacker, HurtInfo hurtInfo)
     {
+        if(!hasPriority(2)) return;
+
         if(victim!=owner) return;
 
-        if(!isDead) Blink();
+        Blink();
     }
 
     bool isDead;
 
-    public void OnDeath(GameObject victim, GameObject killer, HurtInfo hurtInfo)
+    void OnDeath(GameObject victim, GameObject killer, HurtInfo hurtInfo)
     {
+        if(!hasPriority(5)) return;
+
         if(victim!=owner) return;
 
         isDead=true;
@@ -95,5 +124,15 @@ public class EyeblinkAnim : MonoBehaviour
         if(blinkingRt!=null) StopCoroutine(blinkingRt);
 
         TweenEyesY(.2f, blinkTime);
+    }
+
+    bool hasPriority(float level)
+    {
+        if(level>=currentPriority)
+        {
+            currentPriority = level;
+            return true;
+        }
+        else return false;
     }
 }

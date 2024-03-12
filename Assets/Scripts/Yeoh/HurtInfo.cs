@@ -16,10 +16,7 @@ public class HurtInfo
     public bool doShake { get; set; }
     public bool doHitstop { get; set; }
     public bool doShockwave { get; set; }
-    public bool block { get; set; }
-    public bool parry { get; set; }
-    public bool blockBreak { get; set; }
-
+    
     public HurtInfo()
     {
         coll = null;
@@ -34,8 +31,5 @@ public class HurtInfo
         doShake = false;
         doHitstop = false;
         doShockwave = false;
-        block = false;
-        parry = false;
-        blockBreak = false;
     }
 }

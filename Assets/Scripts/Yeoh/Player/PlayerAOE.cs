@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class PlayerAOE : MonoBehaviour
 {
     Player player;
-    InputBuffer buffer;
 
     [Header("Casting")]
     public GameObject castingBarPrefab;
@@ -28,7 +27,6 @@ public class PlayerAOE : MonoBehaviour
     void Awake()
     {
         player=GetComponent<Player>();
-        buffer=GetComponent<InputBuffer>();
     }
 
     void Update()
@@ -46,7 +44,7 @@ public class PlayerAOE : MonoBehaviour
 
             castingRt=StartCoroutine(Casting());
 
-            buffer.lastPressedAOE=-1;
+            GameEventSystem.Current.OnAbilityCasting(gameObject, "AOE");
         }
     }
     

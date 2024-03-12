@@ -18,6 +18,9 @@ public class VFXManager : MonoBehaviour
     void OnEnable()
     {
         GameEventSystem.Current.HurtEvent += OnHurt;
+        GameEventSystem.Current.BlockEvent += OnBlock;
+        GameEventSystem.Current.ParryEvent += OnParry;
+        GameEventSystem.Current.BlockBreakEvent += OnBlockBreak;
         GameEventSystem.Current.DeathEvent += OnDeath;
         GameEventSystem.Current.AbilitySlowMoEvent += OnAbilitySlowMo;
         GameEventSystem.Current.AbilityCastEvent += OnAbilityCast;
@@ -26,6 +29,9 @@ public class VFXManager : MonoBehaviour
     void OnDisable()
     {
         GameEventSystem.Current.HurtEvent -= OnHurt;
+        GameEventSystem.Current.BlockEvent -= OnBlock;
+        GameEventSystem.Current.ParryEvent -= OnParry;
+        GameEventSystem.Current.BlockBreakEvent -= OnBlockBreak;
         GameEventSystem.Current.DeathEvent -= OnDeath;
         GameEventSystem.Current.AbilitySlowMoEvent -= OnAbilitySlowMo;
         GameEventSystem.Current.AbilityCastEvent -= OnAbilityCast;
@@ -36,81 +42,32 @@ public class VFXManager : MonoBehaviour
     {
         if(victim.tag=="Player")
         {
-            if(hurtInfo.parry)
-            {
-                SpawnPopUpText(ModelManager.Current.GetBoundingBoxTop(victim), "PARRY!", Color.green);
+            if(hurtInfo.doShockwave) SpawnShockwave(hurtInfo.contactPoint, Color.white);
 
-                SpawnFlash(hurtInfo.contactPoint, Color.green);
+            if(hurtInfo.doHitstop) HitStop();
 
-                SpawnShockwave(hurtInfo.contactPoint, Color.green);
+            SpawnPopUpText(ModelManager.Current.GetColliderTop(victim), hurtInfo.dmg.ToString(), Color.red);
 
-                SpawnSparks(hurtInfo.contactPoint);
-            }
-            else if(hurtInfo.block)
-            {
-                SpawnPopUpText(ModelManager.Current.GetBoundingBoxTop(victim), hurtInfo.dmg.ToString(), Color.cyan);
+            SpawnHitmarker(hurtInfo.contactPoint, Color.red);
 
-                SpawnFlash(hurtInfo.contactPoint, Color.cyan);
-
-                SpawnShockwave(hurtInfo.contactPoint, Color.cyan);
-
-                SpawnSparks(hurtInfo.contactPoint);
-            }
-            else
-            {
-                if(hurtInfo.blockBreak)
-                {
-                    SpawnPopUpText(ModelManager.Current.GetBoundingBoxTop(victim), "bREAK!", Color.red);
-
-                    SpawnFlash(hurtInfo.contactPoint, Color.red);
-
-                    SpawnShockwave(hurtInfo.contactPoint, Color.red);
-                }
-                else
-                {
-                    if(hurtInfo.doShockwave) SpawnShockwave(hurtInfo.contactPoint, Color.white);
-                }
-
-                if(hurtInfo.doHitstop) HitStop();
-
-                SpawnPopUpText(ModelManager.Current.GetBoundingBoxTop(victim), hurtInfo.dmg.ToString(), Color.red);
-
-                SpawnHitmarker(hurtInfo.contactPoint, Color.red);
-
-                SpawnBlood(hurtInfo.contactPoint);
-            }
+            SpawnBlood(hurtInfo.contactPoint);
 
             CamShake();
 
             if(hurtInfo.doImpact) SpawnImpact(hurtInfo.contactPoint);
         }
-        else
+
+        else if(attacker.tag=="Player")
         {
-            if(attacker.tag=="Player")
-            {
-                if(hurtInfo.parry)
-                {
-                }
-                else if(hurtInfo.block)
-                {
-                }
-                else
-                {
-                    if(hurtInfo.blockBreak)
-                    {
-                    }
+            if(hurtInfo.doHitstop) HitStop();
 
-                    if(hurtInfo.doHitstop) HitStop();
+            if(hurtInfo.doShockwave) SpawnShockwave(hurtInfo.contactPoint, Color.white);
 
-                    if(hurtInfo.doShockwave) SpawnShockwave(hurtInfo.contactPoint, Color.white);
-                }
+            if(hurtInfo.doShake) CamShake();
 
-                if(hurtInfo.doShake) CamShake();
+            if(hurtInfo.doImpact) SpawnImpact(hurtInfo.contactPoint);
 
-                if(hurtInfo.doImpact) SpawnImpact(hurtInfo.contactPoint);
-            }
-
-            SpawnPopUpText(ModelManager.Current.GetBoundingBoxTop(victim), hurtInfo.dmg.ToString(), Color.white);
+            SpawnPopUpText(ModelManager.Current.GetColliderTop(victim), hurtInfo.dmg.ToString(), Color.white);
 
             SpawnHitmarker(hurtInfo.contactPoint, Color.white);
 
@@ -118,15 +75,67 @@ public class VFXManager : MonoBehaviour
         }
     }
 
+    void OnBlock(GameObject defender, GameObject attacker, HurtInfo hurtInfo)
+    {
+        if(defender.tag=="Player")
+        {
+            SpawnPopUpText(ModelManager.Current.GetColliderTop(defender), hurtInfo.dmg.ToString(), Color.cyan);
+
+            SpawnFlash(hurtInfo.contactPoint, Color.cyan);
+
+            SpawnShockwave(hurtInfo.contactPoint, Color.cyan);
+
+            SpawnSparks(hurtInfo.contactPoint);
+
+            CamShake();
+
+            if(hurtInfo.doImpact) SpawnImpact(hurtInfo.contactPoint);
+        }
+    }
+
+    void OnParry(GameObject defender, GameObject attacker, HurtInfo hurtInfo)
+    {
+        if(defender.tag=="Player")
+        {
+            SpawnPopUpText(ModelManager.Current.GetColliderTop(defender), "PARRY!", Color.green);
+
+            SpawnFlash(hurtInfo.contactPoint, Color.green);
+
+            SpawnShockwave(hurtInfo.contactPoint, Color.green);
+
+            SpawnSparks(hurtInfo.contactPoint);
+
+            CamShake();
+
+            if(hurtInfo.doImpact) SpawnImpact(hurtInfo.contactPoint);
+        }
+    }
+
+    void OnBlockBreak(GameObject defender, GameObject attacker, HurtInfo hurtInfo)
+    {
+        if(defender.tag=="Player")
+        {
+            SpawnPopUpText(ModelManager.Current.GetColliderTop(defender), "bREAK!", Color.red);
+
+            SpawnFlash(hurtInfo.contactPoint, Color.red);
+
+            SpawnShockwave(hurtInfo.contactPoint, Color.red);
+
+            CamShake();
+
+            if(hurtInfo.doImpact) SpawnImpact(hurtInfo.contactPoint);
+        }
+    }
+
     void OnDeath(GameObject victim, GameObject killer, HurtInfo hurtInfo)
     {
         if(victim.tag=="Player")
         {
-            SpawnPopUpText(ModelManager.Current.GetBoundingBoxTop(victim), "DEAD!", Color.red);
+            SpawnPopUpText(ModelManager.Current.GetColliderTop(victim), "DEAD!", Color.red);
         }
         else
         {
-            SpawnPopUpText(ModelManager.Current.GetBoundingBoxTop(victim), "DEAD!", Color.grey);
+            SpawnPopUpText(ModelManager.Current.GetColliderTop(victim), "DEAD!", Color.grey);
         }
     }
     
@@ -145,7 +154,7 @@ public class VFXManager : MonoBehaviour
 
                 HitStop(.05f, .1f);
 
-                SpawnShockwave(ModelManager.Current.GetBoundingBoxCenter(caster), Color.yellow);
+                SpawnShockwave(ModelManager.Current.GetColliderCenter(caster), Color.yellow);
 
                 SpawnGroundExplosion(new Vector3(caster.transform.position.x, caster.transform.position.y+.1f, caster.transform.position.z));
             }
@@ -153,16 +162,25 @@ public class VFXManager : MonoBehaviour
             {
                 HitStop(.05f, .1f);
 
-                SpawnShockwave(ModelManager.Current.GetBoundingBoxCenter(caster), Color.white);
+                SpawnShockwave(ModelManager.Current.GetColliderCenter(caster), Color.yellow);
             }
             else if(abilityName=="Heal")
             {
-                SpawnPopUpText(ModelManager.Current.GetBoundingBoxTop(caster), "HEAL!", Color.yellow);
+                SpawnPopUpText(ModelManager.Current.GetColliderTop(caster), "HEAL!", Color.yellow);
 
-                SpawnShockwave(ModelManager.Current.GetBoundingBoxCenter(caster), Color.yellow);
+                SpawnShockwave(ModelManager.Current.GetColliderCenter(caster), Color.yellow);
 
                 SpawnHeal(caster);
                 SpawnShine(caster);
+            }
+        }
+        else
+        {
+            if(abilityName=="Enemy2Slam")
+            {
+                CamShake(.5f, 3);
+
+                SpawnShockwave(caster.transform.position, Color.red);
             }
         }
     }
@@ -235,11 +253,11 @@ public class VFXManager : MonoBehaviour
         return ObjectPooler.Current.SpawnFromPool(poolName, position, rotation);
     }
 
-    void HideObject(GameObject obj, float wait=0, float shrink=0)
+    void HideObject(GameObject obj, float wait=0, float shrink=0, bool removeConstraint=false)
     {
-        StartCoroutine(HidingObject(obj, wait, shrink));
+        StartCoroutine(HidingObject(obj, wait, shrink, removeConstraint));
     }
-    IEnumerator HidingObject(GameObject obj, float wait, float shrink)
+    IEnumerator HidingObject(GameObject obj, float wait, float shrink, bool removeConstraint)
     {
         if(wait>0) yield return new WaitForSeconds(wait);
 
@@ -249,16 +267,13 @@ public class VFXManager : MonoBehaviour
             yield return new WaitForSeconds(shrink);
         }
 
-        CheckNoConstraint(obj);
+        if(removeConstraint)
+        {
+            TransformConstraint tc = obj.GetComponent<TransformConstraint>();
+            tc.constrainTo=null;
+        }
 
         obj.SetActive(false);
-    }
-
-    void CheckNoConstraint(GameObject obj)
-    {
-        TransformConstraint tc = obj.GetComponent<TransformConstraint>();
-
-        if(tc) tc.constrainTo=null;
     }
     
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -362,7 +377,7 @@ public class VFXManager : MonoBehaviour
 
         heal.GetComponent<TransformConstraint>().constrainTo = caster.transform;
 
-        HideObject(heal.gameObject, 3);
+        HideObject(heal.gameObject, 3, 0, true);
     }
 
     public void SpawnShine(GameObject caster)
@@ -378,7 +393,7 @@ public class VFXManager : MonoBehaviour
 
         shineTC.constrainTo = caster.transform;
 
-        HideObject(shineTC.gameObject, 1);
+        HideObject(shineTC.gameObject, 1, 0, true);
     }
     
     public void SpawnImpact(Vector3 pos)

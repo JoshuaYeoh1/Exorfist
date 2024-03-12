@@ -93,14 +93,14 @@ public class EnemyAI : MonoBehaviour
     {
         GameEventSystem.Current.HitEvent += OnHit;
         GameEventSystem.Current.HurtEvent += OnHurt;
-        GameEventSystem.Current.HitEvent += OnParried;
+        GameEventSystem.Current.ParryEvent += OnParried;
         GameEventSystem.Current.DeathEvent += OnDeath;
     }
     void OnDisable()
     {
         GameEventSystem.Current.HitEvent -= OnHit;
         GameEventSystem.Current.HurtEvent -= OnHurt;
-        GameEventSystem.Current.HitEvent -= OnParried;
+        GameEventSystem.Current.ParryEvent -= OnParried;
         GameEventSystem.Current.DeathEvent -= OnDeath;
     }
 
@@ -158,9 +158,9 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    void OnParried(GameObject attacker, GameObject defender, HurtInfo hurtInfo)
+    void OnParried(GameObject defender, GameObject attacker, HurtInfo hurtInfo)
     {
-        if(attacker==gameObject && hurtInfo.parry)
+        if(attacker==gameObject)
         {
             Stun();
         }

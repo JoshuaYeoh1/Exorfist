@@ -76,6 +76,8 @@ public class Vignette : MonoBehaviour
     void OnEnable()
     {
         GameEventSystem.Current.HurtEvent += OnHurt;
+        GameEventSystem.Current.BlockEvent += OnBlock;
+        GameEventSystem.Current.ParryEvent += OnParry;
         GameEventSystem.Current.DeathEvent += OnDeath;
         GameEventSystem.Current.AbilitySlowMoEvent += OnAbilitySlowMo;
         GameEventSystem.Current.AbilityCastEvent += OnAbilityCast;
@@ -84,6 +86,8 @@ public class Vignette : MonoBehaviour
     void OnDisable()
     {
         GameEventSystem.Current.HurtEvent -= OnHurt;
+        GameEventSystem.Current.BlockEvent -= OnBlock;
+        GameEventSystem.Current.ParryEvent -= OnParry;
         GameEventSystem.Current.DeathEvent -= OnDeath;
         GameEventSystem.Current.AbilitySlowMoEvent -= OnAbilitySlowMo;
         GameEventSystem.Current.AbilityCastEvent -= OnAbilityCast;
@@ -96,18 +100,27 @@ public class Vignette : MonoBehaviour
 
         if(victim.tag=="Player")
         {
-            if(hurtInfo.parry)
-            {
-                FlashVignette(Color.green);
-            }
-            else if(hurtInfo.block)
-            {
-                FlashVignette(Color.cyan);
-            }
-            else
-            {
-                FlashVignette(Color.red);
-            }
+            FlashVignette(Color.red);
+        }
+    }
+
+    void OnBlock(GameObject defender, GameObject attacker, HurtInfo hurtInfo)
+    {
+        if(!hasPriority(2)) return;
+
+        if(defender.tag=="Player")
+        {
+            FlashVignette(Color.cyan);
+        }
+    }
+
+    void OnParry(GameObject defender, GameObject attacker, HurtInfo hurtInfo)
+    {
+        if(!hasPriority(2)) return;
+
+        if(defender.tag=="Player")
+        {
+            FlashVignette(Color.green);
         }
     }
 
@@ -154,7 +167,7 @@ public class Vignette : MonoBehaviour
 
     void OnAbilityEnd(GameObject caster, string abilityName)
     {
-        if(!hasPriority(6)) return;
+        if(!hasPriority(99)) return;
 
         if(caster.tag=="Player")
         {

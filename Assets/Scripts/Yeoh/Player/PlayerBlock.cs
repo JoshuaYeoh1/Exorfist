@@ -136,9 +136,7 @@ public class PlayerBlock : MonoBehaviour
 
         hurt.DoIFraming(hurt.iframeTime, -.5f, .5f, -.5f); // flicker green
 
-        hurtInfo.parry=true;
-
-        GameEventSystem.Current.OnHurt(gameObject, attacker, hurtInfo);
+        GameEventSystem.Current.OnParry(gameObject, attacker, hurtInfo);
     }
 
     [HideInInspector] public Vector3 blockedPoint;
