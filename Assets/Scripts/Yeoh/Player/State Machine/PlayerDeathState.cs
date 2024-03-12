@@ -27,9 +27,6 @@ public class PlayerDeathState : BaseState<PlayerStateMachine.PlayerStates>
         stateMachine.player.canTarget=false;
 
         RandDeathAnim();
-
-        // move to vfx manager later
-        //feedback.dieAnim(); // screen red
     }
 
     public override void UpdateState()
