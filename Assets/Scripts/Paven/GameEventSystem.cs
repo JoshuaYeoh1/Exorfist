@@ -58,6 +58,7 @@ public class GameEventSystem : MonoBehaviour
     //==Ability Related actions==//
     public event Action<bool> AbilitySlowMoEvent;
     public event Action<GameObject, string> AbilityCastEvent;
+    public event Action<GameObject, string> AbilityEndEvent;
 
     public void OnAbilitySlowMo(bool toggle)
     {
@@ -66,6 +67,10 @@ public class GameEventSystem : MonoBehaviour
     public void OnAbilityCast(GameObject caster, string abilityName)
     {
         AbilityCastEvent?.Invoke(caster, abilityName);
+    }
+    public void OnAbilityEnd(GameObject caster, string abilityName)
+    {
+        AbilityEndEvent?.Invoke(caster, abilityName);
     }
 
     //==Small actions==//

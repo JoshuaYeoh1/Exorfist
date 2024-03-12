@@ -50,7 +50,7 @@ public class ControlHider : MonoBehaviour
         {
             if(abilityBtn.activeSelf)
             {
-                abilityButtonToggle.HideAbilities();
+                if(abilityButtonToggle.active) abilityButtonToggle.HideAbilities();
                 abilityBtn.SetActive(false);
             }
         }

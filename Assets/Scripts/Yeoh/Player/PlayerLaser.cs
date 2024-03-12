@@ -89,6 +89,7 @@ public class PlayerLaser : MonoBehaviour
     {
         SpawnLaser();
 
+        finder.innerRange=range;
         finder.outerRange=range;
 
         yield return new WaitForSeconds(sustainTime);
@@ -101,9 +102,12 @@ public class PlayerLaser : MonoBehaviour
 
         player.anim.CrossFade("laser finish", .1f, 2, 0);
 
-        finder.outerRange=finder.defRange;
+        finder.innerRange=finder.defInnerRange;
+        finder.outerRange=finder.defOuterRange;
 
         DisableCastTrails();
+
+        GameEventSystem.Current.OnAbilityEnd(gameObject, "Laser"); print("WTFFFF");
     }
 
     GameObject laser;

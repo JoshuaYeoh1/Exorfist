@@ -190,21 +190,19 @@ public class VFXManager : MonoBehaviour
     int tweenTimeLt=0;
     public void TweenTime(float to, float time=.01f)
     {
-        if(to<0) Time.timeScale = 0;
-        else
-        {
-            LeanTween.cancel(tweenTimeLt);
+        if(to<0) to=0;
 
-            if(time>0)
-            {
-                tweenTimeLt = LeanTween.value(Time.timeScale, to, time)
-                    .setEaseInOutSine()
-                    .setIgnoreTimeScale(true)
-                    .setOnUpdate( (float value)=>{Time.timeScale=value;} )
-                    .id;
-            }
-            else Time.timeScale = to;
+        LeanTween.cancel(tweenTimeLt);
+
+        if(time>0)
+        {
+            tweenTimeLt = LeanTween.value(Time.timeScale, to, time)
+                .setEaseInOutSine()
+                .setIgnoreTimeScale(true)
+                .setOnUpdate( (float value)=>{Time.timeScale=value;} )
+                .id;
         }
+        else Time.timeScale = to;
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
