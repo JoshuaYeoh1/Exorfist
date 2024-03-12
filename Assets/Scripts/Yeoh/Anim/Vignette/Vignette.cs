@@ -33,27 +33,32 @@ public class Vignette : MonoBehaviour
             tweenAlphaLt = LeanTween.value(alpha, to, time)
                 .setEaseInOutSine()
                 .setOnUpdate( (float value)=>{alpha=value;} )
-                .setOnComplete(CheckResetPriority)
                 .id;
+                //.setOnComplete(CheckResetPriority)
         }
         else
         {
             alpha=0;
-            CheckResetPriority();
+            //CheckResetPriority();
         } 
     }
 
-    float currentPriority;
+    // float currentPriority;
 
-    void CheckResetPriority()
-    {
-        if(alpha==0) currentPriority=0;
-    }
+    // void CheckResetPriority()
+    // {
+    //     if(alpha==0) currentPriority=0;
+    // }
+
+    bool canFlash=true;
 
     public void FlashVignette(Color color, float inTime=.01f, float wait=0, float outTime=.5f)
     {
-        if(flashingRt!=null) StopCoroutine(flashingRt);
-        flashingRt=StartCoroutine(Flashing(color, inTime, wait, outTime));
+        if(canFlash)
+        {
+            if(flashingRt!=null) StopCoroutine(flashingRt);
+            flashingRt=StartCoroutine(Flashing(color, inTime, wait, outTime));
+        }
     }
     Coroutine flashingRt;
     IEnumerator Flashing(Color color, float inTime, float wait, float outTime)
@@ -71,6 +76,9 @@ public class Vignette : MonoBehaviour
 
         vignetteColor=color;
         TweenAlpha(to, time);
+
+        if(to>0) canFlash=false;
+        else canFlash=true;
     }
 
     void OnEnable()
@@ -96,7 +104,7 @@ public class Vignette : MonoBehaviour
 
     void OnHurt(GameObject victim, GameObject attacker, HurtInfo hurtInfo)
     {
-        if(!hasPriority(2)) return;
+        //if(!hasPriority(2)) return;
 
         if(victim.tag=="Player")
         {
@@ -106,7 +114,7 @@ public class Vignette : MonoBehaviour
 
     void OnBlock(GameObject defender, GameObject attacker, HurtInfo hurtInfo)
     {
-        if(!hasPriority(2)) return;
+        //if(!hasPriority(2)) return;
 
         if(defender.tag=="Player")
         {
@@ -116,7 +124,7 @@ public class Vignette : MonoBehaviour
 
     void OnParry(GameObject defender, GameObject attacker, HurtInfo hurtInfo)
     {
-        if(!hasPriority(2)) return;
+        //if(!hasPriority(2)) return;
 
         if(defender.tag=="Player")
         {
@@ -126,7 +134,7 @@ public class Vignette : MonoBehaviour
 
     void OnDeath(GameObject victim, GameObject killer, HurtInfo hurtInfo)
     {
-        if(!hasPriority(10)) return;
+        //if(!hasPriority(10)) return;
 
         if(victim.tag=="Player")
         {
@@ -136,7 +144,7 @@ public class Vignette : MonoBehaviour
 
     void OnAbilitySlowMo(bool toggle)
     {
-        if(!hasPriority(1)) return;
+        //if(!hasPriority(1)) return;
 
         if(toggle)
         {
@@ -150,7 +158,7 @@ public class Vignette : MonoBehaviour
 
     void OnAbilityCast(GameObject caster, string abilityName)
     {
-        if(!hasPriority(5)) return;
+        //if(!hasPriority(5)) return;
 
         if(caster.tag=="Player")
         {
@@ -167,7 +175,7 @@ public class Vignette : MonoBehaviour
 
     void OnAbilityEnd(GameObject caster, string abilityName)
     {
-        if(!hasPriority(99)) return;
+        //if(!hasPriority(99)) return;
 
         if(caster.tag=="Player")
         {
@@ -175,13 +183,13 @@ public class Vignette : MonoBehaviour
         }
     }
 
-    bool hasPriority(float level)
-    {
-        if(level>=currentPriority)
-        {
-            currentPriority = level;
-            return true;
-        }
-        else return false;
-    }
+    // bool hasPriority(float level)
+    // {
+    //     if(level>=currentPriority)
+    //     {
+    //         currentPriority = level;
+    //         return true;
+    //     }
+    //     else return false;
+    // }
 }
