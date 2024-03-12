@@ -15,40 +15,46 @@ public class EyeblinkAnim : MonoBehaviour
         defScaleY = eyes[0].transform.localScale.y;
     }
 
-    List<int> eyeTweenIDs = new List<int>();
+    Dictionary<GameObject, int> eyeTweenIdDict = new Dictionary<GameObject, int>();
 
     public void TweenEyesY(float to, float time)
     {
         if(to<0) to=0;
 
-        foreach(int id in eyeTweenIDs)
-        {
-            LeanTween.cancel(id);
-            eyeTweenIDs.Remove(id);
-        }
-
         foreach(GameObject eye in eyes)
         {
             if(time>0) 
             {
-                int id = LeanTween.scaleY(eye, to, time).setEaseInOutSine().setOnComplete(ResetPriority).id;
+                if(eyeTweenIdDict.ContainsKey(eye))
+                {
+                    LeanTween.cancel(eyeTweenIdDict[eye]);
+                    eyeTweenIdDict.Remove(eye); // cleanup
+                }
 
-                eyeTweenIDs.Add(id);
+                int id = LeanTween.scaleY(eye, to, time).setEaseInOutSine().setOnComplete(CheckResetPriority).id;
+
+                eyeTweenIdDict.Add(eye, id);
             }
             else
             {
                 eye.transform.localScale = new Vector3(eye.transform.localScale.x, to, eye.transform.localScale.z);
 
-                ResetPriority();
+                CheckResetPriority();
             }
         }
     }
 
     float currentPriority;
 
-    void ResetPriority()
+    void CheckResetPriority()
     {
-        currentPriority=0;
+        foreach(GameObject eye in eyes)
+        {
+            if(eye.transform.localScale.y==defScaleY)
+            {
+                currentPriority=0;
+            }
+        }
     }
 
     public float blinkInterval=1;
@@ -70,7 +76,7 @@ public class EyeblinkAnim : MonoBehaviour
         if(isDead) return;
 
         if(blinkingRt!=null) StopCoroutine(blinkingRt);
-        StartCoroutine(Blinking());
+        blinkingRt = StartCoroutine(Blinking());
     }
 
     Coroutine blinkingRt;
