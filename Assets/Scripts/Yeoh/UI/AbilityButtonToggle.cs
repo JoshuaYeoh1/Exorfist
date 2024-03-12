@@ -10,16 +10,19 @@ public class AbilityButtonToggle : MonoBehaviour
 
     public void ShowAbilities()
     {
-        active=true;
+        if(!active)
+        {
+            active=true;
 
-        group1.SetActive(false);
-        group2.SetActive(true);
+            group1.SetActive(false);
+            group2.SetActive(true);
 
-        GameEventSystem.Current.OnAbilitySlowMo(true);
+            GameEventSystem.Current.OnAbilitySlowMo(true);
 
-        VFXManager.Current.TweenTime(slowMoMult, .5f);
+            VFXManager.Current.TweenTime(slowMoMult, .5f);
 
-        slowMoCountdownRt = StartCoroutine(SlowMoCountdown());
+            slowMoCountdownRt = StartCoroutine(SlowMoCountdown());
+        }
     }
 
     Coroutine slowMoCountdownRt;
@@ -31,15 +34,35 @@ public class AbilityButtonToggle : MonoBehaviour
 
     public void HideAbilities()
     {
-        active=false;
+        if(active)
+        {
+            active=false;
 
-        if(slowMoCountdownRt!=null) StopCoroutine(slowMoCountdownRt);
+            if(slowMoCountdownRt!=null) StopCoroutine(slowMoCountdownRt);
 
-        group1.SetActive(true);
-        group2.SetActive(false);
+            group1.SetActive(true);
+            group2.SetActive(false);
 
-        VFXManager.Current.TweenTime(1, .5f);
+            VFXManager.Current.TweenTime(1, .5f);
 
-        GameEventSystem.Current.OnAbilitySlowMo(false);
+            GameEventSystem.Current.OnAbilitySlowMo(false);
+        }
+    }
+
+    void OnEnable()
+    {
+        GameEventSystem.Current.AbilityCastingEvent += OnAbilityCasting;
+    }
+    void OnDisable()
+    {
+        GameEventSystem.Current.AbilityCastingEvent -= OnAbilityCasting;
+    }
+    
+    void OnAbilityCasting(GameObject caster, string abilityName)
+    {
+        if(caster.tag=="Player")
+        {
+            HideAbilities();
+        }
     }
 }

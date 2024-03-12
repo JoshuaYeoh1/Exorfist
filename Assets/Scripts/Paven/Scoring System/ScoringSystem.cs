@@ -28,12 +28,14 @@ public class ScoringSystem : MonoBehaviour
         GameEventSystem.Current.HitEvent += OnHit;
         GameEventSystem.Current.HurtEvent += OnHurt;
         GameEventSystem.Current.DeathEvent += OnDeath;
+        GameEventSystem.Current.ParryEvent += OnParry;
     }
     void OnDisable()
     {
         GameEventSystem.Current.HitEvent -= OnHit;
         GameEventSystem.Current.HurtEvent -= OnHurt;
         GameEventSystem.Current.DeathEvent -= OnDeath;
+        GameEventSystem.Current.ParryEvent -= OnParry;
     }
 
     public void OnHit(GameObject attacker, GameObject victim, HurtInfo hurtInfo)
@@ -48,16 +50,9 @@ public class ScoringSystem : MonoBehaviour
     {
         if(victim.tag=="Player")
         {
-            if(hurtInfo.parry)
-            {
-                IncreaseScore(parryIncrement);
-            }
-            else if(!hurtInfo.block)
-            {
-                DecreaseScore(hurtDecrement);
+            DecreaseScore(hurtDecrement);
 
-                DecreaseMultiplier();
-            }
+            DecreaseMultiplier();
         }
     }
 
@@ -68,6 +63,14 @@ public class ScoringSystem : MonoBehaviour
             IncreaseScore(enemyKillIncrement);
 
             IncreaseMultiplier();
+        }
+    }
+
+    void OnParry(GameObject defender, GameObject attacker, HurtInfo hurtInfo)
+    {
+        if(defender.tag=="Player")
+        {
+            IncreaseScore(parryIncrement);
         }
     }
 

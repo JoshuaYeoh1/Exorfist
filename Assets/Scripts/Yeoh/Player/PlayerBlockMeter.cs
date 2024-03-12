@@ -82,9 +82,7 @@ public class PlayerBlockMeter : MonoBehaviour
 
         hurt.DoIFraming(hurt.iframeTime, -.5f, .5f, .5f); // flicker cyan
 
-        hurtInfo.block=true;
-
-        GameEventSystem.Current.OnHurt(block.gameObject, attacker, hurtInfo);
+        GameEventSystem.Current.OnBlock(block.gameObject, attacker, hurtInfo);
 
         //move to sfx manager later
         //Singleton.instance.PlaySFX(Singleton.instance.sfxSubwoofer, transform.position, false);
@@ -100,9 +98,7 @@ public class PlayerBlockMeter : MonoBehaviour
 
         hurt.Hurt(attacker, hurtInfo);
 
-        hurtInfo.blockBreak=true;
-
-        GameEventSystem.Current.OnHurt(block.gameObject, attacker, hurtInfo);
+        GameEventSystem.Current.OnBlockBreak(block.gameObject, attacker, hurtInfo);
 
         //move to sfx manager later
         //Singleton.instance.PlaySFX(Singleton.instance.sfxSubwoofer, transform.position, false);
