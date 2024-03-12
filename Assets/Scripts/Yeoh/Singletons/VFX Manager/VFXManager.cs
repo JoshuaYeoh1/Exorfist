@@ -267,13 +267,16 @@ public class VFXManager : MonoBehaviour
             yield return new WaitForSeconds(shrink);
         }
 
-        if(removeConstraint)
+        if(obj)
         {
-            TransformConstraint tc = obj.GetComponent<TransformConstraint>();
-            tc.constrainTo=null;
-        }
+            if(removeConstraint)
+            {
+                TransformConstraint tc = obj.GetComponent<TransformConstraint>();
+                tc.constrainTo=null;
+            }
 
-        obj.SetActive(false);
+            obj.SetActive(false);
+        }
     }
     
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
