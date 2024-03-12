@@ -101,6 +101,8 @@ public class PlayerHeal : MonoBehaviour
         hp.regenHp = defaultRegenHp;
         
         ModelManager.Current.RemoveMaterial(player.playerModel, healMeshEffectMaterial);
+
+        GameEventSystem.Current.OnAbilityEnd(gameObject, "Heal");
     }
 
     public void Finish()

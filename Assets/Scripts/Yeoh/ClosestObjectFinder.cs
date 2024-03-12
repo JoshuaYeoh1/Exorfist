@@ -10,11 +10,12 @@ public class ClosestObjectFinder : MonoBehaviour
     public float  innerRange=3, outerRange=5;
     public LayerMask layers;
 
-    [HideInInspector] public float defRange;
+    [HideInInspector] public float defOuterRange, defInnerRange;
     
     void Awake()
     {
-        defRange=outerRange;
+        defInnerRange=innerRange;
+        defOuterRange=outerRange;
     }
 
     void OnEnable()

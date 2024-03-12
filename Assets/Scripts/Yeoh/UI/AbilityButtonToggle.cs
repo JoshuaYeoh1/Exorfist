@@ -6,9 +6,12 @@ public class AbilityButtonToggle : MonoBehaviour
 {
     public GameObject group1, group2;
     public float slowMoTime=3, slowMoMult=.5f;
+    public bool active;
 
     public void ShowAbilities()
     {
+        active=true;
+
         group1.SetActive(false);
         group2.SetActive(true);
 
@@ -28,6 +31,8 @@ public class AbilityButtonToggle : MonoBehaviour
 
     public void HideAbilities()
     {
+        active=false;
+
         if(slowMoCountdownRt!=null) StopCoroutine(slowMoCountdownRt);
 
         group1.SetActive(true);
