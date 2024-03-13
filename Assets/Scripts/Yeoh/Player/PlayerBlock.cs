@@ -105,24 +105,32 @@ public class PlayerBlock : MonoBehaviour
         if(victim!=gameObject) return;
         if(!player.isAlive) return;
 
-        if(isParrying)
-        {
-            ParrySuccess(attacker, hurtInfo);
-
-            SetBlockedPoint(hurtInfo.contactPoint);
-        }
-        else if(isBlocking)
-        {
-            meter.Hurt(attacker, hurtInfo);
-
-            SetBlockedPoint(hurtInfo.contactPoint);
-        }
-        else
+        if(hurtInfo.unblockable)
         {
             hurt.Hurt(attacker, hurtInfo);
         }
+        else
+        {   
+            if(isParrying)
+            {
+                ParrySuccess(attacker, hurtInfo);
 
-        if(attacker) finder.ChangeInnerTarget(attacker);
+                SetBlockedPoint(hurtInfo.contactPoint);
+            }
+            else if(isBlocking)
+            {
+                meter.Hurt(attacker, hurtInfo);
+
+                SetBlockedPoint(hurtInfo.contactPoint);
+            }
+            else
+            {
+                hurt.Hurt(attacker, hurtInfo);
+            }
+        }
+
+        //if(attacker) finder.ChangeInnerTarget(attacker);
+        finder.ChangeInnerTarget();
     }
 
     public void ParrySuccess(GameObject attacker, HurtInfo hurtInfo)

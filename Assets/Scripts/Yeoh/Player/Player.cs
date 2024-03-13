@@ -49,9 +49,28 @@ public class Player : MonoBehaviour
         if(canTarget)
         {
             // prioritize the manual target
-            if(manual.target) target=manual.target;
-            else if(finder.target) target=finder.target;
-            else target=null;
+            if(manual.target)
+            {
+                if(target!=manual.target)
+                {
+                    target=manual.target;
+
+                    GameEventSystem.Current.OnTarget(gameObject, target, true);
+                }
+            }
+            else if(finder.target)
+            {
+                if(target!=finder.target)
+                {
+                    target=finder.target;
+
+                    GameEventSystem.Current.OnTarget(gameObject, target, false);
+                }
+            }
+            else
+            {
+                target=null;
+            }
         }
         else
         {

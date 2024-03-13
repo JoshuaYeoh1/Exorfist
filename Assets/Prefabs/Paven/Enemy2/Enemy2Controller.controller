@@ -606,7 +606,7 @@ AnimatorStateMachine:
     m_Position: {x: 120, y: 490, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 47211607261811540}
-    m_Position: {x: -400, y: 380, z: 0}
+    m_Position: {x: -440, y: 400, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4486051027195483130}
     m_Position: {x: -170, y: 560, z: 0}
@@ -633,19 +633,16 @@ AnimatorStateTransition:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 
-  m_Conditions:
-  - m_ConditionMode: 2
-    m_ConditionEvent: Punching
-    m_EventTreshold: 0
+  m_Conditions: []
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -6176074697788694688}
   m_Solo: 0
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0
-  m_TransitionOffset: 0.12711896
-  m_ExitTime: 0.8256321
+  m_TransitionDuration: 0.25
+  m_TransitionOffset: 0
+  m_ExitTime: 1
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0

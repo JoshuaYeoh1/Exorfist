@@ -79,6 +79,8 @@ public class EnemyAI : MonoBehaviour
         hurt = GetComponent<EnemyHurt>();
 
         GameEventSystem.Current.OnSpawn(gameObject);
+
+        maxPoise=poise;
     }
 
     void Start()
@@ -107,6 +109,7 @@ public class EnemyAI : MonoBehaviour
     void Update()
     {
         //Debug.Log(preparingAttack);
+        CheckPoiseRegen();
     }
 
     public Hurtbox hurtbox;
@@ -121,39 +124,74 @@ public class EnemyAI : MonoBehaviour
         if(victim!=gameObject) return;
 
         //this is for a future event system implementation
-        if(!isBlocking)
+        if(hurtInfo.unblockable)
         {
-            hurt.Hurt(attacker, hurtInfo);
-            //EnemyHurt script already broadcasts to OnHurt event, no need to broadcast it again here
+            hurt.Hurt(attacker, hurtInfo); //EnemyHurt script already broadcasts to OnHurt event, no need to broadcast it again here
         }
         else
         {
-            //passing half damage into the "balanceDamage" field for now
-            //placeholder: receive half damage and 10% of stun time only
-
-            hurtInfo.dmg *= .5f;
-            hurtInfo.stunTime *= .1f;
-
-            LoseBalance(hurtInfo);
+            if(isBlocking)
+            {
+                LoseBalance(attacker, hurtInfo);
+            }
+            else
+            {
+                hurt.Hurt(attacker, hurtInfo); //EnemyHurt script already broadcasts to OnHurt event, no need to broadcast it again here
+            }
         }
     }
+
+    [Header("Poise")]
+    public float poise=20;
+    float maxPoise;
 
     void OnHurt(GameObject victim, GameObject attacker, HurtInfo hurtInfo)
     {
         if(victim!=gameObject) return;
 
-        Stun(hurtInfo.speedDebuffMult, hurtInfo.stunTime);
+        poise-=hurtInfo.dmg;
+
+        lastPoiseDmgTime=Time.time;
+
+        if(poise<0)
+        {
+            //poise=0;
+            poise=maxPoise;
+
+            Stun(hurtInfo.speedDebuffMult, hurtInfo.stunTime);
+        }
     }
 
-    void LoseBalance(HurtInfo hurtInfo)
+    float lastPoiseDmgTime;
+    public float poiseRegenDelay=3;
+    // public float poiseRegenSpeed=10;
+    
+    void CheckPoiseRegen()
+    {
+        if(Time.time-lastPoiseDmgTime > poiseRegenDelay)
+        {
+            if(poise<maxPoise)
+            {
+                //poise += poiseRegenSpeed*Time.deltaTime;
+
+                poise=maxPoise; // instant fill instead of slowly regen
+            }
+        }
+
+        //if(poise>maxPoise) poise=maxPoise;
+    }
+
+    void LoseBalance(GameObject attacker, HurtInfo hurtInfo)
     {
         if(currentBalance>0)
         {
-            currentBalance -= hurtInfo.dmg;
+            currentBalance -= hurtInfo.dmgBlock;
 
             if(currentBalance<=0)
             {
+                currentBalance=0;
                 //switch EnemyAIStateMachine to "BalanceBroken" state, stop all coroutines and play balancebroken animation (probably just a longer stun with a vfx), play sound effect, etc.
+                hurt.Hurt(attacker, hurtInfo);
             }
         }
     }

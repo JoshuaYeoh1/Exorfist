@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class EnemyAIAttackTimer : MonoBehaviour
 {
-    private bool atkCooldown = false;
-    [SerializeField] private float atkCooldownTime; //this field is here so that the designers can input how long they want the cooldown time to be (in seconds)
-    [SerializeField] private float atkCooldownTimeCurrent;
+    bool atkCooldown = false;
+    public float atkCooldownTime=1; //this field is here so that the designers can input how long they want the cooldown time to be (in seconds)
+    float atkCooldownTimeCurrent;
 
     // Update is called once per frame
     void Update()
     {
-        if (atkCooldown)
+        if(atkCooldown)
         {
             atkCooldownTimeCurrent -= Time.deltaTime;
 
@@ -26,7 +26,7 @@ public class EnemyAIAttackTimer : MonoBehaviour
     public void StartAtkCooldown()
     {
         atkCooldown = true;
-        atkCooldownTimeCurrent = atkCooldownTime;
+        atkCooldownTimeCurrent = atkCooldownTime * Random.Range(0f,2f);
     }
 
     public bool GetAtkCooldownBool() { return atkCooldown; }    

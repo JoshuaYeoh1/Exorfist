@@ -95,12 +95,17 @@ public class GameEventSystem : MonoBehaviour
 
     //==Small actions==//
     public event Action<GameObject, string, Transform> FootstepEvent;
+    public event Action<GameObject, GameObject, bool> TargetEvent;
 
     public void OnFootstep(GameObject subject, string type, Transform footstepTr)
     {
         FootstepEvent?.Invoke(subject, type, footstepTr);
     }
-
+    public void OnTarget(GameObject targeter, GameObject target, bool manual)
+    {
+        TargetEvent?.Invoke(targeter, target, manual);
+    }
+    
     //==Objective Related actions==//
     public event Action ScoreReachedEvent;
     public event Action LevelStartEvent;

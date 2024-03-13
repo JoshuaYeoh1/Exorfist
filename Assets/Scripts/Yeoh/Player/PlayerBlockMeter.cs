@@ -59,7 +59,7 @@ public class PlayerBlockMeter : MonoBehaviour
     {
         if(!hurt.iframe)
         {
-            hp.Hit(hurtInfo.dmg);
+            hp.Hit(hurtInfo.dmgBlock);
 
             if(hp.hp>0) // if not empty yet
             {

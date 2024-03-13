@@ -261,22 +261,21 @@ public class VFXManager : MonoBehaviour
     {
         if(wait>0) yield return new WaitForSeconds(wait);
 
+        if(!obj) yield break; // you shall not pass
+
         if(shrink>0)
         {
             LeanTween.scale(obj, Vector3.zero, shrink).setEaseInOutSine();
             yield return new WaitForSeconds(shrink);
         }
 
-        if(obj)
+        if(removeConstraint)
         {
-            if(removeConstraint)
-            {
-                TransformConstraint tc = obj.GetComponent<TransformConstraint>();
-                tc.constrainTo=null;
-            }
-
-            obj.SetActive(false);
+            TransformConstraint tc = obj.GetComponent<TransformConstraint>();
+            tc.constrainTo=null;
         }
+
+        obj.SetActive(false);
     }
     
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -16,12 +16,13 @@ public class EnemyAIHitStunState : EnemyAIBaseState
         enemy.thisEnemy.transform.LookAt(enemy.thisEnemy.playerTransform.position);
         //enemy.thisEnemy.SetIsHitStun(true);
         
-
         if(enemy.thisEnemy.GetIsHitStun() == true)
         {
             HitStunCancellation(enemy);
         }
-        enemy.thisEnemy.animator.Play("Hit Stun", -1, 0f);        
+        enemy.thisEnemy.animator.Play("Hit Stun", -1, 0f);       
+
+        enemy.thisEnemy.animator.SetBool("MovingTowardsPlayer", false);
     }
 
     public override void ExitState(EnemyAIStateMachine enemy)

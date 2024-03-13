@@ -20,9 +20,15 @@ public class ClosestObjectFinder : MonoBehaviour
 
     void OnEnable()
     {
+        GameEventSystem.Current.TargetEvent += OnTarget;
+
         StartCoroutine(SlowUpdate());
     }
-
+    void OnDisable()
+    {
+        GameEventSystem.Current.TargetEvent -= OnTarget;
+    }
+    
     IEnumerator SlowUpdate()
     {
         while(true)
@@ -70,7 +76,9 @@ public class ClosestObjectFinder : MonoBehaviour
         
         if(targets.Length>0)
         {
-            outerTarget = GetClosestObject(targets);
+            GameObject closest = GetClosestObject(targets);
+
+            if(outerTarget!=closest) outerTarget = closest;
         }
         else // if nothing is in range
         {
@@ -90,7 +98,6 @@ public class ClosestObjectFinder : MonoBehaviour
 
             if(other.attachedRigidbody) //if target has a rigidbody
                 otherObject = other.attachedRigidbody.gameObject; 
-
             else //if just a collider alone
                 otherObject = other.gameObject; 
 
@@ -106,13 +113,18 @@ public class ClosestObjectFinder : MonoBehaviour
         return closestObject;
     }
 
-    public void ChangeInnerTarget(GameObject target)
+    public void ChangeInnerTarget()
     {
-        float distance = Vector3.Distance(target.transform.position, transform.position);
+        // float distance = Vector3.Distance(target.transform.position, transform.position);
+        // if(distance>innerRange) return;
+        // innerTarget = target;
+        
+        innerTarget = null; // a simpler way than above
+    }
 
-        if(distance>innerRange) return;
-
-        innerTarget = target;
+    void OnTarget(GameObject targeter, GameObject target, bool manual)
+    {
+        if(manual) ChangeInnerTarget();
     }
 
     void OnDrawGizmosSelected()

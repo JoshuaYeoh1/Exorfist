@@ -1514,11 +1514,14 @@ MonoBehaviour:
   circlesPlayer: 0
   circleRadius: 4.7
   closePlayerRadius: 1
-  farPlayerRadius: 3.03
+  farPlayerRadius: 10
   moveAwayDistance: 5
   defaultMovementSpeed: 2.5
   circlingMovementSpeed: 1.4
   hurtbox: {fileID: 2220094666271416765}
+  poise: 1
+  poiseRegenDelay: 3
+  poiseRegenSpeed: 1
   ragdollPrefab: {fileID: 5486493928632695043, guid: bf9086d29094ecb45aeadbfb9d13b329,
     type: 3}
 --- !u!114 &7231320871284026034
@@ -1561,8 +1564,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72d6064aa97381c4c9029231394bc377, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  atkCooldownTime: 1
-  atkCooldownTimeCurrent: 0
+  atkCooldownTime: 0.5
 --- !u!195 &3512555644958489354
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1577,7 +1579,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0.74
+  m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
   m_AutoRepath: 1
@@ -3752,6 +3754,11 @@ PrefabInstance:
     - target: {fileID: 3013863717708658560, guid: 4b550ecf14fdb8d4aa6f48325deac7fe,
         type: 3}
       propertyPath: kbForce
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3013863717708658560, guid: 4b550ecf14fdb8d4aa6f48325deac7fe,
+        type: 3}
+      propertyPath: dmgBlock
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3013863717708658560, guid: 4b550ecf14fdb8d4aa6f48325deac7fe,

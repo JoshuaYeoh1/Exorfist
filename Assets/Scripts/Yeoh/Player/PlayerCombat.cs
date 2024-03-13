@@ -98,6 +98,7 @@ public class PlayerCombat : MonoBehaviour
 
         // copy and replace scriptable object's values to hitbox's values
         player.hurtboxes[i].dmg = atkSO.dmg;
+        player.hurtboxes[i].dmgBlock = atkSO.dmgBlock;
         player.hurtboxes[i].kbForce = atkSO.kbForce;
         player.hurtboxes[i].speedDebuffMult = atkSO.speedDebuffMult;
         player.hurtboxes[i].stunTime = atkSO.stunTime;
@@ -106,6 +107,7 @@ public class PlayerCombat : MonoBehaviour
         player.hurtboxes[i].doShake = atkSO.doShake;
         player.hurtboxes[i].doHitstop = atkSO.doHitstop;
         player.hurtboxes[i].doShockwave = atkSO.doShockwave;
+        player.hurtboxes[i].unblockable = atkSO.unblockable;
 
         // enable and disable hitbox rapidly
         player.hurtboxes[i].BlinkHitbox(atkSO.hitboxActiveDuration);

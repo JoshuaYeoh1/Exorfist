@@ -68,9 +68,9 @@ public class ManualTarget : MonoBehaviour
             GameObject otherObject;
 
             if(other.attachedRigidbody) //if target has a rigidbody
-            otherObject = other.attachedRigidbody.gameObject; 
-
-            else otherObject = other.gameObject; //if just a collider alone
+                otherObject = other.attachedRigidbody.gameObject; 
+            else //if just a collider alone
+                otherObject = other.gameObject; 
 
             float distance = Vector3.Distance(otherObject.transform.position, transform.position);
 
