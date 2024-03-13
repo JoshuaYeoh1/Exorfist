@@ -9,14 +9,17 @@ public class RoomStateManager : MonoBehaviour
 {
     //The room state manager class is similar to the GameStateManager class, however this class handles the logic for how the room FLOWS, and whether or not the room is CLEARED.
     //Since this requires enemies to be considered a "room", the AI director is directly needed for this to function properly. Make sure to have an AI Director present in the scene alongside all the necessary spawner prefabs
-
     public RoomState State;
     public List<GameObject> EnemySpawns = new List<GameObject>();
+    public List<GameObject> RoomBarriers = new List<GameObject>();
 
     //Total enemies dictate the number of enemies in that specific room.
     //Remaining enemies is the number of enemies currently.
     [SerializeField] private int enemyWaves; //determines the amount of "waves" the enemies come in, if there are more than one wave. Default is 0 for no waves.
     [SerializeField] private Transform currentRoomTeleportTransform;
+
+    //Room ID to differentiate between different rooms.
+    [SerializeField] private int RoomID;
 
     void Awake()
     {
@@ -25,7 +28,7 @@ public class RoomStateManager : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.P)) UpdateRoomState(RoomState.Active);
+        //if(Input.GetKeyDown(KeyCode.P)) UpdateRoomState(RoomState.Active);
     }
 
     void OnEnable()
@@ -65,7 +68,7 @@ public class RoomStateManager : MonoBehaviour
                 break;
             case RoomState.Clear:
                 Debug.Log("Room cleared!");
-                //HandleLose();
+                HandleClear();
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
@@ -77,6 +80,12 @@ public class RoomStateManager : MonoBehaviour
     private IEnumerator HandleStart()
     {
         yield return null;
+    }
+
+    private void HandleClear()
+    {
+        Debug.Log("Unsubbing from events");
+        gameObject.SetActive(false);
     }
     private void OnPlayerEnter()
     {
@@ -163,7 +172,15 @@ public class RoomStateManager : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if(player != null)
         {
-            player.transform.position = currentRoomTeleportTransform.position;
+            if(currentRoomTeleportTransform == null)
+            {
+                Debug.Log("RSM does not have a transport point set.");
+                return;
+            }
+            else
+            {
+                player.transform.position = currentRoomTeleportTransform.position;
+            }
         }
         else
         {

@@ -6,6 +6,9 @@ public class DoorTriggerEnter : MonoBehaviour
     private GameObject popUpPrefabRef;
     public Transform currentRoomTransform;
 
+    [SerializeField] private bool isPopupPoint;
+    public int roomID { get; private set; }
+
     void OnEnable()
     {
         GameEventSystem.Current.RoomEnterEvent += OnRoomEnter;
@@ -23,9 +26,16 @@ public class DoorTriggerEnter : MonoBehaviour
         {
             OnDoorTriggerEnter();
 
-            if(!popUpPrefabRef)
+            if (isPopupPoint)
             {
-                popUpPrefabRef = Instantiate(popUpPrefab);
+                if (!popUpPrefabRef)
+                {
+                    popUpPrefabRef = Instantiate(popUpPrefab);
+                }
+            }
+            else
+            {
+
             }
         }
     }
@@ -36,9 +46,16 @@ public class DoorTriggerEnter : MonoBehaviour
 
         if(player.tag=="Player")
         {
-            if(popUpPrefabRef)
+            if (isPopupPoint)
             {
-                Destroy(popUpPrefabRef);
+                if (!popUpPrefabRef)
+                {
+                    Destroy(popUpPrefabRef);
+                }
+            }
+            else
+            {
+
             }
         }
     }
