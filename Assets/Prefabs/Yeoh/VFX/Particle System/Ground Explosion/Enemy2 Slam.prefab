@@ -10244,8 +10244,8 @@ ParticleSystem:
     startColor:
       serializedVersion: 2
       minMaxState: 2
-      minColor: {r: 0.9607844, g: 0.72156864, b: 0.44705886, a: 1}
-      maxColor: {r: 1, g: 0.5882353, b: 0.2627451, a: 1}
+      minColor: {r: 0.9607843, g: 0.48117265, b: 0.4470588, a: 1}
+      maxColor: {r: 1, g: 0.27004153, b: 0.26274514, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -14987,7 +14987,7 @@ GameObject:
   - component: {fileID: 8800922952771563664}
   - component: {fileID: 2038342121131610841}
   m_Layer: 0
-  m_Name: Ground Explosion
+  m_Name: Enemy2 Slam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15003,7 +15003,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.9999999, y: 1.9999999, z: 1.9999999}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6240667601469820110}
@@ -20046,7 +20046,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.62352943, g: 0.48235297, b: 0.34509805, a: 1}
+      maxColor: {r: 0.62352943, g: 0.37590852, b: 0.34509805, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -25048,7 +25048,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 0.62614334, b: 0, a: 1}
+      maxColor: {r: 1, g: 0.04082808, b: 0, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -31318,8 +31318,8 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.9058824, g: 0.35686275, b: 0.098039225, a: 1}
-        key1: {r: 0.89019614, g: 0.6627451, b: 0.27450982, a: 1}
+        key0: {r: 0.90588236, g: 0.09803922, b: 0.11402503, a: 1}
+        key1: {r: 0.8901961, g: 0.31664848, b: 0.27450976, a: 1}
         key2: {r: 1, g: 1, b: 1, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -35061,7 +35061,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 0.53949636, b: 0, a: 1}
+      maxColor: {r: 1, g: 0.028783847, b: 0, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -49746,7 +49746,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 0.46153843, b: 0, a: 1}
+      maxColor: {r: 1, g: 0.070606455, b: 0, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -54608,17 +54608,17 @@ PrefabInstance:
     - target: {fileID: 8111416803585562175, guid: 7b55e591bbad47f40a3c161b443e9ba6,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.2
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 8111416803585562175, guid: 7b55e591bbad47f40a3c161b443e9ba6,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.2
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 8111416803585562175, guid: 7b55e591bbad47f40a3c161b443e9ba6,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.2
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 8111416803585562175, guid: 7b55e591bbad47f40a3c161b443e9ba6,
         type: 3}
@@ -54673,6 +54673,36 @@ PrefabInstance:
     - target: {fileID: 8111416803585562175, guid: 7b55e591bbad47f40a3c161b443e9ba6,
         type: 3}
       propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8779427525386405711, guid: 7b55e591bbad47f40a3c161b443e9ba6,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector4f.m_Array.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8779427525386405711, guid: 7b55e591bbad47f40a3c161b443e9ba6,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector4f.m_Array.Array.data[0].m_Name
+      value: Color01
+      objectReference: {fileID: 0}
+    - target: {fileID: 8779427525386405711, guid: 7b55e591bbad47f40a3c161b443e9ba6,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector4f.m_Array.Array.data[0].m_Value.w
+      value: 0.5176471
+      objectReference: {fileID: 0}
+    - target: {fileID: 8779427525386405711, guid: 7b55e591bbad47f40a3c161b443e9ba6,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector4f.m_Array.Array.data[0].m_Value.x
+      value: 11.313707
+      objectReference: {fileID: 0}
+    - target: {fileID: 8779427525386405711, guid: 7b55e591bbad47f40a3c161b443e9ba6,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector4f.m_Array.Array.data[0].m_Value.y
+      value: 0.0000019443744
+      objectReference: {fileID: 0}
+    - target: {fileID: 8779427525386405711, guid: 7b55e591bbad47f40a3c161b443e9ba6,
+        type: 3}
+      propertyPath: m_PropertySheet.m_Vector4f.m_Array.Array.data[0].m_Overridden
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

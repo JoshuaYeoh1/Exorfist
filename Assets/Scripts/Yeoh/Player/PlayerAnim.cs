@@ -106,12 +106,19 @@ public class PlayerAnim : MonoBehaviour
     }
 
     public Transform footstepLTr, footstepRTr;
+    float lastFstTime;
+    float fstCooldown=.15f;
     
     public void AnimFootstep(string type="left")
     {
-        Transform footstepTr = type=="left" ? footstepLTr : footstepRTr;
+        if(Time.time-lastFstTime > fstCooldown)
+        {
+            lastFstTime = Time.time;
 
-        GameEventSystem.Current.OnFootstep(player.gameObject, type, footstepTr);
+            Transform footstepTr = type=="left" ? footstepLTr : footstepRTr;
+
+            GameEventSystem.Current.OnFootstep(player.gameObject, type, footstepTr);
+        }
     }
 
     //move to sfx manager later

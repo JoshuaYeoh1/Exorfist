@@ -25,20 +25,27 @@ public class ScenesManager : MonoBehaviour
     void Awake()
     {
         if(!Current) Current=this;
-
-        AwakeTransition();
     }
 
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        PlayTransition("in", Random.Range(1, transitionTypes+1)); // choose a random transition
+    }
+    
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.R)) ReloadScene();
         if(Input.GetKeyDown(KeyCode.KeypadPlus)) LoadNextScene();
         if(Input.GetKeyDown(KeyCode.KeypadMinus)) LoadPrevScene();
-    }
-
-    void AwakeTransition()
-    {
-        PlayTransition("in", Random.Range(1, transitionTypes+1)); // choose a random transition
     }
 
     public void PlayTransition(string type, int i, bool quit=false)
@@ -94,7 +101,7 @@ public class ScenesManager : MonoBehaviour
 
         SceneManager.LoadScene(sceneIndex);
 
-        if(anim) PlayTransition("in", Random.Range(1, transitionTypes+1));
+        //if(anim) PlayTransition("in", Random.Range(1, transitionTypes+1));
 
         // ChangeMusic();
 

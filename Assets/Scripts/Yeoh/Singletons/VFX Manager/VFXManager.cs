@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.VFX;
+using UnityEngine.SceneManagement;
 
 public class VFXManager : MonoBehaviour
 {
@@ -24,7 +25,10 @@ public class VFXManager : MonoBehaviour
         GameEventSystem.Current.DeathEvent += OnDeath;
         GameEventSystem.Current.AbilitySlowMoEvent += OnAbilitySlowMo;
         GameEventSystem.Current.AbilityCastEvent += OnAbilityCast;
+        GameEventSystem.Current.AbilityCastingEvent += OnAbilityCasting;
         GameEventSystem.Current.FootstepEvent += OnFootstep;
+
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
     void OnDisable()
     {
@@ -35,7 +39,10 @@ public class VFXManager : MonoBehaviour
         GameEventSystem.Current.DeathEvent -= OnDeath;
         GameEventSystem.Current.AbilitySlowMoEvent -= OnAbilitySlowMo;
         GameEventSystem.Current.AbilityCastEvent -= OnAbilityCast;
+        GameEventSystem.Current.AbilityCastingEvent += OnAbilityCasting;
         GameEventSystem.Current.FootstepEvent -= OnFootstep;
+
+        SceneManager.sceneUnloaded -= OnSceneUnloaded;
     }
     
     void OnHurt(GameObject victim, GameObject attacker, HurtInfo hurtInfo)
@@ -144,6 +151,22 @@ public class VFXManager : MonoBehaviour
         canHitStop=!toggle;
     }
 
+    void OnAbilityCasting(GameObject caster, string abilityName)
+    {
+        if(caster.tag=="Player")
+        {
+        }
+        else
+        {
+            if(abilityName=="Enemy2Slam")
+            {
+                SpawnShockwave(caster.transform.position, Color.red);
+
+                //SpawnEnemy2Trail(caster, caster.transform.position); //ugly
+            }
+        }
+    }
+
     void OnAbilityCast(GameObject caster, string abilityName)
     {
         if(caster.tag=="Player")
@@ -156,7 +179,7 @@ public class VFXManager : MonoBehaviour
 
                 SpawnShockwave(ModelManager.Current.GetColliderCenter(caster), Color.yellow);
 
-                SpawnGroundExplosion(new Vector3(caster.transform.position.x, caster.transform.position.y+.1f, caster.transform.position.z));
+                SpawnGroundExplosion(caster.transform.position);
             }
             else if(abilityName=="Laser")
             {
@@ -181,6 +204,8 @@ public class VFXManager : MonoBehaviour
                 CamShake(.5f, 3);
 
                 SpawnShockwave(caster.transform.position, Color.red);
+
+                SpawnEnemy2Slam(caster.transform.position);
             }
         }
     }
@@ -189,7 +214,7 @@ public class VFXManager : MonoBehaviour
     {
         if(subject.tag=="Player")
         {
-            SpawnPlayerFootprint(type, footstepTr);
+            SpawnPlayerFootprint(footstepTr);
         }
     }
 
@@ -327,6 +352,8 @@ public class VFXManager : MonoBehaviour
     {
         ParticleSystem explode = Spawn("GroundExplosion", pos).GetComponent<ParticleSystem>();
 
+        ExpandAnim(explode.gameObject);
+
         VisualEffect[] childVFXs = explode.GetComponentsInChildren<VisualEffect>();
 
         foreach(VisualEffect vfx in childVFXs)
@@ -346,29 +373,18 @@ public class VFXManager : MonoBehaviour
         HideObject(blood.gameObject, 1);
     }
 
-    float lastPlayerFootstepTime, playerFootstepCooldown=.15f;
-
-    public void SpawnPlayerFootprint(string type, Transform footstepTr)
+    public void SpawnPlayerFootprint(Transform footstepTr)
     {
-        if(Time.time-lastPlayerFootstepTime > playerFootstepCooldown)
+        GameObject footprint = Spawn("PlayerFootprint", footstepTr.position, footstepTr.rotation);
+
+        VisualEffect[] childVFXs = footprint.GetComponentsInChildren<VisualEffect>();
+
+        foreach(VisualEffect vfx in childVFXs)
         {
-            lastPlayerFootstepTime = Time.time;
-
-            string poolName = type=="left" ? "PlayerFootprintLeft" : "PlayerFootprintRight";
-
-            VisualEffect footprint = Spawn(poolName, footstepTr.position, footstepTr.rotation).GetComponent<VisualEffect>();
-
-            VisualEffect[] childVFXs = footprint.GetComponentsInChildren<VisualEffect>();
-
-            foreach(VisualEffect vfx in childVFXs)
-            {
-                vfx.Play();
-            }
-
-            footprint.Play();
-
-            HideObject(footprint.gameObject, 3);
+            vfx.Play();
         }
+
+        HideObject(footprint, 3);
     }
 
     public void SpawnHeal(GameObject caster)
@@ -415,6 +431,38 @@ public class VFXManager : MonoBehaviour
 
         HideObject(sparks.gameObject, 1);
     }
+
+    public void SpawnEnemy2Slam(Vector3 pos)
+    {
+        ParticleSystem explode = Spawn("Enemy2Slam", pos).GetComponent<ParticleSystem>();
+
+        VisualEffect[] childVFXs = explode.GetComponentsInChildren<VisualEffect>();
+
+        foreach(VisualEffect vfx in childVFXs)
+        {
+            vfx.Play();
+        }
+
+        explode.Play();
+    }
+
+    public void SpawnEnemy2Trail(GameObject caster, Vector3 pos)
+    {
+        GameObject trail = Spawn("Enemy2Trail", pos);
+
+        trail.transform.parent = caster.transform;
+
+        trail.transform.localPosition = new Vector3(0, 1.5f, 0);
+
+        VisualEffect[] childVFXs = trail.GetComponentsInChildren<VisualEffect>();
+
+        foreach(VisualEffect vfx in childVFXs)
+        {
+            vfx.Play();
+        }
+
+        HideObject(trail.gameObject, 1);
+    }
     
     void Update()
     {
@@ -443,5 +491,19 @@ public class VFXManager : MonoBehaviour
     Vector3 PlayerTop()
     {
         return ModelManager.Current.GetColliderTop(FindPlayer());
+    }
+
+    void ExpandAnim(GameObject obj, float time=.15f)
+    {
+        Vector3 defscale = obj.transform.localScale;
+
+        obj.transform.localScale=Vector3.zero;
+
+        LeanTween.scale(obj, defscale, time).setEaseInOutSine();
+    }
+
+    void OnSceneUnloaded(Scene scene)
+    {
+        Time.timeScale=1;
     }
 }

@@ -1654,6 +1654,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fa748bc3bb764e48a3c1bccf7c63d3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RoomID: 0
+  ActiveOnAwake: 0
+  DeleteSpawnersOnClear: 0
+  DeleteBarriersOnClear: 0
+  TeleportOnRoomStart: 0
   State: 0
   EnemySpawns:
   - {fileID: 1000082594}
@@ -1664,6 +1669,7 @@ MonoBehaviour:
   - {fileID: 276235098}
   - {fileID: 1660915730}
   - {fileID: 45146246}
+  RoomBarriers: []
   enemyWaves: 0
   currentRoomTeleportTransform: {fileID: 0}
 --- !u!1001 &487204578
@@ -1903,7 +1909,7 @@ PrefabInstance:
     - target: {fileID: 1649796389774806618, guid: 1095a7125c51e3e4fbb4871552009a7c,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2138807126037861600, guid: 1095a7125c51e3e4fbb4871552009a7c,
         type: 3}
@@ -3777,7 +3783,7 @@ Transform:
   m_GameObject: {fileID: 1194728673}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 33.690002, y: 1.0981007, z: -60.04}
+  m_LocalPosition: {x: 33.690002, y: 1.03, z: -60.04}
   m_LocalScale: {x: 2.9379148, y: 0.0839, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4663,6 +4669,8 @@ MonoBehaviour:
   popUpPrefab: {fileID: 3046801194488139770, guid: 400b8b5e2896501438f0c4e73b9d64e9,
     type: 3}
   currentRoomTransform: {fileID: 1993041051}
+  isPopupPoint: 0
+  destroyOnContact: 0
 --- !u!65 &1518495346
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7175,12 +7183,12 @@ PrefabInstance:
     - target: {fileID: 1471637922268985232, guid: 67d6799e838426147b653ff1534ff4ed,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000008544635
+      value: 0.000000008544636
       objectReference: {fileID: 0}
     - target: {fileID: 1471637922268985232, guid: 67d6799e838426147b653ff1534ff4ed,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0000000010020335
+      value: -0.0000000010020336
       objectReference: {fileID: 0}
     - target: {fileID: 2961472453178300833, guid: 67d6799e838426147b653ff1534ff4ed,
         type: 3}
@@ -8996,6 +9004,32 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1039920329184860851, guid: ab4eb803343ea8846aebdf7f35fbd3a7,
+        type: 3}
+      propertyPath: poolList.Array.size
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039920329184860851, guid: ab4eb803343ea8846aebdf7f35fbd3a7,
+        type: 3}
+      propertyPath: poolList.Array.data[12].prefab
+      value: 
+      objectReference: {fileID: 5976122878510521907, guid: aff356c5bd47d404fa6feb0afa966a00,
+        type: 3}
+    - target: {fileID: 1039920329184860851, guid: ab4eb803343ea8846aebdf7f35fbd3a7,
+        type: 3}
+      propertyPath: poolList.Array.data[12].maxSize
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039920329184860851, guid: ab4eb803343ea8846aebdf7f35fbd3a7,
+        type: 3}
+      propertyPath: poolList.Array.data[12].poolName
+      value: Enemy2Trail
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039920329184860851, guid: ab4eb803343ea8846aebdf7f35fbd3a7,
+        type: 3}
+      propertyPath: poolList.Array.data[12].hideInHierarchy
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1872862223611332692, guid: ab4eb803343ea8846aebdf7f35fbd3a7,
         type: 3}
       propertyPath: m_Name
