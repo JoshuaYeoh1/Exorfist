@@ -170,6 +170,23 @@ public class AudioManager : MonoBehaviour
 
         Destroy(source.gameObject, source.clip.length);
     }
+    //Overload method to play only a single audio clip
+    public void PlaySFX(AudioClip clip, Vector3 pos, bool dynamics = true, bool randPitch = true, float volume = 1, bool randPan = false)
+    {
+        AudioSource source = Instantiate(SFXObject, pos, Quaternion.identity);
+        //source.transform.parent = transform;
+
+        source.clip = clip;
+        source.volume = volume;
+        SFXObject sfxobj = source.GetComponent<SFXObject>();
+        sfxobj.randPitch = randPitch;
+        sfxobj.dynamics = dynamics;
+        if (randPan) source.panStereo = Random.Range(-1f, 1f);
+
+        source.Play();
+
+        Destroy(source.gameObject, source.clip.length);
+    }
 
     public void PlayVoice(AudioSource voiceSource, AudioClip[] clip, bool dynamics=true, bool randPitch=true, float volume=1, bool randPan=false)
     {   

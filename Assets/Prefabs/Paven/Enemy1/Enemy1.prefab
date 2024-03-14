@@ -1491,6 +1491,7 @@ MonoBehaviour:
   agent: {fileID: 0}
   sm: {fileID: 0}
   atkTimer: {fileID: 0}
+  id: 0
   whatIsGround:
     serializedVersion: 2
     m_Bits: 0
@@ -1521,7 +1522,6 @@ MonoBehaviour:
   hurtbox: {fileID: 2220094666271416765}
   poise: 1
   poiseRegenDelay: 3
-  poiseRegenSpeed: 1
   ragdollPrefab: {fileID: 5486493928632695043, guid: bf9086d29094ecb45aeadbfb9d13b329,
     type: 3}
 --- !u!114 &7231320871284026034

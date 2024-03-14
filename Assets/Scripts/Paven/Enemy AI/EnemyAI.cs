@@ -13,7 +13,7 @@ public class EnemyAI : MonoBehaviour
     [HideInInspector] public NavMeshAgent agent;
     [HideInInspector] public EnemyAIStateMachine sm;
     [HideInInspector] public EnemyAIAttackTimer atkTimer;
-
+    public int id;
     public LayerMask whatIsGround, whatIsPlayer;
 
     [Header("Stats")]
