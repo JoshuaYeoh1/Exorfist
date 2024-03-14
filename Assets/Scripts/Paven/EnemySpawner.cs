@@ -32,4 +32,9 @@ public class EnemySpawner : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawSphere(transform.position, 1);
     }
+
+    public void DestroySelf()
+    {
+        Destroy(gameObject);
+    }
 }

@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DoorTriggerEnter : MonoBehaviour
@@ -7,6 +8,7 @@ public class DoorTriggerEnter : MonoBehaviour
     public Transform currentRoomTransform;
 
     [SerializeField] private bool isPopupPoint;
+    [SerializeField] private bool destroyOnContact;
     public int roomID { get; private set; }
 
     void OnEnable()
@@ -31,11 +33,19 @@ public class DoorTriggerEnter : MonoBehaviour
                 if (!popUpPrefabRef)
                 {
                     popUpPrefabRef = Instantiate(popUpPrefab);
+                    if (destroyOnContact)
+                    {
+                        Destroy(gameObject);
+                    }
                 }
             }
             else
             {
-
+                GameEventSystem.Current?.OnRoomEnter();
+                if (destroyOnContact)
+                {
+                    Destroy(gameObject);
+                }
             }
         }
     }

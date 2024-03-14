@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum RoomState { Inactive, Active, Clear, Start };
@@ -9,21 +11,39 @@ public class RoomStateManager : MonoBehaviour
 {
     //The room state manager class is similar to the GameStateManager class, however this class handles the logic for how the room FLOWS, and whether or not the room is CLEARED.
     //Since this requires enemies to be considered a "room", the AI director is directly needed for this to function properly. Make sure to have an AI Director present in the scene alongside all the necessary spawner prefabs
+
+    //Room ID to differentiate between different rooms.
+    [SerializeField] private int RoomID;
+
+    [Header("Logic Properties")]
+    [SerializeField] private bool ActiveOnAwake;
+    [SerializeField] private bool DeleteSpawnersOnClear;
+    [SerializeField] private bool DeleteBarriersOnClear;
+    [SerializeField] private bool TeleportOnRoomStart;
+    public int GetRoomID()
+    {
+        return RoomID;
+    }
+
     public RoomState State;
     public List<GameObject> EnemySpawns = new List<GameObject>();
     public List<GameObject> RoomBarriers = new List<GameObject>();
 
     //Total enemies dictate the number of enemies in that specific room.
+
     //Remaining enemies is the number of enemies currently.
     [SerializeField] private int enemyWaves; //determines the amount of "waves" the enemies come in, if there are more than one wave. Default is 0 for no waves.
     [SerializeField] private Transform currentRoomTeleportTransform;
-
-    //Room ID to differentiate between different rooms.
-    [SerializeField] private int RoomID;
-
     void Awake()
     {
-        State = RoomState.Inactive;
+        if(ActiveOnAwake == false)
+        {
+            State = RoomState.Inactive;
+        }
+        else
+        {
+            UpdateRoomState(RoomState.Active);
+        }
     }
 
     void Update()
@@ -34,6 +54,7 @@ public class RoomStateManager : MonoBehaviour
     void OnEnable()
     {
         Debug.Log("RoomStateManager event subscriptions initialized");
+        StaticRoomSetup();
         GameEventSystem.Current.DeathEvent += OnEnemyDeath;
         GameEventSystem.Current.NotifyRoomStateManagerEvent += notifyRoomStateManager;
         GameEventSystem.Current.DoorTriggerEnterEvent += SetCurrentDoorTransform;
@@ -84,9 +105,39 @@ public class RoomStateManager : MonoBehaviour
 
     private void HandleClear()
     {
-        Debug.Log("Unsubbing from events");
+        //Debug.Log("Unsubbing from events");
+        // Clear the list by iterating through and removing elements
+        GameObject go = null;
+        for (int i = 0; i < EnemySpawns.Count; i++)
+        {
+            go = EnemySpawns[i];
+            if(go != null)
+            {
+                Destroy(go);
+            }
+            else
+            {
+                Debug.Log("GameObject is null, exiting loop early");
+                break;
+            }
+        }
+
+        for (int i = 0; i < RoomBarriers.Count; i++)
+        {
+            go = RoomBarriers[i];
+            if (go != null)
+            {
+                Destroy(go);
+            }
+            else
+            {
+                Debug.Log("GameObject is null, exiting loop early");
+                break;
+            }
+        }
         gameObject.SetActive(false);
     }
+
     private void OnPlayerEnter()
     {
         if(State == RoomState.Inactive)
@@ -172,14 +223,21 @@ public class RoomStateManager : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if(player != null)
         {
-            if(currentRoomTeleportTransform == null)
+            if(TeleportOnRoomStart == true)
             {
-                Debug.Log("RSM does not have a transport point set.");
-                return;
+                if (currentRoomTeleportTransform == null)
+                {
+                    Debug.Log("RSM does not have a transport point set.");
+                    return;
+                }
+                else
+                {
+                    player.transform.position = currentRoomTeleportTransform.position;
+                }
             }
             else
             {
-                player.transform.position = currentRoomTeleportTransform.position;
+                //Debug.Log("Room starting, good luck!");
             }
         }
         else
