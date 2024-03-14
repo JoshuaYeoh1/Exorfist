@@ -61,6 +61,10 @@ public class SFXManager : MonoBehaviour
             switch (victim.tag)
             {
                 case "Player":
+                    if(victim.GetComponent<PlayerBlock>().isBlocking == true || victim.GetComponent<PlayerBlock>().isParrying == true)
+                    {
+                        return;
+                    }
                     AudioManager.Current?.PlaySFX(PunchClips, victim.transform.position);
                     break;
                 case "Enemy":
