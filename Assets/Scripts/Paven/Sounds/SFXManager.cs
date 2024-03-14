@@ -68,14 +68,25 @@ public class SFXManager : MonoBehaviour
                     AudioManager.Current?.PlaySFX(PunchClips, victim.transform.position);
                     break;
                 case "Enemy":
-                    if(victim.GetComponent<SlamAttackScript>() != null)
+                    if(victim.GetComponent<EnemyAI>() != null)
                     {
-                        AudioManager.Current?.PlaySFX(Enemy2HurtClips, victim.transform.position);
-                        AudioManager.Current?.PlaySFX(PunchClips, victim.transform.position);
+                        switch (victim.GetComponent<EnemyAI>().id)
+                        {
+                            case 0:
+                                AudioManager.Current?.PlaySFX(Enemy1HurtClips, victim.transform.position);
+                                AudioManager.Current?.PlaySFX(PunchClips, victim.transform.position);
+                                break;
+                            case 1:
+                                AudioManager.Current?.PlaySFX(Enemy2HurtClips, victim.transform.position);
+                                AudioManager.Current?.PlaySFX(PunchClips, victim.transform.position);
+                                break;
+                            default:
+                                AudioManager.Current?.PlaySFX(PunchClips, victim.transform.position);
+                                break;
+                        }
                     }
                     else
                     {
-                        AudioManager.Current?.PlaySFX(Enemy1HurtClips, victim.transform.position);
                         AudioManager.Current?.PlaySFX(PunchClips, victim.transform.position);
                     }
                     break;
