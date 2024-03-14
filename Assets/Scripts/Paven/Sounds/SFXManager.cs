@@ -4,15 +4,31 @@ using UnityEngine;
 
 public class SFXManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [Header("Player AudioClips")]
+    [SerializeField] private AudioClip[] SFXClipsPlayer;
+
+    [Header("Enemy AudioClips")]
+    [SerializeField] private AudioClip[] SFXClipsEnemies;
+
+    private AudioClip[] SFXClipsEnvironment;
+
+    private void Start()
     {
-        
+        GameEventSystem.Current.ParryEvent += OnParryEvent;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnParryEvent(GameObject victim, GameObject attacker, HurtInfo info)
     {
-        
+        if(victim != null && attacker != null)
+        {
+            switch (victim.tag)
+            {
+                case "Player":
+                    //AudioManager.Current?.PlaySFX(SFXClipsPlayer)
+                    break;
+                default: break;
+
+            }
+        }
     }
 }
