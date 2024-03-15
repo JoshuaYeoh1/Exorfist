@@ -8,6 +8,7 @@ public class SFXManager : MonoBehaviour
 
     [Header("Player AudioClips")]
     [SerializeField] private AudioClip[] SFXClipsPlayer;
+    [SerializeField] private AudioClip[] AbilityClipsPlayer;
 
     [Header("Enemy AudioClips")]
     [Header("Enemy1")]
@@ -22,6 +23,8 @@ public class SFXManager : MonoBehaviour
 
     [Header("Punch Impact AudioClips")]
     [SerializeField] private AudioClip[] PunchClips;
+
+    
 
     //Data values for audio clip
     [SerializeField] private List<AudioClip> PlayerClipsDV;
@@ -42,6 +45,9 @@ public class SFXManager : MonoBehaviour
         GameEventSystem.Current.DeathEvent += OnDeathEvent;
         GameEventSystem.Current.EnemySoundEvent += OnSoundEventEnemy;
         GameEventSystem.Current.PlayerSoundEvent += OnSoundEventPlayer;
+        GameEventSystem.Current.BlockBreakEvent += OnBlockBreakEvent;
+        GameEventSystem.Current.AbilityCastEvent += OnAbilityCast;
+        GameEventSystem.Current.AbilityEndEvent += OnAbilityEnd;
     }
 
     private void OnDisable()
@@ -52,6 +58,8 @@ public class SFXManager : MonoBehaviour
         GameEventSystem.Current.DeathEvent -= OnDeathEvent;
         GameEventSystem.Current.EnemySoundEvent -= OnSoundEventEnemy;
         GameEventSystem.Current.PlayerSoundEvent -= OnSoundEventPlayer;
+        GameEventSystem.Current.BlockBreakEvent -= OnBlockBreakEvent;
+        GameEventSystem.Current.AbilityCastEvent -= OnAbilityCast;
     }
 
     private void OnParryEvent(GameObject victim, GameObject attacker, HurtInfo info)
@@ -67,6 +75,77 @@ public class SFXManager : MonoBehaviour
                 default: 
                     break;
 
+            }
+        }
+    }
+
+    private void OnAbilityCast(GameObject caster, string name)
+    {
+        if(caster != null)
+        {
+            switch (caster.tag)
+            {
+                case "Player":
+                    switch (name)
+                    {
+                        case "AOE":
+                            AudioManager.Current?.PlaySFX(AbilityClipsPlayer[1], caster.transform.position);
+                            break;
+
+                        case "Laser":
+                            //AudioManager.Current?.PlaySFX(PunchClips, caster.transform.position);
+                            break;
+
+                        case "Heal":
+                            AudioManager.Current?.PlaySFX(AbilityClipsPlayer[2], caster.transform.position);
+                            break;
+
+                        default:
+                            Debug.LogWarning("Invalid ability cast name for player. No such ability as " + name);
+                            break;
+                    }
+                    break;
+
+                case "Enemy":
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    }
+    private void OnAbilityEnd(GameObject caster, string name)
+    {
+        if (caster != null)
+        {
+            switch (caster.tag)
+            {
+                case "Player":
+                    switch (name)
+                    {
+                        case "AOE":
+                            //AudioManager.Current?.PlaySFX(PunchClips, caster.transform.position);
+                            break;
+
+                        case "Laser":
+                            //AudioManager.Current?.PlaySFX(PunchClips, caster.transform.position);
+                            break;
+
+                        case "Heal":
+                            //AudioManager.Current?.PlaySFX(Enemy2Death, caster.transform.position);
+                            break;
+
+                        default:
+                            Debug.LogWarning("Invalid ability cast name for player. No such ability as " + name);
+                            break;
+                    }
+                    break;
+
+                case "Enemy":
+                    break;
+
+                default:
+                    break;
             }
         }
     }
@@ -120,6 +199,26 @@ public class SFXManager : MonoBehaviour
         if (subject != null)
         {
             AudioManager.Current?.PlaySFX(SFXClipsPlayer[2], subject.transform.position);
+        }
+    }
+
+    private void OnBlockBreakEvent(GameObject victim, GameObject attacker, HurtInfo hurtinfo)
+    {
+        if (victim != null && attacker != null)
+        {
+            switch (victim.tag)
+            {
+                case "Player":
+                    AudioManager.Current?.PlaySFX(SFXClipsPlayer[3], victim.transform.position);
+                    break;
+
+                case "Enemy":
+                    break;
+
+                default:
+                    Debug.Log("Victim is not a player or an enemy, ayo? Skibidi toilet be like");
+                    break;
+            }
         }
     }
 

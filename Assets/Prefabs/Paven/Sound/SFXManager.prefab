@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &41321532226840030
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5392716759590071898}
+  - component: {fileID: 4305697588609184215}
+  m_Layer: 0
+  m_Name: SFXManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5392716759590071898
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 41321532226840030}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4305697588609184215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 41321532226840030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d3c2059fcb910b4ca5bfe9bf64a3925, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SFXClipsPlayer:
+  - {fileID: 8300000, guid: 03bb3349bdccac046b3b8145023380b2, type: 3}
+  - {fileID: 8300000, guid: 0d92147dfe79b4846960062df9b26e6a, type: 3}
+  - {fileID: 8300000, guid: 821ab007651f8be449c45901093683ab, type: 3}
+  - {fileID: 8300000, guid: 606fb298d7abc4247bbc651baef99c01, type: 3}
+  AbilityClipsPlayer:
+  - {fileID: 0}
+  - {fileID: 8300000, guid: 44f1b2931eb508d459c1811fe83e7565, type: 3}
+  - {fileID: 8300000, guid: 32468678f98a7684d9aa456fc0c62126, type: 3}
+  Enemy1HurtClips:
+  - {fileID: 8300000, guid: 7a1723b266221dd40bb7f96b760410cd, type: 3}
+  - {fileID: 8300000, guid: a6299c88effa20b488978c76ff4acbfc, type: 3}
+  Enemy1Death: {fileID: 8300000, guid: ef2d890e3cffe344caf72b61daa317b2, type: 3}
+  Enemy2HurtClips:
+  - {fileID: 8300000, guid: 9a9f9038834d84b41bc2d39be3383174, type: 3}
+  - {fileID: 8300000, guid: 03f99d0ed23e7a242b50f4eae0579989, type: 3}
+  Enemy2Death: {fileID: 8300000, guid: b6371ef982d485547a9f2057737ae442, type: 3}
+  PunchClips:
+  - {fileID: 8300000, guid: 46cd9e5a626dc744da8549fa487130ce, type: 3}
+  - {fileID: 8300000, guid: 57acde25608298247859ca81c393584b, type: 3}
+  - {fileID: 8300000, guid: 142f29e9d84809748a6f0e648d3751de, type: 3}
+  PlayerClipsDV:
+  - {fileID: 8300000, guid: 26a3d06f89258bf418897afb66695a57, type: 3}
+  EnemyClipsDV:
+  - {fileID: 8300000, guid: 4230829a128e46f47be6095593e49319, type: 3}
+  - {fileID: 8300000, guid: 0a6acf4a43b0c3e4c923a41ac091a059, type: 3}
+  - {fileID: 8300000, guid: 44f1b2931eb508d459c1811fe83e7565, type: 3}
+  EnvironmentClipsDV: []
