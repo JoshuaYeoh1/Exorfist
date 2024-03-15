@@ -179,7 +179,7 @@ public class VFXManager : MonoBehaviour
 
                 SpawnShockwave(ModelManager.Current.GetColliderCenter(caster), Color.yellow);
 
-                SpawnGroundExplosion(caster.transform.position);
+                SpawnGroundExplosion(caster.transform.position, UpgradeManager.Current.GetAoeRange()*.2f);
             }
             else if(abilityName=="Laser")
             {
@@ -234,7 +234,7 @@ public class VFXManager : MonoBehaviour
 
             SpawnImpact(ModelManager.Current.GetColliderCenter(looter));
 
-            Singleton.Current.chi++;
+            UpgradeManager.Current.chi += quantity;
         }
     }
 
@@ -375,9 +375,11 @@ public class VFXManager : MonoBehaviour
         shock.Play();
     }
 
-    public void SpawnGroundExplosion(Vector3 pos)
+    public void SpawnGroundExplosion(Vector3 pos, float scaleMult=1)
     {
         ParticleSystem explode = Spawn("GroundExplosion", pos).GetComponent<ParticleSystem>();
+
+        explode.transform.localScale*=scaleMult;
 
         ExpandAnim(explode.gameObject);
 
@@ -422,7 +424,7 @@ public class VFXManager : MonoBehaviour
 
         heal.GetComponent<TransformConstraint>().constrainTo = caster.transform;
 
-        HideObject(heal.gameObject, 3, 0, true);
+        HideObject(heal.gameObject, UpgradeManager.Current.healDuration, 0, true);
     }
 
     public void SpawnShine(GameObject caster)
@@ -494,6 +496,8 @@ public class VFXManager : MonoBehaviour
     public void SpawnChi(Vector3 pos, Vector3 pushForce)
     {
         Loot chi = Spawn("Chi", pos).GetComponent<Loot>();
+
+        ExpandAnim(chi.gameObject, .75f);
 
         chi.Push(pushForce);
 

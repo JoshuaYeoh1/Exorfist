@@ -1,0 +1,115 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1552884305148933509
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2510260332254936798}
+  - component: {fileID: 6211176795632939160}
+  m_Layer: 0
+  m_Name: Upgrade Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2510260332254936798
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552884305148933509}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6211176795632939160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552884305148933509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2903f50db2a930a47ac13981fdefa637, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chi: 0
+  aoeDmgLvl: 0
+  aoeDmgLvlCost: 000000000a00000014000000
+  aoeDmgLvlMag:
+  - 50
+  - 75
+  - 100
+  aoeRangeLvl: 0
+  aoeRangeLvlCost: 000000000a00000014000000
+  aoeRangeLvlMag:
+  - 3
+  - 4
+  - 5
+  aoeCastTimeLvl: 0
+  aoeCastTimeLvlCost: 000000000a00000014000000
+  aoeCastTimeLvlMag:
+  - 2
+  - 1
+  - 0.5
+  aoeCooldownLvl: 0
+  aoeCooldownLvlCost: 000000000a00000014000000
+  aoeCooldownLvlMag:
+  - 30
+  - 20
+  - 10
+  laserDmgLvl: 0
+  laserDmgLvlCost: 000000000a00000014000000
+  laserDmgLvlMag:
+  - 8
+  - 12
+  - 16
+  laserRangeLvl: 0
+  laserRangeLvlCost: 000000000a00000014000000
+  laserRangeLvlMag:
+  - 5
+  - 7.5
+  - 10
+  laserCastTimeLvl: 0
+  laserCastTimeLvlCost: 000000000a00000014000000
+  laserCastTimeLvlMag:
+  - 2
+  - 1
+  - 0.5
+  laserCooldownLvl: 0
+  laserCooldownLvlCost: 000000000a00000014000000
+  laserCooldownLvlMag:
+  - 30
+  - 20
+  - 10
+  laserDuration: 5
+  healSpeedLvl: 0
+  healSpeedLvlCost: 000000000a00000014000000
+  healSpeedLvlMag:
+  - 1.5
+  - 2.5
+  - 3.5
+  healCastTimeLvl: 0
+  healCastTimeLvlCost: 000000000a00000014000000
+  healCastTimeLvlMag:
+  - 1.5
+  - 1
+  - 0.5
+  healCooldownLvl: 0
+  healCooldownLvlCost: 000000000a00000014000000
+  healCooldownLvlMag:
+  - 45
+  - 30
+  - 15
+  healDuration: 3

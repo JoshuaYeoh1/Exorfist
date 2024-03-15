@@ -25,13 +25,13 @@ public class RandomTransform3D : MonoBehaviour
 
     void Awake()
     {
-        translate();
-        rotate();
-        scale();
+        Position();
+        Rotation();
+        Scale();
         //mirror();
     }
 
-    void translate()
+    void Position()
     {
         if(randomTranslateX)
             transform.localPosition = new Vector3(transform.localPosition.x+Random.Range(minTranslate,maxTranslate), transform.localPosition.y, transform.localPosition.z);
@@ -43,7 +43,7 @@ public class RandomTransform3D : MonoBehaviour
             transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z+Random.Range(minTranslate,maxTranslate));
     }
 
-    void rotate()
+    void Rotation()
     {
         if(randomRotateX)
             transform.localEulerAngles = new Vector3(transform.localEulerAngles.x+Random.Range(minRotate,maxRotate), transform.localEulerAngles.y, transform.localEulerAngles.z);
@@ -55,7 +55,7 @@ public class RandomTransform3D : MonoBehaviour
             transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z+Random.Range(minRotate,maxRotate));
     }
     
-    void scale()
+    void Scale()
     {  
         float uniformScale = Random.Range(minScale,maxScale);
 

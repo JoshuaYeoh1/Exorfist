@@ -46,7 +46,8 @@ public class PlayerLook : MonoBehaviour
 
         lookRotation = Quaternion.Euler(0f, lookRotation.eulerAngles.y, 0f); // only rotate on the Y axis
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime*turnSpeed); // smoothly face the direction
+        transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, Time.deltaTime*turnSpeed); // linear face the direction
+        //transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime*turnSpeed); // smoothly face the direction
     }
 
     public Vector3 GetDir(Vector3 targetPos, Vector3 selfPos)

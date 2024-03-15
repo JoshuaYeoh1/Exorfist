@@ -55,7 +55,7 @@ public class Loot : MonoBehaviour
         Vector3 randForce = new Vector3
         (
             Random.Range(-force.x, force.x),
-            Random.Range(force.y*.5f, force.y),
+            Random.Range(force.y*.25f, force.y*.5f),
             Random.Range(-force.z, force.z)
         );
 

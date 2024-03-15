@@ -10,7 +10,7 @@ public class PlayerAOE : MonoBehaviour
     [Header("Casting")]
     public GameObject castingBarPrefab;
     public Transform castingBarTr;
-    public float castTime=1;
+    float castTime=1;
     
     [Header("Trails")]
     public GameObject castTrailVFXPrefab;
@@ -18,10 +18,11 @@ public class PlayerAOE : MonoBehaviour
 
     [Header("Cast")]
     public GameObject hurtboxPrefab;
+    float dmg;
 
     [Header("Cooldown")]
     public Image radialBar;
-    public float cooldown=45;
+    float cooldown=45;
     float radialFill;
 
     void Awake()
@@ -63,6 +64,8 @@ public class PlayerAOE : MonoBehaviour
 
         EnableCastTrails();
 
+        castTime = UpgradeManager.Current.GetAoeCastTime();
+
         yield return new WaitForSeconds(castTime);
 
         player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Cast);
@@ -77,6 +80,16 @@ public class PlayerAOE : MonoBehaviour
         Hurtbox hurtbox = Instantiate(hurtboxPrefab, transform.position, Quaternion.identity).GetComponent<Hurtbox>();
 
         hurtbox.owner = gameObject;
+
+        dmg = UpgradeManager.Current.GetAoeDmg();
+
+        hurtbox.dmg = dmg;
+        hurtbox.dmgBlock = dmg;
+
+        float range = UpgradeManager.Current.GetAoeRange();
+
+        SphereCollider coll = hurtbox.GetComponent<SphereCollider>();
+        coll.radius = range;
 
         GameEventSystem.Current.OnAbilityCast(gameObject, "AOE");
 
@@ -94,6 +107,8 @@ public class PlayerAOE : MonoBehaviour
 
     IEnumerator Cooling()
     {
+        cooldown = UpgradeManager.Current.GetAoeCooldown();
+
         radialFill=1;
         TweenFill(0, cooldown);
 
@@ -140,6 +155,8 @@ public class PlayerAOE : MonoBehaviour
 
         bar.hideFlags = HideFlags.HideInHierarchy;
         bar.transform.parent = castingBarTr;
+
+        castTime = UpgradeManager.Current.GetAoeCastTime();
 
         FloatingBar fbar = bar.GetComponent<FloatingBar>();
         fbar.FillBar(0, 0);

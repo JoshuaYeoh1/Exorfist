@@ -11,21 +11,21 @@ public class PlayerHeal : MonoBehaviour
     [Header("Casting")]
     public GameObject castingBarPrefab;
     public Transform castingBarTr;
-    public float castTime=1;
+    float castTime=1;
     
     [Header("Trails")]
     public GameObject castTrailVFXPrefab;
     public Transform[] castTrailTr;
 
     [Header("Cast")]
-    public float regenTime=3;
-    public float regenHp=3;
+    float regenTime=3;
+    float regenHp=3;
     public Material healMeshEffectMaterial;
     float defaultRegenHp;
 
     [Header("Cooldown")]
     public Image radialBar;
-    public float cooldown=30;
+    float cooldown=30;
     float radialFill;
 
     void Awake()
@@ -45,6 +45,8 @@ public class PlayerHeal : MonoBehaviour
 
     public void StartCast()
     {
+        regenHp = UpgradeManager.Current.GetHealSpeed();
+
         if(canCast && player.canCast && hp.hp<hp.hpMax-regenHp)
         {
             canCast=false;
@@ -69,6 +71,8 @@ public class PlayerHeal : MonoBehaviour
         player.anim.CrossFade("casting", .25f, 2, 0);
 
         EnableCastTrails();
+
+        castTime = UpgradeManager.Current.GetHealCastTime();
 
         yield return new WaitForSeconds(castTime);
 
@@ -96,12 +100,16 @@ public class PlayerHeal : MonoBehaviour
 
         ModelManager.Current.AddMaterial(player.playerModel, healMeshEffectMaterial);
 
+        regenHp = UpgradeManager.Current.GetHealSpeed();
+
         hp.regenHp = regenHp;
     }
 
     Coroutine healingRt;
     IEnumerator Healing()
     {
+        regenTime = UpgradeManager.Current.healDuration;
+
         yield return new WaitForSeconds(regenTime);
         StopHeal();
     }
@@ -126,6 +134,8 @@ public class PlayerHeal : MonoBehaviour
 
     IEnumerator Cooling()
     {
+        cooldown = UpgradeManager.Current.GetHealCooldown();
+        
         radialFill=1;
         TweenFill(0, cooldown);
 
@@ -172,6 +182,8 @@ public class PlayerHeal : MonoBehaviour
 
         bar.hideFlags = HideFlags.HideInHierarchy;
         bar.transform.parent = castingBarTr;
+
+        castTime = UpgradeManager.Current.GetHealCastTime();
 
         FloatingBar fbar = bar.GetComponent<FloatingBar>();
         fbar.FillBar(0, 0);

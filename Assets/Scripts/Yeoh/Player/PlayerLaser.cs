@@ -11,7 +11,7 @@ public class PlayerLaser : MonoBehaviour
     [Header("Casting")]
     public GameObject castingBarPrefab;
     public Transform castingBarTr;
-    public float castTime=1;
+    float castTime=1;
     
     [Header("Trails")]
     public GameObject castTrailVFXPrefab;
@@ -20,11 +20,14 @@ public class PlayerLaser : MonoBehaviour
     [Header("Cast")]
     public Transform firepointTr;
     public GameObject hitboxPrefab;
-    public float range=10, sustainTime=5, damageInterval=.2f;
+    float range=10;
+    float dmg;
+    float sustainTime=5;
+    public float damageInterval=.2f;
 
     [Header("Cooldown")]
     public Image radialBar;
-    public float cooldown=45;
+    float cooldown=45;
     float radialFill;
 
     void Awake()
@@ -67,6 +70,8 @@ public class PlayerLaser : MonoBehaviour
 
         EnableCastTrails();
 
+        castTime = UpgradeManager.Current.GetLaserCastTime();
+
         yield return new WaitForSeconds(castTime);
 
         player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Cast);
@@ -85,13 +90,16 @@ public class PlayerLaser : MonoBehaviour
 
     GameObject laser;
     List<Collider> laserColls = new List<Collider>();
+    List<Hurtbox> hurtboxes = new List<Hurtbox>();
 
     public void StartLaser()
     {
         sustainingRt = StartCoroutine(Sustaining());
 
-        finder.innerRange=range;
-        finder.outerRange=range;
+        range = UpgradeManager.Current.GetLaserRange();
+
+        finder.innerRange=range+.25f;
+        finder.outerRange=range+.25f;
 
         SpawnLaser();
     }
@@ -102,14 +110,23 @@ public class PlayerLaser : MonoBehaviour
 
         laser.transform.parent = firepointTr;
 
-        laserColls.AddRange(laser.GetComponentsInChildren<Collider>());
+        range = UpgradeManager.Current.GetLaserRange()*.1f;
 
-        Hurtbox[] hurtboxes = laser.GetComponentsInChildren<Hurtbox>();
+        laser.transform.localScale = new Vector3(laser.transform.localScale.x, laser.transform.localScale.y, range);
+
+        hurtboxes.AddRange(laser.GetComponentsInChildren<Hurtbox>());
 
         foreach(Hurtbox hurtbox in hurtboxes)
         {
             hurtbox.owner = gameObject;
+
+            dmg = UpgradeManager.Current.GetLaserDmg();
+
+            hurtbox.dmg = dmg;
+            hurtbox.dmgBlock = dmg;
         }
+
+        laserColls.AddRange(laser.GetComponentsInChildren<Collider>());
 
         flashingHitboxRt = StartCoroutine(FlashingHitbox());
     }
@@ -142,6 +159,8 @@ public class PlayerLaser : MonoBehaviour
     Coroutine sustainingRt;
     IEnumerator Sustaining()
     {
+        sustainTime = UpgradeManager.Current.laserDuration;
+
         yield return new WaitForSeconds(sustainTime);
         StopLaser();
     }
@@ -184,6 +203,8 @@ public class PlayerLaser : MonoBehaviour
 
     IEnumerator Cooling()
     {
+        cooldown = UpgradeManager.Current.GetLaserCooldown();
+
         radialFill=1;
         TweenFill(0, cooldown);
 
@@ -229,6 +250,8 @@ public class PlayerLaser : MonoBehaviour
         bar = Instantiate(castingBarPrefab, castingBarTr.position, Quaternion.identity);
         bar.hideFlags = HideFlags.HideInHierarchy;
         bar.transform.parent = castingBarTr;
+
+        castTime = UpgradeManager.Current.GetLaserCastTime();
 
         FloatingBar fbar = bar.GetComponent<FloatingBar>();
         fbar.FillBar(0, 0);

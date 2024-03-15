@@ -388,7 +388,7 @@ Transform:
   m_GameObject: {fileID: 2010822647978050873}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.146, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -906,7 +906,6 @@ MonoBehaviour:
   castingBarPrefab: {fileID: 5717642537870264288, guid: 34807381bd37bf34e9e8bb4ec9c6621b,
     type: 3}
   castingBarTr: {fileID: 3006377691843437620}
-  castTime: 1
   castTrailVFXPrefab: {fileID: 5976122878510521907, guid: 860e1577a49d9f140926c394ce538d7c,
     type: 3}
   castTrailTr:
@@ -915,7 +914,6 @@ MonoBehaviour:
   hurtboxPrefab: {fileID: 8094701558129550800, guid: cd4ea10c83b97544cae72ba5d90c42ec,
     type: 3}
   radialBar: {fileID: 0}
-  cooldown: 45
 --- !u!114 &2603858391970205903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -931,7 +929,6 @@ MonoBehaviour:
   castingBarPrefab: {fileID: 5717642537870264288, guid: 34807381bd37bf34e9e8bb4ec9c6621b,
     type: 3}
   castingBarTr: {fileID: 3006377691843437620}
-  castTime: 1
   castTrailVFXPrefab: {fileID: 5976122878510521907, guid: 860e1577a49d9f140926c394ce538d7c,
     type: 3}
   castTrailTr:
@@ -940,11 +937,8 @@ MonoBehaviour:
   firepointTr: {fileID: 5389688976063648921}
   hitboxPrefab: {fileID: 3053469505359642716, guid: d306cbbaee2c9bd41b2d84a10bbf39f7,
     type: 3}
-  range: 10
-  sustainTime: 5
   damageInterval: 0.2
   radialBar: {fileID: 0}
-  cooldown: 45
 --- !u!114 &1753989633400527595
 MonoBehaviour:
   m_ObjectHideFlags: 0
