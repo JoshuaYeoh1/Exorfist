@@ -6,6 +6,8 @@ public class Singleton : MonoBehaviour
 {
     public static Singleton Current;
 
+    public int chi;
+
     void Awake()
     {
         if(!Current)

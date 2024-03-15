@@ -39,6 +39,15 @@ public class Player : MonoBehaviour
         GameEventSystem.Current.OnSpawn(gameObject);
     }
 
+    void OnEnable()
+    {
+        GameEventSystem.Current.DeathEvent += OnDeath;
+    }
+    void OnDisable()
+    {
+        GameEventSystem.Current.DeathEvent -= OnDeath;
+    }
+
     void Update()
     {
         CheckTargetPriority();
@@ -89,5 +98,14 @@ public class Player : MonoBehaviour
         aoe.Cancel();
         laser.Cancel();
         heal.Cancel();
+    }
+
+    void OnDeath(GameObject victim, GameObject killer, string victimName, HurtInfo hurtInfo)
+    {
+        if(victim!=gameObject) return;
+
+        CancelActions();
+        heal.StopHeal();
+        laser.StopLaser();
     }
 }

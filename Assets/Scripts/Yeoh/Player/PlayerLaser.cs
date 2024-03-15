@@ -80,42 +80,29 @@ public class PlayerLaser : MonoBehaviour
     {
         GameEventSystem.Current.OnAbilityCast(gameObject, "Laser");
 
-        StartCoroutine(Sustaining());
+        StartLaser();
     }
 
-    IEnumerator Sustaining()
+    GameObject laser;
+    List<Collider> laserColls = new List<Collider>();
+
+    public void StartLaser()
     {
-        SpawnLaser();
+        sustainingRt = StartCoroutine(Sustaining());
 
         finder.innerRange=range;
         finder.outerRange=range;
 
-        yield return new WaitForSeconds(sustainTime);
-
-        if(flashingHitboxRt!=null) StopCoroutine(flashingHitboxRt);
-
-        Destroy(laser);
-
-        StartCoroutine(Cooling());
-
-        player.anim.CrossFade("laser finish", .1f, 2, 0);
-
-        finder.innerRange=finder.defInnerRange;
-        finder.outerRange=finder.defOuterRange;
-
-        DisableCastTrails();
-
-        GameEventSystem.Current.OnAbilityEnd(gameObject, "Laser");
+        SpawnLaser();
     }
 
-    GameObject laser;
-    Collider[] laserColl;
-    
     void SpawnLaser()
     {
         laser = Instantiate(hitboxPrefab, firepointTr.position, firepointTr.rotation);
+
         laser.transform.parent = firepointTr;
-        laserColl = laser.GetComponentsInChildren<Collider>();
+
+        laserColls.AddRange(laser.GetComponentsInChildren<Collider>());
 
         Hurtbox[] hurtboxes = laser.GetComponentsInChildren<Hurtbox>();
 
@@ -134,18 +121,58 @@ public class PlayerLaser : MonoBehaviour
         {
             VFXManager.Current.CamShake(damageInterval, 1);
 
-            foreach(Collider coll in laserColl)
-            {
-                coll.enabled=true;
-            }
+            ToggleLaserHitbox(true);
 
             yield return new WaitForSeconds(damageInterval);
 
-            foreach(Collider coll in laserColl)
-            {
-                coll.enabled=false;
-            }
+            ToggleLaserHitbox(false);
         }
+    }
+
+    void ToggleLaserHitbox(bool toggle)
+    {
+        if(laserColls.Count==0) return;
+
+        foreach(Collider coll in laserColls)
+        {
+            coll.enabled=toggle;
+        }
+    }
+
+    Coroutine sustainingRt;
+    IEnumerator Sustaining()
+    {
+        yield return new WaitForSeconds(sustainTime);
+        StopLaser();
+    }
+
+    void DespawnLaser()
+    {
+        if(flashingHitboxRt!=null) StopCoroutine(flashingHitboxRt);
+
+        ToggleLaserHitbox(false);
+
+        laserColls.Clear();
+
+        Destroy(laser);
+    }
+
+    public void StopLaser()
+    {
+        DespawnLaser();
+
+        if(sustainingRt!=null) StopCoroutine(sustainingRt);
+
+        player.anim.CrossFade("laser finish", .1f, 2, 0);
+
+        finder.innerRange=finder.defInnerRange;
+        finder.outerRange=finder.defOuterRange;
+
+        DisableCastTrails();
+
+        StartCoroutine(Cooling());
+
+        GameEventSystem.Current.OnAbilityEnd(gameObject, "Laser");
     }
 
     public void Finish()

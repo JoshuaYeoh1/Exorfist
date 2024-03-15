@@ -7,7 +7,6 @@ public class PopUpAnim : MonoBehaviour
     Rigidbody rb;
 
     public float animIn=.5f, animWait=.5f, animOut=.5f;
-    public Vector3 pushForce;
 
     Vector3 defScale;
 
@@ -32,8 +31,6 @@ public class PopUpAnim : MonoBehaviour
     {
         transform.localScale = Vector3.zero;
 
-        Push();
-
         LeanTween.scale(gameObject, defScale, animIn).setEaseOutElastic().setIgnoreTimeScale(true);
 
         yield return new WaitForSeconds(animIn + animWait);
@@ -45,15 +42,15 @@ public class PopUpAnim : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    void Push()
+    public void Push(Vector3 force)
     {
-        pushForce = new Vector3
+        Vector3 randForce = new Vector3
         (
-            Random.Range(pushForce.x, -pushForce.x),
-            pushForce.y,
-            Random.Range(pushForce.z, -pushForce.z)
+            Random.Range(-force.x, force.x),
+            Random.Range(force.y*.5f, force.y),
+            Random.Range(-force.z, force.z)
         );
 
-        rb.AddForce(pushForce, ForceMode.Impulse);
+        rb.AddForce(randForce, ForceMode.Impulse);
     }
 }

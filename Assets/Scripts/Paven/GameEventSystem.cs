@@ -39,7 +39,7 @@ public class GameEventSystem : MonoBehaviour
     public event Action<GameObject, GameObject, HurtInfo> BlockEvent;
     public event Action<GameObject, GameObject, HurtInfo> ParryEvent;
     public event Action<GameObject, GameObject, HurtInfo> BlockBreakEvent;
-    public event Action<GameObject, GameObject, HurtInfo> DeathEvent;
+    public event Action<GameObject, GameObject, string, HurtInfo> DeathEvent;
 
     public void OnSpawn(GameObject subject)
     {
@@ -65,9 +65,9 @@ public class GameEventSystem : MonoBehaviour
     {
         BlockBreakEvent?.Invoke(defender, attacker, hurtInfo);
     }
-    public void OnDeath(GameObject victim, GameObject killer, HurtInfo hurtInfo)
+    public void OnDeath(GameObject victim, GameObject killer, string victimName, HurtInfo hurtInfo)
     {
-        DeathEvent?.Invoke(victim, killer, hurtInfo); //Debug.Log($"{victim.name} was killed by {killer.name}");
+        DeathEvent?.Invoke(victim, killer, victimName, hurtInfo); //Debug.Log($"{victim.name} was killed by {killer.name}");
     }
 
     //==Ability Related actions==//
@@ -96,6 +96,7 @@ public class GameEventSystem : MonoBehaviour
     //==Small actions==//
     public event Action<GameObject, string, Transform> FootstepEvent;
     public event Action<GameObject, GameObject, bool> TargetEvent;
+    public event Action<GameObject, string, int> LootEvent;
 
     public void OnFootstep(GameObject subject, string type, Transform footstepTr)
     {
@@ -104,6 +105,10 @@ public class GameEventSystem : MonoBehaviour
     public void OnTarget(GameObject targeter, GameObject target, bool manual)
     {
         TargetEvent?.Invoke(targeter, target, manual);
+    }
+    public void OnLoot(GameObject looter, string lootName, int quantity)
+    {
+        LootEvent?.Invoke(looter, lootName, quantity);
     }
     
     //==Objective Related actions==//

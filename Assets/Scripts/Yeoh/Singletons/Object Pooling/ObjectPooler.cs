@@ -69,17 +69,18 @@ public class ObjectPooler : MonoBehaviour
     {
         if(!poolDict.ContainsKey(poolName)) { Debug.LogError($"No pools have the name {poolName}"); return null; }
         
-        GameObject spawnedObj = poolDict[poolName].Dequeue();
+        GameObject obj = poolDict[poolName].Dequeue();
 
-        spawnedObj.SetActive(true);
-        spawnedObj.transform.position = position;
-        spawnedObj.transform.rotation = rotation;
+        obj.SetActive(false); // so that OnEnable can run again
+        obj.SetActive(true);
+        obj.transform.position = position;
+        obj.transform.rotation = rotation;
 
         Pool pool = poolList.Find(p => p.poolName == poolName);
         if(pool!=null && pool.pooledObject!=null) pool.pooledObject.OnSpawnFromPool();
 
-        poolDict[poolName].Enqueue(spawnedObj); // move to the back of the queue
+        poolDict[poolName].Enqueue(obj); // move to the back of the queue
 
-        return spawnedObj;
+        return obj;
     }
 }

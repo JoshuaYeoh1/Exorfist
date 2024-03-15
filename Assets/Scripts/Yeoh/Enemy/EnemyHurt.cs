@@ -7,6 +7,7 @@ public class EnemyHurt : MonoBehaviour
     HPManager hp;
     Rigidbody rb;
 
+    public string enemyName;
     bool iframe;
     public float iframeTime=.1f;
 
@@ -94,6 +95,6 @@ public class EnemyHurt : MonoBehaviour
     {
         ModelManager.Current.RevertColor(gameObject);
 
-        GameEventSystem.Current.OnDeath(gameObject, killer, hurtInfo);
+        GameEventSystem.Current.OnDeath(gameObject, killer, enemyName, hurtInfo);
     }
 }

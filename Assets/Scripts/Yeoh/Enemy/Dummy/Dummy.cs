@@ -32,7 +32,7 @@ public class Dummy : MonoBehaviour
         hurt.Hurt(attacker, hurtInfo);
     }
 
-    public void OnDeath(GameObject victim, GameObject killer, HurtInfo hurtInfo)
+    public void OnDeath(GameObject victim, GameObject killer, string victimName, HurtInfo hurtInfo)
     {
         if(victim!=gameObject) return;
         

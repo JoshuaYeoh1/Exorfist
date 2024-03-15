@@ -128,7 +128,7 @@ public class EyeblinkAnim : MonoBehaviour
         }
     }
 
-    void OnDeath(GameObject victim, GameObject killer, HurtInfo hurtInfo)
+    void OnDeath(GameObject victim, GameObject killer, string victimName, HurtInfo hurtInfo)
     {
         //if(!hasPriority(5)) return;
 

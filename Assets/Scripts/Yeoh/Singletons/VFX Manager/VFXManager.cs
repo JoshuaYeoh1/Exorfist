@@ -27,6 +27,7 @@ public class VFXManager : MonoBehaviour
         GameEventSystem.Current.AbilityCastEvent += OnAbilityCast;
         GameEventSystem.Current.AbilityCastingEvent += OnAbilityCasting;
         GameEventSystem.Current.FootstepEvent += OnFootstep;
+        GameEventSystem.Current.LootEvent += OnLoot;
 
         SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
@@ -39,8 +40,9 @@ public class VFXManager : MonoBehaviour
         GameEventSystem.Current.DeathEvent -= OnDeath;
         GameEventSystem.Current.AbilitySlowMoEvent -= OnAbilitySlowMo;
         GameEventSystem.Current.AbilityCastEvent -= OnAbilityCast;
-        GameEventSystem.Current.AbilityCastingEvent += OnAbilityCasting;
+        GameEventSystem.Current.AbilityCastingEvent -= OnAbilityCasting;
         GameEventSystem.Current.FootstepEvent -= OnFootstep;
+        GameEventSystem.Current.LootEvent -= OnLoot;
 
         SceneManager.sceneUnloaded -= OnSceneUnloaded;
     }
@@ -53,7 +55,7 @@ public class VFXManager : MonoBehaviour
 
             if(hurtInfo.doHitstop) HitStop();
 
-            SpawnPopUpText(ModelManager.Current.GetColliderTop(victim), hurtInfo.dmg.ToString(), Color.red);
+            SpawnPopUpText(ModelManager.Current.GetColliderTop(victim), hurtInfo.dmg.ToString(), Color.red, Vector3.one*2);
 
             SpawnHitmarker(hurtInfo.contactPoint, Color.red);
 
@@ -74,7 +76,7 @@ public class VFXManager : MonoBehaviour
 
             if(hurtInfo.doImpact) SpawnImpact(hurtInfo.contactPoint);
 
-            SpawnPopUpText(ModelManager.Current.GetColliderTop(victim), hurtInfo.dmg.ToString(), Color.white);
+            SpawnPopUpText(ModelManager.Current.GetColliderTop(victim), hurtInfo.dmg.ToString(), Color.white, Vector3.one*2);
 
             SpawnHitmarker(hurtInfo.contactPoint, Color.white);
 
@@ -86,7 +88,7 @@ public class VFXManager : MonoBehaviour
     {
         if(defender.tag=="Player")
         {
-            SpawnPopUpText(ModelManager.Current.GetColliderTop(defender), hurtInfo.dmg.ToString(), Color.cyan);
+            SpawnPopUpText(ModelManager.Current.GetColliderTop(defender), hurtInfo.dmg.ToString(), Color.cyan, Vector3.one*2);
 
             SpawnFlash(hurtInfo.contactPoint, Color.cyan);
 
@@ -104,7 +106,7 @@ public class VFXManager : MonoBehaviour
     {
         if(defender.tag=="Player")
         {
-            SpawnPopUpText(ModelManager.Current.GetColliderTop(defender), "PARRY!", Color.green);
+            SpawnPopUpText(ModelManager.Current.GetColliderTop(defender), "PARRY!", Color.green, Vector3.one*2);
 
             SpawnFlash(hurtInfo.contactPoint, Color.green);
 
@@ -122,7 +124,7 @@ public class VFXManager : MonoBehaviour
     {
         if(defender.tag=="Player")
         {
-            SpawnPopUpText(ModelManager.Current.GetColliderTop(defender), "bREAK!", Color.red);
+            SpawnPopUpText(ModelManager.Current.GetColliderTop(defender), "bREAK!", Color.red, Vector3.one*2);
 
             SpawnFlash(hurtInfo.contactPoint, Color.red);
 
@@ -134,15 +136,15 @@ public class VFXManager : MonoBehaviour
         }
     }
 
-    void OnDeath(GameObject victim, GameObject killer, HurtInfo hurtInfo)
+    void OnDeath(GameObject victim, GameObject killer, string victimName, HurtInfo hurtInfo)
     {
         if(victim.tag=="Player")
         {
-            SpawnPopUpText(ModelManager.Current.GetColliderTop(victim), "DEAD!", Color.red);
+            SpawnPopUpText(ModelManager.Current.GetColliderTop(victim), "DEAD!", Color.red, Vector3.one*2);
         }
         else
         {
-            SpawnPopUpText(ModelManager.Current.GetColliderTop(victim), "DEAD!", Color.grey);
+            SpawnPopUpText(ModelManager.Current.GetColliderTop(victim), "DEAD!", Color.grey, Vector3.one*2);
         }
     }
     
@@ -160,8 +162,6 @@ public class VFXManager : MonoBehaviour
         {
             if(abilityName=="Enemy2Slam")
             {
-                SpawnShockwave(caster.transform.position, Color.red);
-
                 //SpawnEnemy2Trail(caster, caster.transform.position); //ugly
             }
         }
@@ -189,13 +189,15 @@ public class VFXManager : MonoBehaviour
             }
             else if(abilityName=="Heal")
             {
-                SpawnPopUpText(ModelManager.Current.GetColliderTop(caster), "HEAL!", Color.yellow);
+                SpawnPopUpText(ModelManager.Current.GetColliderTop(caster), "HEAL!", Color.yellow, Vector3.one*2);
 
                 SpawnShockwave(ModelManager.Current.GetColliderCenter(caster), Color.yellow);
 
                 SpawnHeal(caster);
                 SpawnShine(caster);
             }
+
+            ModelManager.Current.FlashColor(caster, .5f, .5f, -.5f);
         }
         else
         {
@@ -203,9 +205,11 @@ public class VFXManager : MonoBehaviour
             {
                 CamShake(.5f, 3);
 
-                SpawnShockwave(caster.transform.position, Color.red);
+                SpawnShockwave(caster.transform.position, Color.white);
 
                 SpawnEnemy2Slam(caster.transform.position);
+
+                ModelManager.Current.FlashColor(caster, .5f, -.5f, -.5f);
             }
         }
     }
@@ -216,6 +220,27 @@ public class VFXManager : MonoBehaviour
         {
             SpawnPlayerFootprint(footstepTr);
         }
+    }
+
+    public void OnLoot(GameObject looter, string lootName, int quantity)
+    {
+        if(lootName=="Chi")
+        {
+            SpawnShockwave(ModelManager.Current.GetColliderCenter(looter), Color.white);
+
+            SpawnPopUpText(ModelManager.Current.GetColliderTop(looter), $"+{quantity}", Color.white, Vector3.one*2);
+
+            ModelManager.Current.FlashColor(looter, 1, 1, 1);
+
+            SpawnImpact(ModelManager.Current.GetColliderCenter(looter));
+
+            Singleton.Current.chi++;
+        }
+    }
+
+    void OnSceneUnloaded(Scene scene)
+    {
+        Time.timeScale=1;
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -305,9 +330,11 @@ public class VFXManager : MonoBehaviour
     
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void SpawnPopUpText(Vector3 pos, string text, Color color)
+    public void SpawnPopUpText(Vector3 pos, string text, Color color, Vector3 pushForce)
     {
         PopUpAnim popUp = Spawn("PopUpText", pos).GetComponent<PopUpAnim>();
+
+        popUp.Push(pushForce);
 
         TextMeshProUGUI[] tmps = popUp.GetComponentsInChildren<TextMeshProUGUI>();
 
@@ -463,6 +490,20 @@ public class VFXManager : MonoBehaviour
 
         HideObject(trail.gameObject, 1);
     }
+
+    public void SpawnChi(Vector3 pos, Vector3 pushForce)
+    {
+        Loot chi = Spawn("Chi", pos).GetComponent<Loot>();
+
+        chi.Push(pushForce);
+
+        VisualEffect[] childVFXs = chi.GetComponentsInChildren<VisualEffect>();
+
+        foreach(VisualEffect vfx in childVFXs)
+        {
+            vfx.Play();
+        }
+    }
     
     void Update()
     {
@@ -476,11 +517,12 @@ public class VFXManager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Keypad2)) SpawnHitmarker(PlayerTop(), Color.white);
         if(Input.GetKeyDown(KeyCode.Keypad3)) SpawnFlash(PlayerTop(), Color.white);
         if(Input.GetKeyDown(KeyCode.Keypad4)) SpawnShockwave(PlayerTop(), Color.white);
-        if(Input.GetKeyDown(KeyCode.Keypad5)) SpawnGroundExplosion(new Vector3(FindPlayer().transform.position.x, FindPlayer().transform.position.y+.1f, FindPlayer().transform.position.z));
+        if(Input.GetKeyDown(KeyCode.Keypad5)) SpawnGroundExplosion(FindPlayer().transform.position);
         if(Input.GetKeyDown(KeyCode.Keypad6)) {SpawnHeal(FindPlayer()); SpawnShine(FindPlayer());}
         if(Input.GetKeyDown(KeyCode.Keypad7)) SpawnImpact(PlayerTop());
         if(Input.GetKeyDown(KeyCode.Keypad8)) SpawnSparks(PlayerTop());
-        if(Input.GetKeyDown(KeyCode.Keypad9)) SpawnPopUpText(PlayerTop(), "ABOI", Color.cyan);
+        if(Input.GetKeyDown(KeyCode.Keypad9)) SpawnPopUpText(PlayerTop(), "ABOI", Color.cyan, Vector3.one*2);
+        if(Input.GetKeyDown(KeyCode.KeypadDivide)) SpawnChi(ModelManager.Current.GetColliderCenter(FindPlayer()), Vector3.one*5);
     }
 
     GameObject FindPlayer()
@@ -500,10 +542,5 @@ public class VFXManager : MonoBehaviour
         obj.transform.localScale=Vector3.zero;
 
         LeanTween.scale(obj, defscale, time).setEaseInOutSine();
-    }
-
-    void OnSceneUnloaded(Scene scene)
-    {
-        Time.timeScale=1;
     }
 }

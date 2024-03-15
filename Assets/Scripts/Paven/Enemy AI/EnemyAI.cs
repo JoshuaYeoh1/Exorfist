@@ -7,20 +7,18 @@ using UnityEngine.AI;
 public class EnemyAI : MonoBehaviour
 {
     //Declarations for respective things
-    
     [HideInInspector] public Animator animator;
-    [HideInInspector] public Rigidbody body;
+    [HideInInspector] public Rigidbody rb;
     [HideInInspector] public NavMeshAgent agent;
     [HideInInspector] public EnemyAIStateMachine sm;
     [HideInInspector] public EnemyAIAttackTimer atkTimer;
+    public string enemyName;
     public int id;
     public LayerMask whatIsGround, whatIsPlayer;
 
     [Header("Stats")]
     public float balanceMax;
     private float currentBalance;
-
-    public float chiDrop;
 
     public float hitStunDuration;
     public Transform playerTransform;
@@ -72,7 +70,7 @@ public class EnemyAI : MonoBehaviour
     {
         //code to set things like event subscriptions, etc.
         animator = GetComponent<Animator>();
-        body = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
         playerTransform = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
         sm = GetComponent<EnemyAIStateMachine>();
@@ -110,6 +108,8 @@ public class EnemyAI : MonoBehaviour
     {
         //Debug.Log(preparingAttack);
         CheckPoiseRegen();
+
+        if(Input.GetKeyDown(KeyCode.KeypadMultiply)) DropChi();
     }
 
     public Hurtbox hurtbox;
@@ -215,21 +215,33 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    [Header("On Death")]
     public GameObject ragdollPrefab;
+    public float chiDropMin=1, chiDropMax=3;
+    public Transform chiSpawnpoint;
 
-    void OnDeath(GameObject victim, GameObject killer, HurtInfo hurtInfo)
+    void OnDeath(GameObject victim, GameObject killer, string victimName, HurtInfo hurtInfo)
     {
         if(victim!=gameObject) return;
 
         //switch EnemyAIStateMachine to "dying" state, stop all coroutines as needed (if we're using coroutines that is)
         //EnemyHurt script already broadcasts to OnDeath event, no need to broadcast it again here
         
-        //use object pooling later
         Ragdoller ragdoll = Instantiate(ragdollPrefab, transform.position, transform.rotation).GetComponent<Ragdoller>();
 
         ragdoll.PushRagdoll(hurtInfo.kbForce, hurtInfo.contactPoint);
 
+        DropChi();
+
         Destroy(gameObject);
+    }
+
+    void DropChi()
+    {
+        for(int i=0; i<Random.Range(chiDropMin, chiDropMax); i++)
+        {
+            VFXManager.Current.SpawnChi(chiSpawnpoint.position, Vector3.one*5);
+        }
     }
     
     //IsMoving getters/setters

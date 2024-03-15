@@ -52,6 +52,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2378e27a3687c2c42a2c7da9b5c28674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chi: 0
 --- !u!1001 &1802365332024181113
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -216,7 +217,7 @@ PrefabInstance:
     - target: {fileID: 3095821821832843385, guid: 15ed4b982d38e9f4c93e1c3ea824278c,
         type: 3}
       propertyPath: poolList.Array.size
-      value: 12
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 3095821821832843385, guid: 15ed4b982d38e9f4c93e1c3ea824278c,
         type: 3}
@@ -297,6 +298,12 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3095821821832843385, guid: 15ed4b982d38e9f4c93e1c3ea824278c,
         type: 3}
+      propertyPath: poolList.Array.data[12].prefab
+      value: 
+      objectReference: {fileID: 5997088900920925528, guid: 6b4c5b062da6a0a4a9a592d7f946e45f,
+        type: 3}
+    - target: {fileID: 3095821821832843385, guid: 15ed4b982d38e9f4c93e1c3ea824278c,
+        type: 3}
       propertyPath: poolList.Array.data[1].maxSize
       value: 10
       objectReference: {fileID: 0}
@@ -357,6 +364,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3095821821832843385, guid: 15ed4b982d38e9f4c93e1c3ea824278c,
         type: 3}
+      propertyPath: poolList.Array.data[12].maxSize
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 3095821821832843385, guid: 15ed4b982d38e9f4c93e1c3ea824278c,
+        type: 3}
       propertyPath: poolList.Array.data[1].poolName
       value: Hitmarker
       objectReference: {fileID: 0}
@@ -409,6 +421,11 @@ PrefabInstance:
         type: 3}
       propertyPath: poolList.Array.data[11].poolName
       value: Enemy2Slam
+      objectReference: {fileID: 0}
+    - target: {fileID: 3095821821832843385, guid: 15ed4b982d38e9f4c93e1c3ea824278c,
+        type: 3}
+      propertyPath: poolList.Array.data[12].poolName
+      value: Chi
       objectReference: {fileID: 0}
     - target: {fileID: 3095821821832843385, guid: 15ed4b982d38e9f4c93e1c3ea824278c,
         type: 3}
@@ -468,6 +485,11 @@ PrefabInstance:
     - target: {fileID: 3095821821832843385, guid: 15ed4b982d38e9f4c93e1c3ea824278c,
         type: 3}
       propertyPath: poolList.Array.data[11].hideInHierarchy
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3095821821832843385, guid: 15ed4b982d38e9f4c93e1c3ea824278c,
+        type: 3}
+      propertyPath: poolList.Array.data[12].hideInHierarchy
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4269954024675091473, guid: 15ed4b982d38e9f4c93e1c3ea824278c,

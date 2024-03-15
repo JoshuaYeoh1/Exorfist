@@ -148,7 +148,7 @@ public class RoomStateManager : MonoBehaviour
             //lock door to prevent player from leaving mid-combat
         }
     }
-    private void OnEnemyDeath(GameObject victim, GameObject killer, HurtInfo hurtInfo)
+    private void OnEnemyDeath(GameObject victim, GameObject killer, string victimName, HurtInfo hurtInfo)
     {
         if(victim.tag=="Player") return;
 

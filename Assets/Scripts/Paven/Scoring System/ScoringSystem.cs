@@ -56,7 +56,7 @@ public class ScoringSystem : MonoBehaviour
         }
     }
 
-    public void OnDeath(GameObject victim, GameObject killer, HurtInfo hurtInfo)
+    public void OnDeath(GameObject victim, GameObject killer, string victimName, HurtInfo hurtInfo)
     {
         if(killer.tag=="Player")
         {

@@ -390,6 +390,7 @@ Transform:
   - {fileID: 6003963326838324088}
   - {fileID: 7825565991950193678}
   - {fileID: 6365186644352726385}
+  - {fileID: 7019339008450553265}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &5385363363453885591
@@ -431,11 +432,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bcfafd545e98084f94c591a7ec399e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  body: {fileID: 0}
+  animator: {fileID: 5385363363453885591}
+  rb: {fileID: 0}
   agent: {fileID: 0}
   sm: {fileID: 0}
   atkTimer: {fileID: 0}
+  enemyName: Enemy2
   id: 1
   whatIsGround:
     serializedVersion: 2
@@ -444,7 +446,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   balanceMax: 100
-  chiDrop: 5
   hitStunDuration: 0
   playerTransform: {fileID: 0}
   preparedAttack: 0
@@ -469,6 +470,9 @@ MonoBehaviour:
   poiseRegenDelay: 3
   ragdollPrefab: {fileID: 1228667488246187926, guid: 62a7e4244e3f5654c9d5b4f9078f328a,
     type: 3}
+  chiDropMin: 4
+  chiDropMax: 6
+  chiSpawnpoint: {fileID: 7019339008450553265}
 --- !u!114 &9165865967378411293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -594,6 +598,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad136ebf89760554ead31d146afbf1b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyName: Enemy2
   iframeTime: 0.1
 --- !u!114 &4348233128418930465
 MonoBehaviour:
@@ -2350,6 +2355,37 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.0076933503, y: -0.30121452, z: 0.001622498}
     m_Extent: {x: 1.373558, y: 1.2810085, z: 0.7676969}
   m_DirtyAABB: 0
+--- !u!1 &7008685218197335415
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7019339008450553265}
+  m_Layer: 6
+  m_Name: Chi Spawnpoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7019339008450553265
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7008685218197335415}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.387, z: -0.062}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2138807126037861600}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7061251156892502794
 GameObject:
   m_ObjectHideFlags: 0

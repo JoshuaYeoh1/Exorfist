@@ -12,7 +12,7 @@ public class PlayerBlockMeter : MonoBehaviour
 
     [HideInInspector] public bool regen;
     public float regenCooldown=3;
-    public float blockBreakSpeedDebuffMult=.5f, blockBreakPenaltyStunTime=1;
+    public float blockBreakSpeedDebuffMult=.2f, blockBreakPenaltyStunTime=1.5f;
 
     void Awake()
     {
@@ -92,7 +92,6 @@ public class PlayerBlockMeter : MonoBehaviour
     {
         block.Unblock();
         
-        hurtInfo.dmg *= .5f;
         hurtInfo.speedDebuffMult = blockBreakSpeedDebuffMult;
         hurtInfo.stunTime = blockBreakPenaltyStunTime;
 

@@ -239,7 +239,7 @@ public class ModelManager : MonoBehaviour
         }
     }
     
-    public void FlashColor(GameObject target, float time=.1f, float rOffset=0, float gOffset=0, float bOffset=0)
+    public void FlashColor(GameObject target, float rOffset=0, float gOffset=0, float bOffset=0, float time=.1f)
     {
         StartCoroutine(FlashingColor(target, time, rOffset, gOffset, bOffset));
     }

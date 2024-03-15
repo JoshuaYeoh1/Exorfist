@@ -103,7 +103,7 @@ public class PlayerHurt : MonoBehaviour
         
         player.CancelActions();
 
-        GameEventSystem.Current.OnDeath(gameObject, killer, hurtInfo);
+        GameEventSystem.Current.OnDeath(gameObject, killer, "Player", hurtInfo);
 
         player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Death);
     }

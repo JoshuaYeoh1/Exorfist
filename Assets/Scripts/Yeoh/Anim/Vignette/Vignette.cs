@@ -132,7 +132,7 @@ public class Vignette : MonoBehaviour
         }
     }
 
-    void OnDeath(GameObject victim, GameObject killer, HurtInfo hurtInfo)
+    void OnDeath(GameObject victim, GameObject killer, string victimName, HurtInfo hurtInfo)
     {
         //if(!hasPriority(10)) return;
 

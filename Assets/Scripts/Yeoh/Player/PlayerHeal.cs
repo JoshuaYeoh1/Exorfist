@@ -85,17 +85,31 @@ public class PlayerHeal : MonoBehaviour
 
         GameEventSystem.Current.OnAbilityCast(gameObject, "Heal");
 
-        StartCoroutine(Healing());
-
-        StartCoroutine(Cooling());
+        StartHeal();
     }
 
-    IEnumerator Healing()
+    public void StartHeal()
     {
+        healingRt = StartCoroutine(Healing());
+
+        StartCoroutine(Cooling());
+
         ModelManager.Current.AddMaterial(player.playerModel, healMeshEffectMaterial);
 
         hp.regenHp = regenHp;
+    }
+
+    Coroutine healingRt;
+    IEnumerator Healing()
+    {
         yield return new WaitForSeconds(regenTime);
+        StopHeal();
+    }
+
+    public void StopHeal()
+    {
+        if(healingRt!=null) StopCoroutine(healingRt);
+        
         hp.regenHp = defaultRegenHp;
         
         ModelManager.Current.RemoveMaterial(player.playerModel, healMeshEffectMaterial);

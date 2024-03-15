@@ -105,7 +105,7 @@ public class SFXManager : MonoBehaviour
         }
     }
 
-    private void OnDeathEvent(GameObject victim, GameObject killer, HurtInfo hurtinfo)
+    private void OnDeathEvent(GameObject victim, GameObject killer, string victimName, HurtInfo hurtinfo)
     {
         if (victim != null && killer != null)
         {
