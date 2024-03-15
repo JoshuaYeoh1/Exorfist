@@ -751,7 +751,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec97ba19d2a5a5f4d81010b8f423b85b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnSpeed: 3
+  turnSpeed: 10
 --- !u!114 &164611432546848976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -954,18 +954,14 @@ MonoBehaviour:
   castingBarPrefab: {fileID: 5717642537870264288, guid: 34807381bd37bf34e9e8bb4ec9c6621b,
     type: 3}
   castingBarTr: {fileID: 3006377691843437620}
-  castTime: 1
   castTrailVFXPrefab: {fileID: 5976122878510521907, guid: 860e1577a49d9f140926c394ce538d7c,
     type: 3}
   castTrailTr:
   - {fileID: 6200962545719765769}
   - {fileID: 2493113928390365235}
-  regenTime: 3
-  regenHp: 3
   healMeshEffectMaterial: {fileID: 2100000, guid: a8a9e358580d114408b590e3a2f088f4,
     type: 2}
   radialBar: {fileID: 0}
-  cooldown: 30
 --- !u!114 &8706064815427648548
 MonoBehaviour:
   m_ObjectHideFlags: 0
