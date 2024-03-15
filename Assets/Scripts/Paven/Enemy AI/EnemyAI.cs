@@ -124,7 +124,7 @@ public class EnemyAI : MonoBehaviour
         if(victim!=gameObject) return;
 
         //this is for a future event system implementation
-        if(hurtInfo.unblockable)
+        if(hurtInfo.unparryable)
         {
             hurt.Hurt(attacker, hurtInfo); //EnemyHurt script already broadcasts to OnHurt event, no need to broadcast it again here
         }

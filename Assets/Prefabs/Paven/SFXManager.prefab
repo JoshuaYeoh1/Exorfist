@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4431559004873421679
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8737119194158701983}
+  - component: {fileID: 1537139817703718859}
+  m_Layer: 0
+  m_Name: SFXManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8737119194158701983
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4431559004873421679}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1537139817703718859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4431559004873421679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d3c2059fcb910b4ca5bfe9bf64a3925, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SFXClipsPlayer:
+  - {fileID: 8300000, guid: bfdf00d1fdbddff48aa4426072ea41c3, type: 3}
+  Enemy1HurtClips:
+  - {fileID: 8300000, guid: 7a1723b266221dd40bb7f96b760410cd, type: 3}
+  - {fileID: 8300000, guid: a6299c88effa20b488978c76ff4acbfc, type: 3}
+  Enemy1Death: {fileID: 8300000, guid: ef2d890e3cffe344caf72b61daa317b2, type: 3}
+  Enemy2IdleCips: []
+  Enemy2HurtClips:
+  - {fileID: 8300000, guid: 9a9f9038834d84b41bc2d39be3383174, type: 3}
+  - {fileID: 8300000, guid: 03f99d0ed23e7a242b50f4eae0579989, type: 3}
+  Enemy2Death: {fileID: 8300000, guid: b6371ef982d485547a9f2057737ae442, type: 3}
+  PunchClips:
+  - {fileID: 8300000, guid: 46cd9e5a626dc744da8549fa487130ce, type: 3}
+  - {fileID: 8300000, guid: 57acde25608298247859ca81c393584b, type: 3}
+  - {fileID: 8300000, guid: 142f29e9d84809748a6f0e648d3751de, type: 3}

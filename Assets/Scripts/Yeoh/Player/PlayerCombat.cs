@@ -107,7 +107,7 @@ public class PlayerCombat : MonoBehaviour
         player.hurtboxes[i].doShake = atkSO.doShake;
         player.hurtboxes[i].doHitstop = atkSO.doHitstop;
         player.hurtboxes[i].doShockwave = atkSO.doShockwave;
-        player.hurtboxes[i].unblockable = atkSO.unblockable;
+        player.hurtboxes[i].unparryable = atkSO.unparryable;
 
         // enable and disable hitbox rapidly
         player.hurtboxes[i].BlinkHitbox(atkSO.hitboxActiveDuration);

@@ -10,7 +10,7 @@ public class Hurtbox : MonoBehaviour
     public bool enabledOnAwake;
     public float dmg=1, dmgBlock=1, kbForce=1;
     public float speedDebuffMult=.3f, stunTime=.5f;
-    public bool hasSweepingEdge=true, unblockable;
+    public bool hasSweepingEdge=true, unparryable;
 
     void Awake()
     {
@@ -60,7 +60,7 @@ public class Hurtbox : MonoBehaviour
         newHurtInfo.doShake = doShake;
         newHurtInfo.doHitstop = doHitstop;
         newHurtInfo.doShockwave = doShockwave;
-        newHurtInfo.unblockable = unblockable;
+        newHurtInfo.unparryable = unparryable;
 
         return newHurtInfo;
     }
