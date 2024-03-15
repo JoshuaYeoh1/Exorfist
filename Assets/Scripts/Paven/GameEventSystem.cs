@@ -161,6 +161,28 @@ public class GameEventSystem : MonoBehaviour
         GameStateChangedEvent?.Invoke(newState);
     }
 
+    //==Sound Event==//
+    public event Action<Transform, string> EnemySoundEvent;
+    public event Action<Transform, string> PlayerSoundEvent;
+    public event Action<Transform, string> EnvironmentSoundEvent;
+
+    public void EnemySoundEventPlay(Transform transform, string searchKey)
+    {
+        EnemySoundEvent?.Invoke(transform, searchKey);
+    }
+
+    public void PlayerSoundEventPlay(Transform transform, string searchKey)
+    {
+        PlayerSoundEvent?.Invoke(transform, searchKey);
+    }
+
+    public void EnvironmentSoundEventPlay(Transform transform, string searchKey)
+    {
+        EnvironmentSoundEvent?.Invoke(transform, searchKey);
+    }
+    //==Sound Event==/
+
+
     /*
     private void onSceneLoaded(Scene scene, LoadSceneMode mode)
     {

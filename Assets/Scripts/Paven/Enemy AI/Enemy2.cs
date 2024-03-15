@@ -12,5 +12,12 @@ public class Enemy2 : MonoBehaviour
     public void SlamEvent()
     {
         GameEventSystem.Current.OnAbilityCast(gameObject, "Enemy2Slam");
+        GameEventSystem.Current.EnemySoundEventPlay(gameObject.transform, "SlamImpact");
+        GameEventSystem.Current.EnemySoundEventPlay(gameObject.transform, "Enemy2 SlamImpactVoice");
+    }
+
+    public void PlayLeapSound()
+    {
+        GameEventSystem.Current.EnemySoundEventPlay(gameObject.transform, "Enemy2 SlamLeapVoice");
     }
 }

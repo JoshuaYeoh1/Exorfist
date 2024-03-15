@@ -25,11 +25,22 @@ public class LevelManager : MonoBehaviour
 
     private void CycleRoomStateManager(RoomState roomState)
     {
-        if(roomState == RoomState.Clear)
+        if (roomState == RoomState.Clear)
         {
             Debug.Log("Cycling RSM");
-            activeRSM = roomStateManagers[activeRSM.GetRoomID() + 1];
-            activeRSM.gameObject.SetActive(true);
+
+            int nextIndex = activeRSM.GetRoomID() + 1;
+
+            if (nextIndex < roomStateManagers.Count)
+            {
+                activeRSM = roomStateManagers[nextIndex];
+                activeRSM.gameObject.SetActive(true);
+            }
+            else
+            {
+                //Level is technically complete here.
+                //Display "victory" or whatever.
+            }
         }
     }
 }
