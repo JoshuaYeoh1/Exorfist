@@ -109265,15 +109265,22 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.35555556
-    functionName: SlamWindupEvent
+  - time: 0.17777778
+    functionName: PlayLeapSound
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.4
+  - time: 0.2888889
     functionName: LeapTween
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.35555556
+    functionName: SlamWindupEvent
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -109287,14 +109294,14 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 1.0888889
-    functionName: DestroyVFXInstance
+    functionName: BlinkHitbox
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 1.0888889
-    functionName: BlinkHitbox
+    functionName: DestroyVFXInstance
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -109315,13 +109322,6 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 2.0444446
-    functionName: SetNavMeshAgentSpeedToDefault
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 2.0444446
     functionName: SetCurrentAnimatorBoolState
     data: 
     objectReferenceParameter: {fileID: 0}
@@ -109330,6 +109330,13 @@ AnimationClip:
     messageOptions: 0
   - time: 2.0444446
     functionName: StopActiveCoroutine
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 2.0444446
+    functionName: SetNavMeshAgentSpeedToDefault
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

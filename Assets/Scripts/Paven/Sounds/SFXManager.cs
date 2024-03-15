@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
-using UnityEditor.ShaderGraph.Drawing.Inspector.PropertyDrawers;
 using UnityEngine;
 
 public class SFXManager : MonoBehaviour
 {
+    public static SFXManager Current;
+
     [Header("Player AudioClips")]
     [SerializeField] private AudioClip[] SFXClipsPlayer;
 
@@ -15,19 +15,33 @@ public class SFXManager : MonoBehaviour
     [SerializeField] private AudioClip Enemy1Death;
 
     [Header("Enemy2")]
-    [SerializeField] private AudioClip[] Enemy2IdleCips;
+    //[SerializeField] private AudioClip[] Enemy2IdleCips;
     [SerializeField] private AudioClip[] Enemy2HurtClips;
     [SerializeField] private AudioClip Enemy2Death;
+    
 
     [Header("Punch Impact AudioClips")]
     [SerializeField] private AudioClip[] PunchClips;
 
+    //Data values for audio clip
+    [SerializeField] private List<AudioClip> PlayerClipsDV;
+    [SerializeField] private List<AudioClip> EnemyClipsDV;
+    [SerializeField] private List<AudioClip> EnvironmentClipsDV;
+
+    //Dictionary definitions and their constructors
+    private Dictionary<string, AudioClip> EnemyClips = new Dictionary<string, AudioClip>();
+    private Dictionary<string, AudioClip> PlayerClips = new Dictionary<string, AudioClip>();
+    private Dictionary<string, AudioClip> EnvironmentClips = new Dictionary<string, AudioClip>();
+
     private void Start()
     {
+        DictSetup();
         GameEventSystem.Current.ParryEvent += OnParryEvent;
         GameEventSystem.Current.HitEvent += OnHitEvent;
         GameEventSystem.Current.FootstepEvent += OnFootStepEvent;
         GameEventSystem.Current.DeathEvent += OnDeathEvent;
+        GameEventSystem.Current.EnemySoundEvent += OnSoundEventEnemy;
+        GameEventSystem.Current.PlayerSoundEvent += OnSoundEventPlayer;
     }
 
     private void OnDisable()
@@ -35,6 +49,9 @@ public class SFXManager : MonoBehaviour
         GameEventSystem.Current.ParryEvent -= OnParryEvent;
         GameEventSystem.Current.HitEvent -= OnHitEvent;
         GameEventSystem.Current.FootstepEvent -= OnFootStepEvent;
+        GameEventSystem.Current.DeathEvent -= OnDeathEvent;
+        GameEventSystem.Current.EnemySoundEvent -= OnSoundEventEnemy;
+        GameEventSystem.Current.PlayerSoundEvent -= OnSoundEventPlayer;
     }
 
     private void OnParryEvent(GameObject victim, GameObject attacker, HurtInfo info)
@@ -63,6 +80,7 @@ public class SFXManager : MonoBehaviour
                 case "Player":
                     if(victim.GetComponent<PlayerBlock>().isBlocking == true || victim.GetComponent<PlayerBlock>().isParrying == true)
                     {
+                        AudioManager.Current?.PlaySFX(SFXClipsPlayer[1], victim.transform.position);
                         return;
                     }
                     AudioManager.Current?.PlaySFX(PunchClips, victim.transform.position);
@@ -101,7 +119,7 @@ public class SFXManager : MonoBehaviour
     {
         if (subject != null)
         {
-            //AudioManager.Current?.PlaySFX(SFXClipsPlayer[1], subject.transform.position);
+            AudioManager.Current?.PlaySFX(SFXClipsPlayer[2], subject.transform.position);
         }
     }
 
@@ -115,13 +133,21 @@ public class SFXManager : MonoBehaviour
                     
                     break;
                 case "Enemy":
-                    if (victim.GetComponent<SlamAttackScript>() != null)
+                    if(victim.GetComponent<EnemyAI>() != null)
                     {
-                        AudioManager.Current?.PlaySFX(Enemy2Death, victim.transform.position);
-                    }
-                    else
-                    {
-                        AudioManager.Current?.PlaySFX(Enemy1Death, victim.transform.position);
+                        switch (victim.GetComponent<EnemyAI>().id)
+                        {
+                            case 0:
+                                AudioManager.Current?.PlaySFX(Enemy1Death, victim.transform.position);
+                                break;
+
+                            case 1:
+                                AudioManager.Current?.PlaySFX(Enemy2Death, victim.transform.position);
+                                break;
+
+                            default:
+                                break;
+                        }
                     }
                     break;
                 default:
@@ -130,6 +156,57 @@ public class SFXManager : MonoBehaviour
             }
         }
     }
-    //private void OnBlockEvent
 
+    private void OnSoundEventEnemy(Transform transform, string searchKey)
+    {
+        AudioClip clip = EnemyClips[searchKey];
+        if(clip != null)
+        {
+            AudioManager.Current?.PlaySFX(clip, transform.position);
+        }
+        else
+        {
+            Debug.Log("There is no sound in the EnemySound dictionary defined as " + searchKey);
+        }
+    }
+
+    private void OnSoundEventPlayer(Transform transform, string searchKey)
+    {
+        AudioClip clip = PlayerClips[searchKey];
+        if (clip != null)
+        {
+            AudioManager.Current?.PlaySFX(clip, transform.position);
+        }
+        else
+        {
+            Debug.Log("There is no sound in the PlayerClip dictionary defined as " + searchKey);
+        }
+    }
+
+    private void OnSoundEventEnvironment(Transform transform, string searchKey)
+    {
+        AudioClip clip = EnvironmentClips[searchKey];
+        if (clip != null)
+        {
+            AudioManager.Current?.PlaySFX(clip, transform.position);
+        }
+        else
+        {
+            Debug.Log("There is no sound in the EnvironmentClip dictionary defined as " + searchKey);
+        }
+    }
+
+    private void DictSetup()
+    {
+        
+        foreach(AudioClip clip in PlayerClipsDV)
+        {
+            PlayerClips.Add(clip.name, clip);
+        }
+
+        foreach(AudioClip clip in EnemyClipsDV)
+        {
+            EnemyClips.Add(clip.name, clip);
+        }
+    }
 }
