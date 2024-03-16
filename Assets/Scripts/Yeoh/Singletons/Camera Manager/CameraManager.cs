@@ -26,7 +26,7 @@ public class CameraManager : MonoBehaviour
     {
         RefreshAllCameras();
         RefreshAllNoises();
-
+        RecordDefaultNoises();
         SetDefaultCamera();
     }
     
@@ -100,8 +100,6 @@ public class CameraManager : MonoBehaviour
         }
         
         currentCamera = camera;
-
-        RecordDefaultNoises();
 
         foreach(CinemachineVirtualCamera c in allCameras)
         {

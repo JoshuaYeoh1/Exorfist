@@ -100,7 +100,7 @@ public class SifuStatue : MonoBehaviour
         CameraManager.Current.ChangeCamera(statueCamera);
 
         p.respawnPoint.position = sitSpot.position;
-        p.respawnPoint.rotation = Quaternion.Euler(0, sitSpot.eulerAngles.y+180, 0);
+        p.respawnPoint.rotation = Quaternion.Euler(0, sitSpot.eulerAngles.y, 0);
 
         Debug.Log("Respawn Point Set!");
     }

@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public enum Scenes // must be in the same order as in the build settings, and case sensitive
 {
+    VerticalSliceLevel,
     Yeoh3,
     Yeoh2,
     PoCScene,
