@@ -1751,7 +1751,7 @@ MonoBehaviour:
   ActiveOnAwake: 0
   DeleteSpawnersOnClear: 0
   DeleteBarriersOnClear: 0
-  TeleportOnRoomStart: 0
+  TeleportOnRoomStart: 1
   State: 0
   EnemySpawns:
   - {fileID: 1000082594}
@@ -4864,6 +4864,8 @@ MonoBehaviour:
   popUpPrefab: {fileID: 3046801194488139770, guid: 400b8b5e2896501438f0c4e73b9d64e9,
     type: 3}
   currentRoomTransform: {fileID: 1993041051}
+  isPopupPoint: 1
+  destroyOnContact: 0
 --- !u!65 &1518495346
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7293,12 +7295,12 @@ PrefabInstance:
     - target: {fileID: 1030274585199644976, guid: 67d6799e838426147b653ff1534ff4ed,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000008544636
+      value: -0.000000008544638
       objectReference: {fileID: 0}
     - target: {fileID: 1030274585199644976, guid: 67d6799e838426147b653ff1534ff4ed,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0000000010020336
+      value: 0.0000000010020337
       objectReference: {fileID: 0}
     - target: {fileID: 1471637922268985232, guid: 67d6799e838426147b653ff1534ff4ed,
         type: 3}
@@ -7313,7 +7315,7 @@ PrefabInstance:
     - target: {fileID: 1471637922268985232, guid: 67d6799e838426147b653ff1534ff4ed,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000008544638
+      value: -0.000000008544637
       objectReference: {fileID: 0}
     - target: {fileID: 1471637922268985232, guid: 67d6799e838426147b653ff1534ff4ed,
         type: 3}
@@ -7408,12 +7410,12 @@ PrefabInstance:
     - target: {fileID: 6749045947880814941, guid: 67d6799e838426147b653ff1534ff4ed,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.0000000051267808
+      value: -0.000000008544638
       objectReference: {fileID: 0}
     - target: {fileID: 6749045947880814941, guid: 67d6799e838426147b653ff1534ff4ed,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -6.012201e-10
+      value: 0.0000000010020337
       objectReference: {fileID: 0}
     - target: {fileID: 6852676552568352993, guid: 67d6799e838426147b653ff1534ff4ed,
         type: 3}

@@ -25,7 +25,7 @@ public class DoorTriggerEnter : MonoBehaviour
 
         Rigidbody otherRb = other.attachedRigidbody;
 
-        if(otherRb)
+        if(otherRb && otherRb.gameObject.tag=="Player")
         {
             OnDoorTriggerEnter();
 
@@ -57,18 +57,11 @@ public class DoorTriggerEnter : MonoBehaviour
 
         Rigidbody otherRb = other.attachedRigidbody;
 
-        if(otherRb)
+        if(otherRb && otherRb.gameObject.tag=="Player")
         {
-            if (isPopupPoint)
+            if(isPopupPoint)
             {
-                if (!popUpPrefabRef)
-                {
-                    Destroy(popUpPrefabRef);
-                }
-            }
-            else
-            {
-
+                if(popUpPrefabRef) Destroy(popUpPrefabRef);
             }
         }
     }
