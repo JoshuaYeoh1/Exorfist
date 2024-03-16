@@ -111,6 +111,8 @@ public class PlayerAnim : MonoBehaviour
     
     public void AnimFootstep(string type="left")
     {
+        if(!player.isGrounded) return;
+        
         if(Time.time-lastFstTime > fstCooldown)
         {
             lastFstTime = Time.time;
@@ -127,8 +129,25 @@ public class PlayerAnim : MonoBehaviour
     //     Singleton.instance.playSFX(sfxPlayerFst,transform);
     // }
 
-    public void AnimRagdoll()
+    public void AnimRagdoll() // after death anim event
     {
         ragdoll.ToggleRagdoll(true);
+    }
+
+    public void AnimMeditate() // after sit anim event
+    {
+        GameEventSystem.Current.OnMeditateEnter(player.gameObject);
+    }
+
+    public void AnimMeditateExit() // after sit anim event
+    {
+        GameEventSystem.Current.OnMeditateExit(player.gameObject);
+    }
+
+    public void AnimWake() // after wake anim event
+    {
+        player.sm.TransitionToState(PlayerStateMachine.PlayerStates.Idle);
+
+        CameraManager.Current.ChangeCameraToDefault();
     }
 }

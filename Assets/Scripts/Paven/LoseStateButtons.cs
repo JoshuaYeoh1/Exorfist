@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LoseStateButtons : MonoBehaviour
 {
-    public void SingletonRestart()
+    public void Respawn()
     {
         ScenesManager.Current.ReloadScene();
     }

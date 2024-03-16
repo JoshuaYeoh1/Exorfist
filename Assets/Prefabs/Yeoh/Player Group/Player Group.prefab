@@ -207,6 +207,26 @@ PrefabInstance:
       propertyPath: mNoiseOffsets.z
       value: -713.95276
       objectReference: {fileID: 0}
+    - target: {fileID: 6951627888714672062, guid: 3b05829e976c4c046ac2ccc9cd1a0308,
+        type: 3}
+      propertyPath: constrainTo
+      value: 
+      objectReference: {fileID: 1715742491330016685}
+    - target: {fileID: 6951627888714672062, guid: 3b05829e976c4c046ac2ccc9cd1a0308,
+        type: 3}
+      propertyPath: positionMult.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6951627888714672062, guid: 3b05829e976c4c046ac2ccc9cd1a0308,
+        type: 3}
+      propertyPath: positionMult.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6951627888714672062, guid: 3b05829e976c4c046ac2ccc9cd1a0308,
+        type: 3}
+      propertyPath: positionMult.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6972741393049339303, guid: 3b05829e976c4c046ac2ccc9cd1a0308,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -262,6 +282,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b05829e976c4c046ac2ccc9cd1a0308, type: 3}
+--- !u!114 &542838295680928150 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4244016336330405228, guid: 3b05829e976c4c046ac2ccc9cd1a0308,
+    type: 3}
+  m_PrefabInstance: {fileID: 4426276276917501178}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &3337482814557394964 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1386075408151995630, guid: 3b05829e976c4c046ac2ccc9cd1a0308,
@@ -371,6 +403,11 @@ PrefabInstance:
       propertyPath: hpBarFill
       value: 
       objectReference: {fileID: 538337917621193205}
+    - target: {fileID: 7902770880557968918, guid: b94f4ef31a01d764d84cc446a9b7f9b7,
+        type: 3}
+      propertyPath: faceCamera
+      value: 
+      objectReference: {fileID: 542838295680928150}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -388,6 +425,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05ee0b88482449e448d28b50148f0ec7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &1715742491330016685 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5436277451996348841, guid: b94f4ef31a01d764d84cc446a9b7f9b7,
+    type: 3}
+  m_PrefabInstance: {fileID: 6682782464629388292}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &3535971122548103698 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7902770880557968918, guid: b94f4ef31a01d764d84cc446a9b7f9b7,

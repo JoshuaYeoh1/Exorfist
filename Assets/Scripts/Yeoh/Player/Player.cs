@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -21,7 +22,11 @@ public class Player : MonoBehaviour
     public List<Hurtbox> hurtboxes;
     public GameObject target;
 
-    public bool isAlive=true, isGrounded, canMove, canTurn, canAttack, canBlock, canCast, canHurt, canStun, canTarget;
+    public bool isAlive=true, isGrounded, canMove, canTurn, canAttack, canBlock, canCast, canHurt, canStun, canTarget, canMeditate;
+
+    Ragdoller ragdoll;
+    [HideInInspector] public Transform respawnPoint;
+    public CinemachineVirtualCamera faceCamera;
 
     void Awake()
     {
@@ -35,17 +40,22 @@ public class Player : MonoBehaviour
         aoe=GetComponent<PlayerAOE>();
         laser=GetComponent<PlayerLaser>();
         heal=GetComponent<PlayerHeal>();
+        ragdoll=GetComponent<Ragdoller>();
 
         GameEventSystem.Current.OnSpawn(gameObject, "Player");
+
+        respawnPoint = new GameObject("Respawn Transform").transform;
     }
 
     void OnEnable()
     {
         GameEventSystem.Current.DeathEvent += OnDeath;
+        GameEventSystem.Current.RespawnEvent += OnRespawn;
     }
     void OnDisable()
     {
         GameEventSystem.Current.DeathEvent -= OnDeath;
+        GameEventSystem.Current.RespawnEvent -= OnRespawn;
     }
 
     void Update()
@@ -76,10 +86,7 @@ public class Player : MonoBehaviour
                     GameEventSystem.Current.OnTarget(gameObject, target, false);
                 }
             }
-            else
-            {
-                target=null;
-            }
+            else target=null;
         }
         else
         {
@@ -111,11 +118,54 @@ public class Player : MonoBehaviour
         RandDeathAnim();
         
         sm.TransitionToState(PlayerStateMachine.PlayerStates.Death);
+
+        Respawn(3);
+
+        CameraManager.Current.ChangeCamera(faceCamera);
     }
 
     void RandDeathAnim()
     {
         int i = Random.Range(1, 2);
         anim.CrossFade("death"+i, .1f, 2, 0);
+    }
+
+    public void Respawn(float wait=3)
+    {
+        StartCoroutine(Respawning(wait));
+    }
+    public IEnumerator Respawning(float wait)
+    {
+        yield return new WaitForSecondsRealtime(wait);
+
+        ScenesManager.Current.PlayTransitionOut();
+        yield return new WaitForSecondsRealtime(.1f);
+        yield return new WaitForSecondsRealtime(ScenesManager.Current.transitionAnimator.GetCurrentAnimatorStateInfo(0).length);
+        ScenesManager.Current.PlayTransitionIn();
+
+        GameEventSystem.Current.OnRespawn(gameObject);
+    }
+
+    void OnRespawn(GameObject zombo)
+    {
+        if(zombo!=gameObject) return;
+
+        sm.TransitionToState(PlayerStateMachine.PlayerStates.Pause);
+
+        ragdoll.ToggleRagdoll(false); // align to ragdoll first before teleporting
+        
+        transform.position = respawnPoint.position;
+        transform.rotation = Quaternion.Euler(0, respawnPoint.rotation.y, 0);
+
+        anim.Play("wake", 2, 0);
+
+        ResetAbilityCooldowns();
+    }
+
+    void ResetAbilityCooldowns()
+    {
+        aoe.ResetCooldown();
+        laser.ResetCooldown();
+        heal.ResetCooldown();
     }
 }

@@ -115,6 +115,7 @@ MonoBehaviour:
   quantity: 1
   lootDelay: 1
   destroyOnLoot: 0
+  contactPoint: {x: 0, y: 0, z: 0}
 --- !u!114 &8777600973311986211
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,6 +199,11 @@ PrefabInstance:
     - target: {fileID: 750301465635113562, guid: 68456310163d8184cb477827bbab98be,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2462491762809258888, guid: 68456310163d8184cb477827bbab98be,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5976122878510521907, guid: 68456310163d8184cb477827bbab98be,

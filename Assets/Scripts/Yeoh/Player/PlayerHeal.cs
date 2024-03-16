@@ -96,7 +96,8 @@ public class PlayerHeal : MonoBehaviour
     {
         healingRt = StartCoroutine(Healing());
 
-        StartCoroutine(Cooling());
+        if(coolingRt!=null) StopCoroutine(coolingRt);
+        coolingRt = StartCoroutine(Cooling());
 
         ModelManager.Current.AddMaterial(player.playerModel, healMeshEffectMaterial);
 
@@ -131,7 +132,8 @@ public class PlayerHeal : MonoBehaviour
 
         player.anim.CrossFade("cancel", .25f, 2, 0);
     }
-
+    
+    Coroutine coolingRt;
     IEnumerator Cooling()
     {
         cooldown = UpgradeManager.Current.GetHealCooldown();
@@ -216,5 +218,14 @@ public class PlayerHeal : MonoBehaviour
             if(trail) Destroy(trail);
         }
         trails.Clear();
+    }
+
+    public void ResetCooldown()
+    {
+        LeanTween.cancel(tweenFillLt);
+        radialFill=0;
+
+        if(coolingRt!=null) StopCoroutine(coolingRt);
+        canCast=true;
     }
 }

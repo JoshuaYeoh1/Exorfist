@@ -10,7 +10,7 @@ public class Explosion : MonoBehaviour
 
     public void Explode(Vector3 pos, float dmg=0)
     {
-        VFXManager.Current.CamShake();
+        CameraManager.Current.Shake();
 
         //Singleton.instance.playSFX(Singleton.instance.sfxExplode, pos, false);
 

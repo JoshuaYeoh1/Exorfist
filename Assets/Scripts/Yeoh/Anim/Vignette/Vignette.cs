@@ -70,7 +70,7 @@ public class Vignette : MonoBehaviour
         TweenAlpha(0, outTime);
     }
 
-    public void DoVignette(Color color, float to, float time)
+    public void TweenVignette(Color color, float to, float time)
     {
         if(flashingRt!=null) StopCoroutine(flashingRt);
 
@@ -87,6 +87,7 @@ public class Vignette : MonoBehaviour
         GameEventSystem.Current.BlockEvent += OnBlock;
         GameEventSystem.Current.ParryEvent += OnParry;
         GameEventSystem.Current.DeathEvent += OnDeath;
+        GameEventSystem.Current.RespawnEvent += OnRespawn;
         GameEventSystem.Current.AbilitySlowMoEvent += OnAbilitySlowMo;
         GameEventSystem.Current.AbilityCastEvent += OnAbilityCast;
         GameEventSystem.Current.AbilityEndEvent += OnAbilityEnd;
@@ -97,6 +98,7 @@ public class Vignette : MonoBehaviour
         GameEventSystem.Current.BlockEvent -= OnBlock;
         GameEventSystem.Current.ParryEvent -= OnParry;
         GameEventSystem.Current.DeathEvent -= OnDeath;
+        GameEventSystem.Current.RespawnEvent -= OnRespawn;
         GameEventSystem.Current.AbilitySlowMoEvent -= OnAbilitySlowMo;
         GameEventSystem.Current.AbilityCastEvent -= OnAbilityCast;
         GameEventSystem.Current.AbilityEndEvent -= OnAbilityEnd;
@@ -138,8 +140,15 @@ public class Vignette : MonoBehaviour
 
         if(victim.tag=="Player")
         {
-            DoVignette(Color.red, 1, .1f);
+            TweenVignette(Color.red, 1, .1f);
         }
+    }
+
+    void OnRespawn(GameObject zombo)
+    {
+        if(zombo.tag!="Player") return;
+
+        TweenVignette(Color.red, 0, .1f);
     }
 
     void OnAbilitySlowMo(bool toggle)
@@ -148,11 +157,11 @@ public class Vignette : MonoBehaviour
 
         if(toggle)
         {
-            DoVignette(Color.blue, 1, .5f);
+            TweenVignette(Color.blue, 1, .5f);
         }
         else
         {
-            DoVignette(Color.blue, 0, .5f);
+            TweenVignette(Color.blue, 0, .5f);
         }
     }
 
@@ -168,7 +177,7 @@ public class Vignette : MonoBehaviour
             }
             else
             {
-                DoVignette(Color.yellow, 1, .01f);
+                TweenVignette(Color.yellow, 1, .01f);
             }
         }
     }
@@ -179,7 +188,7 @@ public class Vignette : MonoBehaviour
 
         if(caster.tag=="Player")
         {
-            DoVignette(Color.yellow, 0, .5f);
+            TweenVignette(Color.yellow, 0, .5f);
         }
     }
 

@@ -38,7 +38,7 @@ public class ScenesManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        PlayTransition("in", Random.Range(1, transitionTypes+1)); // choose a random transition
+        PlayTransitionIn();
     }
     
     void Update()
@@ -52,6 +52,15 @@ public class ScenesManager : MonoBehaviour
     {
         playingTransitionRt = StartCoroutine(PlayingTransition(type, i, quit));
     }
+    public void PlayTransitionIn()
+    {
+        PlayTransition("in", Random.Range(1, transitionTypes+1)); // choose a random transition
+    }
+    public void PlayTransitionOut(bool quit=false)
+    {
+        PlayTransition("out", Random.Range(1, transitionTypes+1), quit);
+    }
+
     Coroutine playingTransitionRt;
     IEnumerator PlayingTransition(string type, int i, bool quit=false)
     {
@@ -93,7 +102,7 @@ public class ScenesManager : MonoBehaviour
     {
         if(anim)
         {
-            PlayTransition("out", Random.Range(1, transitionTypes+1));
+            PlayTransitionOut();
 
             yield return new WaitForSecondsRealtime(.1f);
             yield return new WaitForSecondsRealtime(GetTransitionLength());
@@ -176,14 +185,13 @@ public class ScenesManager : MonoBehaviour
 
     public void Quit(bool anim=true)
     {
-        if(anim) PlayTransition("out", Random.Range(1, transitionTypes+1), true);
+        if(anim) PlayTransitionOut(true);
 
         else
         {
             Debug.Log("Quit");
             Application.Quit();
         }
-        
     }
 
     // public void RandomScene()

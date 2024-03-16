@@ -23,6 +23,7 @@ public class PlayerPauseState : BaseState<PlayerStateMachine.PlayerStates>
         stateMachine.player.canHurt=false;
         stateMachine.player.canStun=false; 
         stateMachine.player.canTarget=false;
+        stateMachine.player.canMeditate=false;
     }
 
     public override void UpdateState()

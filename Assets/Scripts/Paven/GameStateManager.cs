@@ -17,10 +17,12 @@ public class GameStateManager : MonoBehaviour
     void OnEnable()
     {
         GameEventSystem.Current.DeathEvent += OnDeath;
+        GameEventSystem.Current.RespawnEvent += OnRespawn;
     }
     void OnDisable()
     {
         GameEventSystem.Current.DeathEvent -= OnDeath;
+        GameEventSystem.Current.RespawnEvent -= OnRespawn;
     }
 
     public void UpdateGameState(GameState newState)
@@ -49,16 +51,12 @@ public class GameStateManager : MonoBehaviour
         GameEventSystem.Current?.OnGameStateChange(newState);
     }
 
-    private void HandleLose()
-    {
-        SpawnLosePopup();
-    }
-
     void OnDeath(GameObject victim, GameObject killer, HurtInfo hurtInfo)
     {
         if(victim.tag=="Player")
         {
-            Invoke("SwitchLoseState", 3); // lose after 3 seconds
+            //Invoke("SwitchLoseState", 3); // lose after 3 seconds
+            SwitchLoseState();
         }
     }
 
@@ -68,11 +66,24 @@ public class GameStateManager : MonoBehaviour
         UpdateGameState(State);
     }
 
+    void HandleLose()
+    {
+        //SpawnLosePopup();
+    }
+
     void SpawnLosePopup()
     {
         Instantiate(gameOverPopUp);
     }
     //Add functions for "HandePlay", "HandlePaused" etc, for example if the game is paused, how should the gameStateManager respond?
+
+    void OnRespawn(GameObject zombo)
+    {
+        if(zombo.tag!="Player") return;
+        
+        State = GameState.InPlay;
+        UpdateGameState(State);
+    }
 }
 
 /*

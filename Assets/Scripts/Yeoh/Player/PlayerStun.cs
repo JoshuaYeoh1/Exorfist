@@ -19,10 +19,12 @@ public class PlayerStun : MonoBehaviour
     void OnEnable()
     {
         GameEventSystem.Current.StunEvent += OnStun;
+        GameEventSystem.Current.RespawnEvent += OnRespawn;
     }
     void OnDisable()
     {
         GameEventSystem.Current.StunEvent -= OnStun;
+        GameEventSystem.Current.RespawnEvent -= OnRespawn;
     }
 
     public void OnStun(GameObject victim, GameObject attacker, HurtInfo hurtInfo)
@@ -95,5 +97,18 @@ public class PlayerStun : MonoBehaviour
 
             player.sm.TransitionToState(PlayerStateMachine.PlayerStates.Idle);
         }
+    }
+
+    void OnRespawn(GameObject zombo)
+    {
+        if(zombo!=gameObject) return;
+
+        CancelRecovering();
+
+        currentStunTime=0;
+
+        stunned=false;
+
+        move.TweenInputClamp(1, 0);
     }
 }

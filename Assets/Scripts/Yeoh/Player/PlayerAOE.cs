@@ -93,7 +93,8 @@ public class PlayerAOE : MonoBehaviour
 
         GameEventSystem.Current.OnAbilityCast(gameObject, "AOE");
 
-        StartCoroutine(Cooling());
+        if(coolingRt!=null) StopCoroutine(coolingRt);
+        coolingRt = StartCoroutine(Cooling());
 
         DisableCastTrails();
     }
@@ -105,6 +106,7 @@ public class PlayerAOE : MonoBehaviour
         player.anim.CrossFade("cancel", .25f, 2, 0);
     }
 
+    Coroutine coolingRt;
     IEnumerator Cooling()
     {
         cooldown = UpgradeManager.Current.GetAoeCooldown();
@@ -189,5 +191,14 @@ public class PlayerAOE : MonoBehaviour
             if(trail) Destroy(trail);
         }
         trails.Clear();
+    }
+
+    public void ResetCooldown()
+    {
+        LeanTween.cancel(tweenFillLt);
+        radialFill=0;
+
+        if(coolingRt!=null) StopCoroutine(coolingRt);
+        canCast=true;
     }
 }

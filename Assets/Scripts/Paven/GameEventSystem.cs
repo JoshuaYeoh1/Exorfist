@@ -41,6 +41,7 @@ public class GameEventSystem : MonoBehaviour
     public event Action<GameObject, GameObject, HurtInfo> ParryEvent;
     public event Action<GameObject, GameObject, HurtInfo> BlockBreakEvent;
     public event Action<GameObject, GameObject, HurtInfo> DeathEvent;
+    public event Action<GameObject> RespawnEvent;
 
     public void OnSpawn(GameObject subject, string name)
     {
@@ -74,7 +75,11 @@ public class GameEventSystem : MonoBehaviour
     {
         DeathEvent?.Invoke(victim, killer, hurtInfo); //Debug.Log($"{victim.name} was killed by {killer.name}");
     }
-
+    public void OnRespawn(GameObject zombo)
+    {
+        RespawnEvent?.Invoke(zombo);
+    }
+    
     //==Ability Related actions==//
     public event Action<bool> AbilitySlowMoEvent;
     public event Action<GameObject, string> AbilityCastEvent;
@@ -102,6 +107,8 @@ public class GameEventSystem : MonoBehaviour
     public event Action<GameObject, string, Transform> FootstepEvent;
     public event Action<GameObject, GameObject, bool> TargetEvent;
     public event Action<GameObject, LootInfo> LootEvent;
+    public event Action<GameObject> MeditateEnterEvent;
+    public event Action<GameObject> MeditateExitEvent;
 
     public void OnFootstep(GameObject subject, string type, Transform footstepTr)
     {
@@ -114,6 +121,14 @@ public class GameEventSystem : MonoBehaviour
     public void OnLoot(GameObject looter, LootInfo lootInfo)
     {
         LootEvent?.Invoke(looter, lootInfo);
+    }
+    public void OnMeditateEnter(GameObject monk)
+    {
+        MeditateEnterEvent?.Invoke(monk);
+    }
+    public void OnMeditateExit(GameObject monk)
+    {
+        MeditateExitEvent?.Invoke(monk);
     }
     
     //==Objective Related actions==//

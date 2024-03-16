@@ -10,11 +10,13 @@ public class PlayerGroundbox : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        if(other.isTrigger) return;
+
         ReliableOnTriggerExit.NotifyTriggerEnter(other, gameObject, OnTriggerExit);
 
         collCount++;
 
-        if(!other.isTrigger && collCount>0)
+        if(collCount>0)
         {
             isGrounded=true;
         }
@@ -22,11 +24,13 @@ public class PlayerGroundbox : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
+        if(other.isTrigger) return;
+
         ReliableOnTriggerExit.NotifyTriggerExit(other, gameObject);
 
         if(collCount>0) collCount--;
 
-        if(!other.isTrigger && collCount<1)
+        if(collCount<1)
         {
             isGrounded=false;
         }

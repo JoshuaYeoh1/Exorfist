@@ -15,6 +15,21 @@ public class EyeblinkAnim : MonoBehaviour
         defScaleY = eyes[0].transform.localScale.y;
     }
 
+    void OnEnable()
+    {
+        GameEventSystem.Current.HurtEvent += OnHurt;
+        GameEventSystem.Current.DeathEvent += OnDeath;
+        GameEventSystem.Current.RespawnEvent += OnRespawn;
+
+        StartRandomBlinking();
+    }
+    void OnDisable()
+    {
+        GameEventSystem.Current.HurtEvent -= OnHurt;
+        GameEventSystem.Current.DeathEvent -= OnDeath;
+        GameEventSystem.Current.RespawnEvent -= OnRespawn;
+    }
+
     Dictionary<GameObject, int> eyeTweenIdDict = new Dictionary<GameObject, int>();
 
     public void TweenEyesY(float to, float time)
@@ -88,6 +103,11 @@ public class EyeblinkAnim : MonoBehaviour
 
     public float blinkInterval=1;
 
+    void StartRandomBlinking()
+    {
+        if(canBlink) randomBlinkingRt = StartCoroutine(RandomBlinking());
+    }
+
     Coroutine randomBlinkingRt;
     IEnumerator RandomBlinking()
     {
@@ -99,23 +119,9 @@ public class EyeblinkAnim : MonoBehaviour
         }
     }
 
-    void CancelRandomBlink()
+    void StopRandomBlinking()
     {
         if(randomBlinkingRt!=null) StopCoroutine(randomBlinkingRt);
-    }
-
-    void OnEnable()
-    {
-        GameEventSystem.Current.HurtEvent += OnHurt;
-        GameEventSystem.Current.DeathEvent += OnDeath;
-
-        if(canBlink) randomBlinkingRt = StartCoroutine(RandomBlinking());
-    }
-
-    void OnDisable()
-    {
-        GameEventSystem.Current.HurtEvent -= OnHurt;
-        GameEventSystem.Current.DeathEvent -= OnDeath;
     }
 
     void OnHurt(GameObject victim, GameObject attacker, HurtInfo hurtInfo)
@@ -136,11 +142,21 @@ public class EyeblinkAnim : MonoBehaviour
         {
             canBlink=false;
 
-            CancelRandomBlink();
+            StopRandomBlinking();
             CancelBlink();
 
             TweenEyesY(.2f, blinkTime);
         }
+    }
+
+    void OnRespawn(GameObject zombo)
+    {
+        if(zombo.tag!="Player") return;
+
+        TweenEyesY(1, blinkTime);
+
+        canBlink=true;
+        StartRandomBlinking();
     }
 
     // bool hasPriority(float level)

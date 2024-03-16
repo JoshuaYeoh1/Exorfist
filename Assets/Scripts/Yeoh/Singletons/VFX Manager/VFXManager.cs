@@ -57,7 +57,7 @@ public class VFXManager : MonoBehaviour
 
             if(hurtInfo.doHitstop) HitStop();
 
-            CamShake();
+            CameraManager.Current.Shake();
 
             if(hurtInfo.doImpact) SpawnImpact(hurtInfo.contactPoint);
 
@@ -70,7 +70,7 @@ public class VFXManager : MonoBehaviour
 
             if(hurtInfo.doShockwave) SpawnShockwave(hurtInfo.contactPoint, Color.white);
 
-            if(hurtInfo.doShake) CamShake();
+            if(hurtInfo.doShake) CameraManager.Current.Shake();
 
             if(hurtInfo.doImpact) SpawnImpact(hurtInfo.contactPoint);
         }
@@ -97,7 +97,7 @@ public class VFXManager : MonoBehaviour
 
             SpawnSparks(hurtInfo.contactPoint);
 
-            CamShake();
+            CameraManager.Current.Shake();
 
             if(hurtInfo.doImpact) SpawnImpact(hurtInfo.contactPoint);
         }
@@ -115,7 +115,7 @@ public class VFXManager : MonoBehaviour
 
             SpawnSparks(hurtInfo.contactPoint);
 
-            CamShake();
+            CameraManager.Current.Shake();
 
             if(hurtInfo.doImpact) SpawnImpact(hurtInfo.contactPoint);
         }
@@ -131,7 +131,7 @@ public class VFXManager : MonoBehaviour
 
             SpawnShockwave(hurtInfo.contactPoint, Color.red);
 
-            CamShake();
+            CameraManager.Current.Shake();
 
             if(hurtInfo.doImpact) SpawnImpact(hurtInfo.contactPoint);
         }
@@ -174,7 +174,7 @@ public class VFXManager : MonoBehaviour
         {
             if(abilityName=="AOE")
             {
-                CamShake(.5f, 3);
+                CameraManager.Current.Shake(.5f, 3);
 
                 HitStop(.05f, .1f);
 
@@ -204,7 +204,7 @@ public class VFXManager : MonoBehaviour
         {
             if(abilityName=="Enemy2Slam")
             {
-                CamShake(.5f, 3);
+                CameraManager.Current.Shake(.5f, 3);
 
                 SpawnShockwave(caster.transform.position, Color.white);
 
@@ -242,16 +242,6 @@ public class VFXManager : MonoBehaviour
     void OnSceneUnloaded(Scene scene)
     {
         Time.timeScale=1;
-    }
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    //move to camera manager later
-    public void CamShake(float time=.1f, float amp=1.5f, float freq=2)
-    {
-        GameObject.FindGameObjectWithTag("Cinemachine").GetComponent<CameraCinemachine>().Shake(time, amp, freq);
-
-        Vibrator.Vibrate();
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -517,7 +507,7 @@ public class VFXManager : MonoBehaviour
     
     void Testing()
     {
-        if(Input.GetKeyDown(KeyCode.Keypad0)) CamShake();
+        if(Input.GetKeyDown(KeyCode.Keypad0)) CameraManager.Current.Shake();
         if(Input.GetKeyDown(KeyCode.Keypad1)) HitStop();
         if(Input.GetKeyDown(KeyCode.Keypad2)) SpawnHitmarker(PlayerTop(), Color.white);
         if(Input.GetKeyDown(KeyCode.Keypad3)) SpawnFlash(PlayerTop(), Color.white);
