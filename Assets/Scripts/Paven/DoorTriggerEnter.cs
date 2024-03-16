@@ -3,12 +3,13 @@ using UnityEngine;
 
 public class DoorTriggerEnter : MonoBehaviour
 {
-    [SerializeField] GameObject popUpPrefab;
-    GameObject popUpPrefabRef;
+    [SerializeField] private GameObject popUpPrefab;
+    private GameObject popUpPrefabRef;
     public Transform currentRoomTransform;
 
-    bool isPopupPoint, destroyOnContact;
-    public int roomID { get; set; }
+    [SerializeField] private bool isPopupPoint;
+    [SerializeField] private bool destroyOnContact;
+    public int roomID { get; private set; }
 
     void OnEnable()
     {
@@ -19,39 +20,63 @@ public class DoorTriggerEnter : MonoBehaviour
         GameEventSystem.Current.RoomEnterEvent -= OnRoomEnter;
     }
 
-    GameObject player;
-
-    void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        ReliableOnTriggerExit.NotifyTriggerEnter(other, gameObject, OnTriggerExit);
+        GameObject player = other.attachedRigidbody.gameObject;
 
-        player = other.attachedRigidbody.gameObject;
-
-        if(player)
+        if(player.tag=="Player")
         {
-            if(!popUpPrefabRef)
+            OnDoorTriggerEnter();
+
+            if (isPopupPoint)
             {
-                popUpPrefabRef = Instantiate(popUpPrefab);
+                if (!popUpPrefabRef)
+                {
+                    popUpPrefabRef = Instantiate(popUpPrefab);
+                    if (destroyOnContact)
+                    {
+                        Destroy(gameObject);
+                    }
+                }
             }
-
-            GameEventSystem.Current.OnDoorTriggerEnter(currentRoomTransform);
+            else
+            {
+                GameEventSystem.Current?.OnRoomEnter();
+                if (destroyOnContact)
+                {
+                    Destroy(gameObject);
+                }
+            }
         }
     }
 
-    void OnTriggerExit(Collider other)
+    private void OnTriggerExit(Collider other)
     {
-        ReliableOnTriggerExit.NotifyTriggerExit(other, gameObject);
+        GameObject player = other.attachedRigidbody.gameObject;
 
-        if(player)
+        if(player.tag=="Player")
         {
-            if(popUpPrefabRef) Destroy(popUpPrefabRef);
+            if (isPopupPoint)
+            {
+                if (popUpPrefabRef)
+                {
+                    Destroy(popUpPrefabRef);
+                }
+            }
+            else
+            {
+
+            }
         }
     }
 
-    void OnRoomEnter()
+    private void OnRoomEnter()
     {
-        if(popUpPrefabRef) Destroy(popUpPrefabRef);
+        Destroy(popUpPrefabRef);
+    }
 
-        player.transform.position = currentRoomTransform.position;
+    private void OnDoorTriggerEnter()
+    {
+        GameEventSystem.Current.OnDoorTriggerEnter(currentRoomTransform);
     }
 }
