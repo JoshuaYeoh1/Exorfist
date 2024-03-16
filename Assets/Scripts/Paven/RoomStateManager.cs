@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 
 public enum RoomState { Inactive, Active, Clear, Start };
 
@@ -18,6 +19,7 @@ public class RoomStateManager : MonoBehaviour
     [Header("Logic Properties")]
     [SerializeField] private bool ActiveOnAwake;
     [SerializeField] private bool DeleteSpawnersOnClear;
+    [SerializeField] private bool SetBarriersToActiveOnActive;
     [SerializeField] private bool DeleteBarriersOnClear;
     [SerializeField] private bool TeleportOnRoomStart;
     public int GetRoomID()
@@ -27,12 +29,15 @@ public class RoomStateManager : MonoBehaviour
 
     public RoomState State;
     public List<GameObject> EnemySpawns = new List<GameObject>();
+
+    [Header("Barriers")]
     public List<GameObject> RoomBarriers = new List<GameObject>();
+    public List<GameObject> PermanentBarriers = new List<GameObject>();
 
     //Total enemies dictate the number of enemies in that specific room.
 
     //Remaining enemies is the number of enemies currently.
-    [SerializeField] private int enemyWaves; //determines the amount of "waves" the enemies come in, if there are more than one wave. Default is 0 for no waves.
+    //[SerializeField] private int enemyWaves; //determines the amount of "waves" the enemies come in, if there are more than one wave. Default is 0 for no waves.
     [SerializeField] private Transform currentRoomTeleportTransform;
     void Awake()
     {
@@ -81,11 +86,11 @@ public class RoomStateManager : MonoBehaviour
                 break;
             case RoomState.Start:
                 Debug.Log("Start");
-                HandleStart();
+                //HandleStart();
                 break;
             case RoomState.Active:
                 Debug.Log("Active");
-                //HandleActive();
+                HandleActive();
                 break;
             case RoomState.Clear:
                 Debug.Log("Room cleared!");
@@ -98,16 +103,37 @@ public class RoomStateManager : MonoBehaviour
         GameEventSystem.Current?.OnRoomStateChange(newState);
     }
 
-    private IEnumerator HandleStart()
+    private void HandleActive()
     {
-        yield return null;
+        Debug.Log("Handling active");
+        foreach(GameObject barrier in PermanentBarriers)
+        {
+            if(barrier != null)
+            {
+                if (barrier.activeSelf == false)
+                {
+                    barrier.SetActive(true);
+                }
+            }
+        }
+        
+        foreach(GameObject barrier in RoomBarriers)
+        {
+            if(barrier != null)
+            {
+                if (barrier.activeSelf == false)
+                {
+                    barrier.SetActive(true);
+                }
+            }
+        }
     }
 
     private void HandleClear()
     {
         //Debug.Log("Unsubbing from events");
         // Clear the list by iterating through and removing elements
-        GameObject go = null;
+        GameObject go;
         for (int i = 0; i < EnemySpawns.Count; i++)
         {
             go = EnemySpawns[i];
