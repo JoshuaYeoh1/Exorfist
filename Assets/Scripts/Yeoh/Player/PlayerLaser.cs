@@ -60,7 +60,7 @@ public class PlayerLaser : MonoBehaviour
     Coroutine castingRt;
     IEnumerator Casting()
     {
-        player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Casting);
+        player.sm.TransitionToState(PlayerStateMachine.PlayerStates.Casting);
 
         isCasting=true;
 
@@ -74,7 +74,7 @@ public class PlayerLaser : MonoBehaviour
 
         yield return new WaitForSeconds(castTime);
 
-        player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Cast);
+        player.sm.TransitionToState(PlayerStateMachine.PlayerStates.Cast);
 
         isCasting=false;
 
@@ -196,7 +196,7 @@ public class PlayerLaser : MonoBehaviour
 
     public void Finish()
     {
-        player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Idle);
+        player.sm.TransitionToState(PlayerStateMachine.PlayerStates.Idle);
 
         player.anim.CrossFade("cancel", .25f, 2, 0);
     }

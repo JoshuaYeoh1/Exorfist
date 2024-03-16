@@ -7,6 +7,9 @@ public class Hurtbox : MonoBehaviour
     Collider coll;
     public GameObject owner;
 
+    public string ownerName;
+    public string attackName;
+
     public bool enabledOnAwake;
     public float dmg=1, dmgBlock=1, kbForce=1;
     public float speedDebuffMult=.3f, stunTime=.5f;
@@ -49,6 +52,8 @@ public class Hurtbox : MonoBehaviour
 
         newHurtInfo.coll = coll;
         newHurtInfo.owner = owner;
+        newHurtInfo.attackerName = ownerName;
+        newHurtInfo.attackName = attackName;
         newHurtInfo.dmg = dmg;
         newHurtInfo.dmgBlock = dmgBlock;
         newHurtInfo.kbForce = kbForce;

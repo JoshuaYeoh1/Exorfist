@@ -16,11 +16,11 @@ public class GameStateManager : MonoBehaviour
 
     void OnEnable()
     {
-        GameEventSystem.Current.DeathEvent += OnPlayerDeath;
+        GameEventSystem.Current.DeathEvent += OnDeath;
     }
     void OnDisable()
     {
-        GameEventSystem.Current.DeathEvent -= OnPlayerDeath;
+        GameEventSystem.Current.DeathEvent -= OnDeath;
     }
 
     public void UpdateGameState(GameState newState)
@@ -54,9 +54,12 @@ public class GameStateManager : MonoBehaviour
         SpawnLosePopup();
     }
 
-    void OnPlayerDeath(GameObject victim, GameObject killer, string victimName, HurtInfo hurtInfo)
+    void OnDeath(GameObject victim, GameObject killer, HurtInfo hurtInfo)
     {
-        if(victim.tag=="Player") Invoke("SwitchLoseState", 3); // lose after 3 seconds
+        if(victim.tag=="Player")
+        {
+            Invoke("SwitchLoseState", 3); // lose after 3 seconds
+        }
     }
 
     void SwitchLoseState()

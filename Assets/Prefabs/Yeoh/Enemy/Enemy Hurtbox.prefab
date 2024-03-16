@@ -97,18 +97,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
+  ownerName: IDK
+  attackName: IDK
   enabledOnAwake: 0
   dmg: 0
+  dmgBlock: 1
   kbForce: 0
   speedDebuffMult: 0.3
   stunTime: 0.5
   hasSweepingEdge: 1
+  unparryable: 0
   contactPoint: {x: 0, y: 0, z: 0}
   hitboxOrigin: {fileID: 0}
-  block: 0
-  parry: 0
-  blockBreak: 0
-  impactVFXPrefab: {fileID: 0}
   doImpact: 1
   doShake: 0
   doHitstop: 0

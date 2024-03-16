@@ -49,21 +49,19 @@ public class VFXManager : MonoBehaviour
     
     void OnHurt(GameObject victim, GameObject attacker, HurtInfo hurtInfo)
     {
+        Color vfxColor = Color.white;
+
         if(victim.tag=="Player")
         {
             if(hurtInfo.doShockwave) SpawnShockwave(hurtInfo.contactPoint, Color.white);
 
             if(hurtInfo.doHitstop) HitStop();
 
-            SpawnPopUpText(ModelManager.Current.GetColliderTop(victim), hurtInfo.dmg.ToString(), Color.red, Vector3.one*2);
-
-            SpawnHitmarker(hurtInfo.contactPoint, Color.red);
-
-            SpawnBlood(hurtInfo.contactPoint);
-
             CamShake();
 
             if(hurtInfo.doImpact) SpawnImpact(hurtInfo.contactPoint);
+
+            vfxColor = Color.red;
         }
 
         else if(attacker.tag=="Player")
@@ -75,11 +73,14 @@ public class VFXManager : MonoBehaviour
             if(hurtInfo.doShake) CamShake();
 
             if(hurtInfo.doImpact) SpawnImpact(hurtInfo.contactPoint);
+        }
 
-            SpawnPopUpText(ModelManager.Current.GetColliderTop(victim), hurtInfo.dmg.ToString(), Color.white, Vector3.one*2);
+        SpawnPopUpText(ModelManager.Current.GetColliderTop(victim), hurtInfo.dmg.ToString(), vfxColor, Vector3.one*2);
 
-            SpawnHitmarker(hurtInfo.contactPoint, Color.white);
+        SpawnHitmarker(hurtInfo.contactPoint, vfxColor);
 
+        if(hurtInfo.victimName!="Dummy")
+        {
             SpawnBlood(hurtInfo.contactPoint);
         }
     }
@@ -136,7 +137,7 @@ public class VFXManager : MonoBehaviour
         }
     }
 
-    void OnDeath(GameObject victim, GameObject killer, string victimName, HurtInfo hurtInfo)
+    void OnDeath(GameObject victim, GameObject killer, HurtInfo hurtInfo)
     {
         if(victim.tag=="Player")
         {

@@ -5,13 +5,13 @@ using UnityEngine;
 public class Dummy : MonoBehaviour
 {
     public GameObject[] enemyPrefabs;
-    EnemyHurt hurt;
+    HurtScript hurt;
 
     void Awake()
     {
-        hurt=GetComponent<EnemyHurt>();
+        hurt=GetComponent<HurtScript>();
 
-        GameEventSystem.Current.OnSpawn(gameObject);
+        GameEventSystem.Current.OnSpawn(gameObject, "Dummy");
     }
 
     void OnEnable()
@@ -32,7 +32,7 @@ public class Dummy : MonoBehaviour
         hurt.Hurt(attacker, hurtInfo);
     }
 
-    public void OnDeath(GameObject victim, GameObject killer, string victimName, HurtInfo hurtInfo)
+    public void OnDeath(GameObject victim, GameObject killer, HurtInfo hurtInfo)
     {
         if(victim!=gameObject) return;
         

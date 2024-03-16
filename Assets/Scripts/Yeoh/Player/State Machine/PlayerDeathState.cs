@@ -25,8 +25,6 @@ public class PlayerDeathState : BaseState<PlayerStateMachine.PlayerStates>
         stateMachine.player.canHurt=false;
         stateMachine.player.canStun=false;
         stateMachine.player.canTarget=false;
-
-        RandDeathAnim();
     }
 
     public override void UpdateState()
@@ -47,11 +45,5 @@ public class PlayerDeathState : BaseState<PlayerStateMachine.PlayerStates>
     public override PlayerStateMachine.PlayerStates GetNextState() // Implement the logic to determine the next state from the this state
     {
         return StateKey;
-    }
-
-    void RandDeathAnim()
-    {
-        int i = Random.Range(1, 2);
-        stateMachine.player.anim.CrossFade("death"+i, .1f, 2, 0);
     }
 }

@@ -15,25 +15,38 @@ public class PlayerStun : MonoBehaviour
         player=GetComponent<Player>();
         move=GetComponent<PlayerMovement>();
     }
-
-    public void Stun(float speedDebuffMult=.3f, float stunTime=.5f)
+    
+    void OnEnable()
     {
-        if(stunTime>0 && stunTime>=currentStunTime && player.canStun)
+        GameEventSystem.Current.StunEvent += OnStun;
+    }
+    void OnDisable()
+    {
+        GameEventSystem.Current.StunEvent -= OnStun;
+    }
+
+    public void OnStun(GameObject victim, GameObject attacker, HurtInfo hurtInfo)
+    {
+        if(victim!=gameObject) return;
+        if(hurtInfo.stunTime<=0) return;
+        if(!player.canStun) return;
+
+        if(hurtInfo.stunTime>=currentStunTime)
         {
-            currentStunTime=stunTime;
+            currentStunTime=hurtInfo.stunTime;
 
             stunned=true;
 
             player.CancelActions();
 
-            player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Stun);
+            player.sm.TransitionToState(PlayerStateMachine.PlayerStates.Stun);
 
-            move.TweenInputClamp(speedDebuffMult);
+            move.TweenInputClamp(hurtInfo.speedDebuffMult);
 
-            StartCoroutine(RandStunAnim(stunTime));
+            StartCoroutine(RandStunAnim(hurtInfo.stunTime));
 
             CancelRecovering();
-            RecoveringRt = StartCoroutine(Recovering(stunTime));
+            RecoveringRt = StartCoroutine(Recovering(hurtInfo.stunTime));
         }
     }
 
@@ -80,7 +93,7 @@ public class PlayerStun : MonoBehaviour
 
             move.TweenInputClamp(1);
 
-            player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Idle);
+            player.sm.TransitionToState(PlayerStateMachine.PlayerStates.Idle);
         }
     }
 }
