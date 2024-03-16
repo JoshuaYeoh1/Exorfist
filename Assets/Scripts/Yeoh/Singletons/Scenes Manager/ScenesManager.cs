@@ -150,7 +150,7 @@ public class ScenesManager : MonoBehaviour
     public void ReloadScene()
     {
         if(!IsSceneMainMenu())
-        TransitionTo(StringToEnum(SceneManager.GetActiveScene().name));
+        TransitionTo(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void LoadMainMenu()
