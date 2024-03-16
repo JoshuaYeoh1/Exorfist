@@ -7,7 +7,7 @@ public class ClosestObjectFinder : MonoBehaviour
     public GameObject target;
     
     GameObject innerTarget, outerTarget;
-    public float  innerRange=3, outerRange=5;
+    public float  innerRange=2, outerRange=5;
     public LayerMask layers;
 
     [HideInInspector] public float defOuterRange, defInnerRange;

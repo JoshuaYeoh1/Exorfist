@@ -101,7 +101,7 @@ public class GameEventSystem : MonoBehaviour
     //==Small actions==//
     public event Action<GameObject, string, Transform> FootstepEvent;
     public event Action<GameObject, GameObject, bool> TargetEvent;
-    public event Action<GameObject, string, int> LootEvent;
+    public event Action<GameObject, LootInfo> LootEvent;
 
     public void OnFootstep(GameObject subject, string type, Transform footstepTr)
     {
@@ -111,9 +111,9 @@ public class GameEventSystem : MonoBehaviour
     {
         TargetEvent?.Invoke(targeter, target, manual);
     }
-    public void OnLoot(GameObject looter, string lootName, int quantity)
+    public void OnLoot(GameObject looter, LootInfo lootInfo)
     {
-        LootEvent?.Invoke(looter, lootName, quantity);
+        LootEvent?.Invoke(looter, lootInfo);
     }
     
     //==Objective Related actions==//

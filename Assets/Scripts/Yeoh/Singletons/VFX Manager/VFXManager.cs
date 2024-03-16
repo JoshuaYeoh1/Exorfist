@@ -223,19 +223,19 @@ public class VFXManager : MonoBehaviour
         }
     }
 
-    public void OnLoot(GameObject looter, string lootName, int quantity)
+    public void OnLoot(GameObject looter, LootInfo lootInfo)
     {
-        if(lootName=="Chi")
+        if(lootInfo.lootName=="Chi")
         {
-            SpawnShockwave(ModelManager.Current.GetColliderCenter(looter), Color.white);
+            SpawnShockwave(lootInfo.contactPoint, Color.white);
 
-            SpawnPopUpText(ModelManager.Current.GetColliderTop(looter), $"+{quantity}", Color.white, Vector3.one*2);
+            SpawnPopUpText(ModelManager.Current.GetColliderTop(looter), $"+{lootInfo.quantity}", Color.white, Vector3.one*2);
 
             ModelManager.Current.FlashColor(looter, 1, 1, 1);
 
-            SpawnImpact(ModelManager.Current.GetColliderCenter(looter));
+            SpawnImpact(lootInfo.contactPoint);
 
-            UpgradeManager.Current.chi += quantity;
+            UpgradeManager.Current.chi += lootInfo.quantity;
         }
     }
 

@@ -22,8 +22,6 @@ public class Hurtbox : MonoBehaviour
         ToggleActive(enabledOnAwake);
     }
 
-    [HideInInspector] public Vector3 contactPoint;
-
     void OnTriggerEnter(Collider other)
     {
         if(!other.isTrigger)
@@ -35,6 +33,7 @@ public class Hurtbox : MonoBehaviour
     }
 
     public Transform hitboxOrigin;
+    [HideInInspector] public Vector3 contactPoint;
 
     void Hit(Collider other, Rigidbody otherRb)
     {
