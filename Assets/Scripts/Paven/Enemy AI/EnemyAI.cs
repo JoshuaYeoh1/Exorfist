@@ -13,7 +13,6 @@ public class EnemyAI : MonoBehaviour
     [HideInInspector] public EnemyAIStateMachine sm;
     [HideInInspector] public EnemyAIAttackTimer atkTimer;
     public string enemyName;
-    public int id;
     public LayerMask whatIsGround, whatIsPlayer;
 
     [Header("Stats")]
@@ -64,7 +63,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float defaultMovementSpeed;
     [SerializeField] private float circlingMovementSpeed;
 
-    EnemyHurt hurt;
+    HurtScript hurt;
 
     void Awake()
     {
@@ -74,11 +73,9 @@ public class EnemyAI : MonoBehaviour
         playerTransform = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
         sm = GetComponent<EnemyAIStateMachine>();
-        hurt = GetComponent<EnemyHurt>();
+        hurt = GetComponent<HurtScript>();
 
-        GameEventSystem.Current.OnSpawn(gameObject);
-
-        maxPoise=poise;
+        GameEventSystem.Current.OnSpawn(gameObject, enemyName);
     }
 
     void Start()
@@ -92,14 +89,14 @@ public class EnemyAI : MonoBehaviour
     void OnEnable()
     {
         GameEventSystem.Current.HitEvent += OnHit;
-        GameEventSystem.Current.HurtEvent += OnHurt;
+        GameEventSystem.Current.StunEvent += OnStun;
         GameEventSystem.Current.ParryEvent += OnParried;
         GameEventSystem.Current.DeathEvent += OnDeath;
     }
     void OnDisable()
     {
         GameEventSystem.Current.HitEvent -= OnHit;
-        GameEventSystem.Current.HurtEvent -= OnHurt;
+        GameEventSystem.Current.StunEvent -= OnStun;
         GameEventSystem.Current.ParryEvent -= OnParried;
         GameEventSystem.Current.DeathEvent -= OnDeath;
     }
@@ -107,9 +104,6 @@ public class EnemyAI : MonoBehaviour
     void Update()
     {
         //Debug.Log(preparingAttack);
-        CheckPoiseRegen();
-
-        if(Input.GetKeyDown(KeyCode.KeypadMultiply)) DropChi();
     }
 
     public Hurtbox hurtbox;
@@ -123,10 +117,9 @@ public class EnemyAI : MonoBehaviour
     {
         if(victim!=gameObject) return;
 
-        //this is for a future event system implementation
         if(hurtInfo.unparryable)
         {
-            hurt.Hurt(attacker, hurtInfo); //EnemyHurt script already broadcasts to OnHurt event, no need to broadcast it again here
+            hurt.Hurt(attacker, hurtInfo);
         }
         else
         {
@@ -136,49 +129,9 @@ public class EnemyAI : MonoBehaviour
             }
             else
             {
-                hurt.Hurt(attacker, hurtInfo); //EnemyHurt script already broadcasts to OnHurt event, no need to broadcast it again here
+                hurt.Hurt(attacker, hurtInfo);
             }
         }
-    }
-
-    [Header("Poise")]
-    public float poise=20;
-    float maxPoise;
-
-    void OnHurt(GameObject victim, GameObject attacker, HurtInfo hurtInfo)
-    {
-        if(victim!=gameObject) return;
-
-        poise-=hurtInfo.dmg;
-
-        lastPoiseDmgTime=Time.time;
-
-        if(poise<0)
-        {
-            //poise=0;
-            poise=maxPoise;
-
-            Stun(hurtInfo.speedDebuffMult, hurtInfo.stunTime);
-        }
-    }
-
-    float lastPoiseDmgTime;
-    public float poiseRegenDelay=3;
-    // public float poiseRegenSpeed=10;
-    
-    void CheckPoiseRegen()
-    {
-        if(Time.time-lastPoiseDmgTime > poiseRegenDelay)
-        {
-            if(poise<maxPoise)
-            {
-                //poise += poiseRegenSpeed*Time.deltaTime;
-
-                poise=maxPoise; // instant fill instead of slowly regen
-            }
-        }
-
-        //if(poise>maxPoise) poise=maxPoise;
     }
 
     void LoseBalance(GameObject attacker, HurtInfo hurtInfo)
@@ -198,21 +151,21 @@ public class EnemyAI : MonoBehaviour
 
     void OnParried(GameObject defender, GameObject attacker, HurtInfo hurtInfo)
     {
-        if(attacker==gameObject)
-        {
-            Stun();
-        }
+        if(attacker!=gameObject) return;
+
+        OnStun(attacker, defender, hurtInfo); // attacker becomes the victim
     }
 
-    void Stun(float speedDebuffMult=.3f, float stunTime=.5f)
+    void OnStun(GameObject victim, GameObject attacker, HurtInfo hurtInfo)
     {
-        if(speedDebuffMult<1 && stunTime>0)
-        {
-            //switch EnemyAIStateMachine to "HitStun" state, stop all coroutines and play hurt animation, play sound effect, etc.
-            //we can use an event system to call sfx and hurt animations if we need to :P
-            isHitStun = true;
-            sm.HitStunSwitchState(sm.hitStunState);
-        }
+        if(victim!=gameObject) return;
+        if(hurtInfo.stunTime<=0) return;
+
+        isHitStun = true;
+        sm.HitStunSwitchState(sm.hitStunState);
+
+        //switch EnemyAIStateMachine to "HitStun" state, stop all coroutines and play hurt animation, play sound effect, etc.
+        //we can use an event system to call sfx and hurt animations if we need to :P
     }
 
     [Header("On Death")]
@@ -220,7 +173,7 @@ public class EnemyAI : MonoBehaviour
     public float chiDropMin=1, chiDropMax=3;
     public Transform chiSpawnpoint;
 
-    void OnDeath(GameObject victim, GameObject killer, string victimName, HurtInfo hurtInfo)
+    void OnDeath(GameObject victim, GameObject killer, HurtInfo hurtInfo)
     {
         if(victim!=gameObject) return;
 

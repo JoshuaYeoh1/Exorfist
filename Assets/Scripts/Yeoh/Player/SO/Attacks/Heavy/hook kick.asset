@@ -12,18 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b74d8ad991053eb499cd80903f237879, type: 3}
   m_Name: hook kick
   m_EditorClassIdentifier: 
-  dash: 20
-  hitboxActiveDuration: 0.2
   animName: hook kick
+  attackName: Heavy
   hitboxIndex: 3
+  hitboxActiveDuration: 0.2
+  dash: 20
   dmg: 21
   dmgBlock: 20
   kbForce: 15
   speedDebuffMult: 0.3
   stunTime: 0.5
   hasSweepingEdge: 1
-  unblockable: 0
   doImpact: 1
   doShake: 1
   doHitstop: 1
   doShockwave: 1
+  unparryable: 0

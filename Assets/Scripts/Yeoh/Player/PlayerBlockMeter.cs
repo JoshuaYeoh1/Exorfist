@@ -8,7 +8,7 @@ public class PlayerBlockMeter : MonoBehaviour
 
     public GameObject player;
     PlayerBlock block;
-    PlayerHurt hurt;
+    HurtScript hurt;
 
     [HideInInspector] public bool regen;
     public float regenCooldown=3;
@@ -19,7 +19,7 @@ public class PlayerBlockMeter : MonoBehaviour
         hp = GetComponent<HPManager>();
 
         block = player.GetComponent<PlayerBlock>();
-        hurt = player.GetComponent<PlayerHurt>();
+        hurt = player.GetComponent<HurtScript>();
     }
 
     void Update()

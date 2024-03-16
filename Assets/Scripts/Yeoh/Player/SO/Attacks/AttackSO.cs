@@ -6,11 +6,22 @@ using UnityEngine;
 
 public class AttackSO : ScriptableObject
 {
-    public float dash=2, hitboxActiveDuration=.1f;
     public string animName="jab";
+    public string attackName="Light";
     public int hitboxIndex=0;
+    public float hitboxActiveDuration=.1f;
 
-    public float dmg=1, dmgBlock=1, kbForce=2, speedDebuffMult=.3f, stunTime=.5f;
-    public bool hasSweepingEdge=true, unparryable;
-    public bool doImpact=true, doShake=true, doHitstop=true, doShockwave=true;
+    public float dash=2;
+    public float dmg=1;
+    public float dmgBlock=1;
+    public float kbForce=2;
+    public float speedDebuffMult=.3f;
+    public float stunTime=.5f;
+
+    public bool hasSweepingEdge=true;
+    public bool doImpact=true;
+    public bool doShake=true;
+    public bool doHitstop=true;
+    public bool doShockwave=true;
+    public bool unparryable;
 }

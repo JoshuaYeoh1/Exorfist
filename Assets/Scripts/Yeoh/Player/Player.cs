@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [HideInInspector] public PlayerStateMachine stateMachine;
+    [HideInInspector] public PlayerStateMachine sm;
     [HideInInspector] public PlayerMovement move;
     [HideInInspector] public ClosestObjectFinder finder;
     [HideInInspector] public ManualTarget manual;
@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
 
     void Awake()
     {
-        stateMachine=GetComponent<PlayerStateMachine>();
+        sm=GetComponent<PlayerStateMachine>();
         move=GetComponent<PlayerMovement>();
         finder=GetComponent<ClosestObjectFinder>();
         manual=GetComponent<ManualTarget>();
@@ -36,7 +36,7 @@ public class Player : MonoBehaviour
         laser=GetComponent<PlayerLaser>();
         heal=GetComponent<PlayerHeal>();
 
-        GameEventSystem.Current.OnSpawn(gameObject);
+        GameEventSystem.Current.OnSpawn(gameObject, "Player");
     }
 
     void OnEnable()
@@ -100,12 +100,22 @@ public class Player : MonoBehaviour
         heal.Cancel();
     }
 
-    void OnDeath(GameObject victim, GameObject killer, string victimName, HurtInfo hurtInfo)
+    void OnDeath(GameObject victim, GameObject killer, HurtInfo hurtInfo)
     {
         if(victim!=gameObject) return;
 
         CancelActions();
         heal.StopHeal();
         laser.StopLaser();
+
+        RandDeathAnim();
+        
+        sm.TransitionToState(PlayerStateMachine.PlayerStates.Death);
+    }
+
+    void RandDeathAnim()
+    {
+        int i = Random.Range(1, 2);
+        anim.CrossFade("death"+i, .1f, 2, 0);
     }
 }

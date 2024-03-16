@@ -361,11 +361,11 @@ GameObject:
   - component: {fileID: 1306377485559977919}
   - component: {fileID: 6498752887704632762}
   - component: {fileID: 5867312450908989227}
-  - component: {fileID: 3308190871921243768}
   - component: {fileID: 4348233128418930465}
   - component: {fileID: 7963184181801172876}
   - component: {fileID: 1112656922746496593}
   - component: {fileID: 5208964824414518004}
+  - component: {fileID: 8510536829511863121}
   m_Layer: 6
   m_Name: Enemy2
   m_TagString: Enemy
@@ -438,7 +438,6 @@ MonoBehaviour:
   sm: {fileID: 0}
   atkTimer: {fileID: 0}
   enemyName: Enemy2
-  id: 1
   whatIsGround:
     serializedVersion: 2
     m_Bits: 0
@@ -466,8 +465,6 @@ MonoBehaviour:
   defaultMovementSpeed: 2.1
   circlingMovementSpeed: 1.4
   hurtbox: {fileID: 130636281069088801}
-  poise: 30
-  poiseRegenDelay: 3
   ragdollPrefab: {fileID: 1228667488246187926, guid: 62a7e4244e3f5654c9d5b4f9078f328a,
     type: 3}
   chiDropMin: 4
@@ -586,20 +583,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &3308190871921243768
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1649796389774806618}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad136ebf89760554ead31d146afbf1b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyName: Enemy2
-  iframeTime: 0.1
 --- !u!114 &4348233128418930465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -668,6 +651,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91e37fb1c5cf91a43a54e9f5aca3058d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8510536829511863121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1649796389774806618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76a15e5fe93ddc943bae31a0a5b7df6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  subjectName: Enemy2
+  iframe: 0
+  iframeTime: 0.1
+  poise: 30
+  poiseRegenDelay: 3
 --- !u!1 &2071822400053130105
 GameObject:
   m_ObjectHideFlags: 0
@@ -3175,6 +3175,16 @@ PrefabInstance:
         type: 3}
       propertyPath: doHitstop
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3013863717708658560, guid: 4b550ecf14fdb8d4aa6f48325deac7fe,
+        type: 3}
+      propertyPath: ownerName
+      value: Enemy2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3013863717708658560, guid: 4b550ecf14fdb8d4aa6f48325deac7fe,
+        type: 3}
+      propertyPath: attackName
+      value: Enemy2Slam
       objectReference: {fileID: 0}
     - target: {fileID: 3013863717708658560, guid: 4b550ecf14fdb8d4aa6f48325deac7fe,
         type: 3}

@@ -62,7 +62,7 @@ public class PlayerHeal : MonoBehaviour
     Coroutine castingRt;
     IEnumerator Casting()
     {
-        player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Casting);
+        player.sm.TransitionToState(PlayerStateMachine.PlayerStates.Casting);
 
         isCasting=true;
 
@@ -76,7 +76,7 @@ public class PlayerHeal : MonoBehaviour
 
         yield return new WaitForSeconds(castTime);
 
-        player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Cast);
+        player.sm.TransitionToState(PlayerStateMachine.PlayerStates.Cast);
 
         isCasting=false;
 
@@ -127,7 +127,7 @@ public class PlayerHeal : MonoBehaviour
 
     public void Finish()
     {
-        player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Idle);
+        player.sm.TransitionToState(PlayerStateMachine.PlayerStates.Idle);
 
         player.anim.CrossFade("cancel", .25f, 2, 0);
     }

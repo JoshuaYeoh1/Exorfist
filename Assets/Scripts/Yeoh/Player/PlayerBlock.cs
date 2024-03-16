@@ -6,8 +6,7 @@ public class PlayerBlock : MonoBehaviour
 {
     [HideInInspector] public Player player;
     PlayerMovement move;
-    PlayerHurt hurt;
-    [HideInInspector] public OffsetMeshColor color;
+    HurtScript hurt;
     PlayerStun stun;
     public PlayerBlockMeter meter;
     InputBuffer buffer;
@@ -22,8 +21,7 @@ public class PlayerBlock : MonoBehaviour
     {
         player=GetComponent<Player>();
         move=GetComponent<PlayerMovement>();
-        hurt=GetComponent<PlayerHurt>();
-        color=GetComponent<OffsetMeshColor>();
+        hurt=GetComponent<HurtScript>();
         stun=GetComponent<PlayerStun>();
         buffer=GetComponent<InputBuffer>();
         finder=GetComponent<ClosestObjectFinder>();
@@ -56,7 +54,7 @@ public class PlayerBlock : MonoBehaviour
 
             move.TweenInputClamp(blockMoveSpeedMult);
 
-            player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Parry);
+            player.sm.TransitionToState(PlayerStateMachine.PlayerStates.Parry);
 
             buffer.lastPressedBlock=-1;
         }
@@ -76,7 +74,7 @@ public class PlayerBlock : MonoBehaviour
     {
         isBlocking=true;
 
-        player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Block);
+        player.sm.TransitionToState(PlayerStateMachine.PlayerStates.Block);
 
         meter.CancelRegenCooling();
     }
@@ -89,7 +87,7 @@ public class PlayerBlock : MonoBehaviour
 
         if(!canBlock) StartCoroutine(BlockCoolingDown());
 
-        player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Idle);
+        player.sm.TransitionToState(PlayerStateMachine.PlayerStates.Idle);
 
         meter.RedoRegenCooling();
     }
@@ -104,6 +102,7 @@ public class PlayerBlock : MonoBehaviour
     {
         if(victim!=gameObject) return;
         if(!player.isAlive) return;
+        if(!player.canHurt) return;
 
         if(isParrying)
         {

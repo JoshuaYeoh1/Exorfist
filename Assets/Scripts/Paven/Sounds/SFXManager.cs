@@ -6,260 +6,266 @@ public class SFXManager : MonoBehaviour
 {
     public static SFXManager Current;
 
+    void Awake()
+    {
+        if(!Current) Current=this;
+
+        DictSetup();
+    }
+    
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //Dictionary definitions and their constructors
+    Dictionary<string, AudioClip> EnemyClips = new Dictionary<string, AudioClip>();
+    Dictionary<string, AudioClip> PlayerClips = new Dictionary<string, AudioClip>();
+    Dictionary<string, AudioClip> EnvironmentClips = new Dictionary<string, AudioClip>();
+    
+    //Data values for audio clip
+    public List<AudioClip> PlayerClipsDV;
+    public List<AudioClip> EnemyClipsDV;
+    public List<AudioClip> EnvironmentClipsDV;
+
+    void DictSetup()
+    {
+        foreach(AudioClip clip in PlayerClipsDV)
+        {
+            PlayerClips.Add(clip.name, clip);
+        }
+
+        foreach(AudioClip clip in EnemyClipsDV)
+        {
+            EnemyClips.Add(clip.name, clip);
+        }
+    }
+    
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     [Header("Player AudioClips")]
-    [SerializeField] private AudioClip[] SFXClipsPlayer;
-    [SerializeField] private AudioClip[] AbilityClipsPlayer;
+    public AudioClip[] SFXClipsPlayer;
+    public AudioClip[] AbilityClipsPlayer;
 
     [Header("Enemy AudioClips")]
     [Header("Enemy1")]
-    [SerializeField] private AudioClip[] Enemy1HurtClips;
-    [SerializeField] private AudioClip Enemy1Death;
+    public AudioClip[] Enemy1HurtClips;
+    public AudioClip Enemy1Death;
 
     [Header("Enemy2")]
-    //[SerializeField] private AudioClip[] Enemy2IdleCips;
-    [SerializeField] private AudioClip[] Enemy2HurtClips;
-    [SerializeField] private AudioClip Enemy2Death;
+    //public AudioClip[] Enemy2IdleCips;
+    public AudioClip[] Enemy2HurtClips;
+    public AudioClip Enemy2Death;
     
-
     [Header("Punch Impact AudioClips")]
-    [SerializeField] private AudioClip[] PunchClips;
+    public AudioClip[] PunchClips;
 
-    
-
-    //Data values for audio clip
-    [SerializeField] private List<AudioClip> PlayerClipsDV;
-    [SerializeField] private List<AudioClip> EnemyClipsDV;
-    [SerializeField] private List<AudioClip> EnvironmentClipsDV;
-
-    //Dictionary definitions and their constructors
-    private Dictionary<string, AudioClip> EnemyClips = new Dictionary<string, AudioClip>();
-    private Dictionary<string, AudioClip> PlayerClips = new Dictionary<string, AudioClip>();
-    private Dictionary<string, AudioClip> EnvironmentClips = new Dictionary<string, AudioClip>();
-
-    private void Start()
+    void OnEnable()
     {
-        DictSetup();
-        GameEventSystem.Current.ParryEvent += OnParryEvent;
-        GameEventSystem.Current.HitEvent += OnHitEvent;
-        GameEventSystem.Current.FootstepEvent += OnFootStepEvent;
-        GameEventSystem.Current.DeathEvent += OnDeathEvent;
-        GameEventSystem.Current.EnemySoundEvent += OnSoundEventEnemy;
-        GameEventSystem.Current.PlayerSoundEvent += OnSoundEventPlayer;
-        GameEventSystem.Current.BlockBreakEvent += OnBlockBreakEvent;
+        GameEventSystem.Current.HitEvent += OnHit;
+        GameEventSystem.Current.HurtEvent += OnHurt;
+        GameEventSystem.Current.StunEvent += OnStun;
+        GameEventSystem.Current.BlockEvent += OnBlock;
+        GameEventSystem.Current.ParryEvent += OnParry;
+        GameEventSystem.Current.BlockBreakEvent += OnBlockBreak;
+        GameEventSystem.Current.DeathEvent += OnDeath;
+        GameEventSystem.Current.FootstepEvent += OnFootstep;
+        GameEventSystem.Current.EnemySoundEvent += OnSoundEnemy;
+        GameEventSystem.Current.PlayerSoundEvent += OnSoundPlayer;
         GameEventSystem.Current.AbilityCastEvent += OnAbilityCast;
         GameEventSystem.Current.AbilityEndEvent += OnAbilityEnd;
     }
-
-    private void OnDisable()
+    void OnDisable()
     {
-        GameEventSystem.Current.ParryEvent -= OnParryEvent;
-        GameEventSystem.Current.HitEvent -= OnHitEvent;
-        GameEventSystem.Current.FootstepEvent -= OnFootStepEvent;
-        GameEventSystem.Current.DeathEvent -= OnDeathEvent;
-        GameEventSystem.Current.EnemySoundEvent -= OnSoundEventEnemy;
-        GameEventSystem.Current.PlayerSoundEvent -= OnSoundEventPlayer;
-        GameEventSystem.Current.BlockBreakEvent -= OnBlockBreakEvent;
+        GameEventSystem.Current.HitEvent -= OnHit;
+        GameEventSystem.Current.HurtEvent -= OnHurt;
+        GameEventSystem.Current.StunEvent -= OnStun;
+        GameEventSystem.Current.BlockEvent -= OnBlock;
+        GameEventSystem.Current.ParryEvent -= OnParry;
+        GameEventSystem.Current.BlockBreakEvent -= OnBlockBreak;
+        GameEventSystem.Current.DeathEvent -= OnDeath;
+        GameEventSystem.Current.FootstepEvent -= OnFootstep;
+        GameEventSystem.Current.EnemySoundEvent -= OnSoundEnemy;
+        GameEventSystem.Current.PlayerSoundEvent -= OnSoundPlayer;
         GameEventSystem.Current.AbilityCastEvent -= OnAbilityCast;
     }
 
-    private void OnParryEvent(GameObject victim, GameObject attacker, HurtInfo info)
+    void OnHit(GameObject attacker, GameObject victim, HurtInfo hurtInfo)
     {
-        if(victim != null && attacker != null)
+        AudioManager.Current?.PlaySFX(PunchClips, victim.transform.position);
+
+        if(victim.tag=="Player")
         {
-            
-            switch (victim.tag)
+
+        }
+        else
+        {
+            if(hurtInfo.victimName=="Enemy1")
             {
-                case "Player":
-                    AudioManager.Current?.PlaySFX(SFXClipsPlayer[0], victim.transform.position);
-                    break;
-                default: 
-                    break;
+
+            }
+            if(hurtInfo.victimName=="Enemy2")
+            {
+
+            }
+            if(hurtInfo.victimName=="Dummy")
+            {
 
             }
         }
     }
 
-    private void OnAbilityCast(GameObject caster, string name)
+    void OnHurt(GameObject victim, GameObject attacker, HurtInfo hurtInfo)
     {
-        if(caster != null)
+        if(victim.tag=="Player")
         {
-            switch (caster.tag)
-            {
-                case "Player":
-                    switch (name)
-                    {
-                        case "AOE":
-                            AudioManager.Current?.PlaySFX(AbilityClipsPlayer[1], caster.transform.position);
-                            break;
 
-                        case "Laser":
-                            //AudioManager.Current?.PlaySFX(PunchClips, caster.transform.position);
-                            break;
-
-                        case "Heal":
-                            AudioManager.Current?.PlaySFX(AbilityClipsPlayer[2], caster.transform.position);
-                            break;
-
-                        default:
-                            Debug.LogWarning("Invalid ability cast name for player. No such ability as " + name);
-                            break;
-                    }
-                    break;
-
-                case "Enemy":
-                    break;
-
-                default:
-                    break;
-            }
         }
-    }
-    private void OnAbilityEnd(GameObject caster, string name)
-    {
-        if (caster != null)
+        else
         {
-            switch (caster.tag)
+            if(hurtInfo.victimName=="Enemy1")
             {
-                case "Player":
-                    switch (name)
-                    {
-                        case "AOE":
-                            //AudioManager.Current?.PlaySFX(PunchClips, caster.transform.position);
-                            break;
+                AudioManager.Current?.PlaySFX(Enemy1HurtClips, victim.transform.position);
+            }
+            if(hurtInfo.victimName=="Enemy2")
+            {
+                AudioManager.Current?.PlaySFX(Enemy2HurtClips, victim.transform.position);
+            }
+            if(hurtInfo.victimName=="Dummy")
+            {
 
-                        case "Laser":
-                            //AudioManager.Current?.PlaySFX(PunchClips, caster.transform.position);
-                            break;
-
-                        case "Heal":
-                            //AudioManager.Current?.PlaySFX(Enemy2Death, caster.transform.position);
-                            break;
-
-                        default:
-                            Debug.LogWarning("Invalid ability cast name for player. No such ability as " + name);
-                            break;
-                    }
-                    break;
-
-                case "Enemy":
-                    break;
-
-                default:
-                    break;
             }
         }
     }
 
-    private void OnHitEvent(GameObject attacker, GameObject victim, HurtInfo info)
+    void OnStun(GameObject victim, GameObject attacker, HurtInfo hurtInfo)
     {
-        if (victim != null && attacker != null)
+        if(victim.tag=="Player")
         {
-            switch (victim.tag)
+
+        }
+        else
+        {
+            if(hurtInfo.victimName=="Enemy1")
             {
-                case "Player":
-                    if(victim.GetComponent<PlayerBlock>().isBlocking == true || victim.GetComponent<PlayerBlock>().isParrying == true)
-                    {
-                        AudioManager.Current?.PlaySFX(SFXClipsPlayer[1], victim.transform.position);
-                        return;
-                    }
-                    AudioManager.Current?.PlaySFX(PunchClips, victim.transform.position);
-                    break;
-                case "Enemy":
-                    if(victim.GetComponent<EnemyAI>() != null)
-                    {
-                        switch (victim.GetComponent<EnemyAI>().id)
-                        {
-                            case 0:
-                                AudioManager.Current?.PlaySFX(Enemy1HurtClips, victim.transform.position);
-                                AudioManager.Current?.PlaySFX(PunchClips, victim.transform.position);
-                                break;
-                            case 1:
-                                AudioManager.Current?.PlaySFX(Enemy2HurtClips, victim.transform.position);
-                                AudioManager.Current?.PlaySFX(PunchClips, victim.transform.position);
-                                break;
-                            default:
-                                AudioManager.Current?.PlaySFX(PunchClips, victim.transform.position);
-                                break;
-                        }
-                    }
-                    else
-                    {
-                        AudioManager.Current?.PlaySFX(PunchClips, victim.transform.position);
-                    }
-                    break;
-                default:
-                    Debug.Log("Victim is not a player or an enemy, ayo? Skibidi toilet be like");
-                    break;
+                
+            }
+            if(hurtInfo.victimName=="Enemy2")
+            {
+                
             }
         }
     }
 
-    private void OnFootStepEvent(GameObject subject, string type, Transform position)
+    void OnBlock(GameObject victim, GameObject attacker, HurtInfo hurtInfo)
     {
-        if (subject != null)
+        if(victim.tag=="Player")
+        {
+            AudioManager.Current?.PlaySFX(SFXClipsPlayer[1], victim.transform.position);
+        }
+    }
+
+    void OnParry(GameObject victim, GameObject attacker, HurtInfo hurtInfo)
+    {
+        if(victim.tag=="Player")
+        {
+            AudioManager.Current?.PlaySFX(SFXClipsPlayer[0], victim.transform.position);
+        }
+    }
+
+    void OnBlockBreak(GameObject victim, GameObject attacker, HurtInfo hurtInfo)
+    {
+        if(victim.tag=="Player")
+        {
+            AudioManager.Current?.PlaySFX(SFXClipsPlayer[3], victim.transform.position);
+        }
+    }
+
+    void OnDeath(GameObject victim, GameObject killer, HurtInfo hurtinfo)
+    {
+        if(victim.tag=="Player")
+        {
+
+        }
+        else
+        {
+            if(hurtinfo.victimName=="Enemy1")
+            {
+                AudioManager.Current?.PlaySFX(Enemy1Death, victim.transform.position);
+            }
+            if(hurtinfo.victimName=="Enemy2")
+            {
+                AudioManager.Current?.PlaySFX(Enemy2Death, victim.transform.position);
+            }
+            if(hurtinfo.victimName=="Dummy")
+            {
+
+            }
+        }
+    }
+
+    void OnFootstep(GameObject subject, string type, Transform position)
+    {
+        if(subject.tag=="Player")
         {
             AudioManager.Current?.PlaySFX(SFXClipsPlayer[2], subject.transform.position);
         }
     }
 
-    private void OnBlockBreakEvent(GameObject victim, GameObject attacker, HurtInfo hurtinfo)
+    void OnAbilityCast(GameObject caster, string abilityName)
     {
-        if (victim != null && attacker != null)
+        if(caster.tag=="Player")
         {
-            switch (victim.tag)
+            if(abilityName=="AOE")
             {
-                case "Player":
-                    AudioManager.Current?.PlaySFX(SFXClipsPlayer[3], victim.transform.position);
-                    break;
+                AudioManager.Current?.PlaySFX(AbilityClipsPlayer[1], caster.transform.position);
+            }
+            if(abilityName=="Laser")
+            {
+                //AudioManager.Current?.PlaySFX(PunchClips, caster.transform.position);
+            }
+            if(abilityName=="Heal")
+            {
+                AudioManager.Current?.PlaySFX(AbilityClipsPlayer[2], caster.transform.position);
+            }
+        }
+        else
+        {
+            if(abilityName=="Enemy2Slam")
+            {
 
-                case "Enemy":
-                    break;
-
-                default:
-                    Debug.Log("Victim is not a player or an enemy, ayo? Skibidi toilet be like");
-                    break;
             }
         }
     }
 
-    private void OnDeathEvent(GameObject victim, GameObject killer, string victimName, HurtInfo hurtinfo)
+    void OnAbilityEnd(GameObject caster, string abilityName)
     {
-        if (victim != null && killer != null)
+        if(caster.tag=="Player")
         {
-            switch (victim.tag)
+            if(abilityName=="AOE")
             {
-                case "Player":
-                    
-                    break;
-                case "Enemy":
-                    if(victim.GetComponent<EnemyAI>() != null)
-                    {
-                        switch (victim.GetComponent<EnemyAI>().id)
-                        {
-                            case 0:
-                                AudioManager.Current?.PlaySFX(Enemy1Death, victim.transform.position);
-                                break;
 
-                            case 1:
-                                AudioManager.Current?.PlaySFX(Enemy2Death, victim.transform.position);
-                                break;
+            }
+            if(abilityName=="Laser")
+            {
 
-                            default:
-                                break;
-                        }
-                    }
-                    break;
-                default:
-                    Debug.Log("Victim is not a player or an enemy, ayo? Skibidi toilet be like");
-                    break;
+            }
+            if(abilityName=="Heal")
+            {
+
+            }
+        }
+        else
+        {
+            if(abilityName=="Enemy2Slam")
+            {
+
             }
         }
     }
 
-    private void OnSoundEventEnemy(Transform transform, string searchKey)
+    void OnSoundEnemy(Transform transform, string searchKey)
     {
         AudioClip clip = EnemyClips[searchKey];
-        if(clip != null)
+
+        if(clip!=null)
         {
             AudioManager.Current?.PlaySFX(clip, transform.position);
         }
@@ -269,10 +275,11 @@ public class SFXManager : MonoBehaviour
         }
     }
 
-    private void OnSoundEventPlayer(Transform transform, string searchKey)
+    void OnSoundPlayer(Transform transform, string searchKey)
     {
         AudioClip clip = PlayerClips[searchKey];
-        if (clip != null)
+
+        if(clip!=null)
         {
             AudioManager.Current?.PlaySFX(clip, transform.position);
         }
@@ -282,30 +289,17 @@ public class SFXManager : MonoBehaviour
         }
     }
 
-    private void OnSoundEventEnvironment(Transform transform, string searchKey)
+    void OnSoundEventEnvironment(Transform transform, string searchKey)
     {
         AudioClip clip = EnvironmentClips[searchKey];
-        if (clip != null)
+
+        if(clip!=null)
         {
             AudioManager.Current?.PlaySFX(clip, transform.position);
         }
         else
         {
             Debug.Log("There is no sound in the EnvironmentClip dictionary defined as " + searchKey);
-        }
-    }
-
-    private void DictSetup()
-    {
-        
-        foreach(AudioClip clip in PlayerClipsDV)
-        {
-            PlayerClips.Add(clip.name, clip);
-        }
-
-        foreach(AudioClip clip in EnemyClipsDV)
-        {
-            EnemyClips.Add(clip.name, clip);
         }
     }
 }

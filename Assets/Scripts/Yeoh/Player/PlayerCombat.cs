@@ -38,7 +38,7 @@ public class PlayerCombat : MonoBehaviour
             {
                 lightComboCounter++;
 
-                player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.WindUp);
+                player.sm.TransitionToState(PlayerStateMachine.PlayerStates.WindUp);
 
                 interrupted=false;
 
@@ -55,7 +55,7 @@ public class PlayerCombat : MonoBehaviour
             {
                 heavyComboCounter++;
 
-                player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.WindUp);
+                player.sm.TransitionToState(PlayerStateMachine.PlayerStates.WindUp);
 
                 interrupted=false;
 
@@ -76,7 +76,7 @@ public class PlayerCombat : MonoBehaviour
     {
         if(!interrupted)
         {
-            player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Attack);
+            player.sm.TransitionToState(PlayerStateMachine.PlayerStates.Attack);
 
             AttackSO atkSO=null;
 
@@ -97,6 +97,7 @@ public class PlayerCombat : MonoBehaviour
         int i = atkSO.hitboxIndex;
 
         // copy and replace scriptable object's values to hitbox's values
+        player.hurtboxes[i].attackName = atkSO.attackName;
         player.hurtboxes[i].dmg = atkSO.dmg;
         player.hurtboxes[i].dmgBlock = atkSO.dmgBlock;
         player.hurtboxes[i].kbForce = atkSO.kbForce;
@@ -129,7 +130,7 @@ public class PlayerCombat : MonoBehaviour
         {
             canFinish=false;
 
-            player.stateMachine.TransitionToState(PlayerStateMachine.PlayerStates.Idle);
+            player.sm.TransitionToState(PlayerStateMachine.PlayerStates.Idle);
 
             player.anim.CrossFade("cancel", .25f, 2, 0);
         }

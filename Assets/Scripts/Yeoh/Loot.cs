@@ -8,8 +8,8 @@ public class Loot : MonoBehaviour
 
     public string lootName="Chi";
     public int quantity=1;
-    public float lootDelay=1;
 
+    public float lootDelay=1;
     public bool destroyOnLoot=false;
 
     void Awake()
@@ -33,20 +33,39 @@ public class Loot : MonoBehaviour
 
     void OnTriggerStay(Collider other)
     {
-        if(other.attachedRigidbody && canLoot)
+        if(!canLoot) return;
+
+        if(!other.isTrigger)
         {
-            GameObject looter = other.attachedRigidbody.gameObject;
+            Rigidbody otherRb = other.attachedRigidbody;
 
-            GameEventSystem.Current.OnLoot(looter, lootName, quantity);
+            if(otherRb) Pickup(other, otherRb);
+        }
+    }
 
-            if(destroyOnLoot)
-            {
-                Destroy(gameObject);
-            }
-            else
-            {
-                gameObject.SetActive(false);
-            }
+    [HideInInspector] public Vector3 contactPoint;
+
+    void Pickup(Collider other, Rigidbody otherRb)
+    {
+        GameObject looter = otherRb.gameObject;
+
+        contactPoint = other.ClosestPointOnBounds(transform.position);
+
+        LootInfo lootInfo = new LootInfo();
+
+        lootInfo.lootName=lootName;
+        lootInfo.quantity=quantity;
+        lootInfo.contactPoint = contactPoint;
+
+        GameEventSystem.Current.OnLoot(looter, lootInfo);
+
+        if(destroyOnLoot)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            gameObject.SetActive(false);
         }
     }
 
