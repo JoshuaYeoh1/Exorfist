@@ -27,6 +27,11 @@ public class RoomStateManager : MonoBehaviour
         return RoomID;
     }
 
+    public void SetRoomID(int num)
+    {
+        RoomID = num;
+    }
+
     public RoomState State;
     public List<GameObject> EnemySpawns = new List<GameObject>();
 
@@ -106,24 +111,30 @@ public class RoomStateManager : MonoBehaviour
     private void HandleActive()
     {
         Debug.Log("Handling active");
-        foreach(GameObject barrier in PermanentBarriers)
+        if(PermanentBarriers.Count > 0)
         {
-            if(barrier != null)
+            foreach (GameObject barrier in PermanentBarriers)
             {
-                if (barrier.activeSelf == false)
+                if (barrier != null)
                 {
-                    barrier.SetActive(true);
+                    if (barrier.activeSelf == false)
+                    {
+                        barrier.SetActive(true);
+                    }
                 }
             }
         }
         
-        foreach(GameObject barrier in RoomBarriers)
+        if(RoomBarriers.Count > 0)
         {
-            if(barrier != null)
+            foreach (GameObject barrier in RoomBarriers)
             {
-                if (barrier.activeSelf == false)
+                if (barrier != null)
                 {
-                    barrier.SetActive(true);
+                    if (barrier.activeSelf == false)
+                    {
+                        barrier.SetActive(true);
+                    }
                 }
             }
         }

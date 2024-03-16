@@ -9,6 +9,13 @@ public class LevelManager : MonoBehaviour
     public List<RoomStateManager> roomStateManagers;
     public RoomStateManager activeRSM;
 
+    private void SetRoomIDS()
+    {
+        for (int i = 0; i < roomStateManagers.Count; i++)
+        {
+            roomStateManagers[i].SetRoomID(i);
+        }
+    }
     private void OnEnable()
     {
         if(roomStateManagers != null) 
@@ -16,6 +23,7 @@ public class LevelManager : MonoBehaviour
             activeRSM = roomStateManagers[0];
         }
         GameEventSystem.Current.RoomStateChangedEvent += CycleRoomStateManager;
+        SetRoomIDS();
     }
 
     private void OnDisable()
