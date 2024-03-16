@@ -7,7 +7,7 @@ public class DoorTriggerEnter : MonoBehaviour
     GameObject popUpPrefabRef;
     public Transform currentRoomTransform;
 
-    bool isPopupPoint, destroyOnContact;
+    public bool isPopupPoint, destroyOnContact;
     public int roomID { get; set; }
 
     void OnEnable()
@@ -19,22 +19,35 @@ public class DoorTriggerEnter : MonoBehaviour
         GameEventSystem.Current.RoomEnterEvent -= OnRoomEnter;
     }
 
-    GameObject player;
-
     void OnTriggerEnter(Collider other)
     {
         ReliableOnTriggerExit.NotifyTriggerEnter(other, gameObject, OnTriggerExit);
 
-        player = other.attachedRigidbody.gameObject;
+        Rigidbody otherRb = other.attachedRigidbody;
 
-        if(player)
+        if(otherRb)
         {
-            if(!popUpPrefabRef)
-            {
-                popUpPrefabRef = Instantiate(popUpPrefab);
-            }
+            OnDoorTriggerEnter();
 
-            GameEventSystem.Current.OnDoorTriggerEnter(currentRoomTransform);
+            if (isPopupPoint)
+            {
+                if(!popUpPrefabRef)
+                {
+                    popUpPrefabRef = Instantiate(popUpPrefab);
+                    if(destroyOnContact)
+                    {
+                        Destroy(gameObject);
+                    }
+                }
+            }
+            else
+            {
+                GameEventSystem.Current?.OnRoomEnter();
+                if (destroyOnContact)
+                {
+                    Destroy(gameObject);
+                }
+            }
         }
     }
 
@@ -42,16 +55,31 @@ public class DoorTriggerEnter : MonoBehaviour
     {
         ReliableOnTriggerExit.NotifyTriggerExit(other, gameObject);
 
-        if(player)
+        Rigidbody otherRb = other.attachedRigidbody;
+
+        if(otherRb)
         {
-            if(popUpPrefabRef) Destroy(popUpPrefabRef);
+            if (isPopupPoint)
+            {
+                if (!popUpPrefabRef)
+                {
+                    Destroy(popUpPrefabRef);
+                }
+            }
+            else
+            {
+
+            }
         }
     }
 
     void OnRoomEnter()
     {
         if(popUpPrefabRef) Destroy(popUpPrefabRef);
+    }
 
-        player.transform.position = currentRoomTransform.position;
+    void OnDoorTriggerEnter()
+    {
+        GameEventSystem.Current.OnDoorTriggerEnter(currentRoomTransform);
     }
 }
