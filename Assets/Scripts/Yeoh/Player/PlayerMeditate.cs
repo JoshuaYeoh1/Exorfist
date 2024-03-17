@@ -73,7 +73,8 @@ public class PlayerMeditate : MonoBehaviour
         {
             GameEventSystem.Current.OnShowMenu("UpgradeMenu");
         }
-        else Unmeditate();
+        //else 
+        Unmeditate();
     }
 
     void OnHideMenu(string menuName)
