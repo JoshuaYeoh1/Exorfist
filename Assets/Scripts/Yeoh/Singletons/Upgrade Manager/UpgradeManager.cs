@@ -108,7 +108,7 @@ public class UpgradeManager : MonoBehaviour
         {
             return $"{aoeDmgLvlMag[aoeDmgLvl]} -> {aoeDmgLvlMag[aoeDmgLvl+1]}";
         }
-        return "MAX";
+        return $"{aoeDmgLvlMag[aoeDmgLvl]}";
     }
     public string GetAoeDmgNextCost()
     {
@@ -135,7 +135,7 @@ public class UpgradeManager : MonoBehaviour
         {
             return $"{aoeRangeLvlMag[aoeRangeLvl]} -> {aoeRangeLvlMag[aoeRangeLvl+1]}m";
         }
-        return "MAX";
+        return $"{aoeRangeLvlMag[aoeRangeLvl]}m";
     }
     public string GetAoeRangeNextCost()
     {
@@ -162,7 +162,7 @@ public class UpgradeManager : MonoBehaviour
         {
             return $"{aoeCastTimeLvlMag[aoeCastTimeLvl]} -> {aoeCastTimeLvlMag[aoeCastTimeLvl+1]}s";
         }
-        return "MAX";
+        return $"{aoeCastTimeLvlMag[aoeCastTimeLvl]}s";
     }
     public string GetAoeCastTimeNextCost()
     {
@@ -189,7 +189,7 @@ public class UpgradeManager : MonoBehaviour
         {
             return $"{aoeCooldownLvlMag[aoeCooldownLvl]} -> {aoeCooldownLvlMag[aoeCooldownLvl+1]}s";
         }
-        return "MAX";
+        return $"{aoeCooldownLvlMag[aoeCooldownLvl]}s";
     }
     public string GetAoeCooldownNextCost()
     {
@@ -220,7 +220,7 @@ public class UpgradeManager : MonoBehaviour
         {
             return $"{laserDmgLvlMag[laserDmgLvl]*25} -> {laserDmgLvlMag[laserDmgLvl+1]*25}";
         }
-        return "MAX";
+        return $"{laserDmgLvlMag[laserDmgLvl]*25}";
     }
     public string GetLaserDmgNextCost()
     {
@@ -247,7 +247,7 @@ public class UpgradeManager : MonoBehaviour
         {
             return $"{laserRangeLvlMag[laserRangeLvl]} -> {laserRangeLvlMag[laserRangeLvl+1]}m";
         }
-        return "MAX";
+        return $"{laserRangeLvlMag[laserRangeLvl]}m";
     }
     public string GetLaserRangeNextCost()
     {
@@ -274,7 +274,7 @@ public class UpgradeManager : MonoBehaviour
         {
             return $"{laserCastTimeLvlMag[laserCastTimeLvl]} -> {laserCastTimeLvlMag[laserCastTimeLvl+1]}s";
         }
-        return "MAX";
+        return $"{laserCastTimeLvlMag[laserCastTimeLvl]}s";
     }
     public string GetLaserCastTimeNextCost()
     {
@@ -301,7 +301,7 @@ public class UpgradeManager : MonoBehaviour
         {
             return $"{laserCooldownLvlMag[laserCooldownLvl]} -> {laserCooldownLvlMag[laserCooldownLvl+1]}s";
         }
-        return "MAX";
+        return $"{laserCooldownLvlMag[laserCooldownLvl]}s";
     }
     public string GetLaserCooldownNextCost()
     {
@@ -332,7 +332,7 @@ public class UpgradeManager : MonoBehaviour
         {
             return $"{healSpeedLvlMag[healSpeedLvl]*10*3} -> {healSpeedLvlMag[healSpeedLvl+1]*10*3}HP";
         }
-        return "MAX";
+        return $"{healSpeedLvlMag[healSpeedLvl]*10*3}HP";
     }
     public string GetHealSpeedNextCost()
     {
@@ -359,7 +359,7 @@ public class UpgradeManager : MonoBehaviour
         {
             return $"{healCastTimeLvlMag[healCastTimeLvl]} -> {healCastTimeLvlMag[healCastTimeLvl+1]}s";
         }
-        return "MAX";
+        return $"{healCastTimeLvlMag[healCastTimeLvl]}s";
     }
     public string GetHealCastTimeNextCost()
     {
@@ -386,7 +386,7 @@ public class UpgradeManager : MonoBehaviour
         {
             return $"{healCooldownLvlMag[healCooldownLvl]} -> {healCooldownLvlMag[healCooldownLvl+1]}s";
         }
-        return "MAX";
+        return $"{healCooldownLvlMag[healCooldownLvl]}s";
     }
     public string GetHealCooldownNextCost()
     {

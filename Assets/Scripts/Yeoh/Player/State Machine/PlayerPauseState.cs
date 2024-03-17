@@ -14,6 +14,8 @@ public class PlayerPauseState : BaseState<PlayerStateMachine.PlayerStates>
     public override void EnterState()
     {
         Debug.Log("Player state: " + stateMachine.GetCurrentState().StateKey);
+        
+        stateMachine.player.isPaused=true;
 
         stateMachine.player.canMove=false;
         stateMachine.player.canTurn=false;
@@ -38,7 +40,7 @@ public class PlayerPauseState : BaseState<PlayerStateMachine.PlayerStates>
 
     public override void ExitState()
     {
-
+        stateMachine.player.isPaused=false;
     }
 
     public override PlayerStateMachine.PlayerStates GetNextState() // Implement the logic to determine the next state from the this state

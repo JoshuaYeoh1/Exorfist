@@ -214,6 +214,7 @@ MonoBehaviour:
   blockBtn: {fileID: 7163819720451895938}
   abilityBtn: {fileID: 1283371897878584123}
   abilityButtonToggle: {fileID: 4334388164952215225}
+  joystick: {fileID: 1996350403205639744}
 --- !u!1 &3003172336686936640
 GameObject:
   m_ObjectHideFlags: 0
@@ -1028,6 +1029,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aaa2c939c0359ac4dbce3f49e8b90252, type: 3}
+--- !u!1 &1996350403205639744 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2929252283123773939, guid: aaa2c939c0359ac4dbce3f49e8b90252,
+    type: 3}
+  m_PrefabInstance: {fileID: 3680212150747373491}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1996350403205639745 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2929252283123773938, guid: aaa2c939c0359ac4dbce3f49e8b90252,
@@ -2424,6 +2431,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Restart Btn
+      objectReference: {fileID: 0}
+    - target: {fileID: 6318510564487518638, guid: 006e1f47434f3b84aabc5cb5c5703ad5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8240002351614691880, guid: 006e1f47434f3b84aabc5cb5c5703ad5,
         type: 3}

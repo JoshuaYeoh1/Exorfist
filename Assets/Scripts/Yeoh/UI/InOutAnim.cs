@@ -50,7 +50,7 @@ public class InOutAnim : MonoBehaviour
         {
             transform.localScale = startScale;
         }
-        if(animateAlpha)
+        if(animateAlpha && rt)
         {            
             LeanTween.alpha(rt, startAlpha, 0);
         }
@@ -76,7 +76,7 @@ public class InOutAnim : MonoBehaviour
         {
             lt1 = LeanTween.scale(gameObject, defaultScale, time).setEaseOutBack().id;
         }
-        if(animateAlpha && rt!=null)
+        if(animateAlpha && rt)
         {
             lt1 = LeanTween.alpha(rt, inAlpha, time).setEaseInOutSine().id;
         }

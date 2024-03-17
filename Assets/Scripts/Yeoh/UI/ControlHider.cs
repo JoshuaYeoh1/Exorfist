@@ -9,12 +9,14 @@ public class ControlHider : MonoBehaviour
     public GameObject[] attackBtns;
     public GameObject blockBtn, abilityBtn;
     public AbilityButtonToggle abilityButtonToggle;
+    public GameObject joystick;
 
     void Update()
     {
         CheckAttackButton();
         CheckBlockButton();
         CheckAbilityButton();
+        CheckJoystick();
     }
 
     void CheckAttackButton()
@@ -49,11 +51,6 @@ public class ControlHider : MonoBehaviour
         else HideAbilityButton();
     }
 
-    void ToggleActive(GameObject obj, bool toggle=true)
-    {
-        if(obj.activeSelf!=toggle) obj.SetActive(toggle);
-    }
-
     void HideAbilityButton()
     {
         if(abilityBtn.activeSelf)
@@ -63,4 +60,28 @@ public class ControlHider : MonoBehaviour
             abilityBtn.SetActive(false);
         }
     }
+
+    void CheckJoystick()
+    {
+        if(!player.isPaused && player.isAlive) ToggleActive(joystick, true);
+
+        else HideJoystick();
+    }
+
+    void HideJoystick()
+    {
+        if(joystick.activeSelf)
+        {
+            player.move.NoInput();
+
+            joystick.SetActive(false);
+        }
+    }
+
+    void ToggleActive(GameObject obj, bool toggle=true)
+    {
+        if(obj.activeSelf!=toggle) obj.SetActive(toggle);
+    }
+
+    
 }

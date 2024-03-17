@@ -6,27 +6,36 @@ public class PlayerMeditate : MonoBehaviour
 {
     Player player;
     Rigidbody rb;
+    HPManager hp;
+
+    bool isMeditating;
+    public float regenSpeed=3;
 
     void Awake()
     {
         player=GetComponent<Player>();
         rb=GetComponent<Rigidbody>();
+        hp=GetComponent<HPManager>();
     }
 
     void OnEnable()
     {
         GameEventSystem.Current.MeditateEnterEvent += OnMeditateEnter;
         GameEventSystem.Current.MeditateExitEvent += OnMeditateExit;
+        GameEventSystem.Current.HideMenuEvent += OnHideMenu;
     }
     void OnDisable()
     {
         GameEventSystem.Current.MeditateEnterEvent -= OnMeditateEnter;
         GameEventSystem.Current.MeditateExitEvent -= OnMeditateExit;
+        GameEventSystem.Current.HideMenuEvent -= OnHideMenu;
     }
     
     public void Meditate(Transform sitSpot)
     {
         if(!player.canMeditate) return;
+
+        isMeditating=true;
 
         StartCoroutine(Meditating(sitSpot));
     }
@@ -47,26 +56,48 @@ public class PlayerMeditate : MonoBehaviour
         player.anim.CrossFade("sit", .5f, 2, 0);
     }
 
-    void OnMeditateEnter(GameObject monk)
+    void OnMeditateEnter(GameObject monk) // after animation finish
     {
         if(monk!=gameObject) return;
 
         Invoke("ShowUpgradeMenu", 1);
+
+        hp.regenHp = regenSpeed;
+
+        player.ResetAbilityCooldowns();
     }
 
     void ShowUpgradeMenu()
     {
-        HideUpgradeMenu();
+        if(GameEventSystem.Current)
+        {
+            GameEventSystem.Current.OnShowMenu("UpgradeMenu");
+        }
+        else Unmeditate();
     }
 
-    void HideUpgradeMenu()
+    void OnHideMenu(string menuName)
     {
-        player.anim.CrossFade("stand", .5f, 2, 0);
+        if(menuName!="UpgradeMenu") return;
 
-        CameraManager.Current.ChangeCameraToDefault();
+        Unmeditate();
     }
 
-    void OnMeditateExit(GameObject monk)
+    void Unmeditate()
+    {
+        if(isMeditating)
+        {
+            isMeditating=false;
+
+            player.anim.CrossFade("stand", .5f, 2, 0);
+
+            CameraManager.Current.ChangeCameraToDefault();
+
+            hp.regenHp = hp.defaultRegenHp;
+        }
+    }
+
+    void OnMeditateExit(GameObject monk) // after animation finish
     {
         if(monk!=gameObject) return;
 

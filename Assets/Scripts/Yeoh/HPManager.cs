@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class HPManager : MonoBehaviour
 {
-    public float hp=100, hpMax=100;
+    public float hp=100;
+    [HideInInspector] public float hpMax;
 
     [Header("Regeneration")]
     public bool regen;
     public bool regenWhenEmpty;
     public float regenHp=.2f, regenInterval=.1f;
+    [HideInInspector] public float defaultRegenHp;
 
     [Header("UI Bar")]
     public GameObject hpBarFill;
@@ -19,7 +21,9 @@ public class HPManager : MonoBehaviour
 
     void Awake()
     {
-        hp=hpMax;
+        hpMax=hp;
+
+        defaultRegenHp=regenHp;
     } 
     
     void OnEnable()

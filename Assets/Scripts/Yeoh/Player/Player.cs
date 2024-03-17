@@ -22,7 +22,8 @@ public class Player : MonoBehaviour
     public List<Hurtbox> hurtboxes;
     public GameObject target;
 
-    public bool isAlive=true, isGrounded, canMove, canTurn, canAttack, canBlock, canCast, canHurt, canStun, canTarget, canMeditate;
+    public bool isAlive=true, isGrounded, isPaused;
+    public bool canMove, canTurn, canAttack, canBlock, canCast, canHurt, canStun, canTarget, canMeditate;
 
     Ragdoller ragdoll;
     [HideInInspector] public Transform respawnPoint;
@@ -162,7 +163,7 @@ public class Player : MonoBehaviour
         ResetAbilityCooldowns();
     }
 
-    void ResetAbilityCooldowns()
+    public void ResetAbilityCooldowns()
     {
         aoe.ResetCooldown();
         laser.ResetCooldown();

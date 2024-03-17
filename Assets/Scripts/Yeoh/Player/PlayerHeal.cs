@@ -21,7 +21,6 @@ public class PlayerHeal : MonoBehaviour
     float regenTime=3;
     float regenHp=3;
     public Material healMeshEffectMaterial;
-    float defaultRegenHp;
 
     [Header("Cooldown")]
     public Image radialBar;
@@ -32,8 +31,6 @@ public class PlayerHeal : MonoBehaviour
     {
         player=GetComponent<Player>();
         hp=GetComponent<HPManager>();
-
-        defaultRegenHp = hp.regenHp;
     }
 
     void Update()
@@ -119,7 +116,7 @@ public class PlayerHeal : MonoBehaviour
     {
         if(healingRt!=null) StopCoroutine(healingRt);
         
-        hp.regenHp = defaultRegenHp;
+        hp.regenHp = hp.defaultRegenHp;
         
         ModelManager.Current.RemoveMaterial(player.playerModel, healMeshEffectMaterial);
 

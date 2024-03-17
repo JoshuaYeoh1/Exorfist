@@ -46,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
         if(input.magnitude>inputClamp) input = input.normalized * inputClamp; // never go past the speed clamp
     }
 
-    void NoInput()
+    public void NoInput()
     {
         input = Vector3.zero;
     }
