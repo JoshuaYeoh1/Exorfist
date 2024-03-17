@@ -70,8 +70,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 999999999
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: fe4df5a68bc8c9d4aa90032ece14cb1c, type: 2}
-  m_sharedMaterial: {fileID: 5045647354487724866, guid: fe4df5a68bc8c9d4aa90032ece14cb1c,
+  m_fontAsset: {fileID: 11400000, guid: fa6761b56733c64499b1788428bc8489, type: 2}
+  m_sharedMaterial: {fileID: 633170214039849372, guid: fa6761b56733c64499b1788428bc8489,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -96,8 +96,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 80
-  m_fontSizeBase: 80
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -236,12 +236,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bb860821e0a17a48b3393d689e345cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetUI: {fileID: 7382735195519972188}
+  animTime: 0.5
   value: 0
   valueMax: 999999
   hideWhenFull: 0
   hideWhenEmpty: 1
-  targetUI: {fileID: 7382735195519972188}
-  animTime: 0.5
 --- !u!1 &7362035035788683717
 GameObject:
   m_ObjectHideFlags: 0
@@ -309,16 +309,16 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Chi:'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: fe4df5a68bc8c9d4aa90032ece14cb1c, type: 2}
-  m_sharedMaterial: {fileID: 5045647354487724866, guid: fe4df5a68bc8c9d4aa90032ece14cb1c,
+  m_fontAsset: {fileID: 11400000, guid: fa6761b56733c64499b1788428bc8489, type: 2}
+  m_sharedMaterial: {fileID: 633170214039849372, guid: fa6761b56733c64499b1788428bc8489,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4286706175
+  m_fontColor: {r: 1, g: 0.943291, b: 0.504717, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -335,8 +335,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 80
-  m_fontSizeBase: 80
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
