@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class UIHider : MonoBehaviour
 {
+    public TweenAnim targetUI;
+    public float animTime=.5f;
+
     public float value, valueMax;
     
     public bool hideWhenFull=true, hideWhenEmpty;
-    public InOutAnim targetUI;
-    public float animTime=.5f;
-    
     bool canShow=true, canHide;
 
     void Update()
@@ -40,7 +40,7 @@ public class UIHider : MonoBehaviour
         if(canHide)
         {
             canHide=false;
-            targetUI.animOut(animTime);
+            targetUI.TweenOut(animTime);
             Invoke("ToggleShow", animTime);  
         }
     }
@@ -49,7 +49,7 @@ public class UIHider : MonoBehaviour
         if(canShow)
         {   
             canShow=false;
-            targetUI.animIn(animTime);
+            targetUI.TweenIn(animTime);
             Invoke("ToggleHide", animTime);
         }
     }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class HPManager : MonoBehaviour
 {
     public float hp=100;
-    [HideInInspector] public float hpMax;
+    public float hpMax=100;
 
     [Header("Regeneration")]
     public bool regen;
@@ -13,62 +13,21 @@ public class HPManager : MonoBehaviour
     public float regenHp=.2f, regenInterval=.1f;
     [HideInInspector] public float defaultRegenHp;
 
-    [Header("UI Bar")]
-    public GameObject hpBarFill;
-    public InOutAnim hpBar;
-    public bool hideWhenFull=true, hideWhenEmpty;
-    public float animTime=.5f;
-
     void Awake()
     {
-        hpMax=hp;
-
         defaultRegenHp=regenHp;
-    } 
-    
-    void OnEnable()
-    {
-        StartCoroutine(HpRegenerating());
+        
+        GameEventSystem.Current.OnValueBarUpdate(gameObject, hp, hpMax);
     }
 
     void Update()
     {
-        hp = Mathf.Clamp(hp, 0, hpMax);
-
-        CheckUIBarVisibility();
+        hp = Mathf.Clamp(hp, 0, hpMax);        
     }
-
-    bool canShow=true, canHide;
-
-    void CheckUIBarVisibility()
+    
+    void OnEnable()
     {
-        if(hpBar)
-        {
-            if(canHide && ((hideWhenFull && hp>=hpMax) || (hideWhenEmpty && hp<=0)) )
-            {
-                hpBar.animOut(animTime);
-
-                canHide=false;
-                Invoke("ToggleShow", animTime);                
-            }
-
-            if(canShow && hp>0 && hp<hpMax)
-            {
-                hpBar.animIn(animTime);
-
-                canShow=false;
-                Invoke("ToggleHide", animTime);
-            }
-        }
-    }
-
-    void ToggleHide()
-    {
-        canHide=!canHide;
-    }
-    void ToggleShow()
-    {
-        canShow=!canShow;
+        StartCoroutine(HpRegenerating());
     }
 
     public void Hit(float dmg)
@@ -79,7 +38,7 @@ public class HPManager : MonoBehaviour
             else hp=0;
         }
         
-        UpdateHpBar();
+        GameEventSystem.Current.OnValueBarUpdate(gameObject, hp, hpMax);
     }    
     
     IEnumerator HpRegenerating()
@@ -92,7 +51,7 @@ public class HPManager : MonoBehaviour
             {
                 if(regen) Add(regenHp);
 
-                UpdateHpBar();
+                GameEventSystem.Current.OnValueBarUpdate(gameObject, hp, hpMax);
             }
         }
     }
@@ -101,16 +60,16 @@ public class HPManager : MonoBehaviour
     {
         if(amount < hpMax-hp) hp+=amount;
         else hp=hpMax;
+
+        GameEventSystem.Current.OnValueBarUpdate(gameObject, hp, hpMax);
     }
 
-    int hpBarLt=0;
-
-    public void UpdateHpBar()
+    public void SetHPPercent(float percent)
     {
-        if(hpBarFill)
-        {
-            LeanTween.cancel(hpBarLt);
-            hpBarLt = LeanTween.scaleX(hpBarFill, hp/hpMax, .2f).setEaseOutSine().id;
-        }
+        if(percent==0 || percent>100) return;
+
+        hp = hpMax * percent/100;
+
+        GameEventSystem.Current.OnValueBarUpdate(gameObject, hp, hpMax);
     }
 }

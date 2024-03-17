@@ -4,14 +4,30 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    List<GameObject> children = new List<GameObject>();
+
+    Dictionary<GameObject, CanvasGroup> childrenCanvasGroupsDict = new Dictionary<GameObject, CanvasGroup>();
+
     void Awake()
+    {
+        GetChildren();
+        GetChildrenCanvaGroups();
+    }
+
+    void GetChildren()
     {
         foreach(Transform child in transform)
         {
-            canvases.Add(child.gameObject);
+            children.Add(child.gameObject);
         }
-        
-        RecordCanvasGroups();
+    }
+
+    void GetChildrenCanvaGroups()
+    {
+        foreach(GameObject child in children)
+        {
+            childrenCanvasGroupsDict[child] = child.GetComponent<CanvasGroup>();
+        }
     }
 
     void OnEnable()
@@ -34,7 +50,12 @@ public class UIManager : MonoBehaviour
         {
             upgradeMenu.SetActive(true);
 
-            AlphaAllCanvasGroupsExcept(upgradeMenu, 0);
+            upgradeMenu.GetComponent<TweenAnimSequence>().Play();
+
+            SetAlpha(upgradeMenu, 0);
+            Fade(upgradeMenu, 1, .5f);
+
+            FadeAllBut(upgradeMenu, 0, .5f);
         }
     }
 
@@ -44,49 +65,54 @@ public class UIManager : MonoBehaviour
         {
             upgradeMenu.SetActive(false);
 
-            AlphaAllCanvasGroupsExcept(upgradeMenu, 1);
-        }
-    }
-    
-    List<GameObject> canvases = new List<GameObject>();
-
-    Dictionary<GameObject, CanvasGroup> canvasGroupDict = new Dictionary<GameObject, CanvasGroup>();
-
-    void RecordCanvasGroups()
-    {
-        foreach(GameObject canvas in canvases)
-        {
-            canvasGroupDict[canvas] = canvas.GetComponent<CanvasGroup>();
+            FadeAllBut(upgradeMenu, 1, .5f);
         }
     }
 
-    public void AlphaAllCanvasGroups(float alpha)
+    public void SetAlpha(GameObject child, float to)
     {
-        foreach(GameObject canvas in canvases)
-        {
-            canvasGroupDict[canvas].alpha=alpha;
-        }
+        childrenCanvasGroupsDict[child].alpha=to;
     }
 
-    public void AlphaAllCanvasGroupsExcept(GameObject excludedCanvas, float alpha)
+    Dictionary<GameObject, int> tweenIdDict = new Dictionary<GameObject, int>();
+
+    public void Fade(GameObject target, float to, float time)
     {
-        foreach(GameObject canvas in canvases)
+        if(time>0)
         {
-            if(canvas!=excludedCanvas)
+            if(tweenIdDict.ContainsKey(target))
             {
-                canvasGroupDict[canvas].alpha=alpha;
+                LeanTween.cancel(tweenIdDict[target]);
+            }
+
+            tweenIdDict[target] = LeanTween.value(childrenCanvasGroupsDict[target].alpha, to, time)
+                .setEaseInOutSine()
+                .setIgnoreTimeScale(true)
+                .setOnUpdate( (float value)=>{childrenCanvasGroupsDict[target].alpha=value;} )
+                .id;
+        }
+        else
+        {
+            childrenCanvasGroupsDict[target].alpha=to;
+        }
+    }
+
+    public void FadeAll(float alpha, float time)
+    {
+        foreach(GameObject child in children)
+        {
+            Fade(child, alpha, time);
+        }
+    }
+
+    public void FadeAllBut(GameObject excluded, float alpha, float time)
+    {
+        foreach(GameObject child in children)
+        {
+            if(child!=excluded)
+            {
+                Fade(child, alpha, time);
             }
         }
-    }
-
-    public void AlphaCanvas(GameObject selectedCanvas, float alpha)
-    {
-        foreach(GameObject canvas in canvases)
-        {
-            if(canvas==selectedCanvas)
-            {
-                canvasGroupDict[canvas].alpha=alpha;
-            }
-        }
-    }
+    }    
 }

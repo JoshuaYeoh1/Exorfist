@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     [HideInInspector] public PlayerAOE aoe;
     [HideInInspector] public PlayerLaser laser;
     [HideInInspector] public PlayerHeal heal;
+    [HideInInspector] public HPManager hp;
     public PlayerGroundbox ground;
     
     public Animator anim;
@@ -41,6 +42,7 @@ public class Player : MonoBehaviour
         aoe=GetComponent<PlayerAOE>();
         laser=GetComponent<PlayerLaser>();
         heal=GetComponent<PlayerHeal>();
+        hp=GetComponent<HPManager>();
         ragdoll=GetComponent<Ragdoller>();
 
         GameEventSystem.Current.OnSpawn(gameObject, "Player");
@@ -150,6 +152,8 @@ public class Player : MonoBehaviour
     void OnRespawn(GameObject zombo)
     {
         if(zombo!=gameObject) return;
+
+        hp.SetHPPercent(50);
 
         sm.TransitionToState(PlayerStateMachine.PlayerStates.Pause);
 

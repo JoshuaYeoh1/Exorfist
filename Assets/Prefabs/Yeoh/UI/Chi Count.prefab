@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3948663977975893129}
   - component: {fileID: 1648496307097508381}
   - component: {fileID: 4022527735033627882}
-  - component: {fileID: 5172131902345821929}
+  - component: {fileID: 7382735195519972188}
   m_Layer: 5
   m_Name: Num
   m_TagString: Untagged
@@ -152,7 +152,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 0
---- !u!114 &5172131902345821929
+--- !u!114 &7382735195519972188
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -161,22 +161,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 3628979543764116870}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdfe5b23292ebef4a83c0be5d40e5da4, type: 3}
+  m_Script: {fileID: 11500000, guid: fa76d7099fbdba040af825d9772629a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animatePosition: 0
-  startPosition: {x: 0, y: 0}
-  endPosition: {x: 0, y: 0}
-  animateRotation: 0
-  startRotation: 0
-  endRotation: 0
-  animateScale: 1
-  startScale: {x: 0, y: 0}
-  endScale: {x: 0, y: 0}
-  animateAlpha: 0
-  startAlpha: 0
-  inAlpha: 1
-  outAlpha: 0
+  animPos: 0
+  inPos: {x: 0, y: 0, z: 0}
+  outPos: {x: 0, y: 0, z: 0}
+  animRot: 0
+  inRot: {x: 0, y: 0, z: 0}
+  outRot: {x: 0, y: 0, z: 0}
+  animScale: 1
+  inScale: {x: 0, y: 0, z: 0}
+  outScale: {x: 0, y: 0, z: 0}
 --- !u!1 &6775692391195691181
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,7 +240,7 @@ MonoBehaviour:
   valueMax: 999999
   hideWhenFull: 0
   hideWhenEmpty: 1
-  targetUI: {fileID: 5172131902345821929}
+  targetUI: {fileID: 7382735195519972188}
   animTime: 0.5
 --- !u!1 &7362035035788683717
 GameObject:

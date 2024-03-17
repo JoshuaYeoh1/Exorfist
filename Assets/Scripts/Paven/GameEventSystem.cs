@@ -109,8 +109,6 @@ public class GameEventSystem : MonoBehaviour
     public event Action<GameObject, LootInfo> LootEvent;
     public event Action<GameObject> MeditateEnterEvent;
     public event Action<GameObject> MeditateExitEvent;
-    public event Action<string> ShowMenuEvent;
-    public event Action<string> HideMenuEvent;
 
     public void OnFootstep(GameObject subject, string type, Transform footstepTr)
     {
@@ -131,6 +129,16 @@ public class GameEventSystem : MonoBehaviour
     public void OnMeditateExit(GameObject monk)
     {
         MeditateExitEvent?.Invoke(monk);
+    }
+
+    //==UI actions==//
+    public event Action<GameObject, float, float> ValueBarUpdateEvent;
+    public event Action<string> ShowMenuEvent;
+    public event Action<string> HideMenuEvent;
+
+    public void OnValueBarUpdate(GameObject owner, float value, float valueMax)
+    {
+        ValueBarUpdateEvent?.Invoke(owner, value, valueMax);
     }
     public void OnShowMenu(string menuName)
     {

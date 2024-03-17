@@ -169,6 +169,7 @@ public class PlayerBlock : MonoBehaviour
             HurtInfo hurtInfo = new HurtInfo();
 
             hurtInfo.dmg=10;
+            hurtInfo.dmgBlock=10;
             hurtInfo.kbForce=1;
             hurtInfo.contactPoint=ModelManager.Current.GetColliderTop(gameObject);
             hurtInfo.speedDebuffMult=.3f;

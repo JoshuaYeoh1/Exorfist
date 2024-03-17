@@ -793,6 +793,7 @@ MonoBehaviour:
   target: {fileID: 0}
   isAlive: 1
   isGrounded: 0
+  isPaused: 0
   canMove: 0
   canTurn: 0
   canAttack: 0
@@ -938,11 +939,8 @@ MonoBehaviour:
   regenWhenEmpty: 0
   regenHp: 0.05
   regenInterval: 0.1
+  defaultRegenHp: 0
   hpBarFill: {fileID: 0}
-  hpBar: {fileID: 0}
-  hideWhenFull: 1
-  hideWhenEmpty: 1
-  animTime: 0.5
 --- !u!114 &8034719047576138773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1129,6 +1127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55419813635c713478e0ba5aba0d925d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  regenSpeed: 3
 --- !u!1 &4356791878913300190
 GameObject:
   m_ObjectHideFlags: 0
@@ -1419,11 +1418,8 @@ MonoBehaviour:
   regenWhenEmpty: 1
   regenHp: 0.5
   regenInterval: 0.1
+  defaultRegenHp: 0
   hpBarFill: {fileID: 0}
-  hpBar: {fileID: 0}
-  hideWhenFull: 1
-  hideWhenEmpty: 0
-  animTime: 0.5
 --- !u!114 &5786727586848153841
 MonoBehaviour:
   m_ObjectHideFlags: 0

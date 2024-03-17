@@ -17,15 +17,6 @@ public class HurtScript : MonoBehaviour
         maxPoise=poise;
     }
 
-    void OnEnable()
-    {
-        GameEventSystem.Current.RespawnEvent += OnRespawn;
-    }
-    void OnDisable()
-    {
-        GameEventSystem.Current.RespawnEvent -= OnRespawn;
-    }
-
     void Update()
     {
         CheckPoiseRegen();
@@ -158,12 +149,5 @@ public class HurtScript : MonoBehaviour
         hurtInfo.victimName = subjectName;
 
         GameEventSystem.Current.OnDeath(gameObject, killer, hurtInfo);
-    }
-
-    void OnRespawn(GameObject zombo)
-    {
-        if(zombo!=gameObject) return;
-        
-        hp.hp = hp.hpMax*.5f;
     }
 }
