@@ -21,6 +21,10 @@ public class SineTransform : MonoBehaviour
     public float scaleFrequency;
     public float scaleMagnitude;
     Vector3 defScale;
+
+    [Header("Time")]
+    public bool ignoreTime;
+    float time;
     
     void Awake()
     {
@@ -31,6 +35,15 @@ public class SineTransform : MonoBehaviour
 
     void Update()
     {
+        if(ignoreTime)
+        {
+            time=Time.unscaledTime;
+        }
+        else
+        {
+            time=Time.time;
+        }
+
         SinePos();
         SineRot();
         SineScale();
@@ -40,7 +53,7 @@ public class SineTransform : MonoBehaviour
     {
         if(freq!=0 && mag!=0)
         {
-            return Mathf.Sin(Time.time * freq) * mag + offset;
+            return Mathf.Sin(time * freq) * mag + offset;
         }
         return offset;
     }

@@ -67,24 +67,23 @@ public class PlayerMeditate : MonoBehaviour
         player.ResetAbilityCooldowns();
     }
 
-    void ShowUpgradeMenu()
+    void ShowUpgradeMenu() // invoked
     {
-        if(GameEventSystem.Current)
-        {
-            GameEventSystem.Current.OnShowMenu("UpgradeMenu");
-        }
-        //else 
-        Unmeditate();
+        GameEventSystem.Current.OnShowMenu("UpgradeMenu");
+
+        Time.timeScale=0;
     }
 
     void OnHideMenu(string menuName)
     {
         if(menuName!="UpgradeMenu") return;
 
-        Unmeditate();
+        Time.timeScale=1;
+
+        Invoke("Unmeditate", 1);
     }
 
-    void Unmeditate()
+    void Unmeditate() // invoked
     {
         if(isMeditating)
         {

@@ -5,29 +5,20 @@ using UnityEngine.UI;
 
 public class ButtonAnim : MonoBehaviour
 {
-    Image img;
-    SpriteRenderer sr;
-    Vector2 defscale;
-    Sprite defSprite;
-
-    public Sprite hoverSprite;
     public float animTime=.3f, scaleMult=.1f;
     bool inBtn, pressedBtn;
 
+    Vector2 defScale;
+
     void Awake()
     {
-        img = GetComponent<Image>();
-        sr = GetComponent<SpriteRenderer>();
-        defscale = transform.localScale;
-
-        ToggleHoverSprite(false);
+        defScale = transform.localScale;
     }
 
     void OnDisable()
     {
         LeanTween.cancel(gameObject);
         ResetButton();
-        ToggleHoverSprite(false);
         inBtn=pressedBtn=false;
     }
 
@@ -37,10 +28,8 @@ public class ButtonAnim : MonoBehaviour
 
         if(!pressedBtn)
         {
-            ToggleHoverSprite(true);
-
             LeanTween.cancel(gameObject);
-            LeanTween.scale(gameObject, defscale*(1+scaleMult), animTime).setEaseOutExpo().setIgnoreTimeScale(true);
+            LeanTween.scale(gameObject, defScale*(1+scaleMult), animTime).setEaseOutExpo().setIgnoreTimeScale(true);
         }
         //Singleton.instance.playSFX(Singleton.instance.sfxBtnHover,transform,false);
     }
@@ -51,10 +40,8 @@ public class ButtonAnim : MonoBehaviour
 
         if(!pressedBtn)
         {
-            ToggleHoverSprite(false);
-
             LeanTween.cancel(gameObject);
-            LeanTween.scale(gameObject, defscale, animTime).setEaseOutExpo().setIgnoreTimeScale(true);
+            LeanTween.scale(gameObject, defScale, animTime).setEaseOutExpo().setIgnoreTimeScale(true);
         }
     }
 
@@ -65,8 +52,8 @@ public class ButtonAnim : MonoBehaviour
             pressedBtn=true;
 
             LeanTween.cancel(gameObject);
-            transform.localScale = defscale*(1+scaleMult);
-            LeanTween.scale(gameObject, defscale*(1-scaleMult), animTime/2).setEaseOutExpo().setIgnoreTimeScale(true);
+            transform.localScale = defScale*(1+scaleMult);
+            LeanTween.scale(gameObject, defScale*(1-scaleMult), animTime/2).setEaseOutExpo().setIgnoreTimeScale(true);
         }
         //Singleton.instance.playSFX(Singleton.instance.sfxBtnClick,transform,false);
     }
@@ -78,31 +65,14 @@ public class ButtonAnim : MonoBehaviour
         LeanTween.cancel(gameObject);
 
         if(inBtn)
-        LeanTween.scale(gameObject, defscale*(1+scaleMult), animTime/2).setDelay(animTime/2).setEaseOutBack().setIgnoreTimeScale(true);
+        LeanTween.scale(gameObject, defScale*(1+scaleMult), animTime/2).setDelay(animTime/2).setEaseOutBack().setIgnoreTimeScale(true);
 
         else
-        LeanTween.scale(gameObject, defscale, animTime).setEaseOutBack().setIgnoreTimeScale(true);
-    }
-
-    public void ToggleHoverSprite(bool toggle)
-    {
-        if(hoverSprite)
-        {
-            if(sr)
-            {
-                if(toggle) sr.sprite=hoverSprite;
-                else sr.sprite=defSprite;
-            }
-            else if(img)
-            {
-                if(toggle) img.sprite=hoverSprite;
-                else img.sprite=defSprite;
-            }
-        }
+        LeanTween.scale(gameObject, defScale, animTime).setEaseOutBack().setIgnoreTimeScale(true);
     }
 
     public void ResetButton()
     {
-        transform.localScale = defscale;
+        transform.localScale = defScale;
     }
 }

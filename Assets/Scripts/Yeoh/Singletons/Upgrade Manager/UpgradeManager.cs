@@ -91,6 +91,18 @@ public class UpgradeManager : MonoBehaviour
         healCastTimeLvl=0;
         healCooldownLvl=0;
     }
+
+    public void UpgradeLvl(ref int typeLvl, int cost)
+    {
+        if(typeLvl<maxLvl)
+        {
+            if(chi>=cost && cost>0)
+            {
+                chi-=cost;
+                typeLvl++;
+            }
+        }
+    }
     
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -110,7 +122,15 @@ public class UpgradeManager : MonoBehaviour
         }
         return $"{aoeDmgLvlMag[aoeDmgLvl]}";
     }
-    public string GetAoeDmgNextCost()
+    public int GetAoeDmgNextCost()
+    {
+        if(aoeDmgLvl<maxLvl)
+        {
+            return aoeDmgLvlCost[aoeDmgLvl+1];
+        }
+        return -1;
+    }
+    public string GetAoeDmgNextCostChi()
     {
         if(aoeDmgLvl<maxLvl)
         {
@@ -118,7 +138,7 @@ public class UpgradeManager : MonoBehaviour
         }
         return "MAX";
     }
-        
+    
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public string GetAoeRangeLvl()
@@ -137,7 +157,15 @@ public class UpgradeManager : MonoBehaviour
         }
         return $"{aoeRangeLvlMag[aoeRangeLvl]}m";
     }
-    public string GetAoeRangeNextCost()
+    public int GetAoeRangeNextCost()
+    {
+        if(aoeRangeLvl<maxLvl)
+        {
+            return aoeRangeLvlCost[aoeRangeLvl+1];
+        }
+        return -1;
+    }
+    public string GetAoeRangeNextCostChi()
     {
         if(aoeRangeLvl<maxLvl)
         {
@@ -164,7 +192,15 @@ public class UpgradeManager : MonoBehaviour
         }
         return $"{aoeCastTimeLvlMag[aoeCastTimeLvl]}s";
     }
-    public string GetAoeCastTimeNextCost()
+    public int GetAoeCastTimeNextCost()
+    {
+        if(aoeCastTimeLvl<maxLvl)
+        {
+            return aoeCastTimeLvlCost[aoeCastTimeLvl+1];
+        }
+        return -1;
+    }
+    public string GetAoeCastTimeNextCostChi()
     {
         if(aoeCastTimeLvl<maxLvl)
         {
@@ -191,7 +227,15 @@ public class UpgradeManager : MonoBehaviour
         }
         return $"{aoeCooldownLvlMag[aoeCooldownLvl]}s";
     }
-    public string GetAoeCooldownNextCost()
+    public int GetAoeCooldownNextCost()
+    {
+        if(aoeCooldownLvl<maxLvl)
+        {
+            return aoeCooldownLvlCost[aoeCooldownLvl+1];
+        }
+        return -1;
+    }
+    public string GetAoeCooldownNextCostChi()
     {
         if(aoeCooldownLvl<maxLvl)
         {
@@ -199,7 +243,7 @@ public class UpgradeManager : MonoBehaviour
         }
         return "MAX";
     }
-        
+     
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -214,7 +258,7 @@ public class UpgradeManager : MonoBehaviour
     {
         return laserDmgLvlMag[laserDmgLvl];
     }
-    public string GetLaserNextDmg()
+    public string GetLaserNextDmgTotal()
     {
         if(laserDmgLvl<maxLvl)
         {
@@ -222,7 +266,15 @@ public class UpgradeManager : MonoBehaviour
         }
         return $"{laserDmgLvlMag[laserDmgLvl]*25}";
     }
-    public string GetLaserDmgNextCost()
+    public int GetLaserDmgNextCost()
+    {
+        if(laserDmgLvl<maxLvl)
+        {
+            return laserDmgLvlCost[laserDmgLvl+1];
+        }
+        return -1;
+    }
+    public string GetLaserDmgNextCostChi()
     {
         if(laserDmgLvl<maxLvl)
         {
@@ -230,7 +282,7 @@ public class UpgradeManager : MonoBehaviour
         }
         return "MAX";
     }
-        
+    
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public string GetLaserRangeLvl()
@@ -249,7 +301,15 @@ public class UpgradeManager : MonoBehaviour
         }
         return $"{laserRangeLvlMag[laserRangeLvl]}m";
     }
-    public string GetLaserRangeNextCost()
+    public int GetLaserRangeNextCost()
+    {
+        if(laserRangeLvl<maxLvl)
+        {
+            return laserRangeLvlCost[laserRangeLvl+1];
+        }
+        return -1;
+    }
+    public string GetLaserRangeNextCostChi()
     {
         if(laserRangeLvl<maxLvl)
         {
@@ -276,7 +336,15 @@ public class UpgradeManager : MonoBehaviour
         }
         return $"{laserCastTimeLvlMag[laserCastTimeLvl]}s";
     }
-    public string GetLaserCastTimeNextCost()
+    public int GetLaserCastTimeNextCost()
+    {
+        if(laserCastTimeLvl<maxLvl)
+        {
+            return laserCastTimeLvlCost[laserCastTimeLvl+1];
+        }
+        return -1;
+    }
+    public string GetLaserCastTimeNextCostChi()
     {
         if(laserCastTimeLvl<maxLvl)
         {
@@ -303,7 +371,15 @@ public class UpgradeManager : MonoBehaviour
         }
         return $"{laserCooldownLvlMag[laserCooldownLvl]}s";
     }
-    public string GetLaserCooldownNextCost()
+    public int GetLaserCooldownNextCost()
+    {
+        if(laserCooldownLvl<maxLvl)
+        {
+            return laserCooldownLvlCost[laserCooldownLvl+1];
+        }
+        return -1;
+    }
+    public string GetLaserCooldownNextCostChi()
     {
         if(laserCooldownLvl<maxLvl)
         {
@@ -326,7 +402,7 @@ public class UpgradeManager : MonoBehaviour
     {
         return healSpeedLvlMag[healSpeedLvl];
     }
-    public string GetHealNextDmg()
+    public string GetHealNextAmountTotal()
     {
         if(healSpeedLvl<maxLvl)
         {
@@ -334,7 +410,15 @@ public class UpgradeManager : MonoBehaviour
         }
         return $"{healSpeedLvlMag[healSpeedLvl]*10*3}HP";
     }
-    public string GetHealSpeedNextCost()
+    public int GetHealSpeedNextCost()
+    {
+        if(healSpeedLvl<maxLvl)
+        {
+            return healSpeedLvlCost[healSpeedLvl+1];
+        }
+        return -1;
+    }
+    public string GetHealSpeedNextCostChi()
     {
         if(healSpeedLvl<maxLvl)
         {
@@ -361,7 +445,15 @@ public class UpgradeManager : MonoBehaviour
         }
         return $"{healCastTimeLvlMag[healCastTimeLvl]}s";
     }
-    public string GetHealCastTimeNextCost()
+    public int GetHealCastTimeNextCost()
+    {
+        if(healCastTimeLvl<maxLvl)
+        {
+            return healCastTimeLvlCost[healCastTimeLvl+1];
+        }
+        return -1;
+    }
+    public string GetHealCastTimeNextCostChi()
     {
         if(healCastTimeLvl<maxLvl)
         {
@@ -388,7 +480,15 @@ public class UpgradeManager : MonoBehaviour
         }
         return $"{healCooldownLvlMag[healCooldownLvl]}s";
     }
-    public string GetHealCooldownNextCost()
+    public int GetHealCooldownNextCost()
+    {
+        if(healCooldownLvl<maxLvl)
+        {
+            return healCooldownLvlCost[healCooldownLvl+1];
+        }
+        return -1;
+    }
+    public string GetHealCooldownNextCostChi()
     {
         if(healCooldownLvl<maxLvl)
         {

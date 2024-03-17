@@ -518,7 +518,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 135755118}
-  - component: {fileID: 135755119}
   m_Layer: 0
   m_Name: Temple2 (9)
   m_TagString: Untagged
@@ -534,41 +533,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 135755117}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 450.5, y: -1.36, z: -6.7}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -60.10011, y: -1.36, z: 421.10007}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 723670894}
   m_Father: {fileID: 1214624630}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!114 &135755119
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 135755117}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f85a858c326856e4990a1ae680d0621f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  randomTranslateX: 0
-  randomTranslateY: 0
-  randomTranslateZ: 0
-  minTranslate: -0.1
-  maxTranslate: 0.1
-  randomRotateX: 0
-  randomRotateY: 0
-  randomRotateZ: 0
-  minRotate: -180
-  maxRotate: 180
-  randomScaleX: 1
-  randomScaleY: 1
-  randomScaleZ: 1
-  minScale: 0.5
-  maxScale: 1
 --- !u!1001 &164154073
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -737,7 +709,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 263060698}
-  - component: {fileID: 263060699}
   m_Layer: 0
   m_Name: Temple2 (3)
   m_TagString: Untagged
@@ -753,41 +724,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 263060697}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
-  m_LocalPosition: {x: 263.5, y: -1.36, z: -139.4}
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: -0.7071068}
+  m_LocalPosition: {x: 72.59993, y: -1.36, z: 234.10008}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2108248265}
   m_Father: {fileID: 1214624630}
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
---- !u!114 &263060699
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 263060697}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f85a858c326856e4990a1ae680d0621f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  randomTranslateX: 0
-  randomTranslateY: 0
-  randomTranslateZ: 0
-  minTranslate: -0.1
-  maxTranslate: 0.1
-  randomRotateX: 0
-  randomRotateY: 0
-  randomRotateZ: 0
-  minRotate: -180
-  maxRotate: 180
-  randomScaleX: 1
-  randomScaleY: 1
-  randomScaleZ: 1
-  minScale: 0.5
-  maxScale: 1
 --- !u!1 &264664927
 GameObject:
   m_ObjectHideFlags: 0
@@ -1156,7 +1100,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 371809936}
-  - component: {fileID: 371809937}
   m_Layer: 0
   m_Name: Temple2 (5)
   m_TagString: Untagged
@@ -1172,41 +1115,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 371809935}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 203.8, y: -1.36, z: 80.9}
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -147.70009, y: -1.36, z: 174.40005}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2123773851}
   m_Father: {fileID: 1214624630}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &371809937
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 371809935}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f85a858c326856e4990a1ae680d0621f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  randomTranslateX: 0
-  randomTranslateY: 0
-  randomTranslateZ: 0
-  minTranslate: -0.1
-  maxTranslate: 0.1
-  randomRotateX: 0
-  randomRotateY: 0
-  randomRotateZ: 0
-  minRotate: -180
-  maxRotate: 180
-  randomScaleX: 1
-  randomScaleY: 1
-  randomScaleZ: 1
-  minScale: 0.5
-  maxScale: 1
 --- !u!1001 &378178904
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1306,7 +1222,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 383775026}
-  - component: {fileID: 383775027}
   m_Layer: 0
   m_Name: Temple2 (4)
   m_TagString: Untagged
@@ -1322,41 +1237,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 383775025}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
-  m_LocalPosition: {x: 365.5, y: -1.36, z: -122.3}
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: -0.7071068}
+  m_LocalPosition: {x: 55.49994, y: -1.36, z: 336.10007}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1363536296}
   m_Father: {fileID: 1214624630}
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
---- !u!114 &383775027
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 383775025}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f85a858c326856e4990a1ae680d0621f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  randomTranslateX: 0
-  randomTranslateY: 0
-  randomTranslateZ: 0
-  minTranslate: -0.1
-  maxTranslate: 0.1
-  randomRotateX: 0
-  randomRotateY: 0
-  randomRotateZ: 0
-  minRotate: -180
-  maxRotate: 180
-  randomScaleX: 1
-  randomScaleY: 1
-  randomScaleZ: 1
-  minScale: 0.5
-  maxScale: 1
 --- !u!1 &403821254
 GameObject:
   m_ObjectHideFlags: 0
@@ -2375,7 +2263,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 631696699}
-  - component: {fileID: 631696700}
   m_Layer: 0
   m_Name: Temple2 (7)
   m_TagString: Untagged
@@ -2391,41 +2278,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 631696698}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 101.7, y: -1.36, z: 80.9}
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -147.70007, y: -1.36, z: 72.30001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1194757659}
   m_Father: {fileID: 1214624630}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &631696700
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 631696698}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f85a858c326856e4990a1ae680d0621f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  randomTranslateX: 0
-  randomTranslateY: 0
-  randomTranslateZ: 0
-  minTranslate: -0.1
-  maxTranslate: 0.1
-  randomRotateX: 0
-  randomRotateY: 0
-  randomRotateZ: 0
-  minRotate: -180
-  maxRotate: 180
-  randomScaleX: 1
-  randomScaleY: 1
-  randomScaleZ: 1
-  minScale: 0.5
-  maxScale: 1
 --- !u!1001 &642200513
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2969,7 +2829,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 684644738}
-  - component: {fileID: 684644739}
   m_Layer: 0
   m_Name: Temple2
   m_TagString: Untagged
@@ -2985,41 +2844,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 684644737}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: -53.6, y: -1.36, z: -104.5}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalPosition: {x: 37.699974, y: -1.36, z: -82.99998}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1057971541}
   m_Father: {fileID: 1214624630}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!114 &684644739
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 684644737}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f85a858c326856e4990a1ae680d0621f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  randomTranslateX: 0
-  randomTranslateY: 0
-  randomTranslateZ: 0
-  minTranslate: -0.1
-  maxTranslate: 0.1
-  randomRotateX: 0
-  randomRotateY: 0
-  randomRotateZ: 0
-  minRotate: -180
-  maxRotate: 180
-  randomScaleX: 1
-  randomScaleY: 1
-  randomScaleZ: 1
-  minScale: 0.5
-  maxScale: 1
 --- !u!1 &698241407
 GameObject:
   m_ObjectHideFlags: 0
@@ -3044,8 +2876,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 698241407}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.000015258798, y: 0, z: -0.000045776374}
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -66.8, y: 0, z: -29.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4572,7 +4404,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1106374392}
-  - component: {fileID: 1106374393}
   m_Layer: 0
   m_Name: Temple2 (1)
   m_TagString: Untagged
@@ -4588,41 +4419,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1106374391}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
-  m_LocalPosition: {x: 59.2, y: -1.36, z: -139.4}
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: -0.7071068}
+  m_LocalPosition: {x: 75.2, y: -1.36, z: 29.800043}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1106873374}
   m_Father: {fileID: 1214624630}
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
---- !u!114 &1106374393
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1106374391}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f85a858c326856e4990a1ae680d0621f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  randomTranslateX: 0
-  randomTranslateY: 0
-  randomTranslateZ: 0
-  minTranslate: -0.1
-  maxTranslate: 0.1
-  randomRotateX: 0
-  randomRotateY: 0
-  randomRotateZ: 0
-  minRotate: -180
-  maxRotate: 180
-  randomScaleX: 1
-  randomScaleY: 1
-  randomScaleZ: 1
-  minScale: 0.5
-  maxScale: 1
 --- !u!1001 &1106873373
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5167,8 +4971,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1214624629}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -27.300049, y: 0, z: -29.499985}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5183,7 +4987,7 @@ Transform:
   - {fileID: 1393118280}
   - {fileID: 1579002622}
   - {fileID: 135755118}
-  m_Father: {fileID: 2022646175}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1235205273
 PrefabInstance:
@@ -5895,7 +5699,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1393118280}
-  - component: {fileID: 1393118281}
   m_Layer: 0
   m_Name: Temple2 (8)
   m_TagString: Untagged
@@ -5911,41 +5714,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1393118279}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 306, y: -1.36, z: 80.9}
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -147.70009, y: -1.36, z: 276.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1113441189}
   m_Father: {fileID: 1214624630}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1393118281
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1393118279}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f85a858c326856e4990a1ae680d0621f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  randomTranslateX: 0
-  randomTranslateY: 0
-  randomTranslateZ: 0
-  minTranslate: -0.1
-  maxTranslate: 0.1
-  randomRotateX: 0
-  randomRotateY: 0
-  randomRotateZ: 0
-  minRotate: -180
-  maxRotate: 180
-  randomScaleX: 1
-  randomScaleY: 1
-  randomScaleZ: 1
-  minScale: 0.5
-  maxScale: 1
 --- !u!1 &1403786885
 GameObject:
   m_ObjectHideFlags: 0
@@ -5955,7 +5731,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1403786886}
-  - component: {fileID: 1403786887}
   m_Layer: 0
   m_Name: Temple2 (2)
   m_TagString: Untagged
@@ -5971,41 +5746,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1403786885}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
-  m_LocalPosition: {x: 161.3, y: -1.36, z: -139.4}
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: -0.7071068}
+  m_LocalPosition: {x: 72.599945, y: -1.36, z: 131.90005}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 852267521}
   m_Father: {fileID: 1214624630}
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
---- !u!114 &1403786887
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1403786885}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f85a858c326856e4990a1ae680d0621f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  randomTranslateX: 0
-  randomTranslateY: 0
-  randomTranslateZ: 0
-  minTranslate: -0.1
-  maxTranslate: 0.1
-  randomRotateX: 0
-  randomRotateY: 0
-  randomRotateZ: 0
-  minRotate: -180
-  maxRotate: 180
-  randomScaleX: 1
-  randomScaleY: 1
-  randomScaleZ: 1
-  minScale: 0.5
-  maxScale: 1
 --- !u!1001 &1412653095
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7143,7 +6891,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1579002622}
-  - component: {fileID: 1579002623}
   m_Layer: 0
   m_Name: Temple2 (6)
   m_TagString: Untagged
@@ -7159,41 +6906,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1579002621}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 408, y: -1.36, z: 102.2}
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -169.00012, y: -1.36, z: 378.60007}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 787944002}
   m_Father: {fileID: 1214624630}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1579002623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1579002621}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f85a858c326856e4990a1ae680d0621f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  randomTranslateX: 0
-  randomTranslateY: 0
-  randomTranslateZ: 0
-  minTranslate: -0.1
-  maxTranslate: 0.1
-  randomRotateX: 0
-  randomRotateY: 0
-  randomRotateZ: 0
-  minRotate: -180
-  maxRotate: 180
-  randomScaleX: 1
-  randomScaleY: 1
-  randomScaleZ: 1
-  minScale: 0.5
-  maxScale: 1
 --- !u!1001 &1579955843
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8007,11 +7727,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: 0.0000000010020335
-      objectReference: {fileID: 0}
-    - target: {fileID: 1986723283494834664, guid: 67d6799e838426147b653ff1534ff4ed,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5145029185369822762, guid: 67d6799e838426147b653ff1534ff4ed,
         type: 3}
@@ -9168,7 +8883,6 @@ Transform:
   m_Children:
   - {fileID: 1094145974}
   - {fileID: 6253832028455655319}
-  - {fileID: 1214624630}
   - {fileID: 472065067}
   - {fileID: 610780539}
   - {fileID: 264664928}
@@ -14773,6 +14487,7 @@ SceneRoots:
   - {fileID: 1274687490}
   - {fileID: 1845190748}
   - {fileID: 515781569}
+  - {fileID: 1214624630}
   - {fileID: 410087041}
   - {fileID: 1077411548}
   - {fileID: 2022646175}

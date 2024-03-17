@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WiggleTransform : MonoBehaviour
+public class WiggleRect : MonoBehaviour
 {
+    RectTransform rect;
     Vector3 seed;
 
     [Header("Position")]
@@ -30,11 +31,12 @@ public class WiggleTransform : MonoBehaviour
     
     void Awake()
     {
+        rect = GetComponent<RectTransform>();
         seed = new Vector3(Random.value*999, Random.value*999, Random.value*999);
 
-        defPos=transform.localPosition;
-        defRot=transform.localEulerAngles;
-        defScale=transform.localScale;
+        defPos=rect.localPosition;
+        defRot=rect.localEulerAngles;
+        defScale=rect.localScale;
     }
 
     void Update()
@@ -66,7 +68,7 @@ public class WiggleTransform : MonoBehaviour
     {
         if(!wigglePos)
         {
-            transform.localPosition = defPos;
+            rect.localPosition = defPos;
             return;
         }
 
@@ -79,14 +81,14 @@ public class WiggleTransform : MonoBehaviour
             Wiggle(seed.z, posFrequency.z, posMagnitude.z)
         );
 
-        transform.localPosition = defPos + wiggle;
+        rect.localPosition = defPos + wiggle;
     }
 
     void WiggleRot()
     {
         if(!wiggleRot)
         {
-            transform.localEulerAngles = defRot;
+            rect.localEulerAngles = defRot;
             return;
         }
         
@@ -99,14 +101,14 @@ public class WiggleTransform : MonoBehaviour
             Wiggle(seed.z, rotFrequency.z, rotMagnitude.z)
         );
 
-        transform.localEulerAngles = defRot + wiggle;
+        rect.localEulerAngles = defRot + wiggle;
     }
 
     void WiggleScale()
     {
         if(!wiggleScale)
         {
-            transform.localScale = defScale;
+            rect.localScale = defScale;
             return;
         }
         
@@ -119,7 +121,7 @@ public class WiggleTransform : MonoBehaviour
             Wiggle(seed.x, scaleFrequency, scaleMagnitude, scaleMagnitude)
         );
 
-        transform.localScale = defScale + wiggle;
+        rect.localScale = defScale + wiggle;
     }
 
     public void ShakePos(float time)

@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdd1c51a780397847a067ea593e4e343, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  upgradeMenu: {fileID: 2527790162696323826}
 --- !u!1001 &1158628183394366060
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -60,6 +61,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Upgrade Menu Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 3675154944136573086, guid: 4c73cdbee4ca4be458f16e081af94ce2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9150099677316508262, guid: 4c73cdbee4ca4be458f16e081af94ce2,
         type: 3}
@@ -166,6 +172,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c73cdbee4ca4be458f16e081af94ce2, type: 3}
+--- !u!1 &2527790162696323826 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3675154944136573086, guid: 4c73cdbee4ca4be458f16e081af94ce2,
+    type: 3}
+  m_PrefabInstance: {fileID: 1158628183394366060}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &7993864174036310026 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9150099677316508262, guid: 4c73cdbee4ca4be458f16e081af94ce2,

@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TransformAnimation : MonoBehaviour
+public class RectAnimation : MonoBehaviour
 {
+    RectTransform rect;
+
     [Header("Rotation")]
     public bool animateRotation;
     public Vector3 rotateAngles;
@@ -12,6 +14,11 @@ public class TransformAnimation : MonoBehaviour
     [Header("Time")]
     public bool ignoreTime;
     float deltaTime;
+
+    void Awake()
+    {
+        rect = GetComponent<RectTransform>();
+    }
 
     void Update()
     {
@@ -29,8 +36,7 @@ public class TransformAnimation : MonoBehaviour
 
     void RotationAnim()
     {
-        transform.localEulerAngles += rotateAngles * rotateSpeed * deltaTime;
-;
+        rect.localEulerAngles += rotateAngles * rotateSpeed * deltaTime;
     }
 
     //public bool rotatePingPong;
