@@ -84,9 +84,9 @@ MonoBehaviour:
   randomRotateZ: 0
   minRotate: -180
   maxRotate: 180
-  randomScaleX: 1
-  randomScaleY: 1
-  randomScaleZ: 1
+  randomScaleX: 0
+  randomScaleY: 0
+  randomScaleZ: 0
   minScale: 0.9
   maxScale: 1.1
 --- !u!114 &617120337389320314
@@ -96,14 +96,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9044250876419454506}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 43272ddc5c9d7204ab0e6a6a917e90a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animateRotation: 1
+  animateRotation: 0
   rotateAngles: {x: 0, y: 360, z: 0}
   rotateSpeed: 3
+  ignoreTime: 0
 --- !u!1001 &869501663181175105
 PrefabInstance:
   m_ObjectHideFlags: 0
