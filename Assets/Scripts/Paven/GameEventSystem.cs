@@ -109,6 +109,8 @@ public class GameEventSystem : MonoBehaviour
     public event Action<GameObject, LootInfo> LootEvent;
     public event Action<GameObject> MeditateEnterEvent;
     public event Action<GameObject> MeditateExitEvent;
+    public event Action<GameObject> IntroCamStartEvent;
+    public event Action<GameObject> IntroCamEndEvent;
 
     public void OnFootstep(GameObject subject, string type, Transform footstepTr)
     {
@@ -129,6 +131,14 @@ public class GameEventSystem : MonoBehaviour
     public void OnMeditateExit(GameObject monk)
     {
         MeditateExitEvent?.Invoke(monk);
+    }
+    public void OnIntroCamStart(GameObject cam)
+    {
+        IntroCamStartEvent?.Invoke(cam);
+    }
+    public void OnIntroCamEnd(GameObject cam)
+    {
+        IntroCamEndEvent?.Invoke(cam);
     }
 
     //==UI actions==//

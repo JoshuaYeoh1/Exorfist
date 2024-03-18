@@ -54,11 +54,15 @@ public class Player : MonoBehaviour
     {
         GameEventSystem.Current.DeathEvent += OnDeath;
         GameEventSystem.Current.RespawnEvent += OnRespawn;
+        GameEventSystem.Current.IntroCamStartEvent += OnIntroCamStart;
+        GameEventSystem.Current.IntroCamEndEvent += OnIntroCamEnd;
     }
     void OnDisable()
     {
         GameEventSystem.Current.DeathEvent -= OnDeath;
         GameEventSystem.Current.RespawnEvent -= OnRespawn;
+        GameEventSystem.Current.IntroCamStartEvent -= OnIntroCamStart;
+        GameEventSystem.Current.IntroCamEndEvent -= OnIntroCamEnd;
     }
 
     void Update()
@@ -172,5 +176,15 @@ public class Player : MonoBehaviour
         aoe.ResetCooldown();
         laser.ResetCooldown();
         heal.ResetCooldown();
+    }
+
+    void OnIntroCamStart(GameObject cam)
+    {
+        sm.TransitionToState(PlayerStateMachine.PlayerStates.Pause);
+    }
+
+    void OnIntroCamEnd(GameObject cam)
+    {
+        sm.TransitionToState(PlayerStateMachine.PlayerStates.Idle);
     }
 }
