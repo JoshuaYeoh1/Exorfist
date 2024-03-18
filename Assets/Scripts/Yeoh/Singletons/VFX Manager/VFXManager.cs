@@ -229,7 +229,7 @@ public class VFXManager : MonoBehaviour
         {
             SpawnShockwave(lootInfo.contactPoint, Color.white);
 
-            SpawnPopUpText(ModelManager.Current.GetColliderTop(looter), $"+{lootInfo.quantity}", Color.white, Vector3.one*2);
+            //SpawnPopUpText(ModelManager.Current.GetColliderTop(looter), $"+{lootInfo.quantity}", Color.white, Vector3.one*2); // too cluttered
 
             ModelManager.Current.FlashColor(looter, 1, 1, 1);
 
