@@ -31,4 +31,9 @@ public class EnterRoomPopup : MonoBehaviour
             Debug.LogError("Player is null, cannot enter room!");
         }
     }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }

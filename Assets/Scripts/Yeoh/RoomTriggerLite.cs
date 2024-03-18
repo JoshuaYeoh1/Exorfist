@@ -11,7 +11,8 @@ public class RoomTrigger : MonoBehaviour
 
     bool roomActive;
     bool canSpawn=true;
-
+    [SerializeField] bool lastRoom;
+    [SerializeField] GameObject gameFinishPopup;
     void Awake()
     {
         ToggleBarriers(false);
@@ -109,6 +110,10 @@ public class RoomTrigger : MonoBehaviour
             canSpawn=false;
             ToggleBarriers(false);
             activeEnemies.Clear();
+            if(lastRoom == true)
+            {
+                Instantiate(gameFinishPopup);
+            }
         }
     }
 }
