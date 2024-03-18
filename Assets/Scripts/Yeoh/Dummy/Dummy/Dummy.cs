@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Dummy : MonoBehaviour
 {
+    public bool spawnEnemy=true;
+    public GameObject ragdollPrefab;
     public GameObject[] enemyPrefabs;
     HurtScript hurt;
 
@@ -36,7 +38,12 @@ public class Dummy : MonoBehaviour
     {
         if(victim!=gameObject) return;
         
+        if(spawnEnemy)
         Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], transform.position, Quaternion.identity);
+
+        Ragdoller ragdoll = Instantiate(ragdollPrefab, transform.position, transform.rotation).GetComponent<Ragdoller>();
+
+        ragdoll.PushRagdoll(hurtInfo.kbForce, hurtInfo.contactPoint);
 
         Destroy(gameObject);
     }    

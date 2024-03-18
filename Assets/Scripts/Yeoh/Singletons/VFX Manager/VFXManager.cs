@@ -176,7 +176,7 @@ public class VFXManager : MonoBehaviour
             {
                 CameraManager.Current.Shake(.5f, 3);
 
-                HitStop(.05f, .1f);
+                HitStop(.01f, .02f);
 
                 SpawnShockwave(ModelManager.Current.GetColliderCenter(caster), Color.yellow);
 
@@ -184,7 +184,7 @@ public class VFXManager : MonoBehaviour
             }
             else if(abilityName=="Laser")
             {
-                HitStop(.05f, .1f);
+                HitStop(.01f, .02f);
 
                 SpawnShockwave(ModelManager.Current.GetColliderCenter(caster), Color.yellow);
             }
@@ -268,7 +268,7 @@ public class VFXManager : MonoBehaviour
 
     [HideInInspector] public bool canHitStop=true;
 
-    public void HitStop(float fadeIn=.01f, float wait=.05f, float fadeOut=.25f)
+    public void HitStop(float fadeIn=.01f, float wait=.01f, float fadeOut=.25f)
     {
         if(canHitStop)
         {

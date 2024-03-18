@@ -466,8 +466,8 @@ MonoBehaviour:
   hurtbox: {fileID: 130636281069088801}
   ragdollPrefab: {fileID: 1228667488246187926, guid: 62a7e4244e3f5654c9d5b4f9078f328a,
     type: 3}
-  chiDropMin: 4
-  chiDropMax: 6
+  chiDropMin: 5
+  chiDropMax: 10
   chiSpawnpoint: {fileID: 7019339008450553265}
 --- !u!114 &9165865967378411293
 MonoBehaviour:
@@ -645,7 +645,7 @@ MonoBehaviour:
   subjectName: Enemy2
   iframe: 0
   iframeTime: 0.1
-  poise: 30
+  poise: 20
   poiseRegenDelay: 3
 --- !u!1 &2071822400053130105
 GameObject:
