@@ -29,8 +29,8 @@ public class TransformAnimation : MonoBehaviour
 
     void RotationAnim()
     {
+        if(animateRotation)
         transform.localEulerAngles += rotateAngles * rotateSpeed * deltaTime;
-;
     }
 
     //public bool rotatePingPong;
