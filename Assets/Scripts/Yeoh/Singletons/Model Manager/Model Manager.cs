@@ -247,7 +247,7 @@ public class ModelManager : MonoBehaviour
     {
         OffsetColor(target, r, g, b);
         yield return new WaitForSeconds(t);
-        RevertColor(target);
+        if(target) RevertColor(target);
     }
 
     // TOP VERTEX FINDER
