@@ -93,7 +93,7 @@ public class SFXManager : MonoBehaviour
 
         if(victim.tag=="Player")
         {
-
+            
         }
         else
         {

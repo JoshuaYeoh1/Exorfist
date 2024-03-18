@@ -27,8 +27,11 @@ public class TweenAnim : MonoBehaviour
         defPos = transform.position;
         defRot = transform.eulerAngles;
         defScale = transform.localScale;
+    }
 
-        Reset();
+    void Start()
+    {
+        Reset(); // Must put in start otherwise buttonanim dissappears in mobile only
     }
 
     public void Reset()
