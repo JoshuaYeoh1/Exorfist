@@ -7,6 +7,9 @@ public class RoomTrigger : MonoBehaviour
     public List<GameObject> barriers = new List<GameObject>();
     public List<Transform> enemySpawnpoints = new List<Transform>();
     public List<GameObject> enemyPrefabs = new List<GameObject>();
+
+    public GameObject waypointPrefab;
+    public Transform wayPointSpawnpoint;
     List<GameObject> activeEnemies = new List<GameObject>();
 
     bool roomActive;
@@ -113,6 +116,10 @@ public class RoomTrigger : MonoBehaviour
             if(lastRoom == true)
             {
                 Instantiate(gameFinishPopup);
+            }
+            if(waypointPrefab != null && wayPointSpawnpoint != null) 
+            {
+                Instantiate(waypointPrefab, wayPointSpawnpoint);
             }
         }
     }
