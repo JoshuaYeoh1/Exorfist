@@ -71,6 +71,7 @@ public class SFXManager : MonoBehaviour
         GameEventSystem.Current.PlayerSoundEvent += OnSoundPlayer;
         GameEventSystem.Current.AbilityCastEvent += OnAbilityCast;
         GameEventSystem.Current.AbilityEndEvent += OnAbilityEnd;
+        GameEventSystem.Current.LootEvent += OnLootEvent;
     }
     void OnDisable()
     {
@@ -300,6 +301,18 @@ public class SFXManager : MonoBehaviour
         else
         {
             Debug.Log("There is no sound in the EnvironmentClip dictionary defined as " + searchKey);
+        }
+    }
+
+    void OnLootEvent(GameObject looter, LootInfo lootinfo)
+    {
+        switch (lootinfo.lootName)
+        {
+            case "Chi":
+                AudioManager.Current.PlaySFX(SFXClipsPlayer[4], looter.transform.position);
+                break;
+            default:
+                break;
         }
     }
 }
