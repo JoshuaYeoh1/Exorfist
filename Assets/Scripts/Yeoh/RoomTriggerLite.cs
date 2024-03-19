@@ -33,6 +33,7 @@ public class RoomTrigger : MonoBehaviour
         if(otherRb && otherRb.gameObject.tag=="Player")
         {
             SpawnEnemies();
+            GameEventSystem.Current?.OnRoomEnter();
         }
     }
 

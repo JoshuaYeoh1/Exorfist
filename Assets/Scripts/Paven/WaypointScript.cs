@@ -16,6 +16,15 @@ public class WaypointScript : MonoBehaviour
         StartCoroutine(DestroyAfterTime());
     }
 
+    private void OnEnable()
+    {
+        GameEventSystem.Current.RoomEnterEvent += DestroySelf;
+    }
+    private void OnDisable()
+    {
+        GameEventSystem.Current.RoomEnterEvent -= DestroySelf;
+    }
+
     private void Update()
     {
         if (upPos != null && originalPos != null)
@@ -34,6 +43,11 @@ public class WaypointScript : MonoBehaviour
     private IEnumerator DestroyAfterTime()
     {
         yield return new WaitForSeconds(lifetime);
+        Destroy(gameObject);
+    }
+
+    private void DestroySelf()
+    {
         Destroy(gameObject);
     }
 }
