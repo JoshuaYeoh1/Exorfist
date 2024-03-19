@@ -84,6 +84,8 @@ public class PlayerBlockMeter : MonoBehaviour
 
         GameEventSystem.Current.OnBlock(block.gameObject, attacker, hurtInfo);
 
+        AudioManager.Current.PlayVoice(block.player.voice, SFXManager.Current.voicePlayerBlock, false);
+
         //move to sfx manager later
         //Singleton.instance.PlaySFX(Singleton.instance.sfxSubwoofer, transform.position, false);
     }

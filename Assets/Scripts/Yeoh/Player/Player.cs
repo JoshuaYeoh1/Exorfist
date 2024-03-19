@@ -30,6 +30,8 @@ public class Player : MonoBehaviour
     [HideInInspector] public Transform respawnPoint;
     public CinemachineVirtualCamera faceCamera;
 
+    public AudioSource voice;
+
     void Awake()
     {
         sm=GetComponent<PlayerStateMachine>();
@@ -52,6 +54,7 @@ public class Player : MonoBehaviour
 
     void OnEnable()
     {
+        GameEventSystem.Current.HurtEvent += OnHurt;
         GameEventSystem.Current.DeathEvent += OnDeath;
         GameEventSystem.Current.RespawnEvent += OnRespawn;
         GameEventSystem.Current.IntroCamStartEvent += OnIntroCamStart;
@@ -59,15 +62,26 @@ public class Player : MonoBehaviour
     }
     void OnDisable()
     {
+        GameEventSystem.Current.HurtEvent -= OnHurt;
         GameEventSystem.Current.DeathEvent -= OnDeath;
         GameEventSystem.Current.RespawnEvent -= OnRespawn;
         GameEventSystem.Current.IntroCamStartEvent -= OnIntroCamStart;
         GameEventSystem.Current.IntroCamEndEvent -= OnIntroCamEnd;
     }
 
+    AudioSource sfxLowHpLoop;
+
+    void Start()
+    {
+        sfxLowHpLoop = AudioManager.Current.LoopSFX(gameObject, SFXManager.Current.sfxUILowHealth, false, false);
+        sfxLowHpLoop.volume=0;
+    }
+
     void Update()
     {
         CheckTargetPriority();
+
+        if(sfxLowHpLoop) sfxLowHpLoop.volume = 1-(hp.hp/hp.hpMax);
     }
 
     void CheckTargetPriority()
@@ -129,6 +143,10 @@ public class Player : MonoBehaviour
         Respawn(3);
 
         CameraManager.Current.ChangeCamera(faceCamera);
+
+        AudioManager.Current.PlayVoice(voice, SFXManager.Current.voicePlayerHurtHigh, false);
+
+        UpgradeManager.Current.chi+=5;
     }
 
     void RandDeathAnim()
@@ -186,5 +204,23 @@ public class Player : MonoBehaviour
     void OnIntroCamEnd(GameObject cam)
     {
         sm.TransitionToState(PlayerStateMachine.PlayerStates.Idle);
+    }
+
+    void OnHurt(GameObject victim, GameObject attacker, HurtInfo hurtInfo)
+    {
+        if(victim!=gameObject) return;
+
+        if(hp.hp>hp.hpMax*.66f)
+        {
+            AudioManager.Current.PlayVoice(voice, SFXManager.Current.voicePlayerHurtLow, false);
+        }
+        else if(hp.hp>hp.hpMax*.33f)
+        {
+            AudioManager.Current.PlayVoice(voice, SFXManager.Current.voicePlayerHurtMid, false);
+        }
+        else
+        {
+            AudioManager.Current.PlayVoice(voice, SFXManager.Current.voicePlayerHurtHigh, false);
+        }
     }
 }

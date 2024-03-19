@@ -145,7 +145,7 @@ public class VFXManager : MonoBehaviour
         }
         else
         {
-            SpawnPopUpText(ModelManager.Current.GetColliderTop(victim), "DEAD!", Color.grey, Vector3.one*2);
+            SpawnPopUpText(ModelManager.Current.GetColliderTop(victim), "DEAD!", Color.red, Vector3.one*2);
         }
     }
     
@@ -211,6 +211,8 @@ public class VFXManager : MonoBehaviour
                 SpawnEnemy2Slam(caster.transform.position);
 
                 ModelManager.Current.FlashColor(caster, .5f, -.5f, -.5f);
+
+                AudioManager.Current.PlaySFX(SFXManager.Current.sfxEnemy2Slam, caster.transform.position);
             }
         }
     }

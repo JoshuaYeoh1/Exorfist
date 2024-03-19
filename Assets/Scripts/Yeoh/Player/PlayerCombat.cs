@@ -49,6 +49,15 @@ public class PlayerCombat : MonoBehaviour
                 if(endingComboRt!=null) StopCoroutine(endingComboRt);
 
                 buffer.lastPressedLightAttack=-1;
+
+                if(lightComboCounter < lightCombo.Count*.5f)
+                {
+                    AudioManager.Current.PlayVoice(player.voice, SFXManager.Current.voicePlayerAttackLow, false);
+                }
+                else
+                {
+                    AudioManager.Current.PlayVoice(player.voice, SFXManager.Current.voicePlayerAttackMid, false);
+                }
             }
 
             else if(type=="heavy" && heavyComboCounter < heavyCombo.Count-1)
@@ -68,6 +77,8 @@ public class PlayerCombat : MonoBehaviour
                 if(endingComboRt!=null) StopCoroutine(endingComboRt);
 
                 buffer.lastPressedHeavyAttack=-1;
+
+                AudioManager.Current.PlayVoice(player.voice, SFXManager.Current.voicePlayerAttackHigh, false);
             }
         }
     }

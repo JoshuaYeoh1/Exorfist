@@ -47,9 +47,16 @@ public class PlayerAOE : MonoBehaviour
 
             GameEventSystem.Current.OnAbilityCasting(gameObject, "AOE");
         }
+        else
+        {
+            //AudioManager.Current.PlaySFX(SFXManager.Current.sfxUICooldown, transform.position, false);
+            // input buffer spams the shit outta this
+        }
     }
     
     bool isCasting;
+
+    AudioSource sfxCastingLoop;
 
     Coroutine castingRt;
     IEnumerator Casting()
@@ -66,6 +73,8 @@ public class PlayerAOE : MonoBehaviour
 
         castTime = UpgradeManager.Current.GetAoeCastTime();
 
+        sfxCastingLoop = AudioManager.Current.LoopSFX(gameObject, SFXManager.Current.sfxCastingLoop);
+
         yield return new WaitForSeconds(castTime);
 
         player.sm.TransitionToState(PlayerStateMachine.PlayerStates.Cast);
@@ -73,6 +82,12 @@ public class PlayerAOE : MonoBehaviour
         isCasting=false;
 
         player.anim.CrossFade("aoe", .25f, 2, 0);
+
+        if(sfxCastingLoop) AudioManager.Current.StopLoop(sfxCastingLoop);
+
+        AudioManager.Current.PlaySFX(SFXManager.Current.sfxCharge, transform.position);
+
+        AudioManager.Current.PlayVoice(player.voice, SFXManager.Current.voicePlayerAttackEpic, false);
     }
 
     public void Release()
@@ -146,6 +161,8 @@ public class PlayerAOE : MonoBehaviour
             HideCastingBar();
 
             DisableCastTrails();
+
+            if(sfxCastingLoop) AudioManager.Current.StopLoop(sfxCastingLoop);
         }
     }
 

@@ -120,6 +120,8 @@ public class PlayerAnim : MonoBehaviour
             Transform footstepTr = type=="left" ? footstepLTr : footstepRTr;
 
             GameEventSystem.Current.OnFootstep(player.gameObject, type, footstepTr);
+
+            AudioManager.Current.PlaySFX(SFXManager.Current.sfxFstPlayer, footstepTr.position);
         }
     }
 

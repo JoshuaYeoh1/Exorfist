@@ -108,6 +108,8 @@ public class CameraManager : MonoBehaviour
                 c.Priority = 0;
             }
         }
+
+        AudioManager.Current.PlaySFX(SFXManager.Current.sfxUICameraPan, transform.position, false);
     }
 
     public bool IsCurrentCamera(CinemachineVirtualCamera camera)
@@ -192,6 +194,8 @@ public class CameraManager : MonoBehaviour
             .setEaseInOutSine()
             .setOnUpdate( (float value)=>{currentCamera.m_Lens.FieldOfView=value;} )
             .id;
+
+        AudioManager.Current.PlaySFX(SFXManager.Current.sfxUICameraPan, transform.position, false);
     }
     
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -205,7 +209,7 @@ public class CameraManager : MonoBehaviour
             .setOnUpdate( (float value)=>{currentCamera.m_Lens.OrthographicSize=value;} )
             .id;
 
-        //Singleton.instance.playSFX(Singleton.instance.sfxCamPan, transform, false);
+        AudioManager.Current.PlaySFX(SFXManager.Current.sfxUICameraPan, transform.position, false);
     }
         
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////

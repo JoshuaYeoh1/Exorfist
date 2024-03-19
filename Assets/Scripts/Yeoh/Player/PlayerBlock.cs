@@ -144,6 +144,8 @@ public class PlayerBlock : MonoBehaviour
         hurt.DoIFraming(hurt.iframeTime, -.5f, .5f, -.5f); // flicker green
 
         GameEventSystem.Current.OnParry(gameObject, attacker, hurtInfo);
+
+        AudioManager.Current.PlayVoice(player.voice, SFXManager.Current.voicePlayerAttackLow, false);
     }
 
     [HideInInspector] public Vector3 blockedPoint;

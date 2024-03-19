@@ -109265,8 +109265,22 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 0.15555556
+    functionName: SfxSwingBig
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 0.17777778
     functionName: PlayLeapSound
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.26666668
+    functionName: SfxEnemy2Jump
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -109286,8 +109300,43 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 0.37777779
+    functionName: SfxSwingSmall
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.4
+    functionName: SfxFstEnemy2
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.0222223
+    functionName: SfxSwingSmall
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.0222223
+    functionName: SfxFstEnemy2
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 1.0444444
     functionName: SetPreparedAttackToFalse
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.0888889
+    functionName: SlamEvent
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -109307,8 +109356,15 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.0888889
-    functionName: SlamEvent
+  - time: 1.1333333
+    functionName: SfxFstEnemy2
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 2.0222223
+    functionName: SfxFstEnemy2
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -109316,6 +109372,13 @@ AnimationClip:
     messageOptions: 0
   - time: 2.0444446
     functionName: StartAtkCooldown
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 2.0444446
+    functionName: SetNavMeshAgentSpeedToDefault
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -109330,13 +109393,6 @@ AnimationClip:
     messageOptions: 0
   - time: 2.0444446
     functionName: StopActiveCoroutine
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 2.0444446
-    functionName: SetNavMeshAgentSpeedToDefault
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

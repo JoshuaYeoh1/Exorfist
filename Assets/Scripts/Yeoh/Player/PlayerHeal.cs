@@ -52,9 +52,16 @@ public class PlayerHeal : MonoBehaviour
 
             GameEventSystem.Current.OnAbilityCasting(gameObject, "Heal");
         }
+        else
+        {
+            //AudioManager.Current.PlaySFX(SFXManager.Current.sfxUICooldown, transform.position, false);
+            // input buffer spams the shit outta this
+        }
     }
     
     bool isCasting;
+
+    AudioSource sfxCastingLoop;
 
     Coroutine castingRt;
     IEnumerator Casting()
@@ -71,6 +78,8 @@ public class PlayerHeal : MonoBehaviour
 
         castTime = UpgradeManager.Current.GetHealCastTime();
 
+        sfxCastingLoop = AudioManager.Current.LoopSFX(gameObject, SFXManager.Current.sfxCastingLoop);
+
         yield return new WaitForSeconds(castTime);
 
         player.sm.TransitionToState(PlayerStateMachine.PlayerStates.Cast);
@@ -78,6 +87,10 @@ public class PlayerHeal : MonoBehaviour
         isCasting=false;
 
         player.anim.CrossFade("heal", .25f, 2, 0);
+
+        if(sfxCastingLoop) AudioManager.Current.StopLoop(sfxCastingLoop);
+
+        AudioManager.Current.PlaySFX(SFXManager.Current.sfxCharge, transform.position);
     }
 
     public void Release()
@@ -87,6 +100,9 @@ public class PlayerHeal : MonoBehaviour
         GameEventSystem.Current.OnAbilityCast(gameObject, "Heal");
 
         StartHeal();
+
+        AudioManager.Current.PlaySFX(SFXManager.Current.sfxHeal1, transform.position);
+        AudioManager.Current.PlaySFX(SFXManager.Current.sfxHeal2, transform.position);
     }
 
     public void StartHeal()
@@ -170,6 +186,8 @@ public class PlayerHeal : MonoBehaviour
             HideCastingBar();
 
             DisableCastTrails();
+
+            if(sfxCastingLoop) AudioManager.Current.StopLoop(sfxCastingLoop);
         }
     }
 

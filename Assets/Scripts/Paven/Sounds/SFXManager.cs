@@ -86,27 +86,23 @@ public class SFXManager : MonoBehaviour
         GameEventSystem.Current.EnemySoundEvent -= OnSoundEnemy;
         GameEventSystem.Current.PlayerSoundEvent -= OnSoundPlayer;
         GameEventSystem.Current.AbilityCastEvent -= OnAbilityCast;
+        GameEventSystem.Current.AbilityEndEvent -= OnAbilityEnd;
+        GameEventSystem.Current.LootEvent -= OnLootEvent;
     }
 
     void OnHit(GameObject attacker, GameObject victim, HurtInfo hurtInfo)
     {
-        AudioManager.Current?.PlaySFX(PunchClips, victim.transform.position);
-
-        if(victim.tag=="Player")
+        if(attacker.tag=="Player")
         {
             
         }
         else
         {
-            if(hurtInfo.victimName=="Enemy1")
+            if(hurtInfo.attackerName=="Enemy1")
             {
 
             }
-            if(hurtInfo.victimName=="Enemy2")
-            {
-
-            }
-            if(hurtInfo.victimName=="Dummy")
+            if(hurtInfo.attackerName=="Enemy2")
             {
 
             }
@@ -115,9 +111,13 @@ public class SFXManager : MonoBehaviour
 
     void OnHurt(GameObject victim, GameObject attacker, HurtInfo hurtInfo)
     {
+        AudioManager.Current?.PlaySFX(PunchClips, victim.transform.position);
+        AudioManager.Current.PlaySFX(sfxGenericHit, victim.transform.position);
+        AudioManager.Current.PlaySFX(sfxH2hHit, victim.transform.position);
+
         if(victim.tag=="Player")
         {
-
+            AudioManager.Current.PlaySFX(sfxUIHurt, victim.transform.position, false);
         }
         else
         {
@@ -131,8 +131,37 @@ public class SFXManager : MonoBehaviour
             }
             if(hurtInfo.victimName=="Dummy")
             {
-
+                AudioManager.Current.PlaySFX(sfxDummyHit, victim.transform.position);
             }
+        }
+
+        if(hurtInfo.attackName=="Light")
+        {
+            
+        }
+        if(hurtInfo.attackName=="Heavy")
+        {
+            AudioManager.Current.PlaySFX(sfxH2hHeavyHit, victim.transform.position);
+        }
+        if(hurtInfo.attackName=="Enemy1")
+        {
+        }
+        if(hurtInfo.attackName=="AOE")
+        {
+            AudioManager.Current.PlaySFX(sfxFireHit, victim.transform.position);
+        }
+        if(hurtInfo.attackName=="Laser")
+        {
+            AudioManager.Current.PlaySFX(sfxFireHit, victim.transform.position);
+        }
+        if(hurtInfo.attackName=="Enemy2Slam")
+        {
+            AudioManager.Current.PlaySFX(sfxFireHit, victim.transform.position);
+            AudioManager.Current.PlaySFX(sfxH2hHeavyHit, victim.transform.position);
+        }
+        if(hurtInfo.attackName=="Pool")
+        {
+            AudioManager.Current.PlaySFX(sfxH2hHeavyHit, victim.transform.position);
         }
     }
 
@@ -160,14 +189,18 @@ public class SFXManager : MonoBehaviour
         if(victim.tag=="Player")
         {
             AudioManager.Current?.PlaySFX(SFXClipsPlayer[1], victim.transform.position);
+            AudioManager.Current.PlaySFX(sfxBlock1, victim.transform.position);
+            AudioManager.Current.PlaySFX(sfxBlock2, victim.transform.position);
         }
     }
 
-    void OnParry(GameObject victim, GameObject attacker, HurtInfo hurtInfo)
+    void OnParry(GameObject defender, GameObject attacker, HurtInfo hurtInfo)
     {
-        if(victim.tag=="Player")
+        if(defender.tag=="Player")
         {
-            AudioManager.Current?.PlaySFX(SFXClipsPlayer[0], victim.transform.position);
+            AudioManager.Current?.PlaySFX(SFXClipsPlayer[0], defender.transform.position);
+            AudioManager.Current.PlaySFX(sfxParry1, defender.transform.position);
+            AudioManager.Current.PlaySFX(sfxParry2, defender.transform.position);
         }
     }
 
@@ -176,6 +209,8 @@ public class SFXManager : MonoBehaviour
         if(victim.tag=="Player")
         {
             AudioManager.Current?.PlaySFX(SFXClipsPlayer[3], victim.transform.position);
+            AudioManager.Current.PlaySFX(sfxBlockBreak1, victim.transform.position);
+            AudioManager.Current.PlaySFX(sfxBlockBreak2, victim.transform.position);
         }
     }
 
@@ -183,17 +218,21 @@ public class SFXManager : MonoBehaviour
     {
         if(victim.tag=="Player")
         {
-
+            //AudioManager.Current.PlaySFX(sfxKillHit, victim.transform.position); // EARRAPE
+            AudioManager.Current.PlaySFX(sfxUIDeath, victim.transform.position, false, false);
         }
         else
         {
             if(hurtinfo.victimName=="Enemy1")
             {
                 AudioManager.Current?.PlaySFX(Enemy1Death, victim.transform.position);
+                //AudioManager.Current.PlaySFX(sfxKillHit, victim.transform.position);
             }
             if(hurtinfo.victimName=="Enemy2")
             {
                 AudioManager.Current?.PlaySFX(Enemy2Death, victim.transform.position);
+                AudioManager.Current.PlaySFX(voiceEnemy2Death, victim.transform.position);
+                //AudioManager.Current.PlaySFX(sfxKillHit, victim.transform.position);
             }
             if(hurtinfo.victimName=="Dummy")
             {
@@ -206,7 +245,16 @@ public class SFXManager : MonoBehaviour
     {
         if(subject.tag=="Player")
         {
-            AudioManager.Current?.PlaySFX(SFXClipsPlayer[2], subject.transform.position);
+            //AudioManager.Current?.PlaySFX(SFXClipsPlayer[2], subject.transform.position);
+        }
+
+        if(type=="Ragdoll")
+        {
+            AudioManager.Current.PlaySFX(sfxRagdoll, subject.transform.position);
+        }
+        if(type=="RagdollBig")
+        {
+            AudioManager.Current.PlaySFX(sfxFstEnemy2, subject.transform.position);
         }
     }
 
@@ -217,6 +265,9 @@ public class SFXManager : MonoBehaviour
             if(abilityName=="AOE")
             {
                 AudioManager.Current?.PlaySFX(AbilityClipsPlayer[1], caster.transform.position);
+
+                AudioManager.Current.PlaySFX(sfxPlayerAoe, caster.transform.position);
+                AudioManager.Current.PlaySFX(sfxPlayerAoe2, caster.transform.position);
             }
             if(abilityName=="Laser")
             {
@@ -231,7 +282,7 @@ public class SFXManager : MonoBehaviour
         {
             if(abilityName=="Enemy2Slam")
             {
-
+                
             }
         }
     }
@@ -306,13 +357,75 @@ public class SFXManager : MonoBehaviour
 
     void OnLootEvent(GameObject looter, LootInfo lootinfo)
     {
-        switch (lootinfo.lootName)
+        if(lootinfo.lootName=="Chi")
         {
-            case "Chi":
-                AudioManager.Current.PlaySFX(SFXClipsPlayer[4], looter.transform.position);
-                break;
-            default:
-                break;
+            AudioManager.Current.PlaySFX(SFXClipsPlayer[4], looter.transform.position);
+            AudioManager.Current.PlaySFX(sfxChi, looter.transform.position);
         }
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    [Header("Yeoh Ability")]
+    public AudioClip[] sfxPlayerAoe;
+    public AudioClip[] sfxPlayerAoe2;
+    public AudioClip[] sfxCastingLoop;
+    public AudioClip[] sfxCharge;
+    public AudioClip[] sfxEnemy2Jump;
+    public AudioClip[] sfxEnemy2Slam;
+    public AudioClip[] sfxHeal1, sfxHeal2;
+    public AudioClip[] sfxLaserIn, sfxLaserLoop, sfxLaserOut;
+
+    [Header("Yeoh Foosteps")]
+    public AudioClip[] sfxFstPlayer;
+    public AudioClip[] sfxFstEnemy1;
+    public AudioClip[] sfxFstEnemy2;
+
+    [Header("Yeoh Hit")]
+    public AudioClip[] sfxBlock1;
+    public AudioClip[] sfxBlock2;
+    public AudioClip[] sfxBlockBreak1;
+    public AudioClip[] sfxBlockBreak2;
+    public AudioClip[] sfxDummyHit;
+    public AudioClip[] sfxFireHit;
+    public AudioClip[] sfxGenericHit;
+    public AudioClip[] sfxH2hHit;
+    public AudioClip[] sfxH2hHeavyHit;
+    public AudioClip[] sfxKillHit;
+    public AudioClip[] sfxParry1;
+    public AudioClip[] sfxParry2;
+    public AudioClip[] sfxRagdoll;
+
+    [Header("Yeoh Swing")]
+    public AudioClip[] sfxSwingBig;
+    public AudioClip[] sfxSwingSmall;
+
+    [Header("Yeoh UI")]
+    public AudioClip[] sfxUIBack;
+    public AudioClip[] sfxUICameraPan;
+    public AudioClip[] sfxChi;
+    public AudioClip[] sfxUIClear;
+    public AudioClip[] sfxUIClick;
+    public AudioClip[] sfxUICooldown;
+    public AudioClip[] sfxUIDeath;
+    public AudioClip[] sfxUIHover;
+    public AudioClip[] sfxUIHurt;
+    public AudioClip[] sfxUILowHealth;
+    public AudioClip[] sfxUIMeditate;
+    public AudioClip[] sfxTransition;
+    public AudioClip[] sfxUITrigger;
+    public AudioClip[] sfxUIUpgradeNo;
+    public AudioClip[] sfxUIUpgradeYes;
+    public AudioClip[] sfxUIWin;
+
+    [Header("Yeoh Voice")]
+    public AudioClip[] voiceEnemy2Death;
+    public AudioClip[] voicePlayerAttackEpic;
+    public AudioClip[] voicePlayerAttackHigh;
+    public AudioClip[] voicePlayerAttackLow;
+    public AudioClip[] voicePlayerAttackMid;
+    public AudioClip[] voicePlayerBlock;
+    public AudioClip[] voicePlayerHurtHigh;
+    public AudioClip[] voicePlayerHurtLow;
+    public AudioClip[] voicePlayerHurtMid;
 }

@@ -7,15 +7,19 @@ public class RoomTrigger : MonoBehaviour
     public List<GameObject> barriers = new List<GameObject>();
     public List<Transform> enemySpawnpoints = new List<Transform>();
     public List<GameObject> enemyPrefabs = new List<GameObject>();
+    List<GameObject> activeEnemies = new List<GameObject>();
 
+    [Header("Waypoint")]
     public GameObject waypointPrefab;
     public Transform wayPointSpawnpoint;
-    List<GameObject> activeEnemies = new List<GameObject>();
+
+    [Header("Last Room")]
+    public bool lastRoom;
+    public GameObject gameFinishPopup;
 
     bool roomActive;
     bool canSpawn=true;
-    [SerializeField] bool lastRoom;
-    [SerializeField] GameObject gameFinishPopup;
+
     void Awake()
     {
         ToggleBarriers(false);
@@ -33,7 +37,6 @@ public class RoomTrigger : MonoBehaviour
         if(otherRb && otherRb.gameObject.tag=="Player")
         {
             SpawnEnemies();
-            GameEventSystem.Current?.OnRoomEnter();
         }
     }
 
@@ -50,8 +53,15 @@ public class RoomTrigger : MonoBehaviour
             {
                 GameObject enemy = Instantiate(enemyPrefabs[i], enemySpawnpoints[i].position, enemySpawnpoints[i].rotation);
 
+                if(enemyPrefabs[i].name!="Enemy1 Ragdoll")
                 activeEnemies.Add(enemy);
             }
+
+            GameEventSystem.Current?.OnRoomEnter();
+
+            AudioManager.Current.PlaySFX(SFXManager.Current.sfxUITrigger, transform.position, false);
+
+            MusicManager.Current.ChangeMusic(MusicManager.Current.combatMusics);
         }
     }
 
@@ -67,11 +77,20 @@ public class RoomTrigger : MonoBehaviour
 
     void OnEnable()
     {
+        GameEventSystem.Current.DeathEvent += OnDeath;
         GameEventSystem.Current.RespawnEvent += OnRespawn;
     }
     void OnDisable()
     {
+        GameEventSystem.Current.DeathEvent += OnDeath;
         GameEventSystem.Current.RespawnEvent -= OnRespawn;
+    }
+
+    void OnDeath(GameObject victim, GameObject killer, HurtInfo hurtInfo)
+    {
+        if(victim.tag!="Player") return;
+
+        MusicManager.Current.ChangeMusic(MusicManager.Current.idleMusics);
     }
 
     void OnRespawn(GameObject zombo)
@@ -114,14 +133,21 @@ public class RoomTrigger : MonoBehaviour
             canSpawn=false;
             ToggleBarriers(false);
             activeEnemies.Clear();
-            if(lastRoom == true)
+
+            if(lastRoom)
             {
                 Instantiate(gameFinishPopup);
+
+                AudioManager.Current.PlaySFX(SFXManager.Current.sfxUIWin, transform.position, false, false);
             }
-            if(waypointPrefab != null && wayPointSpawnpoint != null) 
+            if(waypointPrefab && wayPointSpawnpoint) 
             {
                 Instantiate(waypointPrefab, wayPointSpawnpoint);
             }
+
+            AudioManager.Current.PlaySFX(SFXManager.Current.sfxUIClear, transform.position, false, false);
+
+            MusicManager.Current.ChangeMusic(MusicManager.Current.idleMusics);
         }
     }
 }

@@ -30,8 +30,9 @@ public class ButtonAnim : MonoBehaviour
         {
             LeanTween.cancel(gameObject);
             LeanTween.scale(gameObject, defScale*(1+scaleMult), animTime).setEaseOutExpo().setIgnoreTimeScale(true);
+
+            AudioManager.Current.PlaySFX(SFXManager.Current.sfxUIHover, transform.position, false);
         }
-        //Singleton.instance.playSFX(Singleton.instance.sfxBtnHover,transform,false);
     }
 
     public void OnMouseExit()
@@ -42,6 +43,8 @@ public class ButtonAnim : MonoBehaviour
         {
             LeanTween.cancel(gameObject);
             LeanTween.scale(gameObject, defScale, animTime).setEaseOutExpo().setIgnoreTimeScale(true);
+
+            AudioManager.Current.PlaySFX(SFXManager.Current.sfxUIHover, transform.position, false);
         }
     }
 
@@ -54,8 +57,9 @@ public class ButtonAnim : MonoBehaviour
             LeanTween.cancel(gameObject);
             transform.localScale = defScale*(1+scaleMult);
             LeanTween.scale(gameObject, defScale*(1-scaleMult), animTime/2).setEaseOutExpo().setIgnoreTimeScale(true);
+
+            AudioManager.Current.PlaySFX(SFXManager.Current.sfxUIClick, transform.position, false);
         }
-        //Singleton.instance.playSFX(Singleton.instance.sfxBtnClick,transform,false);
     }
 
     public void OnMouseUp()
@@ -74,5 +78,10 @@ public class ButtonAnim : MonoBehaviour
     public void ResetButton()
     {
         transform.localScale = defScale;
+    }
+
+    public void SfxUIBack()
+    {
+        AudioManager.Current.PlaySFX(SFXManager.Current.sfxUIBack, transform.position, false);
     }
 }

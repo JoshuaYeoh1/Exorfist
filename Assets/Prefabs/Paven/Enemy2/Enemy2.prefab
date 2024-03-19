@@ -365,6 +365,7 @@ GameObject:
   - component: {fileID: 1112656922746496593}
   - component: {fileID: 5208964824414518004}
   - component: {fileID: 8510536829511863121}
+  - component: {fileID: 1707285895117844666}
   m_Layer: 6
   m_Name: Enemy2
   m_TagString: Enemy
@@ -645,8 +646,20 @@ MonoBehaviour:
   subjectName: Enemy2
   iframe: 0
   iframeTime: 0.1
-  poise: 20
+  poise: 30
   poiseRegenDelay: 3
+--- !u!114 &1707285895117844666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1649796389774806618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d064c7f2c76d4439b476f04b540e43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2071822400053130105
 GameObject:
   m_ObjectHideFlags: 0

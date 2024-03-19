@@ -53,9 +53,16 @@ public class PlayerLaser : MonoBehaviour
 
             GameEventSystem.Current.OnAbilityCasting(gameObject, "Laser");
         }
+        else
+        {
+            //AudioManager.Current.PlaySFX(SFXManager.Current.sfxUICooldown, transform.position, false);
+            // input buffer spams the shit outta this
+        }
     }
 
     bool isCasting;
+
+    AudioSource sfxCastingLoop;
 
     Coroutine castingRt;
     IEnumerator Casting()
@@ -72,6 +79,8 @@ public class PlayerLaser : MonoBehaviour
 
         castTime = UpgradeManager.Current.GetLaserCastTime();
 
+        sfxCastingLoop = AudioManager.Current.LoopSFX(gameObject, SFXManager.Current.sfxCastingLoop);
+
         yield return new WaitForSeconds(castTime);
 
         player.sm.TransitionToState(PlayerStateMachine.PlayerStates.Cast);
@@ -79,13 +88,24 @@ public class PlayerLaser : MonoBehaviour
         isCasting=false;
 
         player.anim.CrossFade("laser start", .25f, 2, 0);
+
+        if(sfxCastingLoop) AudioManager.Current.StopLoop(sfxCastingLoop);
+
+        AudioManager.Current.PlaySFX(SFXManager.Current.sfxCharge, transform.position);
+
+        AudioManager.Current.PlayVoice(player.voice, SFXManager.Current.voicePlayerAttackEpic, false);
     }
+
+    AudioSource sfxLaserLoop;
 
     public void Release()
     {
         GameEventSystem.Current.OnAbilityCast(gameObject, "Laser");
 
         StartLaser();
+
+        AudioManager.Current.PlaySFX(SFXManager.Current.sfxLaserIn, transform.position);
+        sfxLaserLoop = AudioManager.Current.LoopSFX(gameObject, SFXManager.Current.sfxLaserLoop);
     }
 
     GameObject laser;
@@ -193,6 +213,8 @@ public class PlayerLaser : MonoBehaviour
         coolingRt = StartCoroutine(Cooling());
 
         GameEventSystem.Current.OnAbilityEnd(gameObject, "Laser");
+
+        if(sfxLaserLoop) AudioManager.Current.StopLoop(sfxLaserLoop, SFXManager.Current.sfxLaserOut);
     }
 
     public void Finish()
@@ -242,6 +264,10 @@ public class PlayerLaser : MonoBehaviour
             HideCastingBar();
 
             DisableCastTrails();
+
+            if(sfxCastingLoop) AudioManager.Current.StopLoop(sfxCastingLoop);
+
+            if(sfxLaserLoop) AudioManager.Current.StopLoop(sfxLaserLoop, SFXManager.Current.sfxLaserOut);
         }
     }
 

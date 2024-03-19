@@ -258,6 +258,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3013863717708658560, guid: 4b550ecf14fdb8d4aa6f48325deac7fe,
         type: 3}
+      propertyPath: owner
+      value: 
+      objectReference: {fileID: 7664899796581426997}
+    - target: {fileID: 3013863717708658560, guid: 4b550ecf14fdb8d4aa6f48325deac7fe,
+        type: 3}
       propertyPath: doShake
       value: 1
       objectReference: {fileID: 0}
@@ -291,6 +296,11 @@ PrefabInstance:
       propertyPath: attackName
       value: Pool
       objectReference: {fileID: 0}
+    - target: {fileID: 3013863717708658560, guid: 4b550ecf14fdb8d4aa6f48325deac7fe,
+        type: 3}
+      propertyPath: hitboxOrigin
+      value: 
+      objectReference: {fileID: 8960257931697155788}
     - target: {fileID: 3013863717708658560, guid: 4b550ecf14fdb8d4aa6f48325deac7fe,
         type: 3}
       propertyPath: enabledOnAwake

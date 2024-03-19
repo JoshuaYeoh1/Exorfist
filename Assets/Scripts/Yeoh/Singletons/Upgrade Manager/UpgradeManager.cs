@@ -100,7 +100,17 @@ public class UpgradeManager : MonoBehaviour
             {
                 chi-=cost;
                 typeLvl++;
+
+                AudioManager.Current.PlaySFX(SFXManager.Current.sfxUIUpgradeYes, transform.position, false);
             }
+            else
+            {
+                AudioManager.Current.PlaySFX(SFXManager.Current.sfxUIUpgradeNo, transform.position, false);
+            }
+        }
+        else
+        {
+            AudioManager.Current.PlaySFX(SFXManager.Current.sfxUIUpgradeNo, transform.position, false);
         }
     }
     

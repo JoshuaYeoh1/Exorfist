@@ -6,6 +6,6 @@ public class TransitionAnim : MonoBehaviour
 {
     public void PlaySfxWhoosh()
     {
-        AudioManager.Current.PlaySFX(AudioManager.Current.sfxTransition, transform.position, false);
+        AudioManager.Current.PlaySFX(SFXManager.Current.sfxTransition, transform.position, false);
     }
 }

@@ -52,6 +52,8 @@ public class TweenAnim : MonoBehaviour
             if(animPos) LeanTween.move(gameObject, defPos, time).setEaseOutExpo().setIgnoreTimeScale(true);
             if(animRot) LeanTween.rotate(gameObject, defRot, time).setEaseInOutSine().setIgnoreTimeScale(true);
             if(animScale) LeanTween.scale(gameObject, defScale, time).setEaseOutCubic().setIgnoreTimeScale(true);
+
+            AudioManager.Current.PlaySFX(SFXManager.Current.sfxUICooldown, transform.position, false);
         }
         else
         {
@@ -70,8 +72,10 @@ public class TweenAnim : MonoBehaviour
             LeanTween.cancel(gameObject);
 
             if(animPos) LeanTween.move(gameObject, outPos, time).setEaseInExpo().setIgnoreTimeScale(true).setOnComplete(Reset);
-            if(animRot) LeanTween.rotate(gameObject, outRot, time).setEaseInOutSine().setIgnoreTimeScale(true).setOnComplete(Reset);;
-            if(animScale) LeanTween.scale(gameObject, outScale, time).setEaseInCubic().setIgnoreTimeScale(true).setOnComplete(Reset);;
+            if(animRot) LeanTween.rotate(gameObject, outRot, time).setEaseInOutSine().setIgnoreTimeScale(true).setOnComplete(Reset);
+            if(animScale) LeanTween.scale(gameObject, outScale, time).setEaseInCubic().setIgnoreTimeScale(true).setOnComplete(Reset);
+
+            AudioManager.Current.PlaySFX(SFXManager.Current.sfxUICooldown, transform.position, false);
         }
         else
         {
