@@ -110,6 +110,11 @@ public class AudioManager : MonoBehaviour
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    public AudioSource LoopSFX(GameObject owner, AudioClip[] loopClip, bool spatialBlend=true, bool randPitch=true, float panStereo=0, float volume=1, float minRadius=15)
+    {
+        return LoopSFX(owner, null, loopClip, spatialBlend, randPitch, panStereo, volume, minRadius);
+    }
+
     public AudioSource LoopSFX(GameObject owner, AudioClip[] inClips, AudioClip[] loopClips, bool spatialBlend=true, bool randPitch=true, float panStereo=0, float volume=1, float minRadius=15)
     {   
         AudioSource loopSource = Instantiate(SFXObjectPrefab, owner.transform.position, owner.transform.rotation).GetComponent<AudioSource>();
@@ -121,28 +126,36 @@ public class AudioManager : MonoBehaviour
         {
             loopSource.clip = inClips[Random.Range(0,inClips.Length)];
             loopSource.Play();
-            StartCoroutine(StartingLoop(loopSource, loopClips, loopSource.clip.length));
+
+            if(startingLoopRts.ContainsKey(loopSource))
+            {
+                if(startingLoopRts[loopSource]!=null)
+                StopCoroutine(startingLoopRts[loopSource]);
+            }
+
+            startingLoopRts[loopSource] = StartCoroutine(StartingLoop(loopSource, loopClips, loopSource.clip.length));
         }
         else
         {
-            StartCoroutine(StartingLoop(loopSource, loopClips, 0));
+            StartLoop(loopSource, loopClips);
         }
 
         return loopSource;
     }
 
+    Dictionary<AudioSource, Coroutine> startingLoopRts = new Dictionary<AudioSource, Coroutine>();
+
     IEnumerator StartingLoop(AudioSource loopSource, AudioClip[] loopClips, float delay)
     {
         if(delay>0) yield return new WaitForSeconds(delay);
+        StartLoop(loopSource, loopClips);
+    }
 
+    void StartLoop(AudioSource loopSource, AudioClip[] loopClips)
+    {
         loopSource.clip = loopClips[Random.Range(0,loopClips.Length)];
         loopSource.loop = true;
         loopSource.Play();
-    }
-
-    public AudioSource LoopSFX(GameObject owner, AudioClip[] loopClip, bool spatialBlend=true, bool randPitch=true, float panStereo=0, float volume=1, float minRadius=15)
-    {
-        return LoopSFX(owner, null, loopClip, spatialBlend, randPitch, panStereo, volume, minRadius);
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
