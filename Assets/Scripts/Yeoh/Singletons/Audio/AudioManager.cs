@@ -22,7 +22,6 @@ public class AudioManager : MonoBehaviour
     void Start()
     {
         LoadVolume();
-        //AwakeAudio();
     }
 
     void LoadVolume()
@@ -80,8 +79,6 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySFX(AudioClip[] clips, Vector3 pos, bool spatialBlend=true, bool randPitch=true, float panStereo=0, float volume=1, float minRadius=15)
     {   
-        if(clips.Length==0) return;
-
         AudioSource source = Instantiate(SFXObjectPrefab, pos, Quaternion.identity).GetComponent<AudioSource>();
         
         source.clip = clips[Random.Range(0,clips.Length)];
@@ -95,8 +92,6 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySFX(AudioClip clip, Vector3 pos, bool spatialBlend=true, bool randPitch=true, float panStereo=0, float volume=1, float minRadius=15)
     {
-        if(clip==null) return;
-
         AudioClip[] clips = {clip};
 
         PlaySFX(clips, pos, spatialBlend, randPitch, panStereo, volume, minRadius);
@@ -154,8 +149,6 @@ public class AudioManager : MonoBehaviour
 
     public void StopLoop(AudioSource loopSource, AudioClip[] outClips)
     {
-        if(loopSource==null) return;
-        
         if(HasClips(outClips))
         {
             loopSource.clip = outClips[Random.Range(0,outClips.Length)];
