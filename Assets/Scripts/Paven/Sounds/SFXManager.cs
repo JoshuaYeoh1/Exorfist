@@ -111,8 +111,6 @@ public class SFXManager : MonoBehaviour
 
     void OnHurt(GameObject victim, GameObject attacker, HurtInfo hurtInfo)
     {
-        AudioManager.Current?.PlaySFX(PunchClips, victim.transform.position);
-        AudioManager.Current.PlaySFX(sfxGenericHit, victim.transform.position);
         AudioManager.Current.PlaySFX(sfxH2hHit, victim.transform.position);
 
         if(victim.tag=="Player")
@@ -135,6 +133,16 @@ public class SFXManager : MonoBehaviour
             }
         }
 
+        if(hurtInfo.attackName=="Laser")
+        {
+            AudioManager.Current.PlaySFX(sfxFireHit, victim.transform.position);
+        }
+        else
+        {
+            AudioManager.Current?.PlaySFX(PunchClips, victim.transform.position);
+            AudioManager.Current.PlaySFX(sfxGenericHit, victim.transform.position);
+        }
+
         if(hurtInfo.attackName=="Light")
         {
             
@@ -147,10 +155,6 @@ public class SFXManager : MonoBehaviour
         {
         }
         if(hurtInfo.attackName=="AOE")
-        {
-            AudioManager.Current.PlaySFX(sfxFireHit, victim.transform.position);
-        }
-        if(hurtInfo.attackName=="Laser")
         {
             AudioManager.Current.PlaySFX(sfxFireHit, victim.transform.position);
         }
