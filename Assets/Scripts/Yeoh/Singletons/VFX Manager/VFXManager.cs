@@ -395,9 +395,13 @@ public class VFXManager : MonoBehaviour
         HideObject(blood.gameObject, 1);
     }
 
+    public GameObject footprintPrefab;
+
     public void SpawnPlayerFootprint(Transform footstepTr)
     {
-        GameObject footprint = Spawn("PlayerFootprint", footstepTr.position, footstepTr.rotation);
+        //GameObject footprint = Spawn("PlayerFootprint", footstepTr.position, footstepTr.rotation);
+        GameObject footprint = Instantiate(footprintPrefab, footstepTr.position, footstepTr.rotation);
+        footprint.hideFlags = HideFlags.HideInHierarchy;
 
         VisualEffect[] childVFXs = footprint.GetComponentsInChildren<VisualEffect>();
 
@@ -406,7 +410,8 @@ public class VFXManager : MonoBehaviour
             vfx.Play();
         }
 
-        HideObject(footprint, 3);
+        //HideObject(footprint, 3);
+        Destroy(footprint, 3);
     }
 
     public void SpawnHeal(GameObject caster)
@@ -499,6 +504,13 @@ public class VFXManager : MonoBehaviour
         foreach(VisualEffect vfx in childVFXs)
         {
             vfx.Play();
+        }
+
+        TrailRenderer[] childTrails = chi.GetComponentsInChildren<TrailRenderer>();
+        
+        foreach(TrailRenderer trail in childTrails)
+        {
+            trail.Clear();
         }
     }
     

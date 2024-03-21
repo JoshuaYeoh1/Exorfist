@@ -44,5 +44,68 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23cc78949ae485f4180fb735c942637b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hideObjectsInHierarchy: 1
-  poolList: []
+  poolList:
+  - poolName: PopUpText
+    prefab: {fileID: 4640091990393059759, guid: 7b89e69c6ce448d49aafc85ea3881732,
+      type: 3}
+    maxSize: 10
+    hideInHierarchy: 1
+  - poolName: Hitmarker
+    prefab: {fileID: 5056684987301472311, guid: 478405b3083b87f4b9394be71b41d064,
+      type: 3}
+    maxSize: 10
+    hideInHierarchy: 1
+  - poolName: Flash
+    prefab: {fileID: 324769258230668247, guid: eb3639ecce5103c4d835304e24e3d012, type: 3}
+    maxSize: 5
+    hideInHierarchy: 1
+  - poolName: Shockwave
+    prefab: {fileID: 5676686982502810466, guid: ea6229c0fe2831d40adc0c242073c463,
+      type: 3}
+    maxSize: 5
+    hideInHierarchy: 1
+  - poolName: GroundExplosion
+    prefab: {fileID: 3128931087074182737, guid: 4b17378003bfece49ab5ef8f582e32e8,
+      type: 3}
+    maxSize: 5
+    hideInHierarchy: 1
+  - poolName: Blood
+    prefab: {fileID: 8143432443608686193, guid: e28eceefa8801bf42ba0b1d5f6ec5610,
+      type: 3}
+    maxSize: 5
+    hideInHierarchy: 1
+  - poolName: PlayerFootprint
+    prefab: {fileID: 1233971892894316318, guid: 224504cf9bdc38e4699c7ee2f341fe25,
+      type: 3}
+    maxSize: 10
+    hideInHierarchy: 1
+  - poolName: Heal
+    prefab: {fileID: 3640524300974755464, guid: 3935b39de56bd0e40bed6d0ba0aa88bf,
+      type: 3}
+    maxSize: 5
+    hideInHierarchy: 1
+  - poolName: Shine
+    prefab: {fileID: 1662179079596293358, guid: 568780732a02d70408631dc2f8a44ee2,
+      type: 3}
+    maxSize: 5
+    hideInHierarchy: 1
+  - poolName: Impact
+    prefab: {fileID: 7570259387859418624, guid: 295fa5f026b511b4a83631a0d2a91b3d,
+      type: 3}
+    maxSize: 5
+    hideInHierarchy: 1
+  - poolName: Sparks
+    prefab: {fileID: 1438827781765713555, guid: 5c4aa1af27c37024f8872ea1807ee223,
+      type: 3}
+    maxSize: 5
+    hideInHierarchy: 1
+  - poolName: Enemy2Slam
+    prefab: {fileID: 3128931087074182737, guid: 48d016227f85a344194382aa27eb30c2,
+      type: 3}
+    maxSize: 5
+    hideInHierarchy: 1
+  - poolName: Chi
+    prefab: {fileID: 5997088900920925528, guid: 6b4c5b062da6a0a4a9a592d7f946e45f,
+      type: 3}
+    maxSize: 20
+    hideInHierarchy: 1
