@@ -14,7 +14,7 @@ public class ControlHider : MonoBehaviour
     void Update()
     {
         CheckAttackButton();
-        //CheckBlockButton();
+        CheckBlockButton();
         CheckAbilityButton();
         CheckJoystick();
     }
