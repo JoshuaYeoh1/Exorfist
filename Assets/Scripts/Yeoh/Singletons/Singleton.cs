@@ -20,7 +20,7 @@ public class Singleton : MonoBehaviour
 
     void UnlockFPS()
     {
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = 45;
         QualitySettings.vSyncCount = 0;
     }
 
