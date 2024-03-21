@@ -8,7 +8,7 @@ public class Cinetouch : MonoBehaviour
     public TouchField touchField;
     public Player player;
 
-    public float senstivityX=.1f, senstivityY=-.1f;
+    public float senstivityX=.05f, senstivityY=-.05f;
 
     public float recenterWaitTime=3;
     float lastTouchedTime;

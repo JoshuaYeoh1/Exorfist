@@ -476,8 +476,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4316802121710213520}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.2688751, y: 0.6270321, z: -0.24458602, w: 0.68899536}
+  m_LocalPosition: {x: -65.230156, y: 55.507797, z: 60.48305}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -516,7 +516,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 60
+  field of view: 60.000004
   orthographic: 0
   orthographic size: 10
   m_Depth: -1
@@ -1059,6 +1059,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   touchField: {fileID: 0}
   player: {fileID: 0}
-  senstivityX: 0.1
-  senstivityY: -0.1
+  senstivityX: 0.05
+  senstivityY: -0.05
   recenterWaitTime: 10
