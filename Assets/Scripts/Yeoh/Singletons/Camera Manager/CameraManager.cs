@@ -24,6 +24,7 @@ public class CameraManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        CamPanSfx=false;
         RefreshAllCameras();
         RefreshAllNoises();
         RecordDefaultNoises();
@@ -109,7 +110,15 @@ public class CameraManager : MonoBehaviour
             }
         }
 
-        AudioManager.Current.PlaySFX(SFXManager.Current.sfxUICameraPan, transform.position, false);
+        if(CamPanSfx) AudioManager.Current.PlaySFX(SFXManager.Current.sfxUICameraPan, transform.position, false);
+        else Invoke("EnableCamPanSfx", 1);
+    }
+
+    bool CamPanSfx;
+
+    void EnableCamPanSfx() // Invoked
+    {
+        CamPanSfx=true;
     }
 
     public bool IsCurrentCamera(CinemachineVirtualCamera camera)
@@ -195,7 +204,8 @@ public class CameraManager : MonoBehaviour
             .setOnUpdate( (float value)=>{currentCamera.m_Lens.FieldOfView=value;} )
             .id;
 
-        AudioManager.Current.PlaySFX(SFXManager.Current.sfxUICameraPan, transform.position, false);
+        if(CamPanSfx) AudioManager.Current.PlaySFX(SFXManager.Current.sfxUICameraPan, transform.position, false);
+        else Invoke("EnableCamPanSfx", 1);
     }
     
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -209,7 +219,8 @@ public class CameraManager : MonoBehaviour
             .setOnUpdate( (float value)=>{currentCamera.m_Lens.OrthographicSize=value;} )
             .id;
 
-        AudioManager.Current.PlaySFX(SFXManager.Current.sfxUICameraPan, transform.position, false);
+        if(CamPanSfx) AudioManager.Current.PlaySFX(SFXManager.Current.sfxUICameraPan, transform.position, false);
+        else Invoke("EnableCamPanSfx", 1);
     }
         
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -245,11 +245,12 @@ public class SFXManager : MonoBehaviour
         }
     }
 
-    void OnFootstep(GameObject subject, string type, Transform position)
+    void OnFootstep(GameObject subject, string type, Transform footstepTr)
     {
         if(subject.tag=="Player")
         {
             //AudioManager.Current?.PlaySFX(SFXClipsPlayer[2], subject.transform.position);
+            AudioManager.Current.PlaySFX(sfxFstPlayer, footstepTr.position);
         }
 
         if(type=="Ragdoll")

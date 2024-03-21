@@ -117,19 +117,15 @@ public class PlayerAnim : MonoBehaviour
         {
             lastFstTime = Time.time;
 
-            Transform footstepTr = type=="left" ? footstepLTr : footstepRTr;
+            Transform footstepTr;
+            
+            if(type=="left") footstepTr=footstepLTr;
+            else if(type=="right") footstepTr=footstepRTr;
+            else footstepTr=player.transform;
 
             GameEventSystem.Current.OnFootstep(player.gameObject, type, footstepTr);
-
-            AudioManager.Current.PlaySFX(SFXManager.Current.sfxFstPlayer, footstepTr.position);
         }
     }
-
-    //move to sfx manager later
-    // public void PlaySfxFootstep()
-    // {
-    //     Singleton.instance.playSFX(sfxPlayerFst,transform);
-    // }
 
     public void AnimRagdoll() // after death anim event
     {
