@@ -15,7 +15,7 @@ public class Singleton : MonoBehaviour
         }
         else Destroy(gameObject);
         
-        Invoke("UnlockFPS", .1f);
+        //Invoke("UnlockFPS", .1f); // FREEZES MY S10 AFTER PLAYING A WHILE
     }
 
     void UnlockFPS()
