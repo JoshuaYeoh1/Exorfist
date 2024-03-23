@@ -15,27 +15,27 @@ public class TweenAnimSequence : MonoBehaviour
     {
         if(startOnEnable)
         {
-            StartCoroutine(PlayDelay(startAnimDelay));
+            if(playDelayRt!=null) StopCoroutine(playDelayRt);
+            playDelayRt = StartCoroutine(PlayDelay(startAnimDelay));
         }
     }
 
+    Coroutine playDelayRt;
     IEnumerator PlayDelay(float time)
     {
         yield return new WaitForSecondsRealtime(time);
         Play();
     }
 
-    bool busy;
-
     public void Play()
     {
-        if(!busy) StartCoroutine(TweeningIn());
+        if(tweeningInRt!=null) StopCoroutine(tweeningInRt);
+        tweeningInRt = StartCoroutine(TweeningIn());
     }
 
+    Coroutine tweeningInRt;
     IEnumerator TweeningIn()
     {
-        busy=true;
-
         foreach(TweenAnim anim in animsList)
         {
             anim.Reset();
@@ -46,19 +46,17 @@ public class TweenAnimSequence : MonoBehaviour
             animsList[i].TweenIn(animTime);
             yield return new WaitForSecondsRealtime(animTime+nextAnimOffsetTime);
         }
-
-        busy=false;
     }
 
     public void Reverse()
     {
-        if(!busy) StartCoroutine(TweeningOut());
+        if(tweeningOutRt!=null) StopCoroutine(tweeningOutRt);
+        tweeningOutRt = StartCoroutine(TweeningOut());
     }
 
+    Coroutine tweeningOutRt;
     IEnumerator TweeningOut()
     {
-        busy=true;
-
         foreach(TweenAnim anim in animsList)
         {
             anim.TweenIn(0);
@@ -69,7 +67,5 @@ public class TweenAnimSequence : MonoBehaviour
             animsList[i].TweenOut(animTime);
             yield return new WaitForSecondsRealtime(animTime+nextAnimOffsetTime);
         }
-
-        busy=false;
     }
 }

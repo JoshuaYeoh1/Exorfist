@@ -15,12 +15,12 @@ public class Singleton : MonoBehaviour
         }
         else Destroy(gameObject);
         
-        Invoke("UnlockFPS", .1f); // FREEZES MY S10 AFTER PLAYING A WHILE
+        Invoke("UnlockFPS", .1f);
     }
 
     void UnlockFPS()
     {
-        Application.targetFrameRate = 45;
+        Application.targetFrameRate = 45; // 60FPS FREEZES MY S10 AFTER PLAYING A WHILE
         //QualitySettings.vSyncCount = 0;
     }
 
