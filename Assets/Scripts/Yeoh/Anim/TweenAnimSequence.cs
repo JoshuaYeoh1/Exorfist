@@ -6,17 +6,21 @@ public class TweenAnimSequence : MonoBehaviour
 {
     public List<TweenAnim> animsList = new List<TweenAnim>();
     
-    public bool startOnEnable=true;
-    public float startAnimDelay=1;
+    public bool playOnEnable=true;
+    public float playDelay=.5f;
     public float animTime=.5f;
     public float nextAnimOffsetTime=-.25f;
 
     void OnEnable()
     {
-        if(startOnEnable)
+        if(playOnEnable)
         {
-            if(playDelayRt!=null) StopCoroutine(playDelayRt);
-            playDelayRt = StartCoroutine(PlayDelay(startAnimDelay));
+            if(playDelay>0)
+            {
+                if(playDelayRt!=null) StopCoroutine(playDelayRt);
+                playDelayRt = StartCoroutine(PlayDelay(playDelay));
+            }
+            else Play();
         }
     }
 
@@ -36,11 +40,6 @@ public class TweenAnimSequence : MonoBehaviour
     Coroutine tweeningInRt;
     IEnumerator TweeningIn()
     {
-        foreach(TweenAnim anim in animsList)
-        {
-            anim.Reset();
-        }
-
         for(int i=0; i<animsList.Count; i++)
         {
             animsList[i].TweenIn(animTime);
@@ -57,11 +56,6 @@ public class TweenAnimSequence : MonoBehaviour
     Coroutine tweeningOutRt;
     IEnumerator TweeningOut()
     {
-        foreach(TweenAnim anim in animsList)
-        {
-            anim.TweenIn(0);
-        }
-
         for(int i=animsList.Count-1; i>=0; i--)
         {
             animsList[i].TweenOut(animTime);

@@ -50,8 +50,6 @@ public class UIManager : MonoBehaviour
         {
             upgradeMenu.SetActive(true);
 
-            upgradeMenu.GetComponent<TweenAnimSequence>().Play();
-
             SetAlpha(upgradeMenu, 0);
             Fade(upgradeMenu, 1, .5f);
 

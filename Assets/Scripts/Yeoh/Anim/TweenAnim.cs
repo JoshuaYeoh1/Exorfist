@@ -31,7 +31,7 @@ public class TweenAnim : MonoBehaviour
 
     void Start()
     {
-        Reset(); // Must put in start otherwise buttonanim dissappears in mobile only
+        Reset(); // Must put in start otherwise buttonanim records the zeroed transforms (starting transforms) as default, disappearing in mobile
     }
 
     public void Reset()

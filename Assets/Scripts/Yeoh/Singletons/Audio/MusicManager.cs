@@ -22,6 +22,7 @@ public class MusicManager : MonoBehaviour
 
     [Header("Music")]
     public bool musicEnabled=true;
+    public AudioClip[] mainMenuMusics;
     public AudioClip[] idleMusics;
     public AudioClip[] combatMusics;
 
