@@ -73,9 +73,7 @@ public class EnemyAI : MonoBehaviour
         playerTransform = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
         sm = GetComponent<EnemyAIStateMachine>();
-        hurt = GetComponent<HurtScript>();
-
-        GameEventSystem.Current.OnSpawn(gameObject, enemyName);
+        hurt = GetComponent<HurtScript>();        
     }
 
     void Start()
@@ -86,6 +84,8 @@ public class EnemyAI : MonoBehaviour
         GameEventSystem.Current.StunEvent += OnStun;
         GameEventSystem.Current.ParryEvent += OnParried;
         GameEventSystem.Current.DeathEvent += OnDeath;
+
+        GameEventSystem.Current.OnSpawn(gameObject, enemyName);
     }
     void OnDestroy()
     {

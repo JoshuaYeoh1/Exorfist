@@ -47,9 +47,7 @@ public class Player : MonoBehaviour
         laser=GetComponent<PlayerLaser>();
         heal=GetComponent<PlayerHeal>();
         hp=GetComponent<HPManager>();
-        ragdoll=GetComponent<Ragdoller>();
-
-        GameEventSystem.Current.OnSpawn(gameObject, "Player");
+        ragdoll=GetComponent<Ragdoller>();        
 
         respawnPoint = new GameObject("Respawn Transform").transform;
 
@@ -64,6 +62,8 @@ public class Player : MonoBehaviour
         GameEventSystem.Current.RespawnEvent += OnRespawn;
         GameEventSystem.Current.IntroCamStartEvent += OnIntroCamStart;
         GameEventSystem.Current.IntroCamEndEvent += OnIntroCamEnd;
+
+        GameEventSystem.Current.OnSpawn(gameObject, "Player");
     }
     void OnDestroy()
     {

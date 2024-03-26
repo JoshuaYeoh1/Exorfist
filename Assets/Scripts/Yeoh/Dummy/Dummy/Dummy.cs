@@ -12,14 +12,14 @@ public class Dummy : MonoBehaviour
     void Awake()
     {
         hurt=GetComponent<HurtScript>();
-
-        GameEventSystem.Current.OnSpawn(gameObject, "Dummy");
     }
 
     void Start()
     {
         GameEventSystem.Current.HitEvent += OnHit;
         GameEventSystem.Current.DeathEvent += OnDeath;
+
+        GameEventSystem.Current.OnSpawn(gameObject, "Dummy");
     }
     void OnDestroy()
     {
