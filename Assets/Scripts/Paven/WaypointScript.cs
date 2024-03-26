@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class WaypointScript : MonoBehaviour
 {
@@ -14,13 +13,15 @@ public class WaypointScript : MonoBehaviour
         upPos = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + yOffset, gameObject.transform.position.z);
         originalPos = gameObject.transform.position;
         StartCoroutine(DestroyAfterTime());
+
+        SubscribeEvents();
     }
 
-    private void OnEnable()
+    private void SubscribeEvents()
     {
         GameEventSystem.Current.RoomEnterEvent += DestroySelf;
     }
-    private void OnDisable()
+    private void OnDestroy()
     {
         GameEventSystem.Current.RoomEnterEvent -= DestroySelf;
     }

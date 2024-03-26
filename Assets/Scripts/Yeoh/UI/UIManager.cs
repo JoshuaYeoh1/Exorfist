@@ -30,12 +30,12 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    void OnEnable()
+    void Start()
     {
         GameEventSystem.Current.ShowMenuEvent += OnShowMenu;
         GameEventSystem.Current.HideMenuEvent += OnHideMenu;
     }
-    void OnDisable()
+    void OnDestroy()
     {
         GameEventSystem.Current.ShowMenuEvent -= OnShowMenu;
         GameEventSystem.Current.HideMenuEvent -= OnHideMenu;

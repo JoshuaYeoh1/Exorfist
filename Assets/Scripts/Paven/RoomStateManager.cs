@@ -61,7 +61,7 @@ public class RoomStateManager : MonoBehaviour
         //if(Input.GetKeyDown(KeyCode.P)) UpdateRoomState(RoomState.Active);
     }
 
-    void OnEnable()
+    void Start()
     {
         Debug.Log("RoomStateManager event subscriptions initialized");
         StaticRoomSetup();
@@ -70,7 +70,7 @@ public class RoomStateManager : MonoBehaviour
         GameEventSystem.Current.DoorTriggerEnterEvent += SetCurrentDoorTransform;
         GameEventSystem.Current.RoomEnterEvent += OnRoomEntered;
     }
-    void OnDisable()
+    void OnDestroy()
     {
         GameEventSystem.Current.DeathEvent -= OnEnemyDeath;
         GameEventSystem.Current.NotifyRoomStateManagerEvent -= notifyRoomStateManager;

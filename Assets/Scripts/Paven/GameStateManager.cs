@@ -14,12 +14,12 @@ public class GameStateManager : MonoBehaviour
 
     [SerializeField] private GameObject gameOverPopUp;
 
-    void OnEnable()
+    void Start()
     {
         GameEventSystem.Current.DeathEvent += OnDeath;
         GameEventSystem.Current.RespawnEvent += OnRespawn;
     }
-    void OnDisable()
+    void OnDestroy()
     {
         GameEventSystem.Current.DeathEvent -= OnDeath;
         GameEventSystem.Current.RespawnEvent -= OnRespawn;

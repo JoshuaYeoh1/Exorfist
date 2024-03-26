@@ -16,12 +16,12 @@ public class Dummy : MonoBehaviour
         GameEventSystem.Current.OnSpawn(gameObject, "Dummy");
     }
 
-    void OnEnable()
+    void Start()
     {
         GameEventSystem.Current.HitEvent += OnHit;
         GameEventSystem.Current.DeathEvent += OnDeath;
     }
-    void OnDisable()
+    void OnDestroy()
     {
         GameEventSystem.Current.HitEvent -= OnHit;
         GameEventSystem.Current.DeathEvent -= OnDeath;

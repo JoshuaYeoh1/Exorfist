@@ -13,11 +13,11 @@ public class CameraManager : MonoBehaviour
         if(!Current) Current=this;        
     }
 
-    void OnEnable()
+    void Start()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
-    void OnDisable()
+    void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }

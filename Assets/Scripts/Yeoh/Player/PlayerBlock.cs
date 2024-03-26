@@ -27,11 +27,11 @@ public class PlayerBlock : MonoBehaviour
         finder=GetComponent<ClosestObjectFinder>();
     }
 
-    void OnEnable()
+    void Start()
     {
         GameEventSystem.Current.HitEvent += CheckBlock;
     }
-    void OnDisable()
+    void OnDestroy()
     {
         GameEventSystem.Current.HitEvent -= CheckBlock;
     }

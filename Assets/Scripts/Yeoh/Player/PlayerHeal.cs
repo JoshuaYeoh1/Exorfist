@@ -246,11 +246,11 @@ public class PlayerHeal : MonoBehaviour
         canCast=true;
     }
 
-    void OnEnable()
+    void Start()
     {
         GameEventSystem.Current.DeathEvent += OnDeath;
     }
-    void OnDisable()
+    void OnDestroy()
     {
         GameEventSystem.Current.DeathEvent -= OnDeath;
     }

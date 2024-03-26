@@ -32,6 +32,8 @@ public class Player : MonoBehaviour
 
     public AudioSource voice;
 
+    AudioSource sfxLowHpLoop;
+
     void Awake()
     {
         sm=GetComponent<PlayerStateMachine>();
@@ -50,9 +52,12 @@ public class Player : MonoBehaviour
         GameEventSystem.Current.OnSpawn(gameObject, "Player");
 
         respawnPoint = new GameObject("Respawn Transform").transform;
+
+        sfxLowHpLoop = AudioManager.Current.LoopSFX(gameObject, SFXManager.Current.sfxUILowHealth, false, false);
+        sfxLowHpLoop.volume=0;
     }
 
-    void OnEnable()
+    void Start()
     {
         GameEventSystem.Current.HurtEvent += OnHurt;
         GameEventSystem.Current.DeathEvent += OnDeath;
@@ -60,21 +65,13 @@ public class Player : MonoBehaviour
         GameEventSystem.Current.IntroCamStartEvent += OnIntroCamStart;
         GameEventSystem.Current.IntroCamEndEvent += OnIntroCamEnd;
     }
-    void OnDisable()
+    void OnDestroy()
     {
         GameEventSystem.Current.HurtEvent -= OnHurt;
         GameEventSystem.Current.DeathEvent -= OnDeath;
         GameEventSystem.Current.RespawnEvent -= OnRespawn;
         GameEventSystem.Current.IntroCamStartEvent -= OnIntroCamStart;
         GameEventSystem.Current.IntroCamEndEvent -= OnIntroCamEnd;
-    }
-
-    AudioSource sfxLowHpLoop;
-
-    void Start()
-    {
-        sfxLowHpLoop = AudioManager.Current.LoopSFX(gameObject, SFXManager.Current.sfxUILowHealth, false, false);
-        sfxLowHpLoop.volume=0;
     }
 
     void Update()

@@ -105,11 +105,11 @@ public class InputBuffer : MonoBehaviour
         if(Input.GetKeyUp(KeyCode.C)) Heal();
     }
 
-    void OnEnable()
+    void Start()
     {
         GameEventSystem.Current.AbilityCastingEvent += OnAbilityCasting;
     }
-    void OnDisable()
+    void OnDestroy()
     {
         GameEventSystem.Current.AbilityCastingEvent -= OnAbilityCasting;
     }

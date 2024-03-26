@@ -80,20 +80,14 @@ public class EnemyAI : MonoBehaviour
 
     void Start()
     {
-        if(AIDirector.instance)
-        {
-            AIDirector.instance.enemies.Add(gameObject); //add this EnemyAI gameObject to the AIDirector script
-        }
-    }
+        AIDirector.instance.enemies.Add(gameObject); //add this EnemyAI gameObject to the AIDirector script
 
-    void OnEnable()
-    {
         GameEventSystem.Current.HitEvent += OnHit;
         GameEventSystem.Current.StunEvent += OnStun;
         GameEventSystem.Current.ParryEvent += OnParried;
         GameEventSystem.Current.DeathEvent += OnDeath;
     }
-    void OnDisable()
+    void OnDestroy()
     {
         GameEventSystem.Current.HitEvent -= OnHit;
         GameEventSystem.Current.StunEvent -= OnStun;

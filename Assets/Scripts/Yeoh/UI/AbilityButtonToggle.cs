@@ -49,11 +49,11 @@ public class AbilityButtonToggle : MonoBehaviour
         }
     }
 
-    void OnEnable()
+    void Start()
     {
         GameEventSystem.Current.AbilityCastingEvent += OnAbilityCasting;
     }
-    void OnDisable()
+    void OnDestroy()
     {
         GameEventSystem.Current.AbilityCastingEvent -= OnAbilityCasting;
     }

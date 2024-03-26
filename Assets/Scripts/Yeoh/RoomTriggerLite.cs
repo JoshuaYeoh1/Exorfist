@@ -75,12 +75,12 @@ public class RoomTrigger : MonoBehaviour
         }
     }
 
-    void OnEnable()
+    void Start()
     {
         GameEventSystem.Current.DeathEvent += OnDeath;
         GameEventSystem.Current.RespawnEvent += OnRespawn;
     }
-    void OnDisable()
+    void OnDestroy()
     {
         GameEventSystem.Current.DeathEvent += OnDeath;
         GameEventSystem.Current.RespawnEvent -= OnRespawn;

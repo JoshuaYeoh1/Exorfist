@@ -21,16 +21,13 @@ public class ScoringSystem : MonoBehaviour
     void Start()
     {
         multiplier = 1;
-    }
-
-    void OnEnable()
-    {
+        
         GameEventSystem.Current.HitEvent += OnHit;
         GameEventSystem.Current.HurtEvent += OnHurt;
         GameEventSystem.Current.DeathEvent += OnDeath;
         GameEventSystem.Current.ParryEvent += OnParry;
     }
-    void OnDisable()
+    void OnDestroy()
     {
         GameEventSystem.Current.HitEvent -= OnHit;
         GameEventSystem.Current.HurtEvent -= OnHurt;

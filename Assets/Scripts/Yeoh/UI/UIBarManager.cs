@@ -14,15 +14,13 @@ public class UIBarManager : MonoBehaviour
         hider=GetComponent<UIHider>();
     }
 
-    void OnEnable()
+    void Start()
     {
         GameEventSystem.Current.ValueBarUpdateEvent += OnValueBarUpdate;
     }
-    void OnDisable()
+    void OnDestroy()
     {
         GameEventSystem.Current.ValueBarUpdateEvent -= OnValueBarUpdate;
-
-        LeanTween.cancel(gameObject);
     }
     
     void OnValueBarUpdate(GameObject owner, float value, float valueMax)
@@ -53,5 +51,10 @@ public class UIBarManager : MonoBehaviour
             .setIgnoreTimeScale(true)
             .setOnUpdate( (float value)=>{if(bar) bar.fillAmount=value;} )
             .id;
+    }
+
+    void OnDisable()
+    {
+        LeanTween.cancel(gameObject);
     }
 }

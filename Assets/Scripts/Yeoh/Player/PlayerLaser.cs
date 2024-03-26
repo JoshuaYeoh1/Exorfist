@@ -325,11 +325,11 @@ public class PlayerLaser : MonoBehaviour
         canCast=true;
     }
 
-    void OnEnable()
+    void Start()
     {
         GameEventSystem.Current.DeathEvent += OnDeath;
     }
-    void OnDisable()
+    void OnDestroy()
     {
         GameEventSystem.Current.DeathEvent -= OnDeath;
     }

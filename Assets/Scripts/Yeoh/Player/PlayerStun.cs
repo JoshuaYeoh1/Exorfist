@@ -16,12 +16,12 @@ public class PlayerStun : MonoBehaviour
         move=GetComponent<PlayerMovement>();
     }
     
-    void OnEnable()
+    void Start()
     {
         GameEventSystem.Current.StunEvent += OnStun;
         GameEventSystem.Current.RespawnEvent += OnRespawn;
     }
-    void OnDisable()
+    void OnDestroy()
     {
         GameEventSystem.Current.StunEvent -= OnStun;
         GameEventSystem.Current.RespawnEvent -= OnRespawn;
