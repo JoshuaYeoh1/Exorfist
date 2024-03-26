@@ -61,7 +61,7 @@ public class RoomTrigger : MonoBehaviour
 
             AudioManager.Current.PlaySFX(SFXManager.Current.sfxUITrigger, transform.position, false);
 
-            MusicManager.Current.ChangeMusic(MusicManager.Current.combatMusics);
+            MusicManager.Current.ChangeLayer(1);
         }
     }
 
@@ -90,7 +90,7 @@ public class RoomTrigger : MonoBehaviour
     {
         if(victim.tag!="Player") return;
 
-        MusicManager.Current.ChangeMusic(MusicManager.Current.idleMusics);
+        MusicManager.Current.ChangeLayer(0);
     }
 
     void OnRespawn(GameObject zombo)
@@ -147,7 +147,7 @@ public class RoomTrigger : MonoBehaviour
 
             AudioManager.Current.PlaySFX(SFXManager.Current.sfxUIClear, transform.position, false, false);
 
-            MusicManager.Current.ChangeMusic(MusicManager.Current.idleMusics);
+            MusicManager.Current.ChangeLayer(0);
         }
     }
 }

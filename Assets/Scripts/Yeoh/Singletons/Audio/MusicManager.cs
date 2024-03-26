@@ -6,107 +6,166 @@ public class MusicManager : MonoBehaviour
 {
     public static MusicManager Current;
 
-    AudioSource musicSource;
-    float defVolume;
-
     void Awake()
     {
         if(!Current) Current=this;
-
-        musicSource = GetComponent<AudioSource>();
-        defVolume = musicSource.volume;
-        musicSource.loop=false;
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
     [Header("Music")]
     public bool musicEnabled=true;
+
+    public List<AudioSource> musicLayers = new List<AudioSource>();
+    public AudioSource currentLayer;
+
     public AudioClip[] mainMenuMusics;
     public AudioClip[] idleMusics;
     public AudioClip[] combatMusics;
 
-    List<AudioClip> currentClips = new List<AudioClip>();
+    Dictionary<AudioSource, AudioClip[]> layerClipsDict = new Dictionary<AudioSource, AudioClip[]>();
 
     void Start()
     {
-        if(HasClips(idleMusics)) SwapMusic(idleMusics);
+        RecordDefVolumes();
+
+        MuteAndEmptyAllLayers();
+        SetInitialLayersAndClips();
     }
 
-    public void SwapMusic(AudioClip[] clips)
+    public void MuteAndEmptyAllLayers()
     {
-        if(currentClips.Count>0)
+        foreach(AudioSource source in musicLayers)
         {
-            currentClips.Clear();
-        }
-        
-        if(HasClips(clips))
-        {
-            currentClips.AddRange(clips);
-            RestartMusic();
+            source.loop=false;
+
+            layerClipsDict.Clear();
+
+            source.volume=0;
         }
     }
 
-    void RestartMusic()
+    public void SetInitialLayersAndClips()
     {
-        if(currentClips.Count>0)
-        {
-            musicSource.volume = defVolume;
-            musicSource.clip = currentClips[Random.Range(0, currentClips.Count)];
-            musicSource.Play();
-        }
-    }
+        ChangeClips(0, idleMusics);
+        ChangeClips(1, combatMusics);
 
+        ChangeLayer(0,0,0,0);
+    }
+    
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
     void Update()
     {
-        if(musicEnabled) UpdateShuffleMusic();
+        if(musicEnabled) AutoReplayAndShuffleAllLayers();
     }
 
-    void UpdateShuffleMusic()
+    void AutoReplayAndShuffleAllLayers()
     {
-        if(!musicSource.isPlaying) RestartMusic();
+        foreach(AudioSource source in musicLayers)
+        {
+            if(!source.isPlaying) Play(source);
+        }
     }
-
+    
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void ChangeMusic(AudioClip[] clips, float fadeOutTime=3)
+    public void ChangeMusic(AudioSource source, AudioClip[] clips, float fadeOutTime=3)
     {
-        AudioManager.Current.TweenVolume(musicSource, 0, fadeOutTime);
-
         if(changingMusicRt!=null) StopCoroutine(changingMusicRt);
-        changingMusicRt = StartCoroutine(ChangingMusic(clips, fadeOutTime));
+        changingMusicRt = StartCoroutine(ChangingMusic(source, clips, fadeOutTime));
+    }
+    public void ChangeMusic(int layerIndex, AudioClip[] clips, float fadeOutTime=3)
+    {
+        ChangeMusic(musicLayers[layerIndex], clips, fadeOutTime);
     }
     
     Coroutine changingMusicRt;
-    IEnumerator ChangingMusic(AudioClip[] clips, float fadeOutTime)
+    IEnumerator ChangingMusic(AudioSource source, AudioClip[] clips, float outTime)
     {
-        if(fadeOutTime>0) yield return new WaitForSecondsRealtime(fadeOutTime);
-        if(HasClips(clips)) SwapMusic(clips);
+        AudioManager.Current.TweenVolume(source, 0, outTime);
+
+        if(outTime>0) yield return new WaitForSecondsRealtime(outTime);
+
+        ChangeClips(source, clips);
+
+        Play(source);
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////
-
-    public void PlayMusic(AudioClip[] clips)
+    public void ChangeClips(AudioSource source, AudioClip[] clips)
     {
-        ChangeMusic(clips, 0);
-    }
-
-    public void StopMusic(float fadeOutTime=3)
-    {
-        ChangeMusic(null, fadeOutTime);
-
-        if(currentClips.Count>0)
+        if(layerClipsDict.ContainsKey(source))
         {
-            currentClips.Clear();
+            layerClipsDict.Remove(source);
         }
+
+        if(HasClips(clips))
+        {
+            layerClipsDict.Add(source, clips);
+        }
+    }
+    public void ChangeClips(int layerIndex, AudioClip[] clips)
+    {
+        ChangeClips(musicLayers[layerIndex], clips);
+    }
+
+    void Play(AudioSource source)
+    {
+        if(!layerClipsDict.ContainsKey(source)) return;
+
+        AudioClip[] clips = layerClipsDict[source];
+
+        int randomClip = Random.Range(0, layerClipsDict[source].Length);
+
+        source.clip = clips[randomClip];
+
+        source.Play();
+    }
+
+    public void ChangeLayer(int layerIndex, float outTime=3, float inOffsetTime=-1, float inTime=3)
+    {
+        if(crossfadingLayerRt!=null) StopCoroutine(crossfadingLayerRt);
+        crossfadingLayerRt = StartCoroutine(CrossfadingLayer(layerIndex, outTime, inOffsetTime, inTime));
+    }
+
+    Coroutine crossfadingLayerRt;
+    IEnumerator CrossfadingLayer(int layerIndex, float outTime, float inOffsetTime, float inTime)
+    {
+        if(currentLayer) AudioManager.Current.TweenVolume(currentLayer, 0, outTime);
+
+        currentLayer = musicLayers[layerIndex];
+
+        if(outTime>0 || inOffsetTime>0) yield return new WaitForSecondsRealtime(outTime+inOffsetTime);
+
+        AudioManager.Current.TweenVolume(currentLayer, defVolumeDict[currentLayer], inTime);
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+    
     public bool HasClips(AudioClip[] clips)
     {
         return clips!=null && clips.Length>0;
     }
+    public bool HasClips(List<AudioClip> clips)
+    {
+        return HasClips(clips.ToArray());
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    Dictionary<AudioSource, float> defVolumeDict = new Dictionary<AudioSource, float>();
+    
+    void RecordDefVolumes()
+    {
+        foreach(AudioSource layer in musicLayers)
+        {
+            defVolumeDict[layer] = layer.volume;
+        }
+    }
+
+    void ResetLayerVolume(AudioSource layer)
+    {
+        layer.volume = defVolumeDict[layer];
+    }
+
 }

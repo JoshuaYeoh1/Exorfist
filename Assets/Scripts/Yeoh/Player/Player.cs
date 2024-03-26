@@ -32,8 +32,6 @@ public class Player : MonoBehaviour
 
     public AudioSource voice;
 
-    AudioSource sfxLowHpLoop;
-
     void Awake()
     {
         sm=GetComponent<PlayerStateMachine>();
@@ -50,10 +48,9 @@ public class Player : MonoBehaviour
         ragdoll=GetComponent<Ragdoller>();        
 
         respawnPoint = new GameObject("Respawn Transform").transform;
-
-        sfxLowHpLoop = AudioManager.Current.LoopSFX(gameObject, SFXManager.Current.sfxUILowHealth, false, false);
-        sfxLowHpLoop.volume=0;
     }
+
+    AudioSource sfxLowHpLoop;
 
     void Start()
     {
@@ -64,6 +61,9 @@ public class Player : MonoBehaviour
         GameEventSystem.Current.IntroCamEndEvent += OnIntroCamEnd;
 
         GameEventSystem.Current.OnSpawn(gameObject, "Player");
+
+        sfxLowHpLoop = AudioManager.Current.LoopSFX(gameObject, SFXManager.Current.sfxUILowHealth, false, false);
+        sfxLowHpLoop.volume=0;
     }
     void OnDestroy()
     {
