@@ -178,7 +178,7 @@ public class Player : MonoBehaviour
         ragdoll.ToggleRagdoll(false); // align to ragdoll first before teleporting
         
         transform.position = respawnPoint.position;
-        transform.rotation = Quaternion.Euler(0, respawnPoint.rotation.y+180, 0);
+        transform.rotation = Quaternion.Euler(0, respawnPoint.eulerAngles.y+180, 0);
 
         anim.Play("wake", 2, 0);
 
