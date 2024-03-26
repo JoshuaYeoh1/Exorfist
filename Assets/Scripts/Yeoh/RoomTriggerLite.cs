@@ -136,7 +136,9 @@ public class RoomTrigger : MonoBehaviour
 
             if(lastRoom)
             {
-                Instantiate(gameFinishPopup);
+                TweenAnimSequence anim = Instantiate(gameFinishPopup).GetComponent<TweenAnimSequence>();
+
+                anim.Play();
 
                 AudioManager.Current.PlaySFX(SFXManager.Current.sfxUIWin, transform.position, false, false);
             }
