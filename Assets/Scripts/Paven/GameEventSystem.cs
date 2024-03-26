@@ -18,11 +18,11 @@ public class GameEventSystem : MonoBehaviour
         //DontDestroyOnLoad(gameObject); // Persist across scene changes
     }
 
-    void Start()
+    void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
-    void OnDestroy()
+    void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }

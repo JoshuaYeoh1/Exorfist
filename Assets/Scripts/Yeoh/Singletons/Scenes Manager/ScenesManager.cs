@@ -29,11 +29,11 @@ public class ScenesManager : MonoBehaviour
         if(!Current) Current=this;
     }
 
-    void Start()
+    void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
-    void OnDestroy()
+    void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
