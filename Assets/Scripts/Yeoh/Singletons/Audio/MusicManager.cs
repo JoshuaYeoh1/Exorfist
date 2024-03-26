@@ -122,20 +122,20 @@ public class MusicManager : MonoBehaviour
         source.Play();
     }
 
-    public void ChangeLayer(int layerIndex, float outTime=3, float inOffsetTime=-1, float inTime=3)
+    public void ChangeLayer(int layerIndex, float outTime=3, float waitTime=1, float inTime=3)
     {
         if(crossfadingLayerRt!=null) StopCoroutine(crossfadingLayerRt);
-        crossfadingLayerRt = StartCoroutine(CrossfadingLayer(layerIndex, outTime, inOffsetTime, inTime));
+        crossfadingLayerRt = StartCoroutine(CrossfadingLayer(layerIndex, outTime, waitTime, inTime));
     }
 
     Coroutine crossfadingLayerRt;
-    IEnumerator CrossfadingLayer(int layerIndex, float outTime, float inOffsetTime, float inTime)
+    IEnumerator CrossfadingLayer(int layerIndex, float outTime, float waitTime, float inTime)
     {
         if(currentLayer) AudioManager.Current.TweenVolume(currentLayer, 0, outTime);
 
         currentLayer = musicLayers[layerIndex];
 
-        if(outTime>0 || inOffsetTime>0) yield return new WaitForSecondsRealtime(outTime+inOffsetTime);
+        if(waitTime>0) yield return new WaitForSecondsRealtime(waitTime);
 
         AudioManager.Current.TweenVolume(currentLayer, defVolumeDict[currentLayer], inTime);
     }
