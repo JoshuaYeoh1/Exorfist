@@ -20,7 +20,7 @@ public class Singleton : MonoBehaviour
 
     void UnlockFPS()
     {
-        Application.targetFrameRate = 45; // 60FPS FREEZES MY S10 AFTER PLAYING A WHILE
+        Application.targetFrameRate = 30; // 45-60FPS FREEZES MY S10 AFTER PLAYING A WHILE
         //QualitySettings.vSyncCount = 0;
     }
 
