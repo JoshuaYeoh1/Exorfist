@@ -133,8 +133,6 @@ public class Player : MonoBehaviour
         if(victim!=gameObject) return;
 
         CancelActions();
-        heal.StopHeal();
-        laser.StopLaser();
 
         RandDeathAnim();
         
@@ -152,7 +150,8 @@ public class Player : MonoBehaviour
     void RandDeathAnim()
     {
         int i = Random.Range(1, 2);
-        anim.CrossFade("death"+i, .1f, 2, 0);
+        //anim.CrossFade("death"+i, .1f, 2, 0);
+        anim.Play("death"+i, 2, 0);
     }
 
     public void Respawn(float wait=3)

@@ -228,6 +228,8 @@ public class PlayerHeal : MonoBehaviour
 
     void DisableCastTrails()
     {
+        if(trails.Count==0) return;
+
         foreach(GameObject trail in trails)
         {
             if(trail) Destroy(trail);
@@ -242,5 +244,23 @@ public class PlayerHeal : MonoBehaviour
 
         if(coolingRt!=null) StopCoroutine(coolingRt);
         canCast=true;
+    }
+
+    void OnEnable()
+    {
+        GameEventSystem.Current.DeathEvent += OnDeath;
+    }
+    void OnDisable()
+    {
+        GameEventSystem.Current.DeathEvent -= OnDeath;
+    }
+
+    void OnDeath(GameObject victim, GameObject killer, HurtInfo hurtInfo)
+    {
+        if(victim!=gameObject) return;
+
+        Cancel();
+        StopHeal();
+        DisableCastTrails();
     }
 }
