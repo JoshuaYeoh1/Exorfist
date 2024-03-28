@@ -8,6 +8,15 @@ public class AbilityButtonToggle : MonoBehaviour
     public float slowMoTime=3, slowMoMult=.5f;
     public bool active;
 
+    void OnEnable()
+    {
+        GameEventSystem.Current.AbilityCastingEvent += OnAbilityCasting;
+    }
+    void OnDisable()
+    {
+        GameEventSystem.Current.AbilityCastingEvent -= OnAbilityCasting;
+    }
+
     public void ShowAbilities()
     {
         if(!active)
@@ -47,15 +56,6 @@ public class AbilityButtonToggle : MonoBehaviour
 
             GameEventSystem.Current.OnAbilitySlowMo(false);
         }
-    }
-
-    void Start()
-    {
-        GameEventSystem.Current.AbilityCastingEvent += OnAbilityCasting;
-    }
-    void OnDestroy()
-    {
-        GameEventSystem.Current.AbilityCastingEvent -= OnAbilityCasting;
     }
     
     void OnAbilityCasting(GameObject caster, string abilityName)

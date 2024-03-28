@@ -57,7 +57,7 @@ public class SFXManager : MonoBehaviour
     [Header("Punch Impact AudioClips")]
     public AudioClip[] PunchClips;
 
-    void Start()
+    void OnEnable()
     {
         GameEventSystem.Current.HitEvent += OnHit;
         GameEventSystem.Current.HurtEvent += OnHurt;
@@ -73,7 +73,7 @@ public class SFXManager : MonoBehaviour
         GameEventSystem.Current.AbilityEndEvent += OnAbilityEnd;
         GameEventSystem.Current.LootEvent += OnLootEvent;
     }
-    void OnDestroy()
+    void OnDisable()
     {
         GameEventSystem.Current.HitEvent -= OnHit;
         GameEventSystem.Current.HurtEvent -= OnHurt;

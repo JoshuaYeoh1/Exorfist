@@ -24,6 +24,15 @@ public class InputBuffer : MonoBehaviour
         heal=GetComponent<PlayerHeal>();
     }
 
+    void OnEnable()
+    {
+        GameEventSystem.Current.AbilityCastingEvent += OnAbilityCasting;
+    }
+    void OnDisable()
+    {
+        GameEventSystem.Current.AbilityCastingEvent -= OnAbilityCasting;
+    }
+
     void Update()
     {
         KeyboardInput(); // temp for testing on PC
@@ -103,15 +112,6 @@ public class InputBuffer : MonoBehaviour
         if(Input.GetKeyUp(KeyCode.Z)) AOE();
         if(Input.GetKeyUp(KeyCode.X)) Laser();
         if(Input.GetKeyUp(KeyCode.C)) Heal();
-    }
-
-    void Start()
-    {
-        GameEventSystem.Current.AbilityCastingEvent += OnAbilityCasting;
-    }
-    void OnDestroy()
-    {
-        GameEventSystem.Current.AbilityCastingEvent -= OnAbilityCasting;
     }
     
     void OnAbilityCasting(GameObject caster, string abilityName)

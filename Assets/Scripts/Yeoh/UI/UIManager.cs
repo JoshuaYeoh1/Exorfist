@@ -14,6 +14,17 @@ public class UIManager : MonoBehaviour
         GetChildrenCanvaGroups();
     }
 
+    void OnEnable()
+    {
+        GameEventSystem.Current.ShowMenuEvent += OnShowMenu;
+        GameEventSystem.Current.HideMenuEvent += OnHideMenu;
+    }
+    void OnDisable()
+    {
+        GameEventSystem.Current.ShowMenuEvent -= OnShowMenu;
+        GameEventSystem.Current.HideMenuEvent -= OnHideMenu;
+    }
+
     void GetChildren()
     {
         foreach(Transform child in transform)
@@ -28,18 +39,6 @@ public class UIManager : MonoBehaviour
         {
             childrenCanvasGroupsDict[child] = child.GetComponent<CanvasGroup>();
         }
-    }
-
-    void Start()
-    {
-        GameEventSystem.Current.ShowMenuEvent += OnShowMenu;
-        GameEventSystem.Current.HideMenuEvent += OnHideMenu;
-    }
-    void OnDestroy()
-    {
-        GameEventSystem.Current.ShowMenuEvent -= OnShowMenu;
-        GameEventSystem.Current.HideMenuEvent -= OnHideMenu;
-
     }
 
     public GameObject upgradeMenu;

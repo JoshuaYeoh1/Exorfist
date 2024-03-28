@@ -81,7 +81,7 @@ public class Vignette : MonoBehaviour
         else canFlash=true;
     }
 
-    void Start()
+    void OnEnable()
     {
         GameEventSystem.Current.HurtEvent += OnHurt;
         GameEventSystem.Current.BlockEvent += OnBlock;
@@ -92,7 +92,7 @@ public class Vignette : MonoBehaviour
         GameEventSystem.Current.AbilityCastEvent += OnAbilityCast;
         GameEventSystem.Current.AbilityEndEvent += OnAbilityEnd;
     }
-    void OnDestroy()
+    void OnDisable()
     {
         GameEventSystem.Current.HurtEvent -= OnHurt;
         GameEventSystem.Current.BlockEvent -= OnBlock;

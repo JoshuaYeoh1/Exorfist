@@ -17,7 +17,7 @@ public class HPManager : MonoBehaviour
     {
         defaultRegenHp=regenHp;
         
-        GameEventSystem.Current.OnValueBarUpdate(gameObject, hp, hpMax);
+        GameEventSystem.Current.OnUIBarUpdate(gameObject, hp, hpMax);
     }
 
     void Update()
@@ -38,7 +38,7 @@ public class HPManager : MonoBehaviour
             else hp=0;
         }
         
-        GameEventSystem.Current.OnValueBarUpdate(gameObject, hp, hpMax);
+        GameEventSystem.Current.OnUIBarUpdate(gameObject, hp, hpMax);
     }    
     
     IEnumerator HpRegenerating()
@@ -51,7 +51,7 @@ public class HPManager : MonoBehaviour
             {
                 if(regen) Add(regenHp);
 
-                GameEventSystem.Current.OnValueBarUpdate(gameObject, hp, hpMax);
+                GameEventSystem.Current.OnUIBarUpdate(gameObject, hp, hpMax);
             }
         }
     }
@@ -61,7 +61,7 @@ public class HPManager : MonoBehaviour
         if(amount < hpMax-hp) hp+=amount;
         else hp=hpMax;
 
-        GameEventSystem.Current.OnValueBarUpdate(gameObject, hp, hpMax);
+        GameEventSystem.Current.OnUIBarUpdate(gameObject, hp, hpMax);
     }
 
     public void SetHPPercent(float percent)
@@ -70,6 +70,6 @@ public class HPManager : MonoBehaviour
 
         hp = hpMax * percent/100;
 
-        GameEventSystem.Current.OnValueBarUpdate(gameObject, hp, hpMax);
+        GameEventSystem.Current.OnUIBarUpdate(gameObject, hp, hpMax);
     }
 }

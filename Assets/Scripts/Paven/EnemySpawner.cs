@@ -4,11 +4,11 @@ public class EnemySpawner : MonoBehaviour
 {
     public GameObject[] enemyPrefabs;
 
-    void Start()
+    void OnEnable()
     {
         GameEventSystem.Current.RoomStateChangedEvent += OnRoomStateChanged;
     }
-    void OnDestroy()
+    void OnDisable()
     {
         GameEventSystem.Current.RoomStateChangedEvent -= OnRoomStateChanged;
     }

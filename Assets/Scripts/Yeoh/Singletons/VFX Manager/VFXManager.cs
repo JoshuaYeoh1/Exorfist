@@ -16,7 +16,7 @@ public class VFXManager : MonoBehaviour
     
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    void Start()
+    void OnEnable()
     {
         GameEventSystem.Current.HurtEvent += OnHurt;
         GameEventSystem.Current.BlockEvent += OnBlock;
@@ -31,7 +31,7 @@ public class VFXManager : MonoBehaviour
 
         SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
-    void OnDestroy()
+    void OnDisable()
     {
         GameEventSystem.Current.HurtEvent -= OnHurt;
         GameEventSystem.Current.BlockEvent -= OnBlock;

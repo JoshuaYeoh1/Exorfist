@@ -50,28 +50,31 @@ public class Player : MonoBehaviour
         respawnPoint = new GameObject("Respawn Transform").transform;
     }
 
-    AudioSource sfxLowHpLoop;
-
-    void Start()
+    void OnEnable()
     {
         GameEventSystem.Current.HurtEvent += OnHurt;
         GameEventSystem.Current.DeathEvent += OnDeath;
         GameEventSystem.Current.RespawnEvent += OnRespawn;
         GameEventSystem.Current.IntroCamStartEvent += OnIntroCamStart;
         GameEventSystem.Current.IntroCamEndEvent += OnIntroCamEnd;
-
-        GameEventSystem.Current.OnSpawn(gameObject, "Player");
-
-        sfxLowHpLoop = AudioManager.Current.LoopSFX(gameObject, SFXManager.Current.sfxUILowHealth, false, false);
-        sfxLowHpLoop.volume=0;
     }
-    void OnDestroy()
+    void OnDisable()
     {
         GameEventSystem.Current.HurtEvent -= OnHurt;
         GameEventSystem.Current.DeathEvent -= OnDeath;
         GameEventSystem.Current.RespawnEvent -= OnRespawn;
         GameEventSystem.Current.IntroCamStartEvent -= OnIntroCamStart;
         GameEventSystem.Current.IntroCamEndEvent -= OnIntroCamEnd;
+    }
+
+    AudioSource sfxLowHpLoop;
+
+    void Start()
+    {
+        GameEventSystem.Current.OnSpawn(gameObject, "Player");
+
+        sfxLowHpLoop = AudioManager.Current.LoopSFX(gameObject, SFXManager.Current.sfxUILowHealth, false, false);
+        sfxLowHpLoop.volume=0;
     }
 
     void Update()

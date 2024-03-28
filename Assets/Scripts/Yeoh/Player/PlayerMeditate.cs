@@ -18,13 +18,13 @@ public class PlayerMeditate : MonoBehaviour
         hp=GetComponent<HPManager>();
     }
 
-    void Start()
+    void OnEnable()
     {
         GameEventSystem.Current.MeditateEnterEvent += OnMeditateEnter;
         GameEventSystem.Current.MeditateExitEvent += OnMeditateExit;
         GameEventSystem.Current.HideMenuEvent += OnHideMenu;
     }
-    void OnDestroy()
+    void OnDisable()
     {
         GameEventSystem.Current.MeditateEnterEvent -= OnMeditateEnter;
         GameEventSystem.Current.MeditateExitEvent -= OnMeditateExit;

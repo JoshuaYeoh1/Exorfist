@@ -10,11 +10,11 @@ public class DoorTriggerEnter : MonoBehaviour
     public bool isPopupPoint, destroyOnContact;
     public int roomID { get; set; }
 
-    void Start()
+    void OnEnable()
     {
         GameEventSystem.Current.RoomEnterEvent += OnRoomEnter;
     }
-    void OnDestroy()
+    void OnDisable()
     {
         GameEventSystem.Current.RoomEnterEvent -= OnRoomEnter;
     }

@@ -15,6 +15,21 @@ public class EyeblinkAnim : MonoBehaviour
         defScaleY = eyes[0].transform.localScale.y;
     }
 
+    void OnEnable()
+    {
+        GameEventSystem.Current.HurtEvent += OnHurt;
+        GameEventSystem.Current.DeathEvent += OnDeath;
+        GameEventSystem.Current.RespawnEvent += OnRespawn;
+
+        StartRandomBlinking();
+    }
+    void OnDisable()
+    {
+        GameEventSystem.Current.HurtEvent -= OnHurt;
+        GameEventSystem.Current.DeathEvent -= OnDeath;
+        GameEventSystem.Current.RespawnEvent -= OnRespawn;
+    }
+
     Dictionary<GameObject, int> eyeTweenIdDict = new Dictionary<GameObject, int>();
 
     public void TweenEyesY(float to, float time)
@@ -86,11 +101,6 @@ public class EyeblinkAnim : MonoBehaviour
         //CheckResetPriority();
     }
 
-    void OnEnable()
-    {
-        StartRandomBlinking();
-    }
-
     public float blinkInterval=1;
 
     void StartRandomBlinking()
@@ -113,20 +123,7 @@ public class EyeblinkAnim : MonoBehaviour
     {
         if(randomBlinkingRt!=null) StopCoroutine(randomBlinkingRt);
     }
-
-    void Start()
-    {
-        GameEventSystem.Current.HurtEvent += OnHurt;
-        GameEventSystem.Current.DeathEvent += OnDeath;
-        GameEventSystem.Current.RespawnEvent += OnRespawn;
-    }
-    void OnDestroy()
-    {
-        GameEventSystem.Current.HurtEvent -= OnHurt;
-        GameEventSystem.Current.DeathEvent -= OnDeath;
-        GameEventSystem.Current.RespawnEvent -= OnRespawn;
-    }
-
+    
     void OnHurt(GameObject victim, GameObject attacker, HurtInfo hurtInfo)
     {
         //if(!hasPriority(2)) return;

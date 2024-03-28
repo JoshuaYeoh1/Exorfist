@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class EnterRoomPopup : MonoBehaviour
 {
-    void Start()
+    void OnEnable()
     {
         GameEventSystem.Current.RoomEnterEvent += ClosePopUp;
     }
-    void OnDestroy()
+    void OnDisable()
     {
         GameEventSystem.Current.RoomEnterEvent -= ClosePopUp;
     }

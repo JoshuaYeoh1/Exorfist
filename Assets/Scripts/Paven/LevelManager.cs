@@ -4,25 +4,27 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-
     //by default, all RSMs, except for the INITIAL RSM, should have their gameObjects set to "false", so that their code does not get executed.
     public List<RoomStateManager> roomStateManagers;
     public RoomStateManager activeRSM;
 
-    void Start()
+    void OnEnable()
     {
         GameEventSystem.Current.RoomStateChangedEvent += CycleRoomStateManager;
+    }
+    void OnDisable()
+    {
+        GameEventSystem.Current.RoomStateChangedEvent -= CycleRoomStateManager;
+    }
 
+    void Start()
+    {
         if(roomStateManagers != null) 
         {
             activeRSM = roomStateManagers[0];
         }
 
         SetRoomIDS();
-    }
-    void OnDestroy()
-    {
-        GameEventSystem.Current.RoomStateChangedEvent -= CycleRoomStateManager;
     }
 
     private void SetRoomIDS()

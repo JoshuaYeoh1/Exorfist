@@ -30,6 +30,15 @@ public class PlayerAOE : MonoBehaviour
         player=GetComponent<Player>();
     }
 
+    void OnEnable()
+    {
+        GameEventSystem.Current.DeathEvent += OnDeath;
+    }
+    void OnDisable()
+    {
+        GameEventSystem.Current.DeathEvent -= OnDeath;
+    }
+
     void Update()
     {
         if(radialBar.IsActive()) radialBar.fillAmount = radialFill;
@@ -219,15 +228,6 @@ public class PlayerAOE : MonoBehaviour
 
         if(coolingRt!=null) StopCoroutine(coolingRt);
         canCast=true;
-    }
-
-    void Start()
-    {
-        GameEventSystem.Current.DeathEvent += OnDeath;
-    }
-    void OnDestroy()
-    {
-        GameEventSystem.Current.DeathEvent -= OnDeath;
     }
 
     void OnDeath(GameObject victim, GameObject killer, HurtInfo hurtInfo)

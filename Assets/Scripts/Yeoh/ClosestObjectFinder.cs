@@ -18,18 +18,15 @@ public class ClosestObjectFinder : MonoBehaviour
         defOuterRange=outerRange;
     }
 
-    void Start()
-    {
-        GameEventSystem.Current.TargetEvent += OnTarget;
-    }
-    void OnDestroy()
-    {
-        GameEventSystem.Current.TargetEvent -= OnTarget;
-    }
-
     void OnEnable()
     {
+        GameEventSystem.Current.TargetEvent += OnTarget;
+
         StartCoroutine(SlowUpdate());
+    }
+    void OnDisable()
+    {
+        GameEventSystem.Current.TargetEvent -= OnTarget;
     }
     
     IEnumerator SlowUpdate()

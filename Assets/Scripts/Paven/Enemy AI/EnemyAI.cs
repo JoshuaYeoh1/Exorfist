@@ -76,18 +76,14 @@ public class EnemyAI : MonoBehaviour
         hurt = GetComponent<HurtScript>();        
     }
 
-    void Start()
+    void OnEnable()
     {
-        AIDirector.instance.enemies.Add(gameObject); //add this EnemyAI gameObject to the AIDirector script
-
         GameEventSystem.Current.HitEvent += OnHit;
         GameEventSystem.Current.StunEvent += OnStun;
         GameEventSystem.Current.ParryEvent += OnParried;
         GameEventSystem.Current.DeathEvent += OnDeath;
-
-        GameEventSystem.Current.OnSpawn(gameObject, enemyName);
     }
-    void OnDestroy()
+    void OnDisable()
     {
         GameEventSystem.Current.HitEvent -= OnHit;
         GameEventSystem.Current.StunEvent -= OnStun;
@@ -95,9 +91,10 @@ public class EnemyAI : MonoBehaviour
         GameEventSystem.Current.DeathEvent -= OnDeath;
     }
 
-    void Update()
+    void Start()
     {
-        //Debug.Log(preparingAttack);
+        AIDirector.instance.enemies.Add(gameObject); //add this EnemyAI gameObject to the AIDirector script
+        GameEventSystem.Current.OnSpawn(gameObject, enemyName);
     }
 
     public Hurtbox hurtbox;

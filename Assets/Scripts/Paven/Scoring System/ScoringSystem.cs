@@ -18,21 +18,24 @@ public class ScoringSystem : MonoBehaviour
     [SerializeField] int enemyKillIncrement;
     GameObject scoreRankPopupPrefab;
 
-    void Start()
+    void OnEnable()
     {
-        multiplier = 1;
-        
         GameEventSystem.Current.HitEvent += OnHit;
         GameEventSystem.Current.HurtEvent += OnHurt;
         GameEventSystem.Current.DeathEvent += OnDeath;
         GameEventSystem.Current.ParryEvent += OnParry;
     }
-    void OnDestroy()
+    void OnDisable()
     {
         GameEventSystem.Current.HitEvent -= OnHit;
         GameEventSystem.Current.HurtEvent -= OnHurt;
         GameEventSystem.Current.DeathEvent -= OnDeath;
         GameEventSystem.Current.ParryEvent -= OnParry;
+    }
+
+    void Start()
+    {
+        multiplier=1;
     }
 
     public void OnHit(GameObject attacker, GameObject victim, HurtInfo hurtInfo)

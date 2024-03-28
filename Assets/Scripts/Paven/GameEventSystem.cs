@@ -142,13 +142,13 @@ public class GameEventSystem : MonoBehaviour
     }
 
     //==UI actions==//
-    public event Action<GameObject, float, float> ValueBarUpdateEvent;
+    public event Action<GameObject, float, float> UIBarUpdateEvent;
     public event Action<string> ShowMenuEvent;
     public event Action<string> HideMenuEvent;
 
-    public void OnValueBarUpdate(GameObject owner, float value, float valueMax)
+    public void OnUIBarUpdate(GameObject owner, float value, float valueMax)
     {
-        ValueBarUpdateEvent?.Invoke(owner, value, valueMax);
+        UIBarUpdateEvent?.Invoke(owner, value, valueMax);
     }
     public void OnShowMenu(string menuName)
     {
