@@ -201,7 +201,7 @@ GameObject:
   - component: {fileID: 2910648898679734696}
   - component: {fileID: 1093283494264293194}
   - component: {fileID: 2854327189051437934}
-  - component: {fileID: 2465155738811348283}
+  - component: {fileID: 7305842816317581141}
   m_Layer: 5
   m_Name: Black
   m_TagString: Untagged
@@ -266,7 +266,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2465155738811348283
+--- !u!114 &7305842816317581141
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -275,7 +275,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1946226632121041695}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2df3736299603ba42b1ef22211cb5246, type: 3}
+  m_Script: {fileID: 11500000, guid: e03fc35bfddc6cb43b9ce227fc6aeb97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   wigglePos: 1
@@ -299,7 +299,7 @@ GameObject:
   - component: {fileID: 2365617086227836091}
   - component: {fileID: 7695219675272978442}
   - component: {fileID: 1119681507156827291}
-  - component: {fileID: 125749022839388717}
+  - component: {fileID: 2099439842108992089}
   m_Layer: 5
   m_Name: Guo Yong Raw Image
   m_TagString: Untagged
@@ -361,7 +361,7 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
---- !u!114 &125749022839388717
+--- !u!114 &2099439842108992089
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -370,7 +370,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2829316660290078594}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2df3736299603ba42b1ef22211cb5246, type: 3}
+  m_Script: {fileID: 11500000, guid: e03fc35bfddc6cb43b9ce227fc6aeb97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   wigglePos: 1
@@ -535,8 +535,6 @@ MonoBehaviour:
   - {fileID: 689075491542050342}
   - {fileID: 8536622250854538613}
   - {fileID: 5153712117404018699}
-  playOnEnable: 1
-  playDelay: 0.2
   animTime: 0.5
   nextAnimOffsetTime: -0.25
 --- !u!1 &4698173452784424399
@@ -588,7 +586,7 @@ GameObject:
   - component: {fileID: 7116454982814738273}
   - component: {fileID: 5435758604884429436}
   - component: {fileID: 5732419394101449646}
-  - component: {fileID: 3214821531108084}
+  - component: {fileID: 6620782618473664014}
   m_Layer: 5
   m_Name: Sifu Raw Image
   m_TagString: Untagged
@@ -650,7 +648,7 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
---- !u!114 &3214821531108084
+--- !u!114 &6620782618473664014
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -659,7 +657,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4946134032439418401}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2df3736299603ba42b1ef22211cb5246, type: 3}
+  m_Script: {fileID: 11500000, guid: e03fc35bfddc6cb43b9ce227fc6aeb97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   wigglePos: 1
@@ -681,7 +679,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6729063320938669208}
-  - component: {fileID: 7220429599014299429}
+  - component: {fileID: 7084428608524412452}
   - component: {fileID: 8816387643714134556}
   m_Layer: 5
   m_Name: Fishies
@@ -711,7 +709,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &7220429599014299429
+--- !u!114 &7084428608524412452
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -720,7 +718,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5346991367396702330}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 623d144a5e68e984f9e1c8e1af6cb820, type: 3}
+  m_Script: {fileID: 11500000, guid: 43272ddc5c9d7204ab0e6a6a917e90a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   animateRotation: 1
@@ -759,7 +757,7 @@ GameObject:
   - component: {fileID: 8200200760738391670}
   - component: {fileID: 1029866530380326169}
   - component: {fileID: 3711400739829877727}
-  - component: {fileID: 2332654752909157236}
+  - component: {fileID: 2062996911161552287}
   m_Layer: 5
   m_Name: White
   m_TagString: Untagged
@@ -824,7 +822,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2332654752909157236
+--- !u!114 &2062996911161552287
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -833,7 +831,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8707730997139994002}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2df3736299603ba42b1ef22211cb5246, type: 3}
+  m_Script: {fileID: 11500000, guid: e03fc35bfddc6cb43b9ce227fc6aeb97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   wigglePos: 1

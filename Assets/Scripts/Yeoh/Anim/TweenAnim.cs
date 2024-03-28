@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TweenAnim : MonoBehaviour
 {
-    [Header("Position")]
+    [Header("Local Position")]
     public bool animPos;
     public Vector3 inPos;
     public Vector3 outPos;
@@ -22,23 +22,42 @@ public class TweenAnim : MonoBehaviour
     public Vector3 outScale;
     Vector3 defScale;
 
+    [Header("Autoplay")]
+    public bool playOnEnable;
+    public float playOnEnableAnimTime=.5f;
+    public float playOnEnableDelay;
+
     void Awake()
     {
-        defPos = transform.position;
+        defPos = transform.localPosition;
         defRot = transform.eulerAngles;
         defScale = transform.localScale;
     }
 
-    void Start()
+    void OnEnable()
     {
-        Reset(); // Must put in start otherwise buttonanim records the zeroed transforms (starting transforms) as default, disappearing in mobile
+        if(playOnEnable)
+        {
+            Reset();
+            Invoke("PlayOnEnable", playOnEnableDelay);
+        }
+    }
+
+   void Start()
+    {
+        if(!playOnEnable) Reset(); // Must put after awake otherwise buttonanim records the zeroed transforms (starting transforms) as default, disappearing in mobile
     }
 
     public void Reset()
     {
-        if(animPos) transform.position = inPos;
+        if(animPos) transform.localPosition = inPos;
         if(animRot) transform.eulerAngles = inRot;
         if(animScale) transform.localScale = inScale;
+    }
+
+    void PlayOnEnable()
+    {
+        TweenIn(playOnEnableAnimTime);
     }
 
     public void TweenIn(float time)
@@ -49,7 +68,7 @@ public class TweenAnim : MonoBehaviour
         {
             LeanTween.cancel(gameObject);
 
-            if(animPos) LeanTween.move(gameObject, defPos, time).setEaseOutExpo().setIgnoreTimeScale(true);
+            if(animPos) LeanTween.moveLocal(gameObject, defPos, time).setEaseOutExpo().setIgnoreTimeScale(true);
             if(animRot) LeanTween.rotate(gameObject, defRot, time).setEaseInOutSine().setIgnoreTimeScale(true);
             if(animScale) LeanTween.scale(gameObject, defScale, time).setEaseOutCubic().setIgnoreTimeScale(true);
 
@@ -57,7 +76,7 @@ public class TweenAnim : MonoBehaviour
         }
         else
         {
-            if(animPos) transform.position = defPos;
+            if(animPos) transform.localPosition = defPos;
             if(animRot) transform.eulerAngles = defRot;
             if(animScale) transform.localScale = defScale;
         }
@@ -71,7 +90,7 @@ public class TweenAnim : MonoBehaviour
         {
             LeanTween.cancel(gameObject);
 
-            if(animPos) LeanTween.move(gameObject, outPos, time).setEaseInExpo().setIgnoreTimeScale(true).setOnComplete(Reset);
+            if(animPos) LeanTween.moveLocal(gameObject, outPos, time).setEaseInExpo().setIgnoreTimeScale(true).setOnComplete(Reset);
             if(animRot) LeanTween.rotate(gameObject, outRot, time).setEaseInOutSine().setIgnoreTimeScale(true).setOnComplete(Reset);
             if(animScale) LeanTween.scale(gameObject, outScale, time).setEaseInCubic().setIgnoreTimeScale(true).setOnComplete(Reset);
 
@@ -79,30 +98,26 @@ public class TweenAnim : MonoBehaviour
         }
         else
         {
-            if(animPos) transform.position = outPos;
+            if(animPos) transform.localPosition = outPos;
             if(animRot) transform.eulerAngles = outRot;
             if(animScale) transform.localScale = outScale;
         }
     }
 
-    //[Button] // requires Odin Inspector????
-    [ContextMenu("Record Current Position")]
+    //[Button] // requires Odin Inspector??
+    [ContextMenu("Record Local Position")]
     void RecordCurrentPosition()
     {
-        inPos=transform.position;
-        outPos=transform.position;
+        inPos=transform.localPosition;
+        outPos=transform.localPosition;
     }
-
-    //[Button]
-    [ContextMenu("Record Current Rotation")]
+    [ContextMenu("Record Rotation")]
     void RecordCurrentRotation()
     {
         inRot=transform.eulerAngles;
         outRot=transform.eulerAngles;
     }
-
-    //[Button]
-    [ContextMenu("Record Current Scale")]
+    [ContextMenu("Record Scale")]
     void RecordCurrentScale()
     {
         inScale=transform.position;
