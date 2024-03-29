@@ -7,26 +7,44 @@ public class TweenAnimSequence : MonoBehaviour
     public List<TweenAnim> animsList = new List<TweenAnim>();
     
     public float animTime=.5f;
-    public float nextAnimOffsetTime=-.25f;
+    public float nextAnimOffsetTime=-.4f;
 
     [Header("Autoplay")]
     public bool playOnEnable;
-    public float playOnEnableAnimTime=.5f;
     public float playOnEnableDelay;
 
     void OnEnable()
     {
         if(playOnEnable)
         {
+            if(enablingRt!=null) StopCoroutine(enablingRt);
+            enablingRt = StartCoroutine(Enabling());
+        }
+    }
+    void OnDisable()
+    {
+        ResetAll();
+    }
+
+    Coroutine enablingRt;
+    IEnumerator Enabling()
+    {
+        yield return new WaitForSecondsRealtime(.05f);
+
+        if(playOnEnableDelay>0)
+        {
             ResetAll();
 
-            Invoke("Play", playOnEnableDelay);
+            yield return new WaitForSecondsRealtime(playOnEnableDelay);
+
+            Play();
         }
+        else Play();
     }
 
     public void Play()
     {
-        if(!playOnEnable) ResetAll();
+        if(playOnEnableDelay<=0) ResetAll();
 
         if(tweeningInRt!=null) StopCoroutine(tweeningInRt);
         tweeningInRt = StartCoroutine(TweeningIn());

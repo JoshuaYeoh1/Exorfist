@@ -37,35 +37,66 @@ public class UIManager : MonoBehaviour
     {
         foreach(GameObject child in children)
         {
-            childrenCanvasGroupsDict[child] = child.GetComponent<CanvasGroup>();
+            childrenCanvasGroupsDict.Add(child, child.GetComponent<CanvasGroup>());
         }
     }
 
     public GameObject upgradeMenu;
+    public GameObject pauseMenu;
 
     void OnShowMenu(string menuName)
     {
-        if(menuName=="UpgradeMenu")
+        switch(menuName)
         {
-            upgradeMenu.SetActive(true);
+            case "UpgradeMenu":
+            {
+                ShowMenu(upgradeMenu);
+                VFXManager.Current.TweenTime(0, .5f);
+            } break;
 
-            upgradeMenu.GetComponent<TweenAnimSequence>().Play();
-
-            SetAlpha(upgradeMenu, 0);
-            Fade(upgradeMenu, 1, .5f);
-
-            FadeAllBut(upgradeMenu, 0, .5f);
+            case "PauseMenu":
+            {
+                ShowMenu(pauseMenu);
+                VFXManager.Current.TweenTime(0, .5f);
+            } break;
         }
     }
 
     void OnHideMenu(string menuName)
     {
-        if(menuName=="UpgradeMenu")
+        switch(menuName)
         {
-            upgradeMenu.SetActive(false);
+            case "UpgradeMenu":
+            {
+                HideMenu(upgradeMenu);
+                VFXManager.Current.TweenTime(1, .5f);
+            } break;
 
-            FadeAllBut(upgradeMenu, 1, .5f);
+            case "PauseMenu":
+            {
+                HideMenu(pauseMenu);
+                VFXManager.Current.TweenTime(1, .5f);
+            } break;
         }
+    }
+
+    void ShowMenu(GameObject menuObj)
+    {
+        menuObj.SetActive(true);
+
+        menuObj.GetComponent<TweenAnimSequence>()?.Play();
+
+        SetAlpha(menuObj, 0);
+        Fade(menuObj, 1, .5f);
+
+        FadeAllBut(menuObj, 0, .5f);
+    }
+
+    void HideMenu(GameObject menuObj)
+    {
+        menuObj.SetActive(false);
+
+        FadeAllBut(menuObj, 1, .5f);
     }
 
     public void SetAlpha(GameObject child, float to)

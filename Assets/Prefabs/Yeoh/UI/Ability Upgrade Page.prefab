@@ -454,6 +454,9 @@ MonoBehaviour:
   animScale: 1
   inScale: {x: 0, y: 0, z: 0}
   outScale: {x: 0, y: 0, z: 0}
+  playOnEnable: 0
+  playOnEnableAnimTime: 0.5
+  playOnEnableDelay: 0
 --- !u!1 &7138003040465489210
 GameObject:
   m_ObjectHideFlags: 0
@@ -648,10 +651,10 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 3938049602441195502}
-  playOnEnable: 1
-  playDelay: 0
   animTime: 0.5
-  nextAnimOffsetTime: -0.25
+  nextAnimOffsetTime: -0.4
+  playOnEnable: 1
+  playOnEnableDelay: 0
 --- !u!1 &7424412905744420209
 GameObject:
   m_ObjectHideFlags: 0
@@ -750,6 +753,9 @@ MonoBehaviour:
   animScale: 1
   inScale: {x: 1, y: 0, z: 1}
   outScale: {x: 0, y: 0, z: 0}
+  playOnEnable: 0
+  playOnEnableAnimTime: 0.5
+  playOnEnableDelay: 0
 --- !u!1001 &850487308145770891
 PrefabInstance:
   m_ObjectHideFlags: 0

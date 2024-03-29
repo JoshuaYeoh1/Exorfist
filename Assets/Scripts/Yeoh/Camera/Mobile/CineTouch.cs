@@ -18,6 +18,15 @@ public class Cinetouch : MonoBehaviour
         cineFreeLook=GetComponent<CinemachineFreeLook>();
     }
 
+    void OnEnable()
+    {
+        GameEventSystem.Current.ChangeCamSensEvent += OnChangeCamSens;
+    }
+    void OnDisable()
+    {
+        GameEventSystem.Current.ChangeCamSensEvent -= OnChangeCamSens;
+    }
+    
     void Update()
     {
         if(touchField)
@@ -28,6 +37,12 @@ public class Cinetouch : MonoBehaviour
 
             CheckRecenter();
         }
+    }
+
+    void OnChangeCamSens(float value)
+    {
+        senstivityX = senstivityX<0 ? -value : value;
+        senstivityY = senstivityY<0 ? -value : value;
     }
 
     void CheckRecenter()

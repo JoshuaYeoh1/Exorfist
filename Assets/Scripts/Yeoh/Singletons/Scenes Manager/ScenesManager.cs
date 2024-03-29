@@ -180,14 +180,19 @@ public class ScenesManager : MonoBehaviour
         return (Scenes)System.Enum.Parse(typeof(Scenes), str);
     }
 
-    public float GetTransitionLength()
+    public float GetTransitionLength(int layer=0)
     {
-        return transitionAnimator.GetCurrentAnimatorStateInfo(0).length;
+        return transitionAnimator.GetCurrentAnimatorStateInfo(layer).length;
     }
 
     public void Quit(bool anim=true)
     {
-        if(anim) PlayTransitionOut(true);
+        if(anim)
+        {
+            PlayTransitionOut(true);
+
+            MusicManager.Current.ChangeMusic(MusicManager.Current.currentLayerIndex, null, GetTransitionLength());
+        }
 
         else
         {

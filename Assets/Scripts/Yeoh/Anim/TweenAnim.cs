@@ -38,9 +38,29 @@ public class TweenAnim : MonoBehaviour
     {
         if(playOnEnable)
         {
-            Reset();
-            Invoke("PlayOnEnable", playOnEnableDelay);
+            if(enablingRt!=null) StopCoroutine(enablingRt);
+            enablingRt = StartCoroutine(Enabling());
         }
+    }
+    void OnDisable()
+    {
+        Reset();
+    }
+
+    Coroutine enablingRt;
+    IEnumerator Enabling()
+    {
+        yield return new WaitForSecondsRealtime(.05f);
+
+        if(playOnEnableDelay>0)
+        {
+            Reset();
+
+            yield return new WaitForSecondsRealtime(playOnEnableDelay);
+
+            TweenIn(playOnEnableAnimTime);
+        }
+        else TweenIn(playOnEnableAnimTime);
     }
 
    void Start()
@@ -53,11 +73,6 @@ public class TweenAnim : MonoBehaviour
         if(animPos) transform.localPosition = inPos;
         if(animRot) transform.eulerAngles = inRot;
         if(animScale) transform.localScale = inScale;
-    }
-
-    void PlayOnEnable()
-    {
-        TweenIn(playOnEnableAnimTime);
     }
 
     public void TweenIn(float time)

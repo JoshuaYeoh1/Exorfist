@@ -71,16 +71,12 @@ public class PlayerMeditate : MonoBehaviour
     {
         GameEventSystem.Current.OnShowMenu("UpgradeMenu");
 
-        Time.timeScale=0;
-
         AudioManager.Current.PlaySFX(SFXManager.Current.sfxUIMeditate, transform.position, false, false);
     }
 
     void OnHideMenu(string menuName)
     {
         if(menuName!="UpgradeMenu") return;
-
-        Time.timeScale=1;
 
         Invoke("Unmeditate", 1);
     }

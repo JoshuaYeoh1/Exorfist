@@ -159,6 +159,19 @@ public class GameEventSystem : MonoBehaviour
         HideMenuEvent?.Invoke(menuName);
     }
     
+    //==Settings==//
+    public event Action<float> ChangeCamSensEvent;
+    public event Action<bool> ToggleHapticsEvent;
+
+    public void OnChangeCamSens(float value)
+    {
+        ChangeCamSensEvent?.Invoke(value);
+    }
+    public void OnToggleHaptics(bool toggle)
+    {
+        ToggleHapticsEvent?.Invoke(toggle);
+    }
+    
     //==Objective Related actions==//
     public event Action ScoreReachedEvent;
     public event Action LevelStartEvent;

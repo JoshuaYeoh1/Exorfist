@@ -16,10 +16,14 @@ public class CameraManager : MonoBehaviour
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
+
+        GameEventSystem.Current.ToggleHapticsEvent += OnToggleHaptics;
     }
     void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+
+        GameEventSystem.Current.ToggleHapticsEvent -= OnToggleHaptics;
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -159,7 +163,7 @@ public class CameraManager : MonoBehaviour
 
     public void Shake(float time=.1f, float amp=1.5f, float freq=2)
     {
-        Vibrator.Vibrate();
+        if(haptics) Vibrator.Vibrate();
 
         if(shakingRt!=null) StopCoroutine(shakingRt);
         shakingRt = StartCoroutine(Shaking(time, amp, freq));
@@ -225,5 +229,10 @@ public class CameraManager : MonoBehaviour
         
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    public bool haptics=true;
 
+    void OnToggleHaptics(bool toggle)
+    {
+        haptics=toggle;
+    }
 }   

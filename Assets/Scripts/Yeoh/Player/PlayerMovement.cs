@@ -80,7 +80,14 @@ public class PlayerMovement : MonoBehaviour
 
     float Round(float num, int decimalPlaces)
     {
-        return Mathf.Round(num * (10*decimalPlaces) ) / (10*decimalPlaces);
+        int factor=1;
+
+        for(int i=0; i<decimalPlaces; i++)
+        {
+            factor *= 10;
+        }
+
+        return Mathf.Round(num * factor) / (float)factor;
     }
 
     int tweenInputClampLt=0;
