@@ -64,7 +64,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6471006883330371621}
+  - {fileID: 3463490217068459058}
   m_Father: {fileID: 1801452089994930369}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &384843049996948038
@@ -291,80 +291,6 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
---- !u!1001 &3806858735275407638
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 8443205079183489613}
-    m_Modifications:
-    - target: {fileID: 5515326050167345335, guid: 912c09ae5db2c204cb2f867f7ace3ded,
-        type: 3}
-      propertyPath: m_Name
-      value: Sifu Sitting
-      objectReference: {fileID: 0}
-    - target: {fileID: 7861331804927379763, guid: 912c09ae5db2c204cb2f867f7ace3ded,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.100000024
-      objectReference: {fileID: 0}
-    - target: {fileID: 7861331804927379763, guid: 912c09ae5db2c204cb2f867f7ace3ded,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.41900003
-      objectReference: {fileID: 0}
-    - target: {fileID: 7861331804927379763, guid: 912c09ae5db2c204cb2f867f7ace3ded,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 3.6999998
-      objectReference: {fileID: 0}
-    - target: {fileID: 7861331804927379763, guid: 912c09ae5db2c204cb2f867f7ace3ded,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.17364825
-      objectReference: {fileID: 0}
-    - target: {fileID: 7861331804927379763, guid: 912c09ae5db2c204cb2f867f7ace3ded,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7861331804927379763, guid: 912c09ae5db2c204cb2f867f7ace3ded,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.9848078
-      objectReference: {fileID: 0}
-    - target: {fileID: 7861331804927379763, guid: 912c09ae5db2c204cb2f867f7ace3ded,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7861331804927379763, guid: 912c09ae5db2c204cb2f867f7ace3ded,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7861331804927379763, guid: 912c09ae5db2c204cb2f867f7ace3ded,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 160
-      objectReference: {fileID: 0}
-    - target: {fileID: 7861331804927379763, guid: 912c09ae5db2c204cb2f867f7ace3ded,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 912c09ae5db2c204cb2f867f7ace3ded, type: 3}
---- !u!4 &6471006883330371621 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7861331804927379763, guid: 912c09ae5db2c204cb2f867f7ace3ded,
-    type: 3}
-  m_PrefabInstance: {fileID: 3806858735275407638}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3857848378961955863
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -438,4 +364,78 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9119010921485205523, guid: 9aa7ab8c85ff621468cd67223e29a1bd,
     type: 3}
   m_PrefabInstance: {fileID: 3857848378961955863}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &4997433325075498317
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8443205079183489613}
+    m_Modifications:
+    - target: {fileID: 8451771203017044351, guid: 7ba4446ef96d0eb41ab1246cf3d2bc02,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.100000024
+      objectReference: {fileID: 0}
+    - target: {fileID: 8451771203017044351, guid: 7ba4446ef96d0eb41ab1246cf3d2bc02,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.41900003
+      objectReference: {fileID: 0}
+    - target: {fileID: 8451771203017044351, guid: 7ba4446ef96d0eb41ab1246cf3d2bc02,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.6999998
+      objectReference: {fileID: 0}
+    - target: {fileID: 8451771203017044351, guid: 7ba4446ef96d0eb41ab1246cf3d2bc02,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.17364825
+      objectReference: {fileID: 0}
+    - target: {fileID: 8451771203017044351, guid: 7ba4446ef96d0eb41ab1246cf3d2bc02,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8451771203017044351, guid: 7ba4446ef96d0eb41ab1246cf3d2bc02,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.9848078
+      objectReference: {fileID: 0}
+    - target: {fileID: 8451771203017044351, guid: 7ba4446ef96d0eb41ab1246cf3d2bc02,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8451771203017044351, guid: 7ba4446ef96d0eb41ab1246cf3d2bc02,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8451771203017044351, guid: 7ba4446ef96d0eb41ab1246cf3d2bc02,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8451771203017044351, guid: 7ba4446ef96d0eb41ab1246cf3d2bc02,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9079654380952923077, guid: 7ba4446ef96d0eb41ab1246cf3d2bc02,
+        type: 3}
+      propertyPath: m_Name
+      value: Sifu Sitting
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7ba4446ef96d0eb41ab1246cf3d2bc02, type: 3}
+--- !u!4 &3463490217068459058 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8451771203017044351, guid: 7ba4446ef96d0eb41ab1246cf3d2bc02,
+    type: 3}
+  m_PrefabInstance: {fileID: 4997433325075498317}
   m_PrefabAsset: {fileID: 0}

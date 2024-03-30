@@ -162,6 +162,8 @@ public class GameEventSystem : MonoBehaviour
     //==Settings==//
     public event Action<float> ChangeCamSensEvent;
     public event Action<bool> ToggleHapticsEvent;
+    public event Action<ShaderType> ChangeCharShaderTypeEvent;
+    public event Action<ShaderType> ChangeEnvShaderTypeEvent;
 
     public void OnChangeCamSens(float value)
     {
@@ -170,6 +172,14 @@ public class GameEventSystem : MonoBehaviour
     public void OnToggleHaptics(bool toggle)
     {
         ToggleHapticsEvent?.Invoke(toggle);
+    }
+    public void OnChangeCharShaderType(ShaderType shaderType)
+    {
+        ChangeCharShaderTypeEvent?.Invoke(shaderType);
+    }
+    public void OnChangeEnvShaderType(ShaderType shaderType)
+    {
+        ChangeEnvShaderTypeEvent?.Invoke(shaderType);
     }
     
     //==Objective Related actions==//

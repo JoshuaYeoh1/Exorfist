@@ -134,6 +134,10 @@ public class Player : MonoBehaviour
 
         CancelActions();
 
+        aoe.OnDeath();
+        laser.OnDeath();
+        heal.OnDeath();
+
         RandDeathAnim();
         
         sm.TransitionToState(PlayerStateMachine.PlayerStates.Death);

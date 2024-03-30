@@ -402,7 +402,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 84f61663d0a5e484d9f5fd4d828fea7b, type: 2}
+      objectReference: {fileID: 2100000, guid: 789c421f366356445be71a78ea2d6832, type: 2}
     - target: {fileID: 1136901140795093056, guid: ade931e7daa81324fbd71da63bee5eba,
         type: 3}
       propertyPath: m_Layer
@@ -907,6 +907,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6421648532390631105}
+    - targetCorrespondingSourceObject: {fileID: 4582972066791777130, guid: ade931e7daa81324fbd71da63bee5eba,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 340319906558534082}
   m_SourcePrefab: {fileID: 100100000, guid: ade931e7daa81324fbd71da63bee5eba, type: 3}
 --- !u!4 &746978173225422774 stripped
 Transform:
@@ -2176,3 +2180,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: Ragdoll
+--- !u!1 &9186045992256497464 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4582972066791777130, guid: ade931e7daa81324fbd71da63bee5eba,
+    type: 3}
+  m_PrefabInstance: {fileID: 4675467559090259026}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &340319906558534082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9186045992256497464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4096b5e9f8dfec846b587e9c5d5ffe16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectType: 0
+  toonMat: {fileID: 2100000, guid: 1a7a387ff70ce654fb1817f1d8c8eb0a, type: 2}
+  toonOldMat: {fileID: 2100000, guid: 789c421f366356445be71a78ea2d6832, type: 2}
+  urpMat: {fileID: 2100000, guid: 84f61663d0a5e484d9f5fd4d828fea7b, type: 2}

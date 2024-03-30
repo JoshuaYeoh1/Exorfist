@@ -106,7 +106,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5364575290191763581
 Transform:
   m_ObjectHideFlags: 0
@@ -219,6 +219,7 @@ GameObject:
   - component: {fileID: 308802659344213969}
   - component: {fileID: 2876552034307542421}
   - component: {fileID: 7665967899514296642}
+  - component: {fileID: 7026109682750736612}
   m_Layer: 9
   m_Name: chinese lantern
   m_TagString: Untagged
@@ -269,7 +270,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2e91ca03bc384754c8587cd086d2e4d8, type: 2}
+  - {fileID: 2100000, guid: 25c00113dd59ca946b5f00fec5e566b8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -314,3 +315,20 @@ CapsuleCollider:
   m_Height: 0.8127814
   m_Direction: 2
   m_Center: {x: 1.3704832e-15, y: -0.000000014901161, z: -0.05}
+--- !u!114 &7026109682750736612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6902226099868150530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4096b5e9f8dfec846b587e9c5d5ffe16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectType: 1
+  toonMat: {fileID: 2100000, guid: 25c00113dd59ca946b5f00fec5e566b8, type: 2}
+  toonOldMat: {fileID: 2100000, guid: 25c00113dd59ca946b5f00fec5e566b8, type: 2}
+  urpMat: {fileID: 2100000, guid: 2e91ca03bc384754c8587cd086d2e4d8, type: 2}
+  defaultShaderType: 1

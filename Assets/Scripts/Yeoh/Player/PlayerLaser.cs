@@ -36,15 +36,6 @@ public class PlayerLaser : MonoBehaviour
         finder=GetComponent<ClosestObjectFinder>();
     }
 
-    void OnEnable()
-    {
-        GameEventSystem.Current.DeathEvent += OnDeath;
-    }
-    void OnDisable()
-    {
-        GameEventSystem.Current.DeathEvent -= OnDeath;
-    }
-
     void Update()
     {
         if(radialBar.IsActive()) radialBar.fillAmount = radialFill;
@@ -334,10 +325,8 @@ public class PlayerLaser : MonoBehaviour
         canCast=true;
     }
 
-    void OnDeath(GameObject victim, GameObject killer, HurtInfo hurtInfo)
+    public void OnDeath()
     {
-        if(victim!=gameObject) return;
-
         Cancel();
         StopLaser();
         DisableCastTrails();

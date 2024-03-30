@@ -33,15 +33,6 @@ public class PlayerHeal : MonoBehaviour
         hp=GetComponent<HPManager>();
     }
 
-    void OnEnable()
-    {
-        GameEventSystem.Current.DeathEvent += OnDeath;
-    }
-    void OnDisable()
-    {
-        GameEventSystem.Current.DeathEvent -= OnDeath;
-    }
-
     void Update()
     {
         if(radialBar.IsActive()) radialBar.fillAmount = radialFill;
@@ -255,10 +246,8 @@ public class PlayerHeal : MonoBehaviour
         canCast=true;
     }
 
-    void OnDeath(GameObject victim, GameObject killer, HurtInfo hurtInfo)
+    public void OnDeath()
     {
-        if(victim!=gameObject) return;
-
         Cancel();
         StopHeal();
         DisableCastTrails();

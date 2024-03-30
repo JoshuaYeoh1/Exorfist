@@ -12535,12 +12535,12 @@ PrefabInstance:
     - target: {fileID: 1471637922268985232, guid: 67d6799e838426147b653ff1534ff4ed,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000008544637
+      value: -0.000000008544636
       objectReference: {fileID: 0}
     - target: {fileID: 1471637922268985232, guid: 67d6799e838426147b653ff1534ff4ed,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0000000010020337
+      value: 0.0000000010020336
       objectReference: {fileID: 0}
     - target: {fileID: 1830185016466031182, guid: 67d6799e838426147b653ff1534ff4ed,
         type: 3}
@@ -43346,6 +43346,7 @@ GameObject:
   - component: {fileID: 1559936441}
   - component: {fileID: 1559936440}
   - component: {fileID: 1559936439}
+  - component: {fileID: 1559936443}
   m_Layer: 0
   m_Name: Horizon
   m_TagString: Untagged
@@ -43395,7 +43396,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d957a69bc04883c46b7a2ea7d03f1657, type: 2}
+  - {fileID: 2100000, guid: dd31fe02cef38b6449cff946c2228fcc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -43440,6 +43441,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1559936443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1559936438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4096b5e9f8dfec846b587e9c5d5ffe16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectType: 1
+  toonMat: {fileID: 2100000, guid: 3be192f68533ef54ca1c1a9e5b180f4b, type: 2}
+  toonOldMat: {fileID: 2100000, guid: dd31fe02cef38b6449cff946c2228fcc, type: 2}
+  urpMat: {fileID: 2100000, guid: d957a69bc04883c46b7a2ea7d03f1657, type: 2}
+  defaultShaderType: 0
 --- !u!1 &1560348535
 GameObject:
   m_ObjectHideFlags: 0

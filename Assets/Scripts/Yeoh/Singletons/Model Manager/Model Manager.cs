@@ -79,36 +79,8 @@ public class ModelManager : MonoBehaviour
         return materials;
     }
 
-    // MATERIAL ADD/REMOVE
+    // MATERIAL ADD/REMOVE/CHANGE
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    Dictionary<Renderer, List<Material>> originalMaterials = new Dictionary<Renderer, List<Material>>();
-
-    public void RecordMaterials(GameObject target)
-    {
-        foreach(Renderer renderer in GetRenderers(target))
-        {
-            List<Material> materials = new List<Material>(renderer.sharedMaterials);
-
-            if(!originalMaterials.ContainsKey(renderer))
-            {
-                originalMaterials.Add(renderer, materials);
-            }
-        }
-    }
-
-    public void RevertMaterials(GameObject target)
-    {
-        foreach(Renderer renderer in GetRenderers(target))
-        {
-            if(originalMaterials.ContainsKey(renderer))
-            {
-                renderer.materials = originalMaterials[renderer].ToArray();
-
-                originalMaterials.Remove(renderer); // cleanup
-            }
-        }
-    }
 
     public void AddMaterial(GameObject target, Material materialToAdd)
     {
@@ -140,6 +112,50 @@ public class ModelManager : MonoBehaviour
             }
 
             renderer.materials = materials.ToArray();
+        }
+    }
+
+    public void RemoveAllMaterials(GameObject target)
+    {
+        foreach(Renderer renderer in GetRenderers(target))
+        {
+            renderer.materials = new Material[0];
+        }
+    }
+
+    public void ChangeMaterials(GameObject target, Material newMaterial)
+    {
+        foreach(Renderer renderer in GetRenderers(target))
+        {
+            renderer.material = newMaterial;
+        }
+    }
+
+    Dictionary<Renderer, List<Material>> originalMaterials = new Dictionary<Renderer, List<Material>>();
+
+    public void RecordMaterials(GameObject target)
+    {
+        foreach(Renderer renderer in GetRenderers(target))
+        {
+            List<Material> materials = new List<Material>(renderer.sharedMaterials);
+
+            if(!originalMaterials.ContainsKey(renderer))
+            {
+                originalMaterials.Add(renderer, materials);
+            }
+        }
+    }
+
+    public void RevertMaterials(GameObject target)
+    {
+        foreach(Renderer renderer in GetRenderers(target))
+        {
+            if(originalMaterials.ContainsKey(renderer))
+            {
+                renderer.materials = originalMaterials[renderer].ToArray();
+
+                originalMaterials.Remove(renderer); // cleanup
+            }
         }
     }
 

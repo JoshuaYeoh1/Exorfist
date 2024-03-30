@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2007542725557434833}
   - component: {fileID: 4316813097293687080}
   - component: {fileID: 260180285634278020}
+  - component: {fileID: 7291268309433578154}
   m_Layer: 8
   m_Name: hitbox
   m_TagString: Untagged
@@ -62,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2bf75519b1777a64c8fee8c0d09a0c0e, type: 2}
+  - {fileID: 2100000, guid: 69b639a693499f741b99633d4a224088, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -84,6 +85,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &7291268309433578154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 916600555290241909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4096b5e9f8dfec846b587e9c5d5ffe16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectType: 1
+  toonMat: {fileID: 2100000, guid: 4bcfe9d3718d703459223b6194968745, type: 2}
+  toonOldMat: {fileID: 2100000, guid: 69b639a693499f741b99633d4a224088, type: 2}
+  urpMat: {fileID: 2100000, guid: 2bf75519b1777a64c8fee8c0d09a0c0e, type: 2}
 --- !u!1 &7427205868081329466
 GameObject:
   m_ObjectHideFlags: 0
@@ -95,6 +112,7 @@ GameObject:
   - component: {fileID: 8960257931697155788}
   - component: {fileID: 8695362741109771933}
   - component: {fileID: 7221388358493101367}
+  - component: {fileID: 5529747044450617968}
   m_Layer: 0
   m_Name: base
   m_TagString: Untagged
@@ -145,7 +163,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: db36c0d08c969c841808a35df871953e, type: 2}
+  - {fileID: 2100000, guid: f6de110953defeb498ab6475cc1e1766, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -167,6 +185,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5529747044450617968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7427205868081329466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4096b5e9f8dfec846b587e9c5d5ffe16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectType: 1
+  toonMat: {fileID: 2100000, guid: 97d16da501e33c145be679e402ef0347, type: 2}
+  toonOldMat: {fileID: 2100000, guid: f6de110953defeb498ab6475cc1e1766, type: 2}
+  urpMat: {fileID: 2100000, guid: db36c0d08c969c841808a35df871953e, type: 2}
 --- !u!1 &7664899796581426997
 GameObject:
   m_ObjectHideFlags: 0

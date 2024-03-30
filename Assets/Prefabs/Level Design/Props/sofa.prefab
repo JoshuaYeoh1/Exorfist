@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 609035243029305271}
   - component: {fileID: 7454313840698947909}
   - component: {fileID: 1303768796537687562}
+  - component: {fileID: 1259369880071925819}
   m_Layer: 9
   m_Name: sofa
   m_TagString: Untagged
@@ -150,7 +151,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 19402b767a7dd3a4d92aa87618e1b7ef, type: 2}
+  - {fileID: 2100000, guid: 091fe1ab2b1af134b93aeec29201aa7b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -194,3 +195,19 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 6571971299432019314, guid: b63a2dfb1eb9f8247971f8c8e4659da5, type: 3}
+--- !u!114 &1259369880071925819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7249081528461881197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4096b5e9f8dfec846b587e9c5d5ffe16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectType: 1
+  toonMat: {fileID: 2100000, guid: 3be0fc8bfa5dbed4bb1b590b671eec18, type: 2}
+  toonOldMat: {fileID: 2100000, guid: 091fe1ab2b1af134b93aeec29201aa7b, type: 2}
+  urpMat: {fileID: 2100000, guid: 19402b767a7dd3a4d92aa87618e1b7ef, type: 2}

@@ -2235,7 +2235,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 84f61663d0a5e484d9f5fd4d828fea7b, type: 2}
+      objectReference: {fileID: 2100000, guid: 789c421f366356445be71a78ea2d6832, type: 2}
     - target: {fileID: 1136901140795093056, guid: ade931e7daa81324fbd71da63bee5eba,
         type: 3}
       propertyPath: m_Layer
@@ -2688,6 +2688,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6276415504482821441}
+    - targetCorrespondingSourceObject: {fileID: 4582972066791777130, guid: ade931e7daa81324fbd71da63bee5eba,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4309903282983608833}
   m_SourcePrefab: {fileID: 100100000, guid: ade931e7daa81324fbd71da63bee5eba, type: 3}
 --- !u!1 &352253896143421434 stripped
 GameObject:
@@ -3409,6 +3413,28 @@ CharacterJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!1 &2884366254886382354 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4582972066791777130, guid: ade931e7daa81324fbd71da63bee5eba,
+    type: 3}
+  m_PrefabInstance: {fileID: 1701990138760464504}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4309903282983608833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2884366254886382354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4096b5e9f8dfec846b587e9c5d5ffe16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectType: 0
+  toonMat: {fileID: 2100000, guid: 1a7a387ff70ce654fb1817f1d8c8eb0a, type: 2}
+  toonOldMat: {fileID: 2100000, guid: 789c421f366356445be71a78ea2d6832, type: 2}
+  urpMat: {fileID: 2100000, guid: 84f61663d0a5e484d9f5fd4d828fea7b, type: 2}
 --- !u!1 &5158152101928315485 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3455423087433604571, guid: ade931e7daa81324fbd71da63bee5eba,
