@@ -213,12 +213,14 @@ public class VFXManager : MonoBehaviour
     
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    public bool hideInHierarchy=true;
+
     public GameObject popupPrefab;
 
     public void SpawnPopUpText(Vector3 pos, string text, Color color, Vector3 pushForce)
     {
         GameObject obj = Instantiate(popupPrefab, pos, Quaternion.identity);
-        obj.hideFlags = HideFlags.HideInHierarchy;
+        if(hideInHierarchy) obj.hideFlags = HideFlags.HideInHierarchy;
         
         PopUpAnim popUp = obj.GetComponent<PopUpAnim>();
         popUp.Push(pushForce);
@@ -237,12 +239,11 @@ public class VFXManager : MonoBehaviour
     public void SpawnHitmarker(Vector3 pos, Color color, float time=.1f)
     {
         GameObject obj = Instantiate(hitmarkerPrefab, pos, Quaternion.identity);
-        obj.hideFlags = HideFlags.HideInHierarchy;
+        if(hideInHierarchy) obj.hideFlags = HideFlags.HideInHierarchy;
         
-        SpriteRenderer sr = obj.GetComponent<SpriteRenderer>();
-        sr.color = color;
-
-        HideObject(obj, time, .2f, true);
+        ParticleSystem ps = obj.GetComponent<ParticleSystem>();
+        ParticleSystem.MainModule main = ps.main;
+        main.startColor = color;
     }
 
     public GameObject flashPrefab;
@@ -250,14 +251,14 @@ public class VFXManager : MonoBehaviour
     public void SpawnFlash(Vector3 pos, Color color)
     {
         GameObject obj = Instantiate(flashPrefab, pos, Quaternion.identity);
-        obj.hideFlags = HideFlags.HideInHierarchy;
+        if(hideInHierarchy) obj.hideFlags = HideFlags.HideInHierarchy;
 
         SpriteRenderer sr = obj.GetComponent<SpriteRenderer>();
         sr.color = color;
 
         sr.GetComponent<Animator>().Play("flash", 0);
 
-        HideObject(obj, .4f, .1f, true);
+        Destroy(obj, .4f);
     }
 
     public GameObject shockwavePrefab;
@@ -265,7 +266,7 @@ public class VFXManager : MonoBehaviour
     public void SpawnShockwave(Vector3 pos, Color color)
     {
         GameObject obj = Instantiate(shockwavePrefab, pos, Quaternion.identity);
-        obj.hideFlags = HideFlags.HideInHierarchy;
+        if(hideInHierarchy) obj.hideFlags = HideFlags.HideInHierarchy;
 
         ParticleSystem ps = obj.GetComponent<ParticleSystem>();
         ParticleSystem.MainModule main = ps.main;
@@ -277,7 +278,7 @@ public class VFXManager : MonoBehaviour
     public void SpawnGroundExplosion(Vector3 pos, float scaleMult=1)
     {
         GameObject obj = Instantiate(aoePrefab, pos, Quaternion.identity);
-        obj.hideFlags = HideFlags.HideInHierarchy;
+        if(hideInHierarchy) obj.hideFlags = HideFlags.HideInHierarchy;
 
         ParticleSystem ps = obj.GetComponent<ParticleSystem>();
         ps.transform.localScale*=scaleMult;
@@ -289,7 +290,7 @@ public class VFXManager : MonoBehaviour
     public void SpawnEnemy2Slam(Vector3 pos)
     {
         GameObject obj = Instantiate(enemy2SlamPrefab, pos, Quaternion.identity);
-        obj.hideFlags = HideFlags.HideInHierarchy;
+        if(hideInHierarchy) obj.hideFlags = HideFlags.HideInHierarchy;
     }
 
     public GameObject bloodPrefab;
@@ -297,7 +298,7 @@ public class VFXManager : MonoBehaviour
     public void SpawnBlood(Vector3 pos)
     {
         GameObject obj = Instantiate(bloodPrefab, pos, Quaternion.identity);
-        obj.hideFlags = HideFlags.HideInHierarchy;
+        if(hideInHierarchy) obj.hideFlags = HideFlags.HideInHierarchy;
     }
 
     public GameObject footprintPrefab;
@@ -305,7 +306,7 @@ public class VFXManager : MonoBehaviour
     public void SpawnPlayerFootprint(Transform footstepTr)
     {
         GameObject obj = Instantiate(footprintPrefab, footstepTr.position, footstepTr.rotation);
-        obj.hideFlags = HideFlags.HideInHierarchy;
+        if(hideInHierarchy) obj.hideFlags = HideFlags.HideInHierarchy;
     }
 
     public GameObject healPrefab;
@@ -313,7 +314,7 @@ public class VFXManager : MonoBehaviour
     public void SpawnHeal(GameObject caster)
     {
         GameObject obj = Instantiate(healPrefab, caster.transform.position, Quaternion.identity);
-        obj.hideFlags = HideFlags.HideInHierarchy;
+        if(hideInHierarchy) obj.hideFlags = HideFlags.HideInHierarchy;
 
         TransformConstraint tc = obj.GetComponent<TransformConstraint>();
         tc.constrainTo = caster.transform;
@@ -326,7 +327,7 @@ public class VFXManager : MonoBehaviour
     public void SpawnImpact(Vector3 pos)
     {
         GameObject obj = Instantiate(impactPrefab, pos, Quaternion.identity);
-        obj.hideFlags = HideFlags.HideInHierarchy;
+        if(hideInHierarchy) obj.hideFlags = HideFlags.HideInHierarchy;
     }
     
     public GameObject sparksPrefab;
@@ -334,7 +335,7 @@ public class VFXManager : MonoBehaviour
     public void SpawnSparks(Vector3 pos)
     {
         GameObject obj = Instantiate(sparksPrefab, pos, Quaternion.identity);
-        obj.hideFlags = HideFlags.HideInHierarchy;
+        if(hideInHierarchy) obj.hideFlags = HideFlags.HideInHierarchy;
     }
 
     public GameObject chiPrefab;
@@ -342,7 +343,7 @@ public class VFXManager : MonoBehaviour
     public void SpawnChi(Vector3 pos, Vector3 pushForce)
     {
         GameObject obj = Instantiate(chiPrefab, pos, Quaternion.identity);
-        obj.hideFlags = HideFlags.HideInHierarchy;
+        if(hideInHierarchy) obj.hideFlags = HideFlags.HideInHierarchy;
 
         ExpandAnim(obj, .75f);
 
@@ -357,31 +358,31 @@ public class VFXManager : MonoBehaviour
     //     return ObjectPooler.Current.SpawnFromPool(poolName, position, rotation);
     // }
 
-    void HideObject(GameObject obj, float wait=0, float shrink=0, bool destroy=false, bool removeConstraint=false)
-    {
-        StartCoroutine(HidingObject(obj, wait, shrink, removeConstraint, destroy));
-    }
-    IEnumerator HidingObject(GameObject obj, float wait, float shrink, bool destroy, bool removeConstraint)
-    {
-        if(wait>0) yield return new WaitForSeconds(wait);
+    // void HideObject(GameObject obj, float wait=0, float shrink=0, bool destroy=false, bool removeConstraint=false)
+    // {
+    //     StartCoroutine(HidingObject(obj, wait, shrink, removeConstraint, destroy));
+    // }
+    // IEnumerator HidingObject(GameObject obj, float wait, float shrink, bool destroy, bool removeConstraint)
+    // {
+    //     if(wait>0) yield return new WaitForSeconds(wait);
 
-        if(!obj) yield break; // you shall not pass
+    //     if(!obj) yield break; // you shall not pass
 
-        if(shrink>0)
-        {
-            LeanTween.scale(obj, Vector3.zero, shrink).setEaseInOutSine();
-            yield return new WaitForSeconds(shrink);
-        }
+    //     if(shrink>0)
+    //     {
+    //         LeanTween.scale(obj, Vector3.zero, shrink).setEaseInOutSine();
+    //         yield return new WaitForSeconds(shrink);
+    //     }
 
-        if(removeConstraint)
-        {
-            TransformConstraint tc = obj.GetComponent<TransformConstraint>();
-            tc.constrainTo=null;
-        }
+    //     if(removeConstraint)
+    //     {
+    //         TransformConstraint tc = obj.GetComponent<TransformConstraint>();
+    //         if(tc) tc.constrainTo=null;
+    //     }
 
-        if(destroy) Destroy(obj);
-        else obj.SetActive(false);
-    }
+    //     if(destroy) Destroy(obj);
+    //     else obj.SetActive(false);
+    // }
 
     void StopParticles(GameObject obj, float wait)
     {
