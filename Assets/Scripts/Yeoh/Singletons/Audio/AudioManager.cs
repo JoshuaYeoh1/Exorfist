@@ -74,6 +74,7 @@ public class AudioManager : MonoBehaviour
 
     [Header("SFX")]
     public GameObject SFXObjectPrefab;
+    public bool hideInHierarchy=true;
 
     void SetAudioSettings(AudioSource source, bool spatialBlend=true, bool randPitch=true, float panStereo=0, float volume=1, float minRadius=15)
     {
@@ -89,8 +90,11 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySFX(AudioClip[] clips, Vector3 pos, bool spatialBlend=true, bool randPitch=true, float panStereo=0, float volume=1, float minRadius=15)
     {   
-        AudioSource source = Instantiate(SFXObjectPrefab, pos, Quaternion.identity).GetComponent<AudioSource>();
-        
+        GameObject obj = Instantiate(SFXObjectPrefab, pos, Quaternion.identity);
+        if(hideInHierarchy) obj.hideFlags = HideFlags.HideInHierarchy;
+
+        AudioSource source = obj.GetComponent<AudioSource>();
+
         source.clip = clips[Random.Range(0,clips.Length)];
 
         SetAudioSettings(source, spatialBlend, randPitch, panStereo, volume, minRadius);
@@ -127,7 +131,10 @@ public class AudioManager : MonoBehaviour
 
     public AudioSource LoopSFX(GameObject owner, AudioClip[] inClips, AudioClip[] loopClips, bool spatialBlend=true, bool randPitch=true, float panStereo=0, float volume=1, float minRadius=15)
     {   
-        AudioSource loopSource = Instantiate(SFXObjectPrefab, owner.transform.position, owner.transform.rotation).GetComponent<AudioSource>();
+        GameObject obj = Instantiate(SFXObjectPrefab, owner.transform.position, owner.transform.rotation);
+        if(hideInHierarchy) obj.hideFlags = HideFlags.HideInHierarchy;
+
+        AudioSource loopSource = obj.GetComponent<AudioSource>();
         loopSource.transform.parent = owner.transform;
         
         SetAudioSettings(loopSource, spatialBlend, randPitch, panStereo, volume, minRadius);
@@ -193,33 +200,4 @@ public class AudioManager : MonoBehaviour
     {
         return clips!=null && clips.Length>0;
     }
-    
-    // public AudioClip[] sfxExplode, sfxPlayerShoot, sfxAmmoPickup, sfxSubwoofer, sfxEnemyWalk;
-    // public AudioClip[] sfxHitmarker, sfxPropSpawn;
-    // public AudioClip[] sfxEnemySpawn, sfxEnemyHit, sfxEnemySwing, sfxEnemyPunch, sfxEnemyWing;
-    // public AudioClip[] sfxEnemyVoiceAttack, sfxEnemyVoiceDie, sfxEnemyVoiceHurt, sfxEnemyVoiceIdle;
-    // public AudioClip[] sfxUiLose, sfxUiClick;
-
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-    // public void FadeAudio(AudioSource source, float to, float time)
-    // {
-    //     if(fadingAudioRt!=null) StopCoroutine(fadingAudioRt);
-    //     fadingAudioRt = StartCoroutine(FadingAudio(source, to, time));
-    // }
-    // Coroutine fadingAudioRt;
-    // IEnumerator FadingAudio(AudioSource source, float to, float time)
-    // {
-    //     float _time=0;
-
-    //     while(_time<time)
-    //     {
-    //         _time+=Time.deltaTime;
-    //         source.volume = Mathf.Lerp(source.volume, to, _time/time);
-    //         yield return null;
-    //     }
-    //     yield break;
-    // }
 }
