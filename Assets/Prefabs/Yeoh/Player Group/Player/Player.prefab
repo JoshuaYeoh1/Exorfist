@@ -990,7 +990,7 @@ MonoBehaviour:
   castingBarPrefab: {fileID: 5717642537870264288, guid: 34807381bd37bf34e9e8bb4ec9c6621b,
     type: 3}
   castingBarTr: {fileID: 3006377691843437620}
-  castTrailVFXPrefab: {fileID: 5976122878510521907, guid: 860e1577a49d9f140926c394ce538d7c,
+  castTrailVFXPrefab: {fileID: 2408091484299977590, guid: 3b8baab77170f594b9e116063d208212,
     type: 3}
   castTrailTr:
   - {fileID: 6200962545719765769}
@@ -1013,7 +1013,7 @@ MonoBehaviour:
   castingBarPrefab: {fileID: 5717642537870264288, guid: 34807381bd37bf34e9e8bb4ec9c6621b,
     type: 3}
   castingBarTr: {fileID: 3006377691843437620}
-  castTrailVFXPrefab: {fileID: 5976122878510521907, guid: 860e1577a49d9f140926c394ce538d7c,
+  castTrailVFXPrefab: {fileID: 2408091484299977590, guid: 3b8baab77170f594b9e116063d208212,
     type: 3}
   castTrailTr:
   - {fileID: 6200962545719765769}
@@ -1038,7 +1038,7 @@ MonoBehaviour:
   castingBarPrefab: {fileID: 5717642537870264288, guid: 34807381bd37bf34e9e8bb4ec9c6621b,
     type: 3}
   castingBarTr: {fileID: 3006377691843437620}
-  castTrailVFXPrefab: {fileID: 5976122878510521907, guid: 860e1577a49d9f140926c394ce538d7c,
+  castTrailVFXPrefab: {fileID: 2408091484299977590, guid: 3b8baab77170f594b9e116063d208212,
     type: 3}
   castTrailTr:
   - {fileID: 6200962545719765769}
@@ -1155,7 +1155,7 @@ Transform:
   m_GameObject: {fileID: 4356791878913300190}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.14171827, z: -0, w: 0.989907}
-  m_LocalPosition: {x: -0.0206, y: -0.11800097, z: 0.0553}
+  m_LocalPosition: {x: -0.0206, y: -0.092, z: 0.0553}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1546,7 +1546,7 @@ Transform:
   m_GameObject: {fileID: 6143012008932031501}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.0446656, z: 0, w: 0.999002}
-  m_LocalPosition: {x: 0, y: -0.118, z: 0.061}
+  m_LocalPosition: {x: 0, y: -0.092, z: 0.061}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2659,6 +2659,7 @@ MonoBehaviour:
   toonMat: {fileID: 2100000, guid: 00caf3e6660cf1c459d1ab4c2b40a2df, type: 2}
   toonOldMat: {fileID: 2100000, guid: 378ace82367aef14a82e3b32ce7f3cb7, type: 2}
   urpMat: {fileID: 2100000, guid: f2d70c6c429a222478725668c11aa3e4, type: 2}
+  defaultShaderType: 0
 --- !u!1 &319155191743737753 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1082271958561512970, guid: 62df325f1989a60418bba676ae0927af,
@@ -4422,6 +4423,7 @@ MonoBehaviour:
   toonMat: {fileID: 2100000, guid: 03a21ba5d6c577a478c3cf94d99e8a6d, type: 2}
   toonOldMat: {fileID: 2100000, guid: 2e86bbce712adaf4bb4bf17973c4e75c, type: 2}
   urpMat: {fileID: 2100000, guid: 0c261e66c0473c04e94f5f8f17443c14, type: 2}
+  defaultShaderType: 0
 --- !u!1001 &1147573119767506155
 PrefabInstance:
   m_ObjectHideFlags: 0

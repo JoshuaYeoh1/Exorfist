@@ -17,10 +17,10 @@ MonoBehaviour:
   categories: []
   uiBounds:
     serializedVersion: 2
-    x: 717
+    x: 667
     y: -190
-    width: 2495
-    height: 2435
+    width: 2545
+    height: 2436
 --- !u!114 &114350483966674976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -818,7 +818,7 @@ MonoBehaviour:
   zTestMode: 0
   useAlphaClipping: 0
   generateMotionVector: 0
-  excludeFromTAA: 0
+  excludeFromTUAndAA: 0
   sortingPriority: 0
   m_SubOutputs:
   - {fileID: 8926484042661614590}
@@ -1689,7 +1689,7 @@ MonoBehaviour:
     linkedSlots:
     - outputSlot: {fileID: 8926484042661614620}
       inputSlot: {fileID: 8926484042661615042}
-    position: {x: 751, y: 1798}
+    position: {x: 760, y: 1850}
     expandedSlots: []
     expanded: 0
 --- !u!114 &8926484042661614620
@@ -3125,14 +3125,14 @@ MonoBehaviour:
     linkedSlots:
     - outputSlot: {fileID: 8926484042661614671}
       inputSlot: {fileID: 8926484042661614582}
-    position: {x: 798, y: 545}
+    position: {x: 798, y: 602}
     expandedSlots: []
     expanded: 0
   - m_Id: 1
     linkedSlots:
     - outputSlot: {fileID: 8926484042661614671}
       inputSlot: {fileID: 8926484042661614806}
-    position: {x: 1835, y: 646}
+    position: {x: 1816, y: 757}
     expandedSlots: []
     expanded: 0
 --- !u!114 &8926484042661614671
@@ -4066,7 +4066,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614708}
   - {fileID: 8926484042661614709}
   m_UIPosition: {x: 0, y: 0}
-  m_UICollapsed: 0
+  m_UICollapsed: 1
   m_UISuperCollapsed: 0
   m_MasterSlot: {fileID: 8926484042661614701}
   m_MasterData:
@@ -4725,7 +4725,7 @@ MonoBehaviour:
   zTestMode: 0
   useAlphaClipping: 0
   generateMotionVector: 0
-  excludeFromTAA: 0
+  excludeFromTUAndAA: 0
   sortingPriority: 0
   m_SubOutputs: []
   colorMapping: 0
@@ -5962,7 +5962,7 @@ MonoBehaviour:
   m_UIIgnoredErrors: []
   m_Parent: {fileID: 114350483966674976}
   m_Children: []
-  m_UIPosition: {x: 1521, y: 813}
+  m_UIPosition: {x: 1485, y: 976}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots: []
@@ -6123,7 +6123,7 @@ MonoBehaviour:
   m_UIIgnoredErrors: []
   m_Parent: {fileID: 114350483966674976}
   m_Children: []
-  m_UIPosition: {x: 1769, y: 877}
+  m_UIPosition: {x: 1733, y: 1040}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots:
@@ -6865,7 +6865,7 @@ MonoBehaviour:
   m_UIIgnoredErrors: []
   m_Parent: {fileID: 114350483966674976}
   m_Children: []
-  m_UIPosition: {x: 1569, y: 941}
+  m_UIPosition: {x: 1533, y: 1104}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots:
@@ -6993,7 +6993,7 @@ MonoBehaviour:
   m_UIIgnoredErrors: []
   m_Parent: {fileID: 114350483966674976}
   m_Children: []
-  m_UIPosition: {x: 1967, y: 623}
+  m_UIPosition: {x: 1948, y: 734}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots:
@@ -8571,7 +8571,7 @@ MonoBehaviour:
   zTestMode: 0
   useAlphaClipping: 0
   generateMotionVector: 0
-  excludeFromTAA: 0
+  excludeFromTUAndAA: 0
   sortingPriority: 0
   m_SubOutputs: []
   colorMapping: 0
@@ -9599,7 +9599,7 @@ MonoBehaviour:
       inputSlot: {fileID: 8926484042661614989}
     - outputSlot: {fileID: 8926484042661614995}
       inputSlot: {fileID: 8926484042661614997}
-    position: {x: 717, y: 810}
+    position: {x: 667, y: 820}
     expandedSlots: []
     expanded: 0
 --- !u!114 &8926484042661614995

@@ -83,7 +83,7 @@ MonoBehaviour:
       x: 3529
       y: -252
       width: 801
-      height: 2247
+      height: 2248
     contents:
     - model: {fileID: 8926484042661614698}
       id: 0
@@ -119,7 +119,7 @@ MonoBehaviour:
     x: 710
     y: -252
     width: 3620
-    height: 2247
+    height: 2248
 --- !u!114 &114350483966674976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -736,7 +736,7 @@ MonoBehaviour:
   zTestMode: 0
   useAlphaClipping: 0
   generateMotionVector: 0
-  excludeFromTAA: 0
+  excludeFromTUAndAA: 0
   sortingPriority: 0
   m_SubOutputs:
   - {fileID: 8926484042661614590}
@@ -1725,7 +1725,7 @@ MonoBehaviour:
     linkedSlots:
     - outputSlot: {fileID: 8926484042661614620}
       inputSlot: {fileID: 8926484042661614737}
-    position: {x: 3733, y: 1609}
+    position: {x: 3706, y: 1738}
     expandedSlots: []
     expanded: 0
   - m_Id: 5
@@ -2737,7 +2737,7 @@ MonoBehaviour:
   zTestMode: 0
   useAlphaClipping: 0
   generateMotionVector: 0
-  excludeFromTAA: 0
+  excludeFromTUAndAA: 0
   sortingPriority: 0
   m_SubOutputs: []
   colorMapping: 0
@@ -5031,7 +5031,7 @@ MonoBehaviour:
   zTestMode: 0
   useAlphaClipping: 0
   generateMotionVector: 0
-  excludeFromTAA: 0
+  excludeFromTUAndAA: 0
   sortingPriority: 0
   m_SubOutputs: []
   colorMapping: 0

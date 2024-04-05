@@ -28,7 +28,7 @@ public class AbilityButtonToggle : MonoBehaviour
 
             GameEventSystem.Current.OnAbilitySlowMo(true);
 
-            VFXManager.Current.TweenTime(slowMoMult, .5f);
+            TimescaleManager.Current.TweenTime(slowMoMult, .5f);
 
             slowMoCountdownRt = StartCoroutine(SlowMoCountdown());
         }
@@ -52,7 +52,7 @@ public class AbilityButtonToggle : MonoBehaviour
             group1.SetActive(true);
             group2.SetActive(false);
 
-            VFXManager.Current.TweenTime(1, .5f);
+            TimescaleManager.Current.TweenTime(1, .5f);
 
             GameEventSystem.Current.OnAbilitySlowMo(false);
         }

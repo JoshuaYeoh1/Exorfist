@@ -51,13 +51,13 @@ public class UIManager : MonoBehaviour
             case "UpgradeMenu":
             {
                 ShowMenu(upgradeMenu);
-                VFXManager.Current.TweenTime(0, .5f);
+                TimescaleManager.Current.TweenTime(0, .5f);
             } break;
 
             case "PauseMenu":
             {
                 ShowMenu(pauseMenu);
-                VFXManager.Current.TweenTime(0, .5f);
+                TimescaleManager.Current.TweenTime(0, .5f);
             } break;
         }
     }
@@ -69,13 +69,13 @@ public class UIManager : MonoBehaviour
             case "UpgradeMenu":
             {
                 HideMenu(upgradeMenu);
-                VFXManager.Current.TweenTime(1, .5f);
+                TimescaleManager.Current.TweenTime(1, .5f);
             } break;
 
             case "PauseMenu":
             {
                 HideMenu(pauseMenu);
-                VFXManager.Current.TweenTime(1, .5f);
+                TimescaleManager.Current.TweenTime(1, .5f);
             } break;
         }
     }

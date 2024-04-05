@@ -7,6 +7,7 @@ public class PopUpAnim : MonoBehaviour
     Rigidbody rb;
 
     public float animIn=.5f, animWait=.5f, animOut=.5f;
+    public bool destroyOnFinish=false;
 
     Vector3 defScale;
 
@@ -39,7 +40,8 @@ public class PopUpAnim : MonoBehaviour
 
         yield return new WaitForSeconds(animOut);
 
-        gameObject.SetActive(false);
+        if(destroyOnFinish) Destroy(gameObject);
+        else gameObject.SetActive(false);
     }
 
     public void Push(Vector3 force)

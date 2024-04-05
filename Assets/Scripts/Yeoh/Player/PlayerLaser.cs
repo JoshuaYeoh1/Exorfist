@@ -184,18 +184,7 @@ public class PlayerLaser : MonoBehaviour
         yield return new WaitForSeconds(sustainTime);
         StopLaser();
     }
-
-    void DespawnLaser()
-    {
-        if(flashingHitboxRt!=null) StopCoroutine(flashingHitboxRt);
-
-        ToggleLaserHitbox(false);
-
-        laserColls.Clear();
-
-        Destroy(laser);
-    }
-
+    
     public void StopLaser()
     {
         DespawnLaser();
@@ -215,6 +204,17 @@ public class PlayerLaser : MonoBehaviour
         GameEventSystem.Current.OnAbilityEnd(gameObject, "Laser");
 
         if(sfxLaserLoop) AudioManager.Current.StopLoop(sfxLaserLoop, SFXManager.Current.sfxLaserOut);
+    }
+
+    void DespawnLaser()
+    {
+        if(flashingHitboxRt!=null) StopCoroutine(flashingHitboxRt);
+
+        ToggleLaserHitbox(false);
+
+        laserColls.Clear();
+
+        if(laser) laser.GetComponent<LaserHurtbox>().StopLaser();
     }
 
     public void Finish()
