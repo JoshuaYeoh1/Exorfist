@@ -18,11 +18,16 @@ public class WiggleTransform : MonoBehaviour
     public Vector3 rotMagnitude;
     Vector3 defRot;
 
-    [Header("Scale")]
-    public bool wiggleScale;
+    [Header("Scale 1")]
+    public bool wiggleScale1;
     public float scaleFrequency;
     public float scaleMagnitude;
     Vector3 defScale;
+
+    [Header("Scale 2")]
+    public bool wiggleScale2;
+    public Vector3 scaleFrequency2;
+    public Vector3 scaleMagnitude2;
 
     [Header("Time")]
     public bool ignoreTime;
@@ -43,14 +48,12 @@ public class WiggleTransform : MonoBehaviour
         {
             time=Time.unscaledTime;
         }
-        else
-        {
-            time=Time.time;
-        }
+        else time=Time.time;
 
         WigglePos();
         WiggleRot();
-        WiggleScale();
+        WiggleScale1();
+        WiggleScale2();
     }
 
     public float Wiggle(float seed, float freq, float mag, float offset=0)
@@ -64,11 +67,7 @@ public class WiggleTransform : MonoBehaviour
 
     void WigglePos()
     {
-        if(!wigglePos)
-        {
-            transform.localPosition = defPos;
-            return;
-        }
+        if(!wigglePos) return;
 
         if(posFrequency==Vector3.zero || posMagnitude==Vector3.zero) return;
         
@@ -84,11 +83,7 @@ public class WiggleTransform : MonoBehaviour
 
     void WiggleRot()
     {
-        if(!wiggleRot)
-        {
-            transform.localEulerAngles = defRot;
-            return;
-        }
+        if(!wiggleRot) return;
         
         if(rotFrequency==Vector3.zero || rotMagnitude==Vector3.zero) return;
         
@@ -102,13 +97,9 @@ public class WiggleTransform : MonoBehaviour
         transform.localEulerAngles = defRot + wiggle;
     }
 
-    void WiggleScale()
+    void WiggleScale1()
     {
-        if(!wiggleScale)
-        {
-            transform.localScale = defScale;
-            return;
-        }
+        if(!wiggleScale1) return;
         
         if(scaleFrequency==0 || scaleMagnitude==0) return;
         
@@ -117,6 +108,22 @@ public class WiggleTransform : MonoBehaviour
             Wiggle(seed.x, scaleFrequency, scaleMagnitude, scaleMagnitude),
             Wiggle(seed.x, scaleFrequency, scaleMagnitude, scaleMagnitude),
             Wiggle(seed.x, scaleFrequency, scaleMagnitude, scaleMagnitude)
+        );
+
+        transform.localScale = defScale + wiggle;
+    }
+    
+    void WiggleScale2()
+    {
+        if(!wiggleScale2) return;
+        
+        if(scaleFrequency2==Vector3.zero || scaleMagnitude2==Vector3.zero) return;
+        
+        Vector3 wiggle = new Vector3
+        (
+            Wiggle(seed.x, scaleFrequency2.x, scaleMagnitude2.x),
+            Wiggle(seed.y, scaleFrequency2.y, scaleMagnitude2.y),
+            Wiggle(seed.z, scaleFrequency2.z, scaleMagnitude2.z)
         );
 
         transform.localScale = defScale + wiggle;
@@ -133,6 +140,7 @@ public class WiggleTransform : MonoBehaviour
         wigglePos=true;
         yield return new WaitForSeconds(time);
         wigglePos=false;
+        ResetPos();
     }
 
     public void ShakeRot(float time)
@@ -146,6 +154,7 @@ public class WiggleTransform : MonoBehaviour
         wiggleRot=true;
         yield return new WaitForSeconds(time);
         wiggleRot=false;
+        ResetRot();
     }
 
     public void ShakeScale(float time)
@@ -156,9 +165,41 @@ public class WiggleTransform : MonoBehaviour
     Coroutine shakingScaleRt;
     IEnumerator ShakingScale(float time)
     {
-        wiggleScale=true;
+        wiggleScale1=true;
         yield return new WaitForSeconds(time);
-        wiggleScale=false;
+        wiggleScale1=false;
+        ResetScale();
     }
     
+    public void ShakeScale2(float time)
+    {
+        if(shakingScaleRt2!=null) StopCoroutine(shakingScaleRt2);
+        shakingScaleRt2 = StartCoroutine(ShakingScale2(time));
+    }
+    Coroutine shakingScaleRt2;
+    IEnumerator ShakingScale2(float time)
+    {
+        wiggleScale2=true;
+        yield return new WaitForSeconds(time);
+        wiggleScale2=false;
+        ResetScale();
+    }
+    
+    [ContextMenu("Reset Position")]
+    public void ResetPos()
+    {
+        transform.localPosition = defPos;
+    }
+    
+    [ContextMenu("Reset Rotation")]
+    public void ResetRot()
+    {
+        transform.localEulerAngles = defRot;
+    }
+    
+    [ContextMenu("Reset Scale")]
+    public void ResetScale()
+    {
+        transform.localScale = defScale;
+    }
 }

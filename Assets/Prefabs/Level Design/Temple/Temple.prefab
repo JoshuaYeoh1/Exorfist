@@ -3189,6 +3189,7 @@ GameObject:
   - component: {fileID: 4438880303027933780}
   - component: {fileID: 8458249228805433153}
   - component: {fileID: 5606009193758693303}
+  - component: {fileID: 2528842481898388596}
   m_Layer: 9
   m_Name: Main
   m_TagString: Untagged
@@ -3244,7 +3245,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e6495ba16444a6e4da11453d983c3d25, type: 2}
+  - {fileID: 2100000, guid: f0abba8c95c92594ea7aca8e58dc1412, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3266,6 +3267,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &2528842481898388596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3956888112894612091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4096b5e9f8dfec846b587e9c5d5ffe16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectType: 1
+  toonMat: {fileID: 2100000, guid: f0abba8c95c92594ea7aca8e58dc1412, type: 2}
+  toonOldMat: {fileID: 2100000, guid: e817d91ff40267a42830b09115c6f09f, type: 2}
+  urpMat: {fileID: 2100000, guid: e6495ba16444a6e4da11453d983c3d25, type: 2}
+  defaultShaderType: 0
 --- !u!1 &4058811067506330444
 GameObject:
   m_ObjectHideFlags: 0

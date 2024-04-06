@@ -75,8 +75,10 @@ public class UpgradeManager : MonoBehaviour
     
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void ResetLevels()
+    public void ResetAll()
     {
+        chi=0;
+        
         aoeDmgLvl=0;
         aoeRangeLvl=0;
         aoeCastTimeLvl=0;

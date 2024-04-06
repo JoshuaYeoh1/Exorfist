@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     [HideInInspector] public PlayerLook look;
     [HideInInspector] public InputBuffer buffer;
     [HideInInspector] public PlayerCombat combat;
+    [HideInInspector] public PlayerBlock block;
     [HideInInspector] public PlayerAOE aoe;
     [HideInInspector] public PlayerLaser laser;
     [HideInInspector] public PlayerHeal heal;
@@ -41,6 +42,7 @@ public class Player : MonoBehaviour
         look=GetComponent<PlayerLook>();
         buffer=GetComponent<InputBuffer>();
         combat=GetComponent<PlayerCombat>();
+        block=GetComponent<PlayerBlock>();
         aoe=GetComponent<PlayerAOE>();
         laser=GetComponent<PlayerLaser>();
         heal=GetComponent<PlayerHeal>();
@@ -123,6 +125,7 @@ public class Player : MonoBehaviour
     public void CancelActions()
     {
         combat.CancelAttack();
+        block.CancelParry();
         aoe.Cancel();
         laser.Cancel();
         heal.Cancel();
@@ -133,7 +136,7 @@ public class Player : MonoBehaviour
         if(victim!=gameObject) return;
 
         CancelActions();
-
+    
         aoe.OnDeath();
         laser.OnDeath();
         heal.OnDeath();

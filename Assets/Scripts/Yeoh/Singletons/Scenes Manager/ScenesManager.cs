@@ -5,12 +5,8 @@ using UnityEngine.SceneManagement;
 
 public enum Scenes // must be in the same order as in the build settings, and case sensitive
 {
-    VerticalSliceCrystLevel,
-    VerticalSliceLevel,
-    Yeoh3,
-    Yeoh2,
-    PoCScene,
     MainMenu,
+    VerticalSliceCrystLevel,
 }
 
 public class ScenesManager : MonoBehaviour
@@ -89,7 +85,7 @@ public class ScenesManager : MonoBehaviour
         }
     }
 
-    public void TransitionTo(Scenes scene, bool anim = true)
+    public void TransitionTo(Scenes scene, bool anim=true)
     {
         int sceneIndex = (int)scene;
         TransitionTo(sceneIndex, anim);

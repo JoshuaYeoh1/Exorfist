@@ -417,6 +417,7 @@ public class SFXManager : MonoBehaviour
     public AudioClip[] sfxUIHurt;
     public AudioClip[] sfxUILowHealth;
     public AudioClip[] sfxUIMeditate;
+    public AudioClip[] sfxUIPlay;
     public AudioClip[] sfxTransition;
     public AudioClip[] sfxUITrigger;
     public AudioClip[] sfxUIUpgradeNo;

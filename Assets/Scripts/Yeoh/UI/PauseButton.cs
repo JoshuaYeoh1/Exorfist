@@ -13,4 +13,9 @@ public class PauseButton : MonoBehaviour
     {
         GameEventSystem.Current.OnHideMenu("PauseMenu");
     }
+
+    public void MainMenu()
+    {
+        ScenesManager.Current.LoadMainMenu();
+    }
 }

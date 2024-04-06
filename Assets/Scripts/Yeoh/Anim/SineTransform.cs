@@ -39,10 +39,7 @@ public class SineTransform : MonoBehaviour
         {
             time=Time.unscaledTime;
         }
-        else
-        {
-            time=Time.time;
-        }
+        else time=Time.time;
 
         SinePos();
         SineRot();
@@ -60,11 +57,7 @@ public class SineTransform : MonoBehaviour
 
     void SinePos()
     {
-        if(!sinePos)
-        {
-            transform.localPosition = defPos;
-            return;
-        }
+        if(!sinePos) return;
 
         if(posFrequency==Vector3.zero || posMagnitude==Vector3.zero) return;
         
@@ -80,11 +73,7 @@ public class SineTransform : MonoBehaviour
 
     void SineRot()
     {
-        if(!sineRot)
-        {
-            transform.localEulerAngles = defRot;
-            return;
-        }
+        if(!sineRot) return;
 
         if(rotFrequency==Vector3.zero || rotMagnitude==Vector3.zero) return;
         
@@ -100,11 +89,7 @@ public class SineTransform : MonoBehaviour
 
     void SineScale()
     {
-        if(!sineScale)
-        {
-            transform.localScale = defScale;
-            return;
-        }
+        if(!sineScale) return;
 
         if(scaleFrequency==0 || scaleMagnitude==0) return;
         
@@ -116,5 +101,23 @@ public class SineTransform : MonoBehaviour
         );
 
         transform.localScale = defScale + sin;
+    }
+
+    [ContextMenu("Reset Position")]
+    public void ResetPos()
+    {
+        transform.localPosition = defPos;
+    }
+    
+    [ContextMenu("Reset Rotation")]
+    public void ResetRot()
+    {
+        transform.localEulerAngles = defRot;
+    }
+    
+    [ContextMenu("Reset Scale")]
+    public void ResetScale()
+    {
+        transform.localScale = defScale;
     }
 }

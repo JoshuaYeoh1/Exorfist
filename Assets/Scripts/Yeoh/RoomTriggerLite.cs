@@ -9,14 +9,6 @@ public class RoomTrigger : MonoBehaviour
     public List<GameObject> enemyPrefabs = new List<GameObject>();
     List<GameObject> activeEnemies = new List<GameObject>();
 
-    [Header("Waypoint")]
-    public GameObject waypointPrefab;
-    public Transform wayPointSpawnpoint;
-
-    [Header("Last Room")]
-    public bool lastRoom;
-    public GameObject gameFinishPopup;
-
     bool roomActive;
     bool canSpawn=true;
 
@@ -125,6 +117,15 @@ public class RoomTrigger : MonoBehaviour
         activeEnemies.Clear();
     }
 
+    [Header("Waypoint")]
+    public GameObject waypointPrefab;
+    public Transform wayPointSpawnpoint;
+
+    [Header("Last Room")]
+    public bool lastRoom;
+    public GameObject gameFinishPopup;
+    public float popUpDelay=1;
+
     void CheckRoomCleared()
     {
         if(AreAllEnemiesDead() && roomActive)
@@ -136,9 +137,7 @@ public class RoomTrigger : MonoBehaviour
 
             if(lastRoom)
             {
-                TweenAnimSequence anim = Instantiate(gameFinishPopup).GetComponent<TweenAnimSequence>();
-
-                anim.Play();
+                Invoke("ShowPopup", popUpDelay);
 
                 AudioManager.Current.PlaySFX(SFXManager.Current.sfxUIWin, transform.position, false, false);
             }
@@ -151,5 +150,10 @@ public class RoomTrigger : MonoBehaviour
 
             MusicManager.Current.ChangeLayer(0);
         }
+    }
+
+    void ShowPopup()
+    {
+        Instantiate(gameFinishPopup);
     }
 }

@@ -50,7 +50,7 @@ public class PlayerBlock : MonoBehaviour
 
             stun.Recover();
 
-            StartCoroutine(Parrying());
+            parryingRt = StartCoroutine(Parrying());
 
             move.TweenInputClamp(blockMoveSpeedMult);
 
@@ -60,6 +60,8 @@ public class PlayerBlock : MonoBehaviour
         }
     }
 
+    Coroutine parryingRt;
+
     IEnumerator Parrying()
     {
         isParrying=true;
@@ -68,6 +70,18 @@ public class PlayerBlock : MonoBehaviour
 
         if(pressingBtn) Block();
         else Unblock();
+    }
+
+    public void CancelParry()
+    {
+        if(isParrying)
+        {
+            isParrying=false;
+
+            if(parryingRt!=null) StopCoroutine(parryingRt);
+
+            player.sm.TransitionToState(PlayerStateMachine.PlayerStates.Idle);
+        }
     }
 
     public void Block()

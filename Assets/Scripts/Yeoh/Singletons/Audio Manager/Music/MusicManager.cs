@@ -48,7 +48,10 @@ public class MusicManager : MonoBehaviour
 
     void Update()
     {
-        if(musicEnabled) AutoReplayAndShuffleAllLayers();
+        if(musicEnabled)
+        {
+            AutoReplayAndShuffleAllLayers();
+        }
     }
 
     void AutoReplayAndShuffleAllLayers()
@@ -164,4 +167,5 @@ public class MusicManager : MonoBehaviour
 
         return true;
     }
+
 }

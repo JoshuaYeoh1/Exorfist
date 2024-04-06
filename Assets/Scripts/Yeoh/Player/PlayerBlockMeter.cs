@@ -92,6 +92,8 @@ public class PlayerBlockMeter : MonoBehaviour
 
     void BlockBreak(GameObject attacker, HurtInfo hurtInfo)
     {
+        block.CancelParry();
+        
         block.Unblock();
         
         hurtInfo.speedDebuffMult = blockBreakSpeedDebuffMult;

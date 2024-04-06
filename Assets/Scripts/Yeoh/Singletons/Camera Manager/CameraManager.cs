@@ -58,6 +58,9 @@ public class CameraManager : MonoBehaviour
 
     public void SetDefaultCamera()
     {
+        if(!Camera.main) return;
+        if(!Camera.main.transform.parent) return;
+
         CinemachineVirtualCamera virtualCamera = Camera.main.transform.parent.GetComponent<CinemachineVirtualCamera>();
         
         if(virtualCamera)

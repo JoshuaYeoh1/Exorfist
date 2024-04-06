@@ -135,8 +135,8 @@ public class TweenAnim : MonoBehaviour
     [ContextMenu("Record Scale")]
     void RecordCurrentScale()
     {
-        inScale=transform.position;
-        outScale=transform.position;
+        inScale=transform.localScale;
+        outScale=transform.localScale;
     }
     
 }
