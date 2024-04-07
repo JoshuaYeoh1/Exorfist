@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SettingsManager : MonoBehaviour
 {
@@ -28,7 +29,16 @@ public class SettingsManager : MonoBehaviour
     public ShaderType charShaderType=ShaderType.ToonOld;
     public ShaderType envShaderType=ShaderType.Toon;
     
-    void Start()
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         LoadSettings();
     }

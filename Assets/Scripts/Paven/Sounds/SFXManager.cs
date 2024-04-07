@@ -429,11 +429,11 @@ public class SFXManager : MonoBehaviour
     public AudioClip[] voicePlayerAttackEpic;
     public AudioClip[] voicePlayerAttackHigh;
     public AudioClip[] voicePlayerAttackLow;
-    public AudioClip[] voicePlayerAttackMid;
     public AudioClip[] voicePlayerBlock;
     public AudioClip[] voicePlayerHurtHigh;
     public AudioClip[] voicePlayerHurtLow;
     public AudioClip[] voicePlayerHurtMid;
+    public AudioClip[] voiceGonk;
 
     public void PlayVoicePlayerHurt(AudioSource voice, float hp, float hpMax)
     {

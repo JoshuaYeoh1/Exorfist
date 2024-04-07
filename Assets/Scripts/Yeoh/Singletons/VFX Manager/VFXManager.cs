@@ -400,24 +400,29 @@ public class VFXManager : MonoBehaviour
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-    // void Update()
-    // {
-    //     Testing();
-    // }
+    void Update()
+    {
+        Testing();
+    }
     
     void Testing()
     {
-        if(Input.GetKeyDown(KeyCode.Keypad0)) CameraManager.Current.Shake();
-        if(Input.GetKeyDown(KeyCode.Keypad1)) TimescaleManager.Current.HitStop();
-        if(Input.GetKeyDown(KeyCode.Keypad2)) SpawnHitmarker(PlayerTop(), Color.white);
-        if(Input.GetKeyDown(KeyCode.Keypad3)) SpawnFlash(PlayerTop(), Color.white);
-        if(Input.GetKeyDown(KeyCode.Keypad4)) SpawnShockwave(PlayerTop(), Color.white);
-        if(Input.GetKeyDown(KeyCode.Keypad5)) SpawnGroundExplosion(FindPlayer().transform.position);
-        if(Input.GetKeyDown(KeyCode.Keypad6)) {SpawnHeal(FindPlayer());}
-        if(Input.GetKeyDown(KeyCode.Keypad7)) SpawnImpact(PlayerTop());
-        if(Input.GetKeyDown(KeyCode.Keypad8)) SpawnSparks(PlayerTop());
-        if(Input.GetKeyDown(KeyCode.Keypad9)) SpawnPopUpText(PlayerTop(), "ABOI", Color.cyan, Vector3.one*2);
-        if(Input.GetKeyDown(KeyCode.KeypadDivide)) SpawnChi(ModelManager.Current.GetColliderCenter(FindPlayer()), Vector3.one*5);
+        // if(Input.GetKeyDown(KeyCode.Keypad0)) CameraManager.Current.Shake();
+        // if(Input.GetKeyDown(KeyCode.Keypad1)) TimescaleManager.Current.HitStop();
+        // if(Input.GetKeyDown(KeyCode.Keypad2)) SpawnHitmarker(PlayerTop(), Color.white);
+        // if(Input.GetKeyDown(KeyCode.Keypad3)) SpawnFlash(PlayerTop(), Color.white);
+        if(Input.GetKeyDown(KeyCode.Tab))
+        {
+            SpawnShockwave(PlayerTop(), Color.white);
+            SpawnPopUpText(PlayerTop(), "gonk", new Color(1,1,1,.5f), Vector3.one*2);
+            AudioManager.Current.PlaySFX(SFXManager.Current.voiceGonk, PlayerTop());
+        }
+        // if(Input.GetKeyDown(KeyCode.Keypad5)) SpawnGroundExplosion(FindPlayer().transform.position);
+        // if(Input.GetKeyDown(KeyCode.Keypad6)) SpawnHeal(FindPlayer());
+        // if(Input.GetKeyDown(KeyCode.Keypad7)) SpawnImpact(PlayerTop());
+        // if(Input.GetKeyDown(KeyCode.Keypad8)) SpawnSparks(PlayerTop());
+        // if(Input.GetKeyDown(KeyCode.Keypad9)) SpawnPopUpText(PlayerTop(), "ABOI", Color.cyan, Vector3.one*2);
+        // if(Input.GetKeyDown(KeyCode.KeypadDivide)) SpawnChi(ModelManager.Current.GetColliderCenter(FindPlayer()), Vector3.one*5);
     }
 
     GameObject FindPlayer()

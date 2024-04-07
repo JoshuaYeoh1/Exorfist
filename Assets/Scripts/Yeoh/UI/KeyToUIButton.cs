@@ -21,6 +21,8 @@ public class KeyToUIButton : MonoBehaviour
 
     void Update()
     {
+        if(Time.timeScale==0) return;
+        
         foreach(KeyCode key in keys)
         {
             if(Input.GetKeyDown(key))
@@ -43,5 +45,10 @@ public class KeyToUIButton : MonoBehaviour
                 pressed=false;
             }
         }
+    }
+    
+    void OnDisable()
+    {
+        pressed=false;
     }
 }

@@ -50,14 +50,7 @@ public class PlayerCombat : MonoBehaviour
 
                 buffer.lastPressedLightAttack=-1;
 
-                if(lightComboCounter < (lightCombo.Count-1)*.5f)
-                {
-                    AudioManager.Current.PlayVoice(player.voice, SFXManager.Current.voicePlayerAttackLow, false);
-                }
-                else
-                {
-                    AudioManager.Current.PlayVoice(player.voice, SFXManager.Current.voicePlayerAttackMid, false);
-                }
+                AudioManager.Current.PlayVoice(player.voice, SFXManager.Current.voicePlayerAttackLow, false);
             }
 
             else if(type=="heavy" && heavyComboCounter < heavyCombo.Count-1)
@@ -80,7 +73,7 @@ public class PlayerCombat : MonoBehaviour
 
                 if(heavyComboCounter < (heavyCombo.Count-1)*.5f)
                 {
-                    AudioManager.Current.PlayVoice(player.voice, SFXManager.Current.voicePlayerAttackMid, false);
+                    AudioManager.Current.PlayVoice(player.voice, SFXManager.Current.voicePlayerAttackLow, false);
                 }
                 else
                 {

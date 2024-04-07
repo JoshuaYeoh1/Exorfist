@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5430770820101390849
 Transform:
   m_ObjectHideFlags: 0
@@ -5125,9 +5125,12 @@ MonoBehaviour:
   wiggleRot: 0
   rotFrequency: {x: 0, y: 0, z: 0}
   rotMagnitude: {x: 0, y: 0, z: 0}
-  wiggleScale: 0
+  wiggleScale1: 0
   scaleFrequency: 0
   scaleMagnitude: 0
+  wiggleScale2: 0
+  scaleFrequency2: {x: 0, y: 0, z: 0}
+  scaleMagnitude2: {x: 0, y: 0, z: 0}
   ignoreTime: 0
 --- !u!135 &2390994605425909211
 SphereCollider:

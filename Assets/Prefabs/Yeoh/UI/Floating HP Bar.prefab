@@ -93,6 +93,9 @@ MonoBehaviour:
   animScale: 1
   inScale: {x: 0, y: 0, z: 0}
   outScale: {x: 0, y: 0, z: 0}
+  playOnEnable: 0
+  playOnEnableAnimTime: 0.5
+  playOnEnableDelay: 0
 --- !u!1 &4225992670137687456
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,7 +207,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4225992670137687456}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0.75
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
