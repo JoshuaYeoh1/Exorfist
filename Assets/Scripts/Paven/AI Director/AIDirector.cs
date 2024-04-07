@@ -57,15 +57,15 @@ public class AIDirector : MonoBehaviour
     }
 
     
-    void Update()
-    {
-        /*
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            AIDirectorCycle();
-        }
-        */
-    }
+    // void Update()
+    // {
+    //     /*
+    //     if (Input.GetKeyDown(KeyCode.K))
+    //     {
+    //         AIDirectorCycle();
+    //     }
+    //     */
+    // }
 
     //This function will essentially act as the "tick" function for our class.
     private void AIDirectorCycle() 

@@ -253,12 +253,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 166144225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1832996075}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &317163551
 PrefabInstance:
@@ -421,7 +421,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1832996075}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!114 &327071543
 MonoBehaviour:
@@ -1037,7 +1037,7 @@ PrefabInstance:
     - target: {fileID: 8721618073881824248, guid: b53530798bef13a4a8579b263f750fef,
         type: 3}
       propertyPath: m_Color.a
-      value: 1
+      value: 0.9019608
       objectReference: {fileID: 0}
     - target: {fileID: 8948506660610351637, guid: b53530798bef13a4a8579b263f750fef,
         type: 3}
@@ -2012,7 +2012,7 @@ MonoBehaviour:
   threshold: 0
   sampleWindow: 6000
   minScale: {x: 1, y: 1, z: 1}
-  maxScale: {x: 1.4, y: 1.4, z: 1}
+  maxScale: {x: 1.5, y: 1.5, z: 1}
 --- !u!1 &1637250817
 GameObject:
   m_ObjectHideFlags: 0
@@ -2089,6 +2089,52 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1832996073
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1832996075}
+  - component: {fileID: 1832996074}
+  m_Layer: 0
+  m_Name: Scene
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1832996074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1832996073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1256c0b7254209b47ae166bb357ce9a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1832996075
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1832996073}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 327071542}
+  - {fileID: 166144229}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1864673174
 GameObject:
   m_ObjectHideFlags: 0
@@ -2176,6 +2222,7 @@ GameObject:
   - component: {fileID: 2087296896}
   - component: {fileID: 2087296895}
   - component: {fileID: 2087296894}
+  - component: {fileID: 2087296897}
   m_Layer: 5
   m_Name: Fist Anim
   m_TagString: Untagged
@@ -2265,6 +2312,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2087296892}
   m_CullTransparentMesh: 1
+--- !u!114 &2087296897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2087296892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee6d91088753e944c87d9d155200f72e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loudnessSensibility: 1
+  threshold: 0
+  sampleWindow: 3000
+  minScale: {x: 0.9, y: 0.9, z: 1}
+  maxScale: {x: 1.5, y: 1.5, z: 1}
 --- !u!114 &165774641952624801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3493,8 +3557,7 @@ MonoBehaviour:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 327071542}
-  - {fileID: 166144229}
+  - {fileID: 1832996075}
   - {fileID: 317163551}
   - {fileID: 1148484757}
   - {fileID: 8709126715374761851}

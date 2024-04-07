@@ -178,20 +178,20 @@ public class PlayerBlock : MonoBehaviour
         blockedPoint = Vector3.zero;
     }
 
-    void Update() // testing
-    {
-        if(Input.GetKeyDown(KeyCode.Delete))
-        {
-            HurtInfo hurtInfo = new HurtInfo();
+    // void Update() // testing
+    // {
+    //     if(Input.GetKeyDown(KeyCode.Delete))
+    //     {
+    //         HurtInfo hurtInfo = new HurtInfo();
 
-            hurtInfo.dmg=20;
-            hurtInfo.dmgBlock=20;
-            hurtInfo.kbForce=1;
-            hurtInfo.contactPoint=ModelManager.Current.GetColliderTop(gameObject);
-            hurtInfo.speedDebuffMult=.3f;
-            hurtInfo.stunTime=1;
+    //         hurtInfo.dmg=20;
+    //         hurtInfo.dmgBlock=20;
+    //         hurtInfo.kbForce=1;
+    //         hurtInfo.contactPoint=ModelManager.Current.GetColliderTop(gameObject);
+    //         hurtInfo.speedDebuffMult=.3f;
+    //         hurtInfo.stunTime=1;
 
-            CheckBlock(null, gameObject, hurtInfo);
-        }
-    }
+    //         CheckBlock(null, gameObject, hurtInfo);
+    //     }
+    // }
 }

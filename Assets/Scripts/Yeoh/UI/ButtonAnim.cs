@@ -9,6 +9,8 @@ public class ButtonAnim : MonoBehaviour
 
     Vector2 defScale;
 
+    public bool doSFX=true;
+
     void Awake()
     {
         defScale = transform.localScale;
@@ -29,7 +31,8 @@ public class ButtonAnim : MonoBehaviour
         {
             LeanTween.cancel(gameObject);
             LeanTween.scale(gameObject, defScale*(1+scaleMult), animTime).setEaseOutExpo().setIgnoreTimeScale(true);
-
+            
+            if(doSFX)
             AudioManager.Current.PlaySFX(SFXManager.Current.sfxUIHover, transform.position, false);
         }
     }
@@ -43,6 +46,7 @@ public class ButtonAnim : MonoBehaviour
             LeanTween.cancel(gameObject);
             LeanTween.scale(gameObject, defScale, animTime).setEaseOutExpo().setIgnoreTimeScale(true);
 
+            if(doSFX)
             AudioManager.Current.PlaySFX(SFXManager.Current.sfxUIHover, transform.position, false);
         }
     }
@@ -57,6 +61,7 @@ public class ButtonAnim : MonoBehaviour
             transform.localScale = defScale*(1+scaleMult);
             LeanTween.scale(gameObject, defScale*(1-scaleMult), animTime/2).setEaseOutExpo().setIgnoreTimeScale(true);
 
+            if(doSFX)
             AudioManager.Current.PlaySFX(SFXManager.Current.sfxUIClick, transform.position, false);
         }
     }

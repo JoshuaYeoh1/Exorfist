@@ -66,6 +66,9 @@ public class ControlHider : MonoBehaviour
         if(!player.isPaused && player.isAlive) ToggleActive(joystick, true);
 
         else HideJoystick();
+
+        // no joystick on pc
+        if(Singleton.Current.IsWindows()) ToggleActive(joystick, false);
     }
 
     void HideJoystick()

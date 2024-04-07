@@ -400,10 +400,10 @@ public class VFXManager : MonoBehaviour
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-    void Update()
-    {
-        Testing();
-    }
+    // void Update()
+    // {
+    //     Testing();
+    // }
     
     void Testing()
     {

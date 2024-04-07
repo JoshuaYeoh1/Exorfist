@@ -42,8 +42,8 @@ public class ScenesManager : MonoBehaviour
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.R)) ReloadScene();
-        if(Input.GetKeyDown(KeyCode.KeypadPlus)) LoadNextScene();
-        if(Input.GetKeyDown(KeyCode.KeypadMinus)) LoadPrevScene();
+        // if(Input.GetKeyDown(KeyCode.KeypadPlus)) LoadNextScene();
+        // if(Input.GetKeyDown(KeyCode.KeypadMinus)) LoadPrevScene();
     }
 
     public void PlayTransition(string type, int i, bool quit=false)

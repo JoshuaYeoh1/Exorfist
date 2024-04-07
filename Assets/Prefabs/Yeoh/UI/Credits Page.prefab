@@ -35,8 +35,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -2000}
-  m_SizeDelta: {x: 240, y: 3522.086}
+  m_AnchoredPosition: {x: 0, y: -3500}
+  m_SizeDelta: {x: 400, y: 6307}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9088619585011243527
 CanvasRenderer:
@@ -89,8 +89,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rt: {fileID: 8576914923899275216}
-  startPos: {x: 0, y: -2000}
-  endPos: {x: 0, y: 2050}
+  startPos: {x: 0, y: -3500}
+  endPos: {x: 0, y: 3400}
   scrollSpeed: 300
   scrollFasterMult: 3
   OnScrollStart:

@@ -31,11 +31,18 @@ public class IntroCamera : MonoBehaviour
 
         exorfistTitle.TweenOut(.5f);
 
-        Invoke("WaitTransition", 1.5f);
+        Invoke(nameof(FinishIntro), 1.5f);
+
+        Invoke(nameof(StartTutorial), 2);
     }
 
-    void WaitTransition() // Invoked
+    void FinishIntro()
     {
-        GameEventSystem.Current.OnIntroCamEnd(gameObject);
+        GameEventSystem.Current.OnIntroCamEnd(gameObject);        
+    }
+
+    void StartTutorial()
+    {
+        GameEventSystem.Current.OnStartTutorial();
     }
 }

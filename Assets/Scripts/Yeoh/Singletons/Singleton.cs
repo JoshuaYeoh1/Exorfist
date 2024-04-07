@@ -18,28 +18,42 @@ public class Singleton : MonoBehaviour
         //Invoke("UnlockFPS", .1f); // 45-60FPS FREEZES MY S10 AFTER PLAYING A WHILE
     }
 
-    // void UnlockFPS()
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    void UnlockFPS()
+    {
+        Application.targetFrameRate = 60;
+        QualitySettings.vSyncCount = 0;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public bool IsWindows()
+    {
+        return Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor;
+    }
+
+    public bool doTutorial=true;
+
+    
+
+
+    // void Update()
     // {
-    //     Application.targetFrameRate = 60;
-    //     QualitySettings.vSyncCount = 0;
+    //     UpdateFixedDeltaTime();
     // }
 
-    void Update()
-    {
-        //UpdateFixedDeltaTime();
-    }
-
-    void UpdateFixedDeltaTime() // to fix physics stuttering // CAUSES RAGDOLLS TO FLY UP WHEN TWEENING TIME FAST
-    {
-        if(Time.timeScale==1)
-        {
-            if(Time.fixedDeltaTime!=.02f)
-            Time.fixedDeltaTime=.02f; // default value
-        }
-        else // if timescale changed
-        {
-            if(Time.fixedDeltaTime!=.02f*Time.timeScale)
-            Time.fixedDeltaTime = .02f*Time.timeScale;
-        }
-    }
+    // void UpdateFixedDeltaTime() // to fix physics stuttering // CAUSES RAGDOLLS TO FLY UP WHEN TWEENING TIME FAST
+    // {
+    //     if(Time.timeScale==1)
+    //     {
+    //         if(Time.fixedDeltaTime!=.02f)
+    //         Time.fixedDeltaTime=.02f; // default value
+    //     }
+    //     else // if timescale changed
+    //     {
+    //         if(Time.fixedDeltaTime!=.02f*Time.timeScale)
+    //         Time.fixedDeltaTime = .02f*Time.timeScale;
+    //     }
+    // }
 }

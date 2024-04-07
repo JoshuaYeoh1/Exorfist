@@ -47,11 +47,6 @@ public class PlayerAOE : MonoBehaviour
 
             GameEventSystem.Current.OnAbilityCasting(gameObject, "AOE");
         }
-        else
-        {
-            //AudioManager.Current.PlaySFX(SFXManager.Current.sfxUICooldown, transform.position, false);
-            // input buffer spams the shit outta this
-        }
     }
     
     bool isCasting;

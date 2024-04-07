@@ -53,11 +53,6 @@ public class PlayerLaser : MonoBehaviour
 
             GameEventSystem.Current.OnAbilityCasting(gameObject, "Laser");
         }
-        else
-        {
-            //AudioManager.Current.PlaySFX(SFXManager.Current.sfxUICooldown, transform.position, false);
-            // input buffer spams the shit outta this
-        }
     }
 
     bool isCasting;

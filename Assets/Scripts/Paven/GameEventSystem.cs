@@ -18,6 +18,8 @@ public class GameEventSystem : MonoBehaviour
         //DontDestroyOnLoad(gameObject); // Persist across scene changes
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -31,6 +33,8 @@ public class GameEventSystem : MonoBehaviour
     {
         if(Current!=this) Destroy(gameObject);
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     //==Actor Related actions==//
     public event Action<GameObject, string> SpawnEvent;
@@ -145,6 +149,7 @@ public class GameEventSystem : MonoBehaviour
     public event Action<GameObject, float, float> UIBarUpdateEvent;
     public event Action<string> ShowMenuEvent;
     public event Action<string> HideMenuEvent;
+    public event Action StartTutorialEvent;
 
     public void OnUIBarUpdate(GameObject owner, float value, float valueMax)
     {
@@ -157,6 +162,10 @@ public class GameEventSystem : MonoBehaviour
     public void OnHideMenu(string menuName)
     {
         HideMenuEvent?.Invoke(menuName);
+    }
+    public void OnStartTutorial()
+    {
+        StartTutorialEvent?.Invoke();
     }
     
     //==Settings==//

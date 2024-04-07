@@ -35,7 +35,7 @@ public class InputBuffer : MonoBehaviour
 
     void Update()
     {
-        KeyboardInput(); // temp for testing on PC
+        //KeyboardInput(); // temp for testing on PC
         CheckInputBuffer();
     }
 

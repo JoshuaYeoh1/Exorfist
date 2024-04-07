@@ -42,9 +42,9 @@ public class PlayerHeal : MonoBehaviour
 
     public void StartCast()
     {
-        regenHp = UpgradeManager.Current.GetHealSpeed();
+        //regenHp = UpgradeManager.Current.GetHealSpeed();
 
-        if(canCast && player.canCast && hp.hp<hp.hpMax-regenHp)
+        if(canCast && player.canCast) // && hp.hp<hp.hpMax-regenHp)
         {
             canCast=false;
 
@@ -52,11 +52,11 @@ public class PlayerHeal : MonoBehaviour
 
             GameEventSystem.Current.OnAbilityCasting(gameObject, "Heal");
         }
-        else
-        {
-            //AudioManager.Current.PlaySFX(SFXManager.Current.sfxUICooldown, transform.position, false);
-            // input buffer spams the shit outta this
-        }
+        // else 
+        // {
+        //     input buffer spams the shit outta this
+        //     AudioManager.Current.PlaySFX(SFXManager.Current.sfxUICooldown, transform.position, false);
+        // }
     }
     
     bool isCasting;

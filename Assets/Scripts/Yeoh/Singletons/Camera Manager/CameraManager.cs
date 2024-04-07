@@ -69,7 +69,11 @@ public class CameraManager : MonoBehaviour
         }
         else // if Camera.main is in a freelook camera instead
         {
-            defaultCamera = Camera.main.transform.parent.GetComponent<CinemachineFreeLook>().GetRig(1);
+            CinemachineFreeLook freelook = Camera.main.transform.parent.GetComponent<CinemachineFreeLook>();
+
+            if(!freelook) return;
+            
+            defaultCamera = freelook.GetRig(1);
         }
 
         ChangeCameraToDefault();

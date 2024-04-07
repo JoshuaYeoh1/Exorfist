@@ -216,17 +216,6 @@ public class Player : MonoBehaviour
     {
         if(victim!=gameObject) return;
 
-        if(hp.hp>hp.hpMax*.66f)
-        {
-            AudioManager.Current.PlayVoice(voice, SFXManager.Current.voicePlayerHurtLow, false);
-        }
-        else if(hp.hp>hp.hpMax*.33f)
-        {
-            AudioManager.Current.PlayVoice(voice, SFXManager.Current.voicePlayerHurtMid, false);
-        }
-        else
-        {
-            AudioManager.Current.PlayVoice(voice, SFXManager.Current.voicePlayerHurtHigh, false);
-        }
+        SFXManager.Current.PlayVoicePlayerHurt(voice, hp.hp, hp.hpMax);
     }
 }

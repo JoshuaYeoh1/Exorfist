@@ -434,4 +434,20 @@ public class SFXManager : MonoBehaviour
     public AudioClip[] voicePlayerHurtHigh;
     public AudioClip[] voicePlayerHurtLow;
     public AudioClip[] voicePlayerHurtMid;
+
+    public void PlayVoicePlayerHurt(AudioSource voice, float hp, float hpMax)
+    {
+        if(hp>=hpMax*.5f)
+        {
+            AudioManager.Current.PlayVoice(voice, voicePlayerHurtLow, false);
+        }
+        else if(hp>=hpMax*.25f)
+        {
+            AudioManager.Current.PlayVoice(voice, voicePlayerHurtMid, false);
+        }
+        else
+        {
+            AudioManager.Current.PlayVoice(voice, voicePlayerHurtHigh, false);
+        }
+    }
 }
