@@ -187,9 +187,8 @@ public class ScenesManager : MonoBehaviour
         {
             PlayTransitionOut(true);
 
-            MusicManager.Current.ChangeMusic(MusicManager.Current.currentLayerIndex, null, GetTransitionLength());
+            MusicManager.Current.ChangeMusic(MusicManager.Current.currentLayerIndex, null, .7f);
         }
-
         else
         {
             Debug.Log("Quit");

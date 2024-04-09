@@ -38,6 +38,8 @@ public class HurtScript : MonoBehaviour
         }
         else
         {
+            Knockback(hurtInfo.kbForce, hurtInfo.contactPoint);
+            
             Die(attacker, hurtInfo);
         }
 

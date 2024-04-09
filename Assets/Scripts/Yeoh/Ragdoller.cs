@@ -75,4 +75,19 @@ public class Ragdoller : MonoBehaviour
             }
         }
     }
+
+    public void Knockback(float force, Vector3 contactPoint)
+    {
+        if(isRagdoll)
+        {
+            foreach(Rigidbody rb in rigRbs)
+            {
+                Vector3 kbVector = rb.transform.position - contactPoint;
+                kbVector.y = 0; // only horizontal force
+
+                rb.velocity = new Vector3(0, rb.velocity.y, 0);
+                rb.AddForce(kbVector.normalized * force * rb.mass, ForceMode.Impulse);
+            }
+        }
+    }
 }

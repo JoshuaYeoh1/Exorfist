@@ -103,7 +103,11 @@ public class MusicManager : MonoBehaviour
     {
         AudioClip[] clips = layerClips[source];
 
-        source.clip = clips[Random.Range(0, clips.Length)];
+        if(HasClips(clips))
+        {
+            source.clip = clips[Random.Range(0, clips.Length)];
+        }
+        else source.clip = null;
 
         source.Play();
     }
@@ -159,7 +163,7 @@ public class MusicManager : MonoBehaviour
     {
         AudioClip[] currentClips = layerClips[layers[layerIndex]];
 
-        if(!HasClips(currentClips)) return false;
+        if(!HasClips(currentClips) || !HasClips(clips)) return false;
 
         if(currentClips.Length != clips.Length) return false;
 

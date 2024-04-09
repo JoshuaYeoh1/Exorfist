@@ -638,11 +638,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2614820916565612800, guid: 2d40fa3f5010f6841a6dec7d4a161f78,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5390780171318290748}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d40fa3f5010f6841a6dec7d4a161f78, type: 3}
 --- !u!224 &4213238927100865233 stripped
 RectTransform:
@@ -650,37 +646,3 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1955574848976895524}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &4569514472339875620 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2614820916565612800, guid: 2d40fa3f5010f6841a6dec7d4a161f78,
-    type: 3}
-  m_PrefabInstance: {fileID: 1955574848976895524}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &5390780171318290748
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4569514472339875620}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa76d7099fbdba040af825d9772629a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animPos: 0
-  inPos: {x: 0, y: 0, z: 0}
-  outPos: {x: 0, y: 0, z: 0}
-  animRot: 0
-  inRot: {x: 0, y: 0, z: 0}
-  outRot: {x: 0, y: 0, z: 0}
-  animScale: 1
-  inScale: {x: 0, y: 0, z: 0}
-  outScale: {x: 0, y: 0, z: 0}
-  img: {fileID: 0}
-  animAlpha: 0
-  inAlpha: 0
-  outAlpha: 0
-  playOnEnable: 1
-  playOnEnableAnimTime: 0.5
-  playOnEnableDelay: 0

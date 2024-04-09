@@ -168,16 +168,20 @@ public class EnemyAI : MonoBehaviour
     {
         if(victim!=gameObject) return;
 
+        if(!isDead)
+        {
+            isDead=true;
+
+            Ragdoller ragdoll = Instantiate(ragdollPrefab, transform.position, transform.rotation).GetComponent<Ragdoller>();
+
+            ragdoll.Knockback(hurtInfo.kbForce*.7f, hurtInfo.contactPoint);
+
+            DropChi();
+
+            Destroy(gameObject);
+        }
+
         //switch EnemyAIStateMachine to "dying" state, stop all coroutines as needed (if we're using coroutines that is)
-        //EnemyHurt script already broadcasts to OnDeath event, no need to broadcast it again here
-        
-        Ragdoller ragdoll = Instantiate(ragdollPrefab, transform.position, transform.rotation).GetComponent<Ragdoller>();
-
-        ragdoll.PushRagdoll(hurtInfo.kbForce, hurtInfo.contactPoint);
-
-        DropChi();
-
-        Destroy(gameObject);
     }
 
     void DropChi()
