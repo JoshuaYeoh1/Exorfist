@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TweenAnim : MonoBehaviour
 {
@@ -22,6 +23,13 @@ public class TweenAnim : MonoBehaviour
     public Vector3 outScale;
     Vector3 defScale;
 
+    [Header("Alpha")]
+    public Image img;
+    public bool animAlpha;
+    public float inAlpha;
+    public float outAlpha;
+    float defAlpha;
+
     [Header("Autoplay")]
     public bool playOnEnable;
     public float playOnEnableAnimTime=.5f;
@@ -32,6 +40,7 @@ public class TweenAnim : MonoBehaviour
         defPos = transform.localPosition;
         defRot = transform.eulerAngles;
         defScale = transform.localScale;
+        if(img) defAlpha = img.color.a;
     }
 
     void OnEnable()
@@ -50,6 +59,8 @@ public class TweenAnim : MonoBehaviour
     Coroutine enablingRt;
     IEnumerator Enabling()
     {
+        Reset();
+        
         yield return new WaitForSecondsRealtime(.05f);
 
         if(playOnEnableDelay>0)
@@ -73,6 +84,7 @@ public class TweenAnim : MonoBehaviour
         if(animPos) transform.localPosition = inPos;
         if(animRot) transform.eulerAngles = inRot;
         if(animScale) transform.localScale = inScale;
+        if(animAlpha) TweenAlpha(inAlpha, 0);
     }
 
     public void TweenIn(float time)
@@ -86,6 +98,7 @@ public class TweenAnim : MonoBehaviour
             if(animPos) LeanTween.moveLocal(gameObject, defPos, time).setEaseOutExpo().setIgnoreTimeScale(true);
             if(animRot) LeanTween.rotate(gameObject, defRot, time).setEaseInOutSine().setIgnoreTimeScale(true);
             if(animScale) LeanTween.scale(gameObject, defScale, time).setEaseOutCubic().setIgnoreTimeScale(true);
+            if(animAlpha) TweenAlpha(defAlpha, time);
 
             AudioManager.Current.PlaySFX(SFXManager.Current.sfxUICooldown, transform.position, false);
         }
@@ -94,6 +107,7 @@ public class TweenAnim : MonoBehaviour
             if(animPos) transform.localPosition = defPos;
             if(animRot) transform.eulerAngles = defRot;
             if(animScale) transform.localScale = defScale;
+            if(animAlpha) TweenAlpha(defAlpha, 0);
         }
     }
 
@@ -108,6 +122,7 @@ public class TweenAnim : MonoBehaviour
             if(animPos) LeanTween.moveLocal(gameObject, outPos, time).setEaseInExpo().setIgnoreTimeScale(true).setOnComplete(Reset);
             if(animRot) LeanTween.rotate(gameObject, outRot, time).setEaseInOutSine().setIgnoreTimeScale(true).setOnComplete(Reset);
             if(animScale) LeanTween.scale(gameObject, outScale, time).setEaseInCubic().setIgnoreTimeScale(true).setOnComplete(Reset);
+            if(animAlpha) TweenAlpha2(outAlpha, time);
 
             AudioManager.Current.PlaySFX(SFXManager.Current.sfxUICooldown, transform.position, false);
         }
@@ -116,7 +131,44 @@ public class TweenAnim : MonoBehaviour
             if(animPos) transform.localPosition = outPos;
             if(animRot) transform.eulerAngles = outRot;
             if(animScale) transform.localScale = outScale;
+            if(animAlpha) TweenAlpha(outAlpha, 0);
         }
+    }
+
+    int tweenAlphaLt=0;
+    public void TweenAlpha(float to, float time)
+    {
+        if(!img) return;
+
+        LeanTween.cancel(tweenAlphaLt);
+
+        if(time>0)
+        {
+            tweenAlphaLt = LeanTween.value(img.color.a, to, time)
+                .setEaseInOutSine()
+                .setIgnoreTimeScale(true)
+                .setOnUpdate( (float value)=>{img.color = new Color(img.color.r, img.color.g, img.color.b, value);} )
+                .id;
+        }
+        else img.color = new Color(img.color.r, img.color.g, img.color.b, to);
+    }
+
+    public void TweenAlpha2(float to, float time)
+    {
+        if(!img) return;
+
+        LeanTween.cancel(tweenAlphaLt);
+
+        if(time>0)
+        {
+            tweenAlphaLt = LeanTween.value(img.color.a, to, time)
+                .setEaseInOutSine()
+                .setIgnoreTimeScale(true)
+                .setOnUpdate( (float value)=>{img.color = new Color(img.color.r, img.color.g, img.color.b, value);} )
+                .setOnComplete(Reset)
+                .id;
+        }
+        else img.color = new Color(img.color.r, img.color.g, img.color.b, to);
     }
 
     //[Button] // requires Odin Inspector??
@@ -137,6 +189,13 @@ public class TweenAnim : MonoBehaviour
     {
         inScale=transform.localScale;
         outScale=transform.localScale;
+    }
+    [ContextMenu("Record Alpha")]
+    void RecordCurrenAlpha()
+    {
+        if(!img) return;
+        inAlpha=img.color.a;
+        outAlpha=img.color.a;
     }
     
 }

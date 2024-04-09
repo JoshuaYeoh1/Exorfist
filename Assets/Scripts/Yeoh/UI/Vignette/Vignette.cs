@@ -34,21 +34,9 @@ public class Vignette : MonoBehaviour
                 .setEaseInOutSine()
                 .setOnUpdate( (float value)=>{alpha=value;} )
                 .id;
-                //.setOnComplete(CheckResetPriority)
         }
-        else
-        {
-            alpha=0;
-            //CheckResetPriority();
-        } 
+        else alpha=to;
     }
-
-    // float currentPriority;
-
-    // void CheckResetPriority()
-    // {
-    //     if(alpha==0) currentPriority=0;
-    // }
 
     bool canFlash=true;
 
@@ -106,8 +94,6 @@ public class Vignette : MonoBehaviour
 
     void OnHurt(GameObject victim, GameObject attacker, HurtInfo hurtInfo)
     {
-        //if(!hasPriority(2)) return;
-
         if(victim.tag=="Player")
         {
             FlashVignette(Color.red);
@@ -116,8 +102,6 @@ public class Vignette : MonoBehaviour
 
     void OnBlock(GameObject defender, GameObject attacker, HurtInfo hurtInfo)
     {
-        //if(!hasPriority(2)) return;
-
         if(defender.tag=="Player")
         {
             FlashVignette(Color.cyan);
@@ -126,8 +110,6 @@ public class Vignette : MonoBehaviour
 
     void OnParry(GameObject defender, GameObject attacker, HurtInfo hurtInfo)
     {
-        //if(!hasPriority(2)) return;
-
         if(defender.tag=="Player")
         {
             FlashVignette(Color.green);
@@ -136,8 +118,6 @@ public class Vignette : MonoBehaviour
 
     void OnDeath(GameObject victim, GameObject killer, HurtInfo hurtInfo)
     {
-        //if(!hasPriority(10)) return;
-
         if(victim.tag=="Player")
         {
             TweenVignette(Color.red, 1, .1f);
@@ -153,8 +133,6 @@ public class Vignette : MonoBehaviour
 
     void OnAbilitySlowMo(bool toggle)
     {
-        //if(!hasPriority(1)) return;
-
         if(toggle)
         {
             TweenVignette(Color.blue, 1, .5f);
@@ -167,8 +145,6 @@ public class Vignette : MonoBehaviour
 
     void OnAbilityCast(GameObject caster, string abilityName)
     {
-        //if(!hasPriority(5)) return;
-
         if(caster.tag=="Player")
         {
             if(abilityName=="AOE")
@@ -184,21 +160,9 @@ public class Vignette : MonoBehaviour
 
     void OnAbilityEnd(GameObject caster, string abilityName)
     {
-        //if(!hasPriority(99)) return;
-
         if(caster.tag=="Player")
         {
             TweenVignette(Color.yellow, 0, .5f);
         }
     }
-
-    // bool hasPriority(float level)
-    // {
-    //     if(level>=currentPriority)
-    //     {
-    //         currentPriority = level;
-    //         return true;
-    //     }
-    //     else return false;
-    // }
 }

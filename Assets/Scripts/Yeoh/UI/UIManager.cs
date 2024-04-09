@@ -108,13 +108,13 @@ public class UIManager : MonoBehaviour
 
     public void Fade(GameObject target, float to, float time)
     {
+        if(tweenIdDict.ContainsKey(target))
+        {
+            LeanTween.cancel(tweenIdDict[target]);
+        }
+
         if(time>0)
         {
-            if(tweenIdDict.ContainsKey(target))
-            {
-                LeanTween.cancel(tweenIdDict[target]);
-            }
-
             tweenIdDict[target] = LeanTween.value(childrenCanvasGroupsDict[target].alpha, to, time)
                 .setEaseInOutSine()
                 .setIgnoreTimeScale(true)

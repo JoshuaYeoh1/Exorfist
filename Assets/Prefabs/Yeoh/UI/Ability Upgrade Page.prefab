@@ -328,6 +328,7 @@ GameObject:
   - component: {fileID: 1102420747140711383}
   - component: {fileID: 2257584197723007730}
   - component: {fileID: 1267226514832513248}
+  - component: {fileID: 4014664720928765724}
   m_Layer: 5
   m_Name: Dark BG
   m_TagString: Untagged
@@ -407,6 +408,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AspectMode: 4
   m_AspectRatio: 1.7777778
+--- !u!114 &4014664720928765724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4818979841309646798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa76d7099fbdba040af825d9772629a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animPos: 0
+  inPos: {x: 0, y: 0, z: 0}
+  outPos: {x: 0, y: 0, z: 0}
+  animRot: 0
+  inRot: {x: 0, y: 0, z: 0}
+  outRot: {x: 0, y: 0, z: 0}
+  animScale: 0
+  inScale: {x: 0, y: 0, z: 0}
+  outScale: {x: 0, y: 0, z: 0}
+  img: {fileID: 2257584197723007730}
+  animAlpha: 1
+  inAlpha: 0
+  outAlpha: 0
+  playOnEnable: 1
+  playOnEnableAnimTime: 0.5
+  playOnEnableDelay: 0
 --- !u!1 &4979929146608574648
 GameObject:
   m_ObjectHideFlags: 0
@@ -506,6 +535,10 @@ MonoBehaviour:
   animScale: 1
   inScale: {x: 0, y: 0, z: 0}
   outScale: {x: 0, y: 0, z: 0}
+  img: {fileID: 0}
+  animAlpha: 0
+  inAlpha: 0
+  outAlpha: 0
   playOnEnable: 0
   playOnEnableAnimTime: 0.5
   playOnEnableDelay: 0
@@ -805,6 +838,10 @@ MonoBehaviour:
   animScale: 1
   inScale: {x: 1, y: 0, z: 1}
   outScale: {x: 0, y: 0, z: 0}
+  img: {fileID: 0}
+  animAlpha: 0
+  inAlpha: 0
+  outAlpha: 0
   playOnEnable: 0
   playOnEnableAnimTime: 0.5
   playOnEnableDelay: 0

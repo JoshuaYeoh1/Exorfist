@@ -93,35 +93,31 @@ public class PlayerMovement : MonoBehaviour
     int tweenInputClampLt=0;
     public void TweenInputClamp(float to, float time=.25f)
     {
+        LeanTween.cancel(tweenInputClampLt);
+
         if(time>0)
         {
-            LeanTween.cancel(tweenInputClampLt);
             tweenInputClampLt = LeanTween.value(inputClamp, to, time)
                 .setEaseInOutSine()
                 .setOnUpdate( (float value)=>{inputClamp=value;} )
                 .id;
         }
-        else
-        {
-            inputClamp=to;
-        }
+        else inputClamp=to;
     }
 
     int tweenSpeedLt=0;
     public void TweenSpeed(float to, float time=.25f)
     {
+        LeanTween.cancel(tweenSpeedLt);
+
         if(time>0)
         {
-            LeanTween.cancel(tweenSpeedLt);
             tweenSpeedLt = LeanTween.value(moveSpeed, to, time)
                 .setEaseInOutSine()
                 .setOnUpdate( (float value)=>{moveSpeed=value;} )
                 .id;
         }
-        else
-        {
-            moveSpeed=to;
-        }
+        else moveSpeed=to;
     }
 
     public void Push(float force, Vector3 direction) //, float stopTime)

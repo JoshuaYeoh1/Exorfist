@@ -38,14 +38,14 @@ public class EyeblinkAnim : MonoBehaviour
 
         foreach(GameObject eye in eyes)
         {
+            if(eyeTweenIdDict.ContainsKey(eye))
+            {
+                LeanTween.cancel(eyeTweenIdDict[eye]);
+                eyeTweenIdDict.Remove(eye); // cleanup
+            }
+
             if(time>0) 
             {
-                if(eyeTweenIdDict.ContainsKey(eye))
-                {
-                    LeanTween.cancel(eyeTweenIdDict[eye]);
-                    eyeTweenIdDict.Remove(eye); // cleanup
-                }
-
                 int id = LeanTween.scaleY(eye, to, time).setEaseInOutSine().id; //.setOnComplete(CheckResetPriority)
 
                 eyeTweenIdDict.Add(eye, id);

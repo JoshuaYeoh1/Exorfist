@@ -51,23 +51,20 @@ public class AudioManager : MonoBehaviour
     
     public void TweenVolume(AudioSource source, float to, float time=3)
     {
+        if(tweenVolumeIds.ContainsKey(source))
+        {
+            LeanTween.cancel(tweenVolumeIds[source]);
+        }
+        
         if(time>0)
         {
-            if(tweenVolumeIds.ContainsKey(source))
-            {
-                LeanTween.cancel(tweenVolumeIds[source]);
-            }
-
             tweenVolumeIds[source] = LeanTween.value(source.volume, to, time)
                 .setEaseInOutSine()
                 .setIgnoreTimeScale(true)
                 .setOnUpdate( (float value)=>{source.volume=value;} )
                 .id;
         }
-        else
-        {
-            source.volume=to;
-        }
+        else source.volume=to;
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
