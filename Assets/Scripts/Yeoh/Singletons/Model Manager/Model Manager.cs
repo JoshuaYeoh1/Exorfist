@@ -378,7 +378,7 @@ public class ModelManager : MonoBehaviour
         return new Vector3(target.transform.position.x, center.y+halfHeight, target.transform.position.z);
     }
 
-    // BOUNDING BOX
+    // COLLIDER BOUNDING BOX
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public List<Collider> GetColliders(GameObject target)

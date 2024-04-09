@@ -22,8 +22,8 @@ public class PlayerLaser : MonoBehaviour
     public GameObject hitboxPrefab;
     float range=10;
     float dmg;
-    float sustainTime=5;
-    public float damageInterval=.2f;
+    float sustainTime;
+    float damageInterval;
 
     [Header("Cooldown")]
     public Image radialBar;
@@ -149,6 +149,8 @@ public class PlayerLaser : MonoBehaviour
     Coroutine flashingHitboxRt;
     IEnumerator FlashingHitbox()
     {
+        damageInterval = UpgradeManager.Current.laserDmgInterval;
+
         while(true)
         {
             CameraManager.Current.Shake(damageInterval, 1);

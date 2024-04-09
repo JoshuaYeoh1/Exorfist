@@ -19,10 +19,9 @@ public class SceneMusic : MonoBehaviour
     {
         for(int i=0; i<musicLayers.Count && i<MusicManager.Current.numberOfLayers; i++)
         {
-            if(!MusicManager.Current.DoesLayerHaveSameClips(i, musicLayers[i].clips))
-            {
-                MusicManager.Current.ChangeMusic(i, musicLayers[i].clips, 1);
-            }
+            // if(!MusicManager.Current.DoesLayerHaveSameClips(i, musicLayers[i].clips))
+
+            MusicManager.Current.ChangeMusic(i, musicLayers[i].clips, 2);
         }
 
         MusicManager.Current.ChangeLayer(defaultLayer-1);

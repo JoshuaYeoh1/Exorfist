@@ -40,7 +40,7 @@ public class UpgradeManager : MonoBehaviour
     [Header("Laser")]
     public int laserDmgLvl=0;
     public int[] laserDmgLvlCost = {0, 10, 20};
-    public float[] laserDmgLvlMag = {8, 12, 16};
+    public float[] laserDmgLvlMag = {5, 10, 15};
 
     public int laserRangeLvl=0;
     public int[] laserRangeLvlCost = {0, 10, 20};
@@ -54,6 +54,7 @@ public class UpgradeManager : MonoBehaviour
     public int[] laserCooldownLvlCost = {0, 10, 20};
     public float[] laserCooldownLvlMag = {30, 20, 10};
 
+    public float laserDmgInterval=.2f;
     public float laserDuration=5;
     
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -272,11 +273,13 @@ public class UpgradeManager : MonoBehaviour
     }
     public string GetLaserNextDmgTotal()
     {
+        float mult = laserDuration/laserDmgInterval;
+
         if(laserDmgLvl<maxLvl)
         {
-            return $"{laserDmgLvlMag[laserDmgLvl]*25} -> {laserDmgLvlMag[laserDmgLvl+1]*25}";
+            return $"{Mathf.Round(laserDmgLvlMag[laserDmgLvl] * mult)} -> {Mathf.Round(laserDmgLvlMag[laserDmgLvl+1] * mult)}";
         }
-        return $"{laserDmgLvlMag[laserDmgLvl]*25}";
+        return $"{Mathf.Round(laserDmgLvlMag[laserDmgLvl] * mult)}";
     }
     public int GetLaserDmgNextCost()
     {

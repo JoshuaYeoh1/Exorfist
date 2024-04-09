@@ -69,6 +69,8 @@ public class MusicManager : MonoBehaviour
 
     public void ChangeMusic(AudioSource source, AudioClip[] clips, float fadeOutTime=3)
     {
+        if(DoesLayerHaveSameClips(GetLayerIndex(source), clips)) return;
+
         if(changingMusicRts.ContainsKey(source))
         {
             if(changingMusicRts[source]!=null) StopCoroutine(changingMusicRts[source]);
@@ -92,6 +94,8 @@ public class MusicManager : MonoBehaviour
 
         layerClips[source] = clips;
 
+        if(currentLayer==source) ResetLayerVolume(source);
+
         Play(source);
     }
 
@@ -108,6 +112,8 @@ public class MusicManager : MonoBehaviour
     
     public void ChangeLayer(int layerIndex, float outTime=3, float waitTime=1, float inTime=3)
     {
+        if(currentLayer==layers[layerIndex]) return;
+
         if(crossfadingLayerRts.ContainsKey(layerIndex))
         {
             if(crossfadingLayerRts[layerIndex]!=null) StopCoroutine(crossfadingLayerRts[layerIndex]);
@@ -168,4 +174,14 @@ public class MusicManager : MonoBehaviour
         return true;
     }
 
+    public int GetLayerIndex(AudioSource source)
+    {
+        for(int i=0; i<layers.Count; i++)
+        {
+            if(source==layers[i]) return i;
+        }
+
+        Debug.LogWarning("Music Manager: This source was not found in any music layer. Can't get layer index");
+        return -1;
+    }
 }

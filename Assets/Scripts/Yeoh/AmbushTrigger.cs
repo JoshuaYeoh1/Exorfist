@@ -2,24 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoomTrigger : MonoBehaviour
+[RequireComponent(typeof(HiddenSpawner))]
+
+public class AmbushTrigger : MonoBehaviour
 {
+    HiddenSpawner spawner;
+
     public List<GameObject> barriers = new List<GameObject>();
-    public List<Transform> enemySpawnpoints = new List<Transform>();
+
     public List<GameObject> enemyPrefabs = new List<GameObject>();
     List<GameObject> activeEnemies = new List<GameObject>();
 
-    bool roomActive;
-    bool canSpawn=true;
-
     void Awake()
     {
-        ToggleBarriers(false);
-    }
+        spawner=GetComponent<HiddenSpawner>();
 
-    void Update()
-    {
-        CheckRoomCleared();
+        ToggleBarriers(false);
     }
 
     void OnTriggerEnter(Collider other)
@@ -32,6 +30,9 @@ public class RoomTrigger : MonoBehaviour
         }
     }
 
+    bool roomActive;
+    bool canSpawn=true;
+
     void SpawnEnemies()
     {
         if(canSpawn && !roomActive)
@@ -41,15 +42,15 @@ public class RoomTrigger : MonoBehaviour
 
             ToggleBarriers(true);
 
-            for(int i=0; i<enemySpawnpoints.Count && i<enemyPrefabs.Count; i++)
-            {
-                GameObject enemy = Instantiate(enemyPrefabs[i], enemySpawnpoints[i].position, enemySpawnpoints[i].rotation);
+            List<GameObject> spawnedEnemies = spawner.Spawns(enemyPrefabs);
 
-                if(enemyPrefabs[i].name!="Enemy1 Ragdoll")
+            foreach(GameObject enemy in spawnedEnemies)
+            {
+                if(enemy.name!="Enemy1 Ragdoll")
                 activeEnemies.Add(enemy);
             }
 
-            GameEventSystem.Current?.OnRoomEnter();
+            GameEventSystem.Current.OnRoomEnter();
 
             AudioManager.Current.PlaySFX(SFXManager.Current.sfxUITrigger, transform.position, false);
         }
@@ -114,6 +115,11 @@ public class RoomTrigger : MonoBehaviour
     public bool lastRoom;
     public GameObject gameFinishPopup;
     public float popUpDelay=1;
+
+    void Update()
+    {
+        CheckRoomCleared();
+    }
 
     void CheckRoomCleared()
     {

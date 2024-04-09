@@ -22,7 +22,7 @@ public class AIDirector : MonoBehaviour
         
      */
     
-    [SerializeField] private GameObject player;
+    public GameObject player;
     [HideInInspector] public List<GameObject> enemies;
     [HideInInspector] public List<GameObject> attackingEnemies;
 
@@ -53,7 +53,9 @@ public class AIDirector : MonoBehaviour
 
         //this method apparently repeats a function based on a time parameter that gets passed into the third parameter slot.
         //the second parameter slot is the INITIAL delay, AKA for the first call of the function. Neat stuff
-        InvokeRepeating("AIDirectorCycle", 1f, 0.5f);
+        InvokeRepeating(nameof(AIDirectorCycle), 1f, 0.5f);
+
+        InvokeRepeating(nameof(CheckCombatMusic), 0, .5f);
     }
 
     
@@ -218,4 +220,20 @@ public class AIDirector : MonoBehaviour
         }
     }
 
+    public int GetEnemyCount()
+    {
+        return enemies.Count;
+    }
+
+    void CheckCombatMusic()
+    {
+        if(enemies.Count>0)
+        {
+            MusicManager.Current.ChangeLayer(1);
+        }
+        else
+        {
+            MusicManager.Current.ChangeLayer(0);
+        }
+    }
 }

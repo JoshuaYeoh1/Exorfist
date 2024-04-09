@@ -137,6 +137,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 7501183850833113115}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a0d59823b41c58744930efd61f1c7e17,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3687023319129991428}
   m_SourcePrefab: {fileID: 100100000, guid: a0d59823b41c58744930efd61f1c7e17, type: 3}
 --- !u!4 &232600501817064984 stripped
 Transform:
@@ -188,3 +192,23 @@ MonoBehaviour:
   toonMat: {fileID: 2100000, guid: 377930f265f3a4d40b37e46531142265, type: 2}
   toonOldMat: {fileID: 2100000, guid: 679be1e8b1f25f046b5465050d59af58, type: 2}
   urpMat: {fileID: 2100000, guid: 097593ab19d5d044fb14dd90d5d3c6e2, type: 2}
+  defaultShaderType: 0
+--- !u!114 &3687023319129991428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 608421631577187490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff

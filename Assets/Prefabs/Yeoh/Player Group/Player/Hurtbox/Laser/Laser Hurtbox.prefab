@@ -73,7 +73,7 @@ PrefabInstance:
     - target: {fileID: 2450153818773288940, guid: fc9b2ec0bba8ed64ca58c287a73aa6ea,
         type: 3}
       propertyPath: kbForce
-      value: 10
+      value: 6.5
       objectReference: {fileID: 0}
     - target: {fileID: 2450153818773288940, guid: fc9b2ec0bba8ed64ca58c287a73aa6ea,
         type: 3}
@@ -90,6 +90,11 @@ PrefabInstance:
       propertyPath: attackName
       value: Laser
       objectReference: {fileID: 0}
+    - target: {fileID: 2450153818773288940, guid: fc9b2ec0bba8ed64ca58c287a73aa6ea,
+        type: 3}
+      propertyPath: hitboxOrigin
+      value: 
+      objectReference: {fileID: 2595290928803696526}
     - target: {fileID: 2450153818773288940, guid: fc9b2ec0bba8ed64ca58c287a73aa6ea,
         type: 3}
       propertyPath: enabledOnAwake
