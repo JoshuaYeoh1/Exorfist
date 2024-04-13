@@ -186,8 +186,8 @@ public class ModelManager : MonoBehaviour
         return emissionColors;
     }
 
-    Dictionary<Material, Color> originalColors = new Dictionary<Material, Color>();
-    Dictionary<Material, Color> originalEmissionColors = new Dictionary<Material, Color>();
+    Dictionary<Material, Color> originalColors = new();
+    Dictionary<Material, Color> originalEmissionColors = new();
 
     public void RecordColors(GameObject target)
     {
@@ -254,11 +254,19 @@ public class ModelManager : MonoBehaviour
             }
         }
     }
-    
+
     public void FlashColor(GameObject target, float rOffset=0, float gOffset=0, float bOffset=0, float time=.1f)
     {
-        StartCoroutine(FlashingColor(target, time, rOffset, gOffset, bOffset));
+        if(flashingColorRts.ContainsKey(target))
+        {
+            if(flashingColorRts[target]!=null) StopCoroutine(flashingColorRts[target]);
+        }
+
+        flashingColorRts[target] = StartCoroutine(FlashingColor(target, time, rOffset, gOffset, bOffset));
     }
+
+    Dictionary<GameObject, Coroutine> flashingColorRts = new();
+
     IEnumerator FlashingColor(GameObject target, float t, float r, float g, float b)
     {
         OffsetColor(target, r, g, b);
