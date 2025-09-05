@@ -1,0 +1,68 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class AbilityButtonToggle : MonoBehaviour
+{
+    public GameObject group1, group2;
+    public float slowMoTime=3, slowMoMult=.5f;
+    public bool active;
+
+    void OnEnable()
+    {
+        GameEventSystem.Current.AbilityCastingEvent += OnAbilityCasting;
+    }
+    void OnDisable()
+    {
+        GameEventSystem.Current.AbilityCastingEvent -= OnAbilityCasting;
+    }
+
+    public void ShowAbilities()
+    {
+        if(!active)
+        {
+            active=true;
+
+            group1.SetActive(false);
+            group2.SetActive(true);
+
+            GameEventSystem.Current.OnAbilitySlowMo(true);
+
+            TimescaleManager.Current.TweenTime(slowMoMult, .5f);
+
+            slowMoCountdownRt = StartCoroutine(SlowMoCountdown());
+        }
+    }
+
+    Coroutine slowMoCountdownRt;
+    IEnumerator SlowMoCountdown()
+    {
+        yield return new WaitForSecondsRealtime(slowMoTime);
+        HideAbilities();
+    }
+
+    public void HideAbilities()
+    {
+        if(active)
+        {
+            active=false;
+
+            if(slowMoCountdownRt!=null) StopCoroutine(slowMoCountdownRt);
+
+            group1.SetActive(true);
+            group2.SetActive(false);
+
+            TimescaleManager.Current.TweenTime(1, .5f);
+
+            GameEventSystem.Current.OnAbilitySlowMo(false);
+        }
+    }
+    
+    void OnAbilityCasting(GameObject caster, string abilityName)
+    {
+        if(caster.tag=="Player")
+        {
+            HideAbilities();
+        }
+    }
+}
